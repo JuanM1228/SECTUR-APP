@@ -1,0 +1,5 @@
+{
+  "ENV_NAME": "DEMO",
+  "API_URL": "https://api.demo.doyoukare.com",
+  "WEB_APP_URL": "https://app.demo.doyoukare.com"
+}
