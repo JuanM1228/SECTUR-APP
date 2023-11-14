@@ -9,7 +9,8 @@ import Colors from '@/assets/colors'
 
 const Button = ({
   className = '',
-  title = '',
+  fullWidth = true,
+  content = '',
   type = 'button',
   disabled = false,
   onClick = () => {},
@@ -20,18 +21,21 @@ const Button = ({
   return (
     <ButtonMUI
       variant="contained"
+      fullWidth={fullWidth}
       type={type}
       className={`${colorButton} ${className} font-GMX font-bold`}
       disabled={disabled}
       onClick={onClick}>
-      {title}
+      {content}
     </ButtonMUI>
   )
 }
 
 Button.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.any,
+  className: PropTypes.string,
   disabled: PropTypes.bool,
+  fullWidth: PropTypes.bool,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
 }

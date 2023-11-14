@@ -2,15 +2,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import {
-  TextField,
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  IconButton,
-} from '@mui/material'
-
-import InputMUI from '@mui/material/Input'
+import { TextField, InputAdornment, IconButton } from '@mui/material'
 
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -31,7 +23,7 @@ const Input = ({
   onChange = () => {},
 }) => {
   const [showPassword, setShowPassword] = useState(false)
-
+  const [shrink, setShrink] = useState(false)
   const handleClickShowPassword = () => setShowPassword(show => !show)
 
   // const handleMouseDownPassword = e => {
@@ -71,8 +63,20 @@ const Input = ({
   return (
     <ThemeProvider theme={theme}>
       <TextField
-        InputLabelProps={{ className: 'font-GMX font-bold' }}
+        onFocus={() => setShrink(true)}
+        onBlur={e => setShrink(!!e.target.value)}
+        InputLabelProps={{
+          className: 'font-GMX font-semibold text-sm',
+          sx: { ml: icon ? 4.5 : '' },
+          shrink,
+        }}
+        sx={theme => ({
+          '& .MuiOutlinedInput-notchedOutline': {
+            px: icon ? 5.5 : '',
+          },
+        })}
         inputProps={{ className: 'font-GMX font-semibold' }}
+        className="text-sm"
         label={label}
         color={setColor}
         variant={variant}
@@ -83,14 +87,15 @@ const Input = ({
         size={size}
         fullWidth={fullWidth}
         InputProps={{
-          startAdornment: iconPosition === 'start' && (
+          startAdornment: icon && iconPosition === 'start' && (
             <InputAdornment position="start">{icon}</InputAdornment>
           ),
-          endAdornment: (iconPosition === 'end' || type === 'password') && (
-            <InputAdornment position="end">
-              {type === 'password' ? passwordIcon() : icon}
-            </InputAdornment>
-          ),
+          endAdornment: icon &&
+            (iconPosition === 'end' || type === 'password') && (
+              <InputAdornment position="end">
+                {type === 'password' ? passwordIcon() : icon}
+              </InputAdornment>
+            ),
         }}
         onChange={onChange}
       />

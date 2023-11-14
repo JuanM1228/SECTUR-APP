@@ -1,0 +1,8 @@
+.t-ease{
+  transition: all 1s ease;
+}
+
+.hide{
+  position: absolute;
+  transform: translateY(-200%);
+}
