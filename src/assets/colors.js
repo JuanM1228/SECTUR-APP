@@ -14,6 +14,7 @@ const colors = {
   corduroy: '#6F7271',
   silver: '#CCCCCC ',
   gray: '#808080',
+  white: '#FFFFFF',
 }
 
 export default colors

@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         bandera: "url('/images/logos/bandera.png')",
+        header: "url('/images/logos/lineaVerde.svg')",
       },
       fontFamily: {
         GMX: ['var(--gmx)'],

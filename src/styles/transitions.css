@@ -6,3 +6,12 @@
   position: absolute;
   transform: translateY(-200%);
 }
+
+.hide_menu{
+  position: absolute;
+  transform: translateX(-200%);
+}
+
+.push_logo{
+  transform: translate(120%);
+}
