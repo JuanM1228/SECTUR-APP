@@ -1,14 +1,52 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import Image from 'next/image'
 
+import { URL_API_BASE } from '@/utils/constants'
+import { validate } from '@/utils/validation'
+
 import { Person, Key } from '@mui/icons-material'
 import Images from '@/assets/images'
 
 const SingIn = ({ showRegister, setShowRegister }) => {
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  })
+
+  const [error, setError] = useState({
+    email: '',
+    password: '',
+  })
+
+  const { isLoading, sendRequest } = useHttpClient()
+
+  const onHandleChange = ({ target: { name, value } }) => {
+    setUser({ ...user, [name]: value })
+  }
+
+  const loginHandler = async data => {
+    try {
+      //TODO: REQUEST HOOK
+    } catch (e) {}
+  }
+
+  const onHandleSubmit = e => {
+    e.preventDefault()
+    const { hasError, errors } = validate.loginForm(user)
+    if (hasError) {
+      setError(errors)
+    } else {
+      setError({
+        email: '',
+        password: '',
+      })
+    }
+  }
+
   return (
     <div
       className={`flex flex-col sm:flex-row rounded-lg shadow-xl h-auto t-ease min-w-fit m-4 ${
@@ -20,7 +58,6 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         <p className="font-GMX font-bold text-2xl sm:text-3xl text-center text-twine">
           Registro Nacional de Turismo
         </p>
-        {/* <p className="font-GMX font-bold text-4xl text-gray">¡Bienvenido!</p> */}
         <Button
           content="Registrarme"
           className="w-full sm:w-auto"
@@ -28,17 +65,37 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         />
       </section>
 
-      <section className="grow flex flex-col items-center rounded-e-xl gap-10 p-10 sm:p-14">
+      <form
+        className="grow flex flex-col items-center rounded-e-xl gap-10 p-10 sm:p-14"
+        onSubmit={onHandleSubmit}>
         <h1 className="font-GMX font-bold text-2xl text-gray text-center">
           Inicio de sesión
         </h1>
 
-        <Input label="Email" fullWidth icon={<Person />} type="email" />
+        <Input
+          label="Email"
+          name="email"
+          fullWidth
+          icon={<Person />}
+          type="email"
+          onChange={onHandleChange}
+          error={error.email !== ''}
+          helpText={error.email}
+        />
 
-        <Input label="Password" fullWidth icon={<Key />} type="password" />
+        <Input
+          label="Password"
+          name="password"
+          fullWidth
+          icon={<Key />}
+          type="password"
+          onChange={onHandleChange}
+          error={error.password !== ''}
+          helpText={error.password}
+        />
 
-        <Button content="Iniciar Sesión" />
-      </section>
+        <Button content="Iniciar Sesión" type="submit" />
+      </form>
     </div>
   )
 }

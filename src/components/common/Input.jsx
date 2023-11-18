@@ -10,6 +10,7 @@ import Colors from '@/assets/colors'
 
 const Input = ({
   label = '',
+  name = '',
   variant = 'outlined',
   error = false,
   helpText = '',
@@ -25,10 +26,6 @@ const Input = ({
   const [showPassword, setShowPassword] = useState(false)
   const [shrink, setShrink] = useState(false)
   const handleClickShowPassword = () => setShowPassword(show => !show)
-
-  // const handleMouseDownPassword = e => {
-  //   e.preventDefault()
-  // }
 
   const theme = createTheme({
     palette: {
@@ -63,6 +60,7 @@ const Input = ({
   return (
     <ThemeProvider theme={theme}>
       <TextField
+        name={name}
         onFocus={() => setShrink(true)}
         onBlur={e => setShrink(!!e.target.value)}
         InputLabelProps={{
@@ -81,7 +79,7 @@ const Input = ({
         color={setColor}
         variant={variant}
         error={error}
-        helpText={helpText}
+        helperText={helpText}
         disabled={disabled}
         type={setType()}
         size={size}

@@ -1,5 +1,5 @@
 {
   "ENV_NAME": "PROD",
-  "API_URL": "https://api.doyoukare.com",
-  "WEB_APP_URL": "https://app.doyoukare.com"
+  "API_URL": "http://34.89.188.58:3002",
+  "WEB_APP_URL": "http://34.89.188.58:3002:3000"
 }
