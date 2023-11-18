@@ -22,8 +22,6 @@ const SingIn = ({ showRegister, setShowRegister }) => {
     password: '',
   })
 
-  const { isLoading, sendRequest } = useHttpClient()
-
   const onHandleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value })
   }

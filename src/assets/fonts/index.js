@@ -9,6 +9,6 @@ export const montserrat = Montserrat({
 
 export const GMX = localFont({
   src: './GMX-Regular.ttf',
-  display: 'auto',
   variable: '--gmx',
+  display: 'auto',
 })

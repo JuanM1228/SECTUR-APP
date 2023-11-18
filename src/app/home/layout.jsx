@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Menu from '@/components/navigation/Menu'
 import Header from '@/components/navigation/Header'
 
-const RNTLayout = ({ children }) => {
+const HomeLayout = ({ children }) => {
   const [openMenu, setOpenMenu] = useState(false)
   return (
     <div className="h-screen flex">
@@ -17,4 +17,4 @@ const RNTLayout = ({ children }) => {
   )
 }
 
-export default RNTLayout
+export default HomeLayout

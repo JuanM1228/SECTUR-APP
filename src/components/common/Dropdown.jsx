@@ -36,11 +36,11 @@ const Dropdown = ({
         fullWidth
         size="small"
         color={color ? 'secondary' : 'primary'}>
-        <InputLabel id={title} className="font-brandonRegular ">
+        <InputLabel id={title} className="font-GMX">
           {title}
         </InputLabel>
         <Select
-          className="font-brandonRegular "
+          className="font-GMX "
           labelId={title}
           value={value}
           label={title}
@@ -48,7 +48,7 @@ const Dropdown = ({
           {options.map(option => (
             <MenuItem
               key={`${option.title}-${option.value}}`}
-              className="font-brandonRegular"
+              className="font-GMX"
               value={option.value}>
               {option.title}
             </MenuItem>
