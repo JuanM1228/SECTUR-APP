@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "env:demo": "node src/env/set-environment.js demo",
+    "env:dev": "node src/env/set-environment.js dev",
     "env:prod": "node src/env/set-environment.js production"
   },
   "dependencies": {

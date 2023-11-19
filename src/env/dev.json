@@ -1,4 +1,4 @@
 {
-  "ENV_NAME": "PRODUCTION",
+  "ENV_NAME": "DEVELOPMENT",
   "API_URL": "http://34.89.188.58:3002"
 }
