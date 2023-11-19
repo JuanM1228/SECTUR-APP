@@ -1,3 +1,3 @@
-import { API_URL } from '../../env.json'
+import ENV from '../../env.json'
 
-export const URL_API_BASE = `${API_URL}/api`
+export const URL_API_BASE = `${ENV.API_URL}/api`

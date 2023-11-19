@@ -16,6 +16,7 @@ module.exports = {
       },
       fontFamily: {
         GMX: ['var(--gmx)'],
+        Montserrat: ['var(--montserrat)'],
       },
     },
   },

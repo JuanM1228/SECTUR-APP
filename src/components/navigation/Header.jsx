@@ -4,7 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Avatar } from '@mui/material'
 
-import { Settings, Menu } from '@mui/icons-material'
+import { Menu } from '@mui/icons-material'
 import Images from '@/assets/images'
 
 const Header = ({ setOpenMenu, openMenu }) => {
