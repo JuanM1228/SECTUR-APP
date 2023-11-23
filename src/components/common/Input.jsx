@@ -21,10 +21,11 @@ const Input = ({
   fullWidth = false,
   icon = null,
   iconPosition = 'start',
+  focused = true,
   onChange = () => {},
 }) => {
   const [showPassword, setShowPassword] = useState(false)
-  const [shrink, setShrink] = useState(false)
+  const [shrink, setShrink] = useState(true)
   const handleClickShowPassword = () => setShowPassword(show => !show)
 
   const theme = createTheme({
@@ -82,6 +83,7 @@ const Input = ({
         helperText={helpText}
         disabled={disabled}
         type={setType()}
+        focused={true}
         size={size}
         fullWidth={fullWidth}
         InputProps={{

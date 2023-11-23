@@ -5,22 +5,16 @@ import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import Image from 'next/image'
 
-import { URL_API_BASE } from '@/utils/constants'
+import { URL_API_BASE, INIT_DATA_LOGIN } from '@/utils/constants'
 import { validate } from '@/utils/validation'
 
 import { Person, Key } from '@mui/icons-material'
 import Images from '@/assets/images'
 
 const SingIn = ({ showRegister, setShowRegister }) => {
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-  })
+  const [user, setUser] = useState(INIT_DATA_LOGIN)
 
-  const [error, setError] = useState({
-    email: '',
-    password: '',
-  })
+  const [error, setError] = useState(INIT_DATA_LOGIN)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value })
@@ -38,10 +32,8 @@ const SingIn = ({ showRegister, setShowRegister }) => {
     if (hasError) {
       setError(errors)
     } else {
-      setError({
-        email: '',
-        password: '',
-      })
+      setError(INIT_DATA_LOGIN)
+      console.log('pass')
     }
   }
 
