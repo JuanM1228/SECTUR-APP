@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { List } from '@mui/material'
-import { ArrowBackIos } from '@mui/icons-material'
+import { ArrowBackIos, Close } from '@mui/icons-material'
 
 import { NAVIGATION_CONFIG } from '@/configuration/navigation/navigation.config'
 import MenuItem from './MenuItem'
@@ -15,7 +15,8 @@ const Menu = ({ openMenu, setOpenMenu }) => {
       <div className="flex flex-col ">
         <section className="flex justify-between items-center h-14 px-5 bg-blueDianne text-merino ">
           <h1 className="font-GMX text-2xl ">Menu</h1>
-          <ArrowBackIos
+
+          <Close
             onClick={() => setOpenMenu(false)}
             className="cursor-pointer"
           />

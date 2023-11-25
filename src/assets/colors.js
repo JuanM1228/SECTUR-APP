@@ -15,6 +15,7 @@ const colors = {
   silver: '#CCCCCC ',
   gray: '#808080',
   white: '#FFFFFF',
+  merinoTransparent: '#f8f4ebbe',
 }
 
 export default colors
