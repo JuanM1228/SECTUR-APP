@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { List } from '@mui/material'
 import { ArrowBackIos } from '@mui/icons-material'
+import { List } from '@mui/material'
 
 import { NAVIGATION_CONFIG } from '@/configuration/navigation/navigation.config'
 import MenuItem from './MenuItem'
@@ -26,9 +26,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
       <nav>
         <List component="nav" aria-labelledby="nested-list-subheader">
           {NAVIGATION_CONFIG.map(section => (
-            <MenuItem key={section.key} section={section}>
-              <MenuItem />
-            </MenuItem>
+            <MenuItem key={section.key} section={section} />
           ))}
         </List>
       </nav>

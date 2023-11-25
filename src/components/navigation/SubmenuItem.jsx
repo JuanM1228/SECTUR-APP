@@ -26,7 +26,7 @@ const SubMenuItem = ({ section }) => {
 
   return (
     <>
-      <ListItemButton key={section.key} sx={{ pl: 2 }} onClick={onHandleClick}>
+      <ListItemButton sx={{ pl: 2 }} onClick={onHandleClick}>
         <ListItemIcon>{section.icon}</ListItemIcon>
         <ListItemText
           primary={section.title}
