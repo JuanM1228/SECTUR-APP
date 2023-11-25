@@ -12,4 +12,6 @@ export const INIT_DATA_LOGIN = {
   email: '',
   password: '',
 }
-export default API_URL = `${process.env.ENV_URL}/api`
+
+const API_URL = `${process.env.ENV_URL}/api`
+export default API_URL
