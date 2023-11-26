@@ -18,7 +18,7 @@ const Input = ({
   type = 'text',
   color,
   size = 'small',
-  fullWidth = false,
+  fullWidth = true,
   icon = null,
   iconPosition = 'start',
   focused = true,
@@ -83,7 +83,7 @@ const Input = ({
         helperText={helpText}
         disabled={disabled}
         type={setType()}
-        focused={true}
+        focused={focused}
         size={size}
         fullWidth={fullWidth}
         InputProps={{

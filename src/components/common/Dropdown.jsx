@@ -2,22 +2,35 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+} from '@mui/material'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import Colors from '@/assets/colors'
 
 const Dropdown = ({
-  title = '',
+  label = '',
+  name = '',
+  error = false,
+  fullWidth = true,
   options = [],
-  value = 0,
-  setValue = () => {},
+  value = '',
+  helpText = '',
+  onChange = () => {},
+  size = 'small',
+  variant = 'standard',
+  focused = true,
   color = null,
 }) => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: Colors.bigDipORuby,
+        main: Colors.gray,
       },
       secondary: {
         main: color ? color : Colors.gray,
@@ -25,26 +38,31 @@ const Dropdown = ({
     },
   })
 
-  const handleChange = event => {
-    setValue(event.target.value)
-  }
-
+  let setColor = error ? 'error' : ''
+  setColor = color ? 'secondary' : 'primary'
   return (
     <ThemeProvider theme={theme}>
       <FormControl
-        variant="standard"
-        fullWidth
-        size="small"
-        color={color ? 'secondary' : 'primary'}>
-        <InputLabel id={title} className="font-GMX">
-          {title}
+        variant={variant}
+        fullWidth={fullWidth}
+        size={size}
+        focused={focused}
+        color={setColor}>
+        <InputLabel
+          id={label}
+          className={`font-GMX font-bold text-sm ${error ? 'text-error' : ''}`}>
+          {label}
         </InputLabel>
         <Select
-          className="font-GMX "
-          labelId={title}
+          name={name}
+          inputProps={{ className: 'font-GMX font-semibold' }}
+          className="font-GMX"
+          labelId={label}
           value={value}
-          label={title}
-          onChange={handleChange}>
+          label={label}
+          error={error}
+          defaultValue=""
+          onChange={e => onChange(e)}>
           {options.map(option => (
             <MenuItem
               key={`${option.title}-${option.value}}`}
@@ -54,6 +72,9 @@ const Dropdown = ({
             </MenuItem>
           ))}
         </Select>
+        <FormHelperText className={error ? 'text-error' : ''}>
+          {helpText}
+        </FormHelperText>
       </FormControl>
     </ThemeProvider>
   )

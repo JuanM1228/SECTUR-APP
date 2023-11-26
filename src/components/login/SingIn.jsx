@@ -65,7 +65,6 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         <Input
           label="Email"
           name="email"
-          fullWidth
           icon={<Person />}
           type="email"
           onChange={onHandleChange}
@@ -76,7 +75,6 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         <Input
           label="Password"
           name="password"
-          fullWidth
           icon={<Key />}
           type="password"
           onChange={onHandleChange}

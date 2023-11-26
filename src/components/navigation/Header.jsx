@@ -9,7 +9,7 @@ import Images from '@/assets/images'
 
 const Header = ({ setOpenMenu, openMenu }) => {
   return (
-    <header className="flex flex-col t-ease">
+    <header className="flex flex-col t-ease sticky top-0 z-30">
       <div className=" flex justify-between items-center h-14 bg-blueDianne px-6 ">
         <section className="flex items-center gap-6">
           <Menu
