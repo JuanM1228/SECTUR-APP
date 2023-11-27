@@ -7,6 +7,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Pagination } from '@mui/material'
 import { DataGrid, esES } from '@mui/x-data-grid'
 import Colors from '@/assets/colors'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
 
 const theme = createTheme(
   {
@@ -148,9 +151,31 @@ const columns = [
   },
 ]
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}>
+      {value === index && <Box sx={{ m: 2 }}>{children}</Box>}
+    </div>
+  )
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
+
 const Tramites = () => {
   const { sendRequest, isLoading } = useHttpClient()
-
+  const [value, setValue] = useState(0)
   const [rows, setRows] = useState([])
 
   const getInfo = useCallback(async () => {
@@ -173,18 +198,34 @@ const Tramites = () => {
     getInfo()
   }, [getInfo])
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
+
   console.log('rows', rows)
   console.log('isLoading', isLoading)
 
   return (
     <div className="w-full flex">
-      <div className="w-1/5">
-        <p>Búsqueda</p>
-        <p>Búsqueda Avanzada</p>
-
-      </div>
-      <div className="w-4/5">
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <div className="w-1/5">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+            centered
+            aria-label="basic tabs example">
+            <Tab label="Búsqueda" {...a11yProps(0)} />
+            <Tab label="Búsqueda rápida" {...a11yProps(1)} />
+          </Tabs>
+          <TabPanel value={value} index={0} dir={theme.direction}>
+            Item One
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            Item Two
+          </TabPanel>
+        </div>
+        <div className="w-4/5">
           <DataGrid
             showColumnVerticalBorder={true}
             showCellVerticalBorder={true}
@@ -206,10 +247,11 @@ const Tramites = () => {
             disableRowSelectionOnClick={true}
             // autoPageSize={true}
             hideFooterSelectedRowCount={true}
-            hideFooterPagination={true} // not sure
+            hideFooterPagination={true}
             slots={{
               footer: () => (
                 <view className="m-4 flex justify-center">
+                  {/* TODO: Add dropdown menu to view pages */}
                   <Pagination
                     count={10} // The total number of pages.
                     // page={2} // The current page.
@@ -225,7 +267,6 @@ const Tramites = () => {
                 </view>
               ),
             }}
-            // slotProps={{footer: }}
             onPaginationModelChange={(model, details) => {
               console.log('onPaginationModelChange: model', model)
               console.log('onPaginationModelChange: details', details)
@@ -236,12 +277,12 @@ const Tramites = () => {
             }}
             // paginationModel={{ page: 0, pageSize: 5 }}
             loading={isLoading}
-            disableColumnFilter // Not sure
-            disableMultipleColumnsSorting // Not sure
+            disableColumnFilter
+            disableMultipleColumnsSorting
             className="h-[calc(100vh-3.5rem)]"
           />
-        </ThemeProvider>
-      </div>
+        </div>
+      </ThemeProvider>
     </div>
   )
 }
