@@ -129,7 +129,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           type="password"
         />
 
-        <Button content="Registarme" type="submit" onClick={registerHandler} />
+        <Button content="Registarme" type="submit" />
       </form>
     </div>
   )

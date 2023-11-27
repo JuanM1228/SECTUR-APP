@@ -17,6 +17,7 @@ const Input = ({
   disabled = false,
   type = 'text',
   color,
+  maxLength = 500,
   size = 'small',
   fullWidth = true,
   icon = null,
@@ -74,7 +75,10 @@ const Input = ({
             px: icon ? 5.5 : '',
           },
         })}
-        inputProps={{ className: 'font-GMX font-semibold' }}
+        inputProps={{
+          className: 'font-GMX font-semibold',
+          maxLength: maxLength,
+        }}
         className="text-sm"
         label={label}
         color={setColor}

@@ -11,6 +11,7 @@ import Stepper from '@/components/common/Stepper'
 
 const Solicitudes = () => {
   const [step, setStep] = useState(0)
+
   const [register, setRegister] = useState({
     datosGenerales: null,
     direccion: null,
@@ -18,17 +19,23 @@ const Solicitudes = () => {
     informacionLegal: null,
   })
 
-  const state = {
-    center: [51.505, -0.091],
-    zoom: 13,
-  }
+  const onNextStepHandler = () => setStep(step + 1)
+
+  const onBackStepHandler = () => setStep(step - 1)
 
   return (
-    <div className="h-[calc(100vh-5rem)] flex flex-col justify-center sm:items-center ">
-      <DatosGenerales step={step} datosGenerales={register.datosGenerales} />
-      {/* <Domicilio />
+    <div className="h-[calc(100vh-5rem)] flex flex-col justify-start sm:justify-center sm:items-center ">
+      {step === 0 && (
+        <DatosGenerales
+          step={step}
+          datosGenerales={register.datosGenerales}
+          nextStep={onNextStepHandler}
+        />
+      )}
+      {step === 1 && <Domicilio />}
+
       <Contacto />
-      <InformacionLegal /> */}
+      <InformacionLegal />
     </div>
   )
 }

@@ -1,3 +1,6 @@
+const API_URL = `${process.env.ENV_URL}/api`
+export default API_URL
+
 export const INIT_DATA_REGISTER_USER = {
   name: '',
   paternalSurname: '',
@@ -13,5 +16,12 @@ export const INIT_DATA_LOGIN = {
   password: '',
 }
 
-const API_URL = `${process.env.ENV_URL}/api`
-export default API_URL
+export const INIT_DATOS_GENERALES = {
+  tipoPST: null,
+  nombreComercial: '',
+  rfc: '',
+  registroINEGI: '',
+  registroAnterior: '',
+  razonSocial: '',
+  curp: '',
+}
