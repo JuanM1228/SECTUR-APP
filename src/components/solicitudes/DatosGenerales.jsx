@@ -2,25 +2,31 @@
 import React, { useState } from 'react'
 
 import Input from '../common/Input'
-import Dropdown from '../common/Dropdown'
-import Accordion from '../common/Accordion'
-
-import Icons from '@/assets/icons'
 import Button from '../common/Button'
+import Dropdown from '../common/Dropdown'
 
-const DatosGenerales = ({ step, datosGenerales }) => {
-  const [data, setData] = useState({
-    tipoPST: '',
-    nombreComercial: '',
-    RFC: '',
-    registroINEGI: '',
-    registroAnterior: '',
-    razonSocial: '',
-    CURP: '',
-  })
+import { validate } from '@/utils/validation'
+import { INIT_DATOS_GENERALES } from '@/utils/constants'
+
+const DatosGenerales = ({ step, datosGenerales, nextStep }) => {
+  const [data, setData] = useState(
+    datosGenerales ? datosGenerales : INIT_DATOS_GENERALES,
+  )
+  const [error, setError] = useState(INIT_DATOS_GENERALES)
+
   const onHandleChange = ({ target: { name, value } }) => {
-    console.log(name, value)
     setData({ ...data, [name]: value })
+  }
+
+  const onSubmitHandler = async e => {
+    e.preventDefault()
+    const { hasError, errors } = validate.datosGeneralesForm(data)
+    if (hasError) {
+      setError(errors)
+    } else {
+      setError(INIT_DATOS_GENERALES)
+      nextStep()
+    }
   }
 
   const testData = [
@@ -33,23 +39,35 @@ const DatosGenerales = ({ step, datosGenerales }) => {
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
         step === 0 ? '' : 'hide'
-      }`}>
+      }`}
+      onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DATOS GENERALES</h1>
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
           label="Tipo PST *"
           name="tipoPST"
           variant="outlined"
-          value={data.tipoPST}
+          value={data.tipoPST ? data.tipoPST : 0}
           options={testData}
+          error={Boolean(error.tipoPST)}
+          helpText={error.tipoPST}
           onChange={onHandleChange}
         />
         <Input
           label="Nombre comercial *"
           name="nombreComercial"
+          error={error.nombreComercial !== ''}
+          helpText={error.nombreComercial}
           onChange={onHandleChange}
         />
-        <Input label="RFC *" name="RFC" onChange={onHandleChange} />
+        <Input
+          label="RFC *"
+          name="rfc"
+          error={error.rfc !== ''}
+          helpText={error.rfc}
+          onChange={onHandleChange}
+          maxLength={13}
+        />
         <Input
           label="Registro INEGI"
           name="registroINEGI"
@@ -67,7 +85,11 @@ const DatosGenerales = ({ step, datosGenerales }) => {
         />
         <Input label="CURP" name="CURP" onChange={onHandleChange} />
       </section>
-      <Button content="Siguiente" className=" w-full sm:w-auto self-end" />
+      <Button
+        content="Siguiente"
+        type="submit"
+        className=" w-full sm:w-auto self-end"
+      />
     </form>
   )
 }

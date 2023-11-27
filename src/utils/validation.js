@@ -1,8 +1,12 @@
 import { INIT_DATA_LOGIN, INIT_DATA_REGISTER_USER } from './constants'
 
 const email = email => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
-
 const hasText = value => value?.trim() !== ''
+
+const rfc = rfc =>
+  /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/.test(
+    rfc,
+  )
 
 const loginForm = data => {
   let err = {
@@ -74,8 +78,36 @@ const registerForm = data => {
   }
 }
 
+const datosGeneralesForm = data => {
+  let err = {
+    tipoPST: '',
+    nombreComercial: '',
+    rfc: '',
+  }
+
+  if (!data.tipoPST) {
+    err.tipoPST = 'Ingrese el tipo de PST'
+  }
+  if (!hasText(data.nombreComercial)) {
+    err.nombreComercial = 'Ingrese su nombre comercial'
+  }
+  if (!hasText(data.rfc)) {
+    err.rfc = 'Ingrese su RFC'
+  }
+  // else if (rfc(data.rfc)) {
+  //   err.rfc = 'Por favor ingrese un RFC valido'
+  // }
+
+  return {
+    hasError:
+      err.tipoPST !== '' || err.nombreComercial !== '' || err.rfc !== '',
+    errors: err,
+  }
+}
+
 export const validate = {
   email,
   loginForm,
   registerForm,
+  datosGeneralesForm,
 }
