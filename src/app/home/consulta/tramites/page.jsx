@@ -10,6 +10,10 @@ import Colors from '@/assets/colors'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import Input from '@/components/common/Input'
 
 const theme = createTheme(
   {
@@ -219,10 +223,83 @@ const Tramites = () => {
             <Tab label="Búsqueda rápida" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={value} index={0} dir={theme.direction}>
-            Item One
+            <Input
+              fullWidth
+              type="number"
+              margin="normal"
+              id="idTramite"
+              label="Número de Trámite"
+              variant="outlined"
+              onChange={event => {
+                // setName(event.target.value);
+                console.log(event.target.value)
+              }}
+            />
+            {/* TODO: Add initial date and end date */}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <view>
+                <p className="flex-none mr-4 font-GMX text-gray text-sm">Rango de fechas</p>
+                <view className="flex flex-row gap-4">
+                  <DatePicker className="flex-1" />
+                  <DatePicker className="flex-1" />
+                </view>
+              </view>
+            </LocalizationProvider>
+            {/* TODO: Add dropdown and static data (or backend data) instead of text inputs */}
+            <Input
+              fullWidth
+              type="search"
+              margin="normal"
+              id="estado"
+              label="Estado"
+              variant="outlined"
+            />
+            <Input
+              fullWidth
+              type="search"
+              margin="normal"
+              id="faseTramite"
+              label="Fase del trámite"
+              variant="outlined"
+            />
+            <Input
+              fullWidth
+              type="search"
+              margin="normal"
+              id="nombreComercial"
+              label="Nombre Comercial"
+              variant="outlined"
+            />
+            <Input
+              fullWidth
+              type="search"
+              margin="normal"
+              id="tipoPST"
+              label="Tipo PST"
+              variant="outlined"
+            />
+            <Input
+              fullWidth
+              type="search"
+              margin="normal"
+              id="tipoDeTramite"
+              label="Tipo de Trámite"
+              variant="outlined"
+            />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
+            <Input
+              fullWidth
+              type="search"
+              margin="normal"
+              id="quickSearch"
+              label="Búsqueda Rápida"
+              variant="outlined"
+              onChange={event => {
+                // setName(event.target.value);
+                console.log(event.target.value)
+              }}
+            />
           </TabPanel>
         </div>
         <div className="w-4/5">
