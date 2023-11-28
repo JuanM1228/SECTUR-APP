@@ -25,3 +25,27 @@ export const INIT_DATOS_GENERALES = {
   razonSocial: '',
   curp: '',
 }
+
+export const INIT_CONTACTO = {
+  telefono: '',
+  email: '',
+  celular: '',
+  web: '',
+  facebook: '',
+  twitter: '',
+  fax: '',
+}
+
+export const INIT_INFO_LEGAL = {
+  nombreDelPropietario: '',
+  nombreDelSolicitante: '',
+  fechaDeSolicitud: '', // Fecha de solicitud?
+  tipoDeInmueble: null, // Propio, rentado
+  numeroDeRegistro: '',
+  representanteLegal: '',
+  puestoDelSolicitante: '',
+  fechaIngresoSECTUR: '', // Fecha
+  numEscritura: '',
+  vigenciaContrato: '', // Fecha
+  observaciones: '',
+}

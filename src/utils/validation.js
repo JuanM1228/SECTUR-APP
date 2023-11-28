@@ -105,9 +105,29 @@ const datosGeneralesForm = data => {
   }
 }
 
+const contactoForm = data => {
+  let err = {
+    telefono: '',
+    email: '',
+  }
+
+  if (!hasText(data.telefono)) {
+    err.telefono = 'Ingrese un número de teléfono'
+  }
+  if (!hasText(data.email)) {
+    err.email = 'Ingrese un correo electrónico'
+  }
+
+  return {
+    hasError: err.telefono !== '' || err.email !== '',
+    errors: err,
+  }
+}
+
 export const validate = {
   email,
   loginForm,
   registerForm,
   datosGeneralesForm,
+  contactoForm,
 }
