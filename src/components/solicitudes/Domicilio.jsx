@@ -16,7 +16,6 @@ const Domicilio = ({ step, dataDomicilio, nextStep }) => {
   const [data, setData] = useState(
     dataDomicilio ? dataDomicilio : INIT_DATA_DOMICILIO,
   )
-  console.log(data)
 
   const [error, setError] = useState(INIT_DATA_DOMICILIO)
 
@@ -25,7 +24,7 @@ const Domicilio = ({ step, dataDomicilio, nextStep }) => {
     iconSize: [25, 35],
   })
 
-  const LocationFinderDummy = () => {
+  const LocationMap = () => {
     const map = useMapEvents({
       click(e) {
         console.log(e.latlng)
@@ -76,7 +75,7 @@ const Domicilio = ({ step, dataDomicilio, nextStep }) => {
             icon={myIcon}
             alt="location"></Marker>
         )}
-        <LocationFinderDummy />
+        <LocationMap />
       </MapContainer>
     </form>
   )
