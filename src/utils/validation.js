@@ -105,6 +105,38 @@ const datosGeneralesForm = data => {
   }
 }
 
+const domicilioForm = data => {
+  let err = {
+    codigoPostal: '',
+    colonia: '',
+    calle: '',
+    latitud: '',
+    longitud: '',
+  }
+
+  if (!hasText(data.codigoPostal)) {
+    err.codigoPostal = 'Ingrese un código postal'
+  }
+  if (!data.colonia) {
+    err.colonia = 'Seleccione una colonia'
+  }
+  if (!hasText(data.calle)) {
+    err.calle = 'Ingrese su calle con número exterior'
+  }
+  if (!data.latitud) {
+    err.latitud = 'Ingrese la ubicación en el mapa'
+  }
+
+  return {
+    hasError:
+      err.codigoPostal !== '' ||
+      err.colonia !== '' ||
+      err.calle !== '' ||
+      err.latitud !== '',
+    errors: err,
+  }
+}
+
 const contactoForm = data => {
   let err = {
     telefono: '',
@@ -170,6 +202,7 @@ export const validate = {
   loginForm,
   registerForm,
   datosGeneralesForm,
+  domicilioForm,
   contactoForm,
   infoLegalForm,
 }

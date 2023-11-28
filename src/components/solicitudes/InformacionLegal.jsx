@@ -5,13 +5,20 @@ import Input from '../common/Input'
 import Button from '../common/Button'
 
 import { validate } from '@/utils/validation'
-import { INIT_CONTACTO } from '@/utils/constants'
+import { INIT_INFO_LEGAL } from '@/utils/constants'
 
-const InformacionLegal = ({ step, datosGenerales, nextStep }) => {
+const InformacionLegal = ({
+  step,
+  dataInformacionLegal,
+  nextStep,
+  backStep,
+  register,
+  setRegister,
+}) => {
   const [data, setData] = useState(
-    datosGenerales ? datosGenerales : INIT_CONTACTO,
+    dataInformacionLegal ? dataInformacionLegal : INIT_INFO_LEGAL,
   )
-  const [error, setError] = useState(INIT_CONTACTO)
+  const [error, setError] = useState(INIT_INFO_LEGAL)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
@@ -20,10 +27,12 @@ const InformacionLegal = ({ step, datosGenerales, nextStep }) => {
   const onSubmitHandler = async e => {
     e.preventDefault()
     const { hasError, errors } = validate.infoLegalForm(data)
+    console.log(errors)
     if (hasError) {
       setError(errors)
     } else {
-      setError(INIT_CONTACTO)
+      setError(INIT_INFO_LEGAL)
+      setRegister({ ...register, informacionLegal: data })
       nextStep()
     }
   }
@@ -31,7 +40,7 @@ const InformacionLegal = ({ step, datosGenerales, nextStep }) => {
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 0 ? '' : 'hide'
+        step === 3 ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">INFORMACIÓN LEGAL</h1>
@@ -72,7 +81,7 @@ const InformacionLegal = ({ step, datosGenerales, nextStep }) => {
         />
         <Input
           label="Fecha de ingreso a SECTUR"
-          name="fechaDeSolicitud"
+          name="fechaIngresoSECTUR"
           onChange={onHandleChange}
         />
         {/* TODO: Update input into dropdown component instead of Text Input */}
@@ -102,11 +111,19 @@ const InformacionLegal = ({ step, datosGenerales, nextStep }) => {
           onChange={onHandleChange}
         />
       </section>
-      <Button
-        content="Siguiente"
-        type="submit"
-        className=" w-full sm:w-auto self-end"
-      />
+      <div className=" flex gap-6 justify-between">
+        <Button
+          content="Regresar"
+          type="button"
+          className=" w-full sm:w-auto"
+          onClick={backStep}
+        />
+        <Button
+          content="Siguiente"
+          type="submit"
+          className=" w-full sm:w-auto"
+        />
+      </div>
     </form>
   )
 }

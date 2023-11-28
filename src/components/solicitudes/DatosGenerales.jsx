@@ -8,7 +8,13 @@ import Dropdown from '../common/Dropdown'
 import { validate } from '@/utils/validation'
 import { INIT_DATOS_GENERALES } from '@/utils/constants'
 
-const DatosGenerales = ({ step, datosGenerales, nextStep }) => {
+const DatosGenerales = ({
+  step,
+  datosGenerales,
+  nextStep,
+  register,
+  setRegister,
+}) => {
   const [data, setData] = useState(
     datosGenerales ? datosGenerales : INIT_DATOS_GENERALES,
   )
@@ -25,6 +31,7 @@ const DatosGenerales = ({ step, datosGenerales, nextStep }) => {
       setError(errors)
     } else {
       setError(INIT_DATOS_GENERALES)
+      setRegister({ ...register, datosGenerales: data })
       nextStep()
     }
   }
@@ -83,7 +90,7 @@ const DatosGenerales = ({ step, datosGenerales, nextStep }) => {
           name="razonSocial"
           onChange={onHandleChange}
         />
-        <Input label="CURP" name="CURP" onChange={onHandleChange} />
+        <Input label="CURP" name="curp" onChange={onHandleChange} />
       </section>
       <Button
         content="Siguiente"

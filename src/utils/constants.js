@@ -26,6 +26,16 @@ export const INIT_DATOS_GENERALES = {
   curp: '',
 }
 
+export const INIT_DATA_DOMICILIO = {
+  codigoPostal: null,
+  estado: '',
+  municipio: '',
+  colonia: null,
+  calle: '',
+  latitud: null,
+  longitud: null,
+}
+
 export const INIT_CONTACTO = {
   telefono: '',
   email: '',
