@@ -105,9 +105,71 @@ const datosGeneralesForm = data => {
   }
 }
 
+const contactoForm = data => {
+  let err = {
+    telefono: '',
+    email: '',
+  }
+
+  if (!hasText(data.telefono)) {
+    err.telefono = 'Ingrese un número de teléfono'
+  }
+  if (!hasText(data.email)) {
+    err.email = 'Ingrese un correo electrónico'
+  }
+
+  return {
+    hasError: err.telefono !== '' || err.email !== '',
+    errors: err,
+  }
+}
+
+const infoLegalForm = data => {
+  let err = {
+    nombreDelPropietario: '',
+    representanteLegal: '',
+    nombreDelSolicitante: '',
+    puestoDelSolicitante: '',
+    fechaDeSolicitud: '', // TODO: Change validation
+    fechaIngresoSECTUR: '', // TODO: Change validation
+  }
+
+  if (!hasText(data.nombreDelPropietario)) {
+    err.nombreDelPropietario = 'Ingrese un nombre de propietario'
+  }
+  if (!hasText(data.representanteLegal)) {
+    err.representanteLegal = 'Ingrese un representante legal'
+  }
+  if (!hasText(data.nombreDelSolicitante)) {
+    err.nombreDelSolicitante = 'Ingrese un nombre de solicitante'
+  }
+  if (!hasText(data.puestoDelSolicitante)) {
+    err.puestoDelSolicitante = 'Ingrese un puesto de solicitante'
+  }
+  if (!hasText(data.fechaDeSolicitud)) {
+    err.fechaDeSolicitud = 'Ingrese una fecha de solicitud'
+  }
+  if (!hasText(data.fechaIngresoSECTUR)) {
+    err.fechaIngresoSECTUR = 'Ingrese una fecha de ingreso a SECTUR'
+  }
+
+  return {
+    hasError:
+      err.nombreDelPropietario !== '' ||
+      err.representanteLegal !== '' ||
+      err.nombreDelSolicitante !== '' ||
+      err.puestoDelSolicitante !== '' ||
+      err.fechaDeSolicitud !== '' ||
+      err.fechaIngresoSECTUR !== '',
+    errors: err,
+  }
+}
+
 export const validate = {
   email,
   loginForm,
   registerForm,
   datosGeneralesForm,
+  contactoForm,
+  infoLegalForm,
 }

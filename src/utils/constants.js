@@ -35,3 +35,27 @@ export const INIT_DATA_DOMICILIO = {
   latitud: null,
   longitud: null,
 }
+
+export const INIT_CONTACTO = {
+  telefono: '',
+  email: '',
+  celular: '',
+  web: '',
+  facebook: '',
+  twitter: '',
+  fax: '',
+}
+
+export const INIT_INFO_LEGAL = {
+  nombreDelPropietario: '',
+  representanteLegal: '',
+  nombreDelSolicitante: '',
+  puestoDelSolicitante: '',
+  fechaDeSolicitud: '', // Fecha de solicitud?
+  fechaIngresoSECTUR: '', // Fecha
+  tipoDeInmueble: null, // Propio, rentado
+  numEscritura: '', // Inmueble propio?
+  vigenciaContrato: '', // Fecha // Inmueble rentado?
+  numeroDeRegistro: '', // Inmueble rentado?
+  observaciones: '',
+}
