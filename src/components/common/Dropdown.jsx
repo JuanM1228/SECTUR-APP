@@ -25,6 +25,7 @@ const Dropdown = ({
   size = 'small',
   variant = 'standard',
   focused = true,
+  disabled = false,
   color = null,
 }) => {
   const theme = createTheme({
@@ -44,6 +45,7 @@ const Dropdown = ({
     <ThemeProvider theme={theme}>
       <FormControl
         variant={variant}
+        disabled={disabled}
         fullWidth={fullWidth}
         size={size}
         focused={focused}

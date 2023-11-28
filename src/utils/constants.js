@@ -25,3 +25,13 @@ export const INIT_DATOS_GENERALES = {
   razonSocial: '',
   curp: '',
 }
+
+export const INIT_DATA_DOMICILIO = {
+  codigoPostal: '',
+  estado: '',
+  municipio: '',
+  colonia: '',
+  calle: '',
+  latitud: null,
+  longitud: null,
+}
