@@ -7,10 +7,15 @@ import Button from '../common/Button'
 import { validate } from '@/utils/validation'
 import { INIT_CONTACTO } from '@/utils/constants'
 
-const Contacto = ({ step, datosGenerales, nextStep }) => {
-  const [data, setData] = useState(
-    datosGenerales ? datosGenerales : INIT_CONTACTO,
-  )
+const Contacto = ({
+  step,
+  dataContacto,
+  nextStep,
+  backStep,
+  register,
+  setRegister,
+}) => {
+  const [data, setData] = useState(dataContacto ? dataContacto : INIT_CONTACTO)
   const [error, setError] = useState(INIT_CONTACTO)
 
   const onHandleChange = ({ target: { name, value } }) => {
@@ -24,6 +29,7 @@ const Contacto = ({ step, datosGenerales, nextStep }) => {
       setError(errors)
     } else {
       setError(INIT_CONTACTO)
+      setRegister({ ...register, contacto: data })
       nextStep()
     }
   }
@@ -31,7 +37,7 @@ const Contacto = ({ step, datosGenerales, nextStep }) => {
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 0 ? '' : 'hide'
+        step === 2 ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">CONTACTO</h1>
@@ -56,11 +62,19 @@ const Contacto = ({ step, datosGenerales, nextStep }) => {
         <Input label="X (Twitter)" name="twitter" onChange={onHandleChange} />
         <Input label="Fax" name="fax" onChange={onHandleChange} />
       </section>
-      <Button
-        content="Siguiente"
-        type="submit"
-        className=" w-full sm:w-auto self-end"
-      />
+      <div className=" flex gap-6 justify-between">
+        <Button
+          content="Regresar"
+          type="button"
+          className=" w-full sm:w-auto"
+          onClick={backStep}
+        />
+        <Button
+          content="Siguiente"
+          type="submit"
+          className=" w-full sm:w-auto"
+        />
+      </div>
     </form>
   )
 }

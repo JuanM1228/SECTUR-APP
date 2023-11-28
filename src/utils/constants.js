@@ -27,10 +27,10 @@ export const INIT_DATOS_GENERALES = {
 }
 
 export const INIT_DATA_DOMICILIO = {
-  codigoPostal: '',
+  codigoPostal: null,
   estado: '',
   municipio: '',
-  colonia: '',
+  colonia: null,
   calle: '',
   latitud: null,
   longitud: null,

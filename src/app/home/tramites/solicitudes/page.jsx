@@ -8,6 +8,7 @@ import InformacionLegal from '@/components/solicitudes/InformacionLegal'
 
 import Icons from '@/assets/icons'
 import Stepper from '@/components/common/Stepper'
+import Detalles from '@/components/solicitudes/Detalles'
 
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
@@ -28,25 +29,50 @@ const Solicitudes = () => {
   const onBackStepHandler = () => setStep(step - 1)
 
   return (
-    <div className="h-[calc(100vh-5rem)] flex flex-col justify-start sm:justify-center sm:items-center ">
-      {step === 0 && (
-        <DatosGenerales
-          step={step}
-          datosGenerales={register.datosGenerales}
-          nextStep={onNextStepHandler}
-        />
-      )}
-      {step === 1 && (
-        <Domicilio
-          step={step}
-          dataDomicilio={register.domicilio}
-          nextStep={onNextStepHandler}
-          backStep={onBackStepHandler}
-        />
-      )}
+    <div className="h-[calc(100vh-5rem)] flex flex-col justify-start  sm:items-center ">
+      <DatosGenerales
+        step={step}
+        datosGenerales={register.datosGenerales}
+        nextStep={onNextStepHandler}
+        register={register}
+        setRegister={setRegister}
+      />
 
-      {/* <Contacto />
-      <InformacionLegal /> */}
+      <Domicilio
+        step={step}
+        dataDomicilio={register.domicilio}
+        nextStep={onNextStepHandler}
+        backStep={onBackStepHandler}
+        register={register}
+        setRegister={setRegister}
+      />
+
+      <Contacto
+        step={step}
+        dataContacto={register.contacto}
+        nextStep={onNextStepHandler}
+        backStep={onBackStepHandler}
+        register={register}
+        setRegister={setRegister}
+      />
+
+      <InformacionLegal
+        step={step}
+        dataInformacionLegal={register.informacionLegal}
+        nextStep={onNextStepHandler}
+        backStep={onBackStepHandler}
+        register={register}
+        setRegister={setRegister}
+      />
+
+      <Detalles
+        step={step}
+        datosGenerales={register.datosGenerales}
+        nextStep={onNextStepHandler}
+        backStep={onBackStepHandler}
+        register={register}
+        setRegister={setRegister}
+      />
     </div>
   )
 }
