@@ -38,14 +38,14 @@ export const INIT_CONTACTO = {
 
 export const INIT_INFO_LEGAL = {
   nombreDelPropietario: '',
-  nombreDelSolicitante: '',
-  fechaDeSolicitud: '', // Fecha de solicitud?
-  tipoDeInmueble: null, // Propio, rentado
-  numeroDeRegistro: '',
   representanteLegal: '',
+  nombreDelSolicitante: '',
   puestoDelSolicitante: '',
+  fechaDeSolicitud: '', // Fecha de solicitud?
   fechaIngresoSECTUR: '', // Fecha
-  numEscritura: '',
-  vigenciaContrato: '', // Fecha
+  tipoDeInmueble: null, // Propio, rentado
+  numEscritura: '', // Inmueble propio?
+  vigenciaContrato: '', // Fecha // Inmueble rentado?
+  numeroDeRegistro: '', // Inmueble rentado?
   observaciones: '',
 }
