@@ -25,8 +25,6 @@ const Domicilio = ({
   )
 
   const [error, setError] = useState(INIT_DATA_DOMICILIO)
-  console.log(error)
-
   const myIcon = new Icon({
     iconUrl: '/location.png',
     iconSize: [25, 35],
@@ -49,7 +47,6 @@ const Domicilio = ({
   const onSubmitHandler = async e => {
     e.preventDefault()
     const { hasError, errors } = validate.domicilioForm(data)
-    console.log(errors)
     if (hasError) {
       setError(errors)
     } else {

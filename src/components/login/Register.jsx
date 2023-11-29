@@ -23,7 +23,6 @@ const Register = ({ showRegister, setShowRegister }) => {
 
   const registerHandler = async e => {
     e.preventDefault()
-    console.log(register)
     const { hasError, errors } = validate.registerForm(register)
     if (hasError) {
       setError(errors)

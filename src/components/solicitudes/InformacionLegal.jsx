@@ -27,7 +27,6 @@ const InformacionLegal = ({
   const onSubmitHandler = async e => {
     e.preventDefault()
     const { hasError, errors } = validate.infoLegalForm(data)
-    console.log(errors)
     if (hasError) {
       setError(errors)
     } else {

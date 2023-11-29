@@ -41,6 +41,7 @@ const DatePickerCustom = ({
         <DatePicker
           label={label}
           className="w-full"
+          format="DD-MM-YYYY"
           disabled={disabled}
           onChange={onHandleChange}
           slotProps={{
