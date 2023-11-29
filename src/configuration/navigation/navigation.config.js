@@ -16,7 +16,7 @@ export const NAVIGATION_CONFIG = [
       {
         key: 'tramitesEnProceso',
         path: null,
-        title: 'Tramites en Proceso',
+        title: 'TRÁMITES EN PROCESO',
         icon: null,
         authority: [],
         subMenu: [],
