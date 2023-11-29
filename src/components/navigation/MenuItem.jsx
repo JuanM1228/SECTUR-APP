@@ -22,7 +22,7 @@ const MenuItem = ({ section }) => {
 
   return (
     <>
-      <ListItemButton key={section.key} onClick={onHandleClick}>
+      <ListItemButton onClick={onHandleClick}>
         <ListItemIcon>{section.icon}</ListItemIcon>
         <ListItemText
           primary={section.title}
