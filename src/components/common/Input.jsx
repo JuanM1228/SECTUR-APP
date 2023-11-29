@@ -114,7 +114,7 @@ Input.propTypes = {
   error: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  type: PropTypes.oneOf(['text', 'password', 'email']),
+  type: PropTypes.oneOf(['text', 'password', 'email', 'number']),
   size: PropTypes.oneOf(['medium', 'small']),
   variant: PropTypes.oneOf(['outlined', 'filled', 'standard']),
 }

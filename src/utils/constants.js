@@ -59,3 +59,13 @@ export const INIT_INFO_LEGAL = {
   numeroDeRegistro: '', // Inmueble rentado?
   observaciones: '',
 }
+
+export const INIT_AGENCIA_VIAJES = {
+  nombreNotario: '',
+  numeroActaConstitutiva: null,
+  numeroNotaria: null,
+  lugarExpedicion: '',
+  fechaEmisionActa: '',
+  afiliaciones: null,
+  boletaje: null,
+}

@@ -27,13 +27,11 @@ const Detalles = ({
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    console.log(register)
     const { hasError, errors } = validate.datosGeneralesForm(data)
     if (hasError) {
       setError(errors)
     } else {
       setError(INIT_DATOS_GENERALES)
-      console.log(register)
     }
   }
 
