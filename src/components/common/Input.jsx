@@ -22,6 +22,8 @@ const Input = ({
   fullWidth = true,
   icon = null,
   iconPosition = 'start',
+  margin = 'none',
+  id,
   focused = true,
   onChange = () => {},
 }) => {
@@ -82,6 +84,8 @@ const Input = ({
         className="text-sm"
         label={label}
         color={setColor}
+        margin={margin}
+        id={id}
         variant={variant}
         error={error}
         helperText={helpText}
@@ -115,6 +119,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   type: PropTypes.oneOf(['text', 'password', 'email', 'number']),
+  margin: PropTypes.oneOf(['none', 'dense', 'normal']),
   size: PropTypes.oneOf(['medium', 'small']),
   variant: PropTypes.oneOf(['outlined', 'filled', 'standard']),
 }
