@@ -4,6 +4,7 @@
  */
 const colors = {
   bigDipORuby: '#9F2241',
+  error: '#d32f2f',
   blueDianne: '#235B4E',
   sapling: '#DDC9A3',
   merino: '#F8F4EB',
@@ -15,6 +16,7 @@ const colors = {
   silver: '#CCCCCC ',
   gray: '#808080',
   white: '#FFFFFF',
+  merinoTransparent: '#f8f4ebbe',
 }
 
 export default colors

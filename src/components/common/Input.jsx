@@ -17,16 +17,18 @@ const Input = ({
   disabled = false,
   type = 'text',
   color,
+  maxLength = 500,
   size = 'small',
-  fullWidth = false,
+  fullWidth = true,
   icon = null,
   iconPosition = 'start',
   margin = 'normal',
   id,
+  focused = true,
   onChange = () => {},
 }) => {
   const [showPassword, setShowPassword] = useState(false)
-  const [shrink, setShrink] = useState(false)
+  const [shrink, setShrink] = useState(true)
   const handleClickShowPassword = () => setShowPassword(show => !show)
 
   const theme = createTheme({
@@ -75,7 +77,10 @@ const Input = ({
             px: icon ? 5.5 : '',
           },
         })}
-        inputProps={{ className: 'font-GMX font-semibold' }}
+        inputProps={{
+          className: 'font-GMX font-semibold',
+          maxLength: maxLength,
+        }}
         className="text-sm"
         label={label}
         color={setColor}
@@ -86,6 +91,7 @@ const Input = ({
         helperText={helpText}
         disabled={disabled}
         type={setType()}
+        focused={focused}
         size={size}
         fullWidth={fullWidth}
         InputProps={{

@@ -1,14 +1,37 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 
+import DatePickerCustom from '../common/DatePicker'
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import Image from 'next/image'
 
-import { Email, Lock } from '@mui/icons-material'
+import { INIT_DATA_REGISTER_USER } from '@/utils/constants'
+import { validate } from '@/utils/validation'
+
+import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 
 const Register = ({ showRegister, setShowRegister }) => {
+  const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
+
+  const [error, setError] = useState(INIT_DATA_REGISTER_USER)
+
+  const onHandleChange = ({ target: { name, value } }) => {
+    setRegister({ ...register, [name]: value })
+  }
+
+  const registerHandler = async e => {
+    e.preventDefault()
+    console.log(register)
+    const { hasError, errors } = validate.registerForm(register)
+    if (hasError) {
+      setError(errors)
+    } else {
+      setError(INIT_DATA_REGISTER_USER)
+    }
+  }
+
   return (
     <div
       className={`flex flex-col sm:flex-row rounded-lg shadow-xl h-auto t-ease min-w-fit m-4 ${
@@ -28,26 +51,86 @@ const Register = ({ showRegister, setShowRegister }) => {
         />
       </section>
 
-      <section className="grow flex flex-col items-center rounded-e-xl gap-5 p-10 sm:p-14">
+      <form
+        className="grow flex flex-col items-center rounded-e-xl gap-5 p-10 sm:p-14"
+        onSubmit={registerHandler}>
         <h1 className="font-GMX font-bold text-2xl text-gray text-center">
           Crear una cuenta
         </h1>
 
-        <Input label="Nombre(s)" fullWidth type="text" />
-        <Input label="Apellido Paterno" fullWidth type="text" />
-        <Input label="Apellido Materno" fullWidth type="text" />
+        <Input
+          label="Nombre(s)"
+          name="name"
+          fullWidth
+          type="text"
+          onChange={onHandleChange}
+          error={error.name !== ''}
+          helpText={error.name}
+        />
 
-        <Input label="Correo" fullWidth icon={<Email />} type="text" />
-        <Input label="Contraseña" fullWidth icon={<Lock />} type="password" />
+        <Input
+          label="Apellido Paterno"
+          name="paternalSurname"
+          fullWidth
+          type="text"
+          onChange={onHandleChange}
+          error={error.paternalSurname !== ''}
+          helpText={error.paternalSurname}
+        />
+
+        <Input
+          label="Apellido Materno"
+          name="maternalSurname"
+          fullWidth
+          type="text"
+          onChange={onHandleChange}
+          error={error.maternalSurname !== ''}
+          helpText={error.maternalSurname}
+        />
+
+        <DatePickerCustom
+          label="Fecha de nacimiento"
+          name="birthDate"
+          onChange={onHandleChange}
+          error={error.birthDate !== ''}
+          helpText={error.birthDate}
+        />
+
+        <Input
+          label="Email"
+          name="email"
+          fullWidth
+          icon={Icons.Email}
+          type="email"
+          onChange={onHandleChange}
+          error={error.email !== ''}
+          helpText={error.email}
+        />
+
+        <Input
+          label="Password"
+          name="password"
+          fullWidth
+          icon={Icons.Lock}
+          type="password"
+          onChange={onHandleChange}
+          error={error.password !== ''}
+          helpText={error.password}
+        />
+
         <Input
           label="Verificar Contraseña"
+          name="verifyPassword"
           fullWidth
-          icon={<Lock />}
+          icon={Icons.Lock}
+          onChange={onHandleChange}
+          error={error.verifyPassword !== ''}
+          helpText={error.verifyPassword}
           type="password"
         />
 
-        <Button content="Registarme" />
-      </section>
+        <Button content="Registarme" type="submit" />
+      </form>
     </div>
   )
 }

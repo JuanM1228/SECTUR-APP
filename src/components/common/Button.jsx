@@ -13,6 +13,7 @@ const Button = ({
   content = '',
   type = 'button',
   disabled = false,
+  variant = 'contained',
   onClick = () => {},
 }) => {
   const colorButton = disabled
@@ -20,7 +21,7 @@ const Button = ({
     : 'bg-bigDipORuby text-white hover:bg-bigDipORuby'
   return (
     <ButtonMUI
-      variant="contained"
+      variant={variant}
       fullWidth={fullWidth}
       type={type}
       className={`${colorButton} ${className} font-GMX font-bold`}
@@ -32,7 +33,7 @@ const Button = ({
 }
 
 Button.propTypes = {
-  title: PropTypes.any,
+  content: PropTypes.any,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   fullWidth: PropTypes.bool,

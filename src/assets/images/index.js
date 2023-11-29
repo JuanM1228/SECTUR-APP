@@ -4,6 +4,7 @@ import lineaVerde from './logos/lineaVerde.svg'
 import logoSECTUR from './logos/logoSECTUR.svg'
 import logoGobMexRojo from './logos/logoGobMexRojo.svg'
 import logoSECTURWhite from './logos/logoSECTURWhite.svg'
+import location from './map/location.png'
 
 const Images = {
   escudoMex,
@@ -12,6 +13,7 @@ const Images = {
   logoSECTUR,
   bandera,
   logoSECTURWhite,
+  location,
 }
 
 export default Images
