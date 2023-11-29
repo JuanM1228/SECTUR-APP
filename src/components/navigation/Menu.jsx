@@ -2,7 +2,6 @@ import React from 'react'
 
 import { List } from '@mui/material'
 import { Close } from '@mui/icons-material'
-
 import { NAVIGATION_CONFIG } from '@/configuration/navigation/navigation.config'
 import MenuItem from './MenuItem'
 
