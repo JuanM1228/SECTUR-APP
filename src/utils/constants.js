@@ -69,3 +69,12 @@ export const INIT_AGENCIA_VIAJES = {
   afiliaciones: null,
   boletaje: null,
 }
+
+export const INIT_DETALLE_GENERICO = {
+  tipoPersona: null,
+  horaApertura: '',
+  horaCierre: '',
+  observacionesGenerales: '',
+  observacionesEspecificas: '',
+  observacionesAdicionales: '',
+}

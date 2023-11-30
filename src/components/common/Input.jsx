@@ -25,6 +25,8 @@ const Input = ({
   margin = 'none',
   id,
   focused = true,
+  rows = 1,
+  multiline = null,
   onChange = () => {},
 }) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -93,6 +95,8 @@ const Input = ({
         type={setType()}
         focused={focused}
         size={size}
+        rows={rows}
+        multiline={multiline}
         fullWidth={fullWidth}
         InputProps={{
           startAdornment: icon && iconPosition === 'start' && (
