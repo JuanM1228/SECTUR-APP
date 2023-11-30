@@ -1,6 +1,8 @@
 const API_URL = `${process.env.ENV_URL}/api`
 export default API_URL
 
+export const GENERIC_DETAILS_PST_ARRAY = [2, 5, 6, 7, 8, 10, 13, 14, 16, 18]
+
 export const INIT_DATA_REGISTER_USER = {
   name: '',
   paternalSurname: '',
@@ -68,4 +70,13 @@ export const INIT_AGENCIA_VIAJES = {
   fechaEmisionActa: '',
   afiliaciones: null,
   boletaje: null,
+}
+
+export const INIT_DETALLE_GENERICO = {
+  tipoPersona: null,
+  horaApertura: '',
+  horaCierre: '',
+  observacionesGenerales: '',
+  observacionesEspecificas: '',
+  observacionesAdicionales: '',
 }

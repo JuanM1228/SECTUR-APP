@@ -1,13 +1,14 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import Colors from '@/assets/colors'
 
-const DatePickerCustom = ({
+const TimePickerCustom = ({
   label = '',
   name = '',
   variant = 'outlined',
@@ -15,7 +16,10 @@ const DatePickerCustom = ({
   helpText = '',
   disabled = false,
   color,
+  ampm = true,
   size = 'small',
+  minTime = null,
+  maxTime = null,
   onChange = () => {},
 }) => {
   const theme = createTheme({
@@ -30,18 +34,24 @@ const DatePickerCustom = ({
   })
 
   const onHandleChange = e => {
-    const value = Date(e.$d)
-    const resp = { target: { name, value } }
-    onChange(resp)
+    const value = e
+    try {
+      const resp = { target: { name, value } }
+      onChange(resp)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
+        <MobileTimePicker
           label={label}
+          ampm={ampm}
+          minTime={minTime}
+          maxTime={maxTime}
           className="w-full"
-          format="DD-MM-YYYY"
           disabled={disabled}
           onChange={onHandleChange}
           slotProps={{
@@ -55,7 +65,6 @@ const DatePickerCustom = ({
               size: size,
               error: error,
               helperText: helpText,
-
               InputLabelProps: {
                 className: 'font-GMX font-semibold text-sm',
               },
@@ -67,4 +76,4 @@ const DatePickerCustom = ({
   )
 }
 
-export default DatePickerCustom
+export default TimePickerCustom
