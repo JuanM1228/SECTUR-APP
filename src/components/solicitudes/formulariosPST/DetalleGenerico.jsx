@@ -19,10 +19,13 @@ const DetalleGenerico = ({
   setRegister,
 }) => {
   const [data, setData] = useState(dataPst ? dataPst : INIT_DETALLE_GENERICO)
-  const [error, setError] = useState(INIT_DETALLE_GENERICO)
+  const [dateStart, setDateStart] = useState(null)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
+    if (name === 'horaApertura') {
+      setDateStart(value)
+    }
   }
 
   const onSubmitHandler = async e => {
@@ -37,7 +40,6 @@ const DetalleGenerico = ({
     { value: 2, title: 'test2' },
     { value: 3, title: 'test3' },
   ]
-  console.log(dayjs(data.horaApertura))
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -57,18 +59,18 @@ const DetalleGenerico = ({
         <TimePickerCustom
           label="Hora de apertura"
           name="horaApertura"
+          ampm={false}
           onChange={onHandleChange}
         />
 
-        {data.horaApertura && (
-          <TimePickerCustom
-            label="Hora de cierre"
-            name="horaCierre"
-            disabled={data.horaApertura ? false : true}
-            minTime={dayjs(data.horaApertura)}
-            onChange={onHandleChange}
-          />
-        )}
+        <TimePickerCustom
+          label="Hora de cierre"
+          name="horaCierre"
+          ampm={false}
+          disabled={dateStart ? false : true}
+          minTime={dayjs(dateStart)}
+          onChange={onHandleChange}
+        />
       </section>
 
       <Input

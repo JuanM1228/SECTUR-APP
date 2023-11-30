@@ -32,10 +32,8 @@ const TimePickerCustom = ({
       },
     },
   })
-  console.log(minTime)
 
   const onHandleChange = e => {
-    console.log(e)
     const value = e
     try {
       const resp = { target: { name, value } }

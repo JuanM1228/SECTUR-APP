@@ -9,14 +9,13 @@ import AgenciaViaje from '@/components/solicitudes/formulariosPST/AgenciaViaje'
 import DetalleGenerico from '@/components/solicitudes/formulariosPST/DetalleGenerico'
 
 import Icons from '@/assets/icons'
-import Stepper from '@/components/common/Stepper'
-
+import { GENERIC_DETAILS_PST_ARRAY } from '@/utils/constants'
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
 })
 
 const Solicitudes = () => {
-  const [step, setStep] = useState(4)
+  const [step, setStep] = useState(0)
 
   const [register, setRegister] = useState({
     datosGenerales: null,
@@ -78,16 +77,16 @@ const Solicitudes = () => {
         />
       )}
 
-      {/* {tipoPST === 2 && ( */}
-      <DetalleGenerico
-        step={step}
-        dataPst={register.detallePst}
-        nextStep={onNextStepHandler}
-        backStep={onBackStepHandler}
-        register={register}
-        setRegister={setRegister}
-      />
-      {/* )} */}
+      {GENERIC_DETAILS_PST_ARRAY.includes(tipoPST) && (
+        <DetalleGenerico
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
     </div>
   )
 }
