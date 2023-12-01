@@ -6,16 +6,20 @@ import Contacto from '@/components/solicitudes/Contacto'
 import DatosGenerales from '@/components/solicitudes/DatosGenerales'
 import InformacionLegal from '@/components/solicitudes/InformacionLegal'
 import AgenciaViaje from '@/components/solicitudes/formulariosPST/AgenciaViaje'
+import OperadoraBuceo from '@/components/solicitudes/formulariosPST/OperadoraBuceo'
 import DetalleGenerico from '@/components/solicitudes/formulariosPST/DetalleGenerico'
+import ArrendadoraAutos from '@/components/solicitudes/formulariosPST/ArrendadoraAutos'
+import AlimentosBebidas from '@/components/solicitudes/formulariosPST/AlimentosBebidas'
 
-import Icons from '@/assets/icons'
-import { GENERIC_DETAILS_PST_ARRAY } from '@/utils/constants'
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
 })
 
+import Icons from '@/assets/icons'
+import { GENERIC_DETAILS_PST_ARRAY } from '@/utils/constants'
+
 const Solicitudes = () => {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(4)
 
   const [register, setRegister] = useState({
     datosGenerales: null,
@@ -79,6 +83,39 @@ const Solicitudes = () => {
 
       {GENERIC_DETAILS_PST_ARRAY.includes(tipoPST) && (
         <DetalleGenerico
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
+
+      {tipoPST === 3 && (
+        <AlimentosBebidas
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
+
+      {tipoPST === 4 && (
+        <ArrendadoraAutos
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
+
+      {tipoPST === 11 && (
+        <OperadoraBuceo
           step={step}
           dataPst={register.detallePst}
           nextStep={onNextStepHandler}
