@@ -80,3 +80,34 @@ export const INIT_DETALLE_GENERICO = {
   observacionesEspecificas: '',
   observacionesAdicionales: '',
 }
+
+export const INIT_ALIMENTOS_BEBIDAS = {
+  tipoDeServicio: null,
+  espectaculo: null,
+  especialidades: null,
+  tiposDeComida: null,
+  numeroDeCajones: null,
+  mercadoExtranjero: null,
+  mercadoNacional: null,
+  serviciosAdicionales: null,
+  ubicacion: null,
+  descripcionUbicacion: '',
+}
+
+export const INIT_ARRENDADORA_AUTOS = {
+  tipoEstablecimiento: null,
+  nombreMatriz: '',
+  domicilio: '',
+  numeroSucursales: null,
+  captacionNacional: null,
+  captacionExtrangero: null,
+}
+
+export const INIT_OPERADORA_BUCEO = {
+  nombreMatriz: '',
+  domicilio: '',
+  telefono: null,
+  tipoEstablecimiento: null,
+  numeroSucursales: null,
+  afiliaciones: '',
+}
