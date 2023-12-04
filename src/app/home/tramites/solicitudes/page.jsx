@@ -8,7 +8,6 @@ import InformacionLegal from '@/components/solicitudes/InformacionLegal'
 import AgenciaViaje from '@/components/solicitudes/formulariosPST/AgenciaViaje'
 import Detalles from '@/components/solicitudes/Detalles'
 
-import Icons from '@/assets/icons'
 import Stepper from '@/components/common/Stepper'
 import Documents from '@/components/solicitudes/Documents'
 

@@ -8,7 +8,7 @@ import {
   ListItemText,
   Collapse,
 } from '@mui/material'
-import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import Icons from '@/assets/icons'
 import SubMenuItem from './SubmenuItem'
 
 const MenuItem = ({ section }) => {
@@ -32,7 +32,7 @@ const MenuItem = ({ section }) => {
             }`,
           }}
         />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {open ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
       </ListItemButton>
       {subMenu.length !== 0 && (
         <Collapse in={open} timeout="auto" unmountOnExit>

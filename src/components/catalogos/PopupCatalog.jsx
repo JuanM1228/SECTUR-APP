@@ -31,8 +31,8 @@ function createData(name, calories, fat, carbs) {
 const editionSection = () => {
   return (
     <div className="flex gap-4">
-      <IconButton>{Icons.Edit}</IconButton>
-      <IconButton>{Icons.Delete}</IconButton>
+      <IconButton><Icons.Edit/></IconButton>
+      <IconButton><Icons.Delete/></IconButton>
     </div>
   )
 }

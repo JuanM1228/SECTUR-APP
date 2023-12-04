@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { URL_API_BASE, INIT_DATA_LOGIN } from '@/utils/constants'
 import { validate } from '@/utils/validation'
 
-import { Person, Key } from '@mui/icons-material'
+import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 
 const SingIn = ({ showRegister, setShowRegister }) => {
@@ -65,7 +65,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         <Input
           label="Email"
           name="email"
-          icon={<Person />}
+          IconComponent={Icons.Person}
           type="email"
           onChange={onHandleChange}
           error={error.email !== ''}
@@ -75,7 +75,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         <Input
           label="Password"
           name="password"
-          icon={<Key />}
+          IconComponent={Icons.Key}
           type="password"
           onChange={onHandleChange}
           error={error.password !== ''}

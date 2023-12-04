@@ -4,7 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Avatar } from '@mui/material'
 
-import { Menu } from '@mui/icons-material'
+import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 
 const Header = ({ setOpenMenu, openMenu }) => {
@@ -12,7 +12,7 @@ const Header = ({ setOpenMenu, openMenu }) => {
     <header className="flex flex-col t-ease sticky top-0 z-30">
       <div className=" flex justify-between items-center h-14 bg-blueDianne px-6 ">
         <section className="flex items-center gap-6">
-          <Menu
+          <Icons.Menu
             className="cursor-pointer text-merino"
             onClick={() => setOpenMenu(!openMenu)}
           />

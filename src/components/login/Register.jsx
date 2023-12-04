@@ -99,7 +99,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           label="Email"
           name="email"
           fullWidth
-          icon={Icons.Email}
+          IconComponent={Icons.Email}
           type="email"
           onChange={onHandleChange}
           error={error.email !== ''}
@@ -110,7 +110,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           label="Password"
           name="password"
           fullWidth
-          icon={Icons.Lock}
+          IconComponent={Icons.Lock}
           type="password"
           onChange={onHandleChange}
           error={error.password !== ''}
@@ -121,7 +121,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           label="Verificar Contraseña"
           name="verifyPassword"
           fullWidth
-          icon={Icons.Lock}
+          IconComponent={Icons.Lock}
           onChange={onHandleChange}
           error={error.verifyPassword !== ''}
           helpText={error.verifyPassword}
