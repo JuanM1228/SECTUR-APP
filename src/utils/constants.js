@@ -104,10 +104,51 @@ export const INIT_ARRENDADORA_AUTOS = {
 export const INIT_OPERADORA_BUCEO = {
   nombreMatriz: '',
   domicilio: '',
-  telefono: null,
-  tipoEstablecimiento: null,
-  numeroSucursales: null,
+  telefono: '',
+  tipoEstablecimiento: 0,
+  numeroSucursales: '',
   afiliaciones: '',
+}
+
+export const HOSPEDAJE_INIT_DATA = {
+  distincionSelected: null,
+  porcentajeMercadoNacional: '',
+  porcentajeMercadoExtrenjero: '',
+  clasificacionObtenidaSelected: null,
+  folioDeClasificacion: '',
+  tipoDeAlojamientoList: [],
+  tipoDeHospedajeList: [],
+  ubicacionSelected: null,
+  serviciosAdicionalesList: [],
+}
+
+export const OPERADORA_MARINA_INIT_DATA = {
+  superficieTerrestre: '',
+  superficieTotal: '',
+  superficieAcuatica: '',
+  espaciosAtraqueSelected: null,
+  espaciosFondoSelected: null,
+  serviciosAdicionalesList: [],
+  instalacionesOfrecidasList: [],
+}
+
+export const TIEMPOS_COMPARTIDOS_INIT_DATA = {
+  ubicacionSelected: null,
+  tipoOperacionSelected: null,
+  nombreComercial: '',
+  categoria: '',
+  mercadoNacional: '',
+  mercadoExtranjero: '',
+  serviciosAdicionalesList: [],
+}
+
+export const TRANSPORTISTA_TURISTICO_INIT_DATA = {
+  tipoEstablecimientoSelected: null,
+  tipoServicioSelected: null,
+  numSucursales: '',
+  nombreMatriz: '',
+  direcionMatriz: '',
+  numDeGuias: '',
 }
 
 /**

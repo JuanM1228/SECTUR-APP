@@ -7,6 +7,11 @@ import Dropdown from '@/components/common/Dropdown'
 
 import { INIT_OPERADORA_BUCEO, STEP_ENUM } from '@/utils/constants'
 
+const establecimientoData = [
+  { value: 1, title: 'Operadora' },
+  { value: 2, title: 'Operadora Matriz' },
+]
+
 const OperadoraBuceo = ({
   step,
   dataPst,
@@ -28,15 +33,11 @@ const OperadoraBuceo = ({
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallePst: data })
+    // TODO: Add validation and next step handler
     console.log(data)
     // nextStep()
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -51,25 +52,21 @@ const OperadoraBuceo = ({
           name="nombreMatriz"
           onChange={onHandleChange}
         />
-
         <Input label="Domicilio" name="domicilio" onChange={onHandleChange} />
-
         <Input
-          label="Telefno"
+          label="Teléfono"
           name="telefono"
           type="number"
           onChange={onHandleChange}
         />
-
         <Dropdown
           label="Tipo de establecimiento"
           name="tipoEstablecimiento"
           variant="outlined"
           value={data.tipoEstablecimiento ? data.tipoEstablecimiento : 0}
-          options={testData}
+          options={establecimientoData}
           onChange={onHandleChange}
         />
-
         <Input
           label="Número de sucursales"
           name="numeroSucursales"
@@ -77,7 +74,6 @@ const OperadoraBuceo = ({
           onChange={onHandleChange}
         />
       </section>
-
       <Input
         label="Asociaciones a las que está afiliado"
         name="afiliaciones"
@@ -85,7 +81,6 @@ const OperadoraBuceo = ({
         multiline
         onChange={onHandleChange}
       />
-
       <div className=" flex gap-6 justify-between">
         <Button
           content="Regresar"

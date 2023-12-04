@@ -76,6 +76,7 @@ import { GENERIC_DETAILS_PST_LIST, PST_ENUM } from '@/utils/constants'
 import OperadoraMarina from '@/components/solicitudes/formulariosPST/OperadoraMarina'
 import Hospedaje from '@/components/solicitudes/formulariosPST/Hospedaje'
 import TiemposCompartidos from '@/components/solicitudes/formulariosPST/TiemposCompartidos'
+import TransportistaTuristico from '@/components/solicitudes/formulariosPST/TransportistaTuristico'
 
 const Solicitudes = () => {
   const [step, setStep] = useState(4)
@@ -96,8 +97,8 @@ const Solicitudes = () => {
     console.log(event)
   }
 
-  // const tipoPST = register.datosGenerales?.tipoPST
-  const tipoPST = 0
+  const tipoPST = register.datosGenerales?.tipoPST
+  // const tipoPST = PST_ENUM.TRANSPORTISTA_TURISTICO
 
   return (
     <div className="h-[calc(100vh-5rem)] flex flex-col justify-start  sm:items-center ">
@@ -149,6 +150,7 @@ const Solicitudes = () => {
         register={register}
         setRegister={setRegister}
       /> */}
+      {/* TODO: Añadir subcategoría en los detalles de pst? */}
       {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
         <DetalleGenerico
           step={step}
@@ -230,7 +232,7 @@ const Solicitudes = () => {
         />
       )}
       {tipoPST === PST_ENUM.TRANSPORTISTA_TURISTICO && (
-        <TiemposCompartidos
+        <TransportistaTuristico
           step={step}
           dataPst={register.detallePst}
           nextStep={onNextStepHandler}
