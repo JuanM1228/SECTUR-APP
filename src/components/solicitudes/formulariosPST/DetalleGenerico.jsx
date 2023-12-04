@@ -4,12 +4,13 @@ import React, { useState } from 'react'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
-import DatePickerCustom from '@/components/common/DatePicker'
+import TimePickerCustom from '@/components/common/TimePicker'
 
+import dayjs from 'dayjs'
 import { validate } from '@/utils/validation'
-import { INIT_AGENCIA_VIAJES } from '@/utils/constants'
+import { INIT_DETALLE_GENERICO } from '@/utils/constants'
 
-const AgenciaViaje = ({
+const DetalleGenerico = ({
   step,
   dataPst,
   nextStep,
@@ -17,16 +18,20 @@ const AgenciaViaje = ({
   register,
   setRegister,
 }) => {
-  const [data, setData] = useState(dataPst ? dataPst : INIT_AGENCIA_VIAJES)
-  const [error, setError] = useState(INIT_AGENCIA_VIAJES)
+  const [data, setData] = useState(dataPst ? dataPst : INIT_DETALLE_GENERICO)
+  const [dateStart, setDateStart] = useState(null)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
+    if (name === 'horaApertura') {
+      setDateStart(value)
+    }
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallePst: data })
+    console.log(data)
     // nextStep()
   }
 
@@ -35,7 +40,6 @@ const AgenciaViaje = ({
     { value: 2, title: 'test2' },
     { value: 3, title: 'test3' },
   ]
-
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -43,57 +47,55 @@ const AgenciaViaje = ({
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
+      <Dropdown
+        label="Tipo de persona"
+        name="tipoPersona"
+        variant="outlined"
+        value={data.tipoPersona ? data.tipoPersona : 0}
+        options={testData}
+        onChange={onHandleChange}
+      />
       <section className="grid sm:grid-cols-2 gap-6">
-        <Input
-          label="Nombre de notario"
-          name="nombreNotario"
+        <TimePickerCustom
+          label="Hora de apertura"
+          name="horaApertura"
+          ampm={false}
           onChange={onHandleChange}
         />
 
-        <Input
-          label="Número de acta constitutiva"
-          name="numeroActaConstitutiva"
-          type="number"
-          onChange={onHandleChange}
-        />
-
-        <Input
-          label="Número de notaría"
-          name="numeroNotaria"
-          type="number"
-          onChange={onHandleChange}
-        />
-
-        <Input
-          label="Lugar de expedición"
-          name="lugarExpedicion"
-          onChange={onHandleChange}
-        />
-
-        <DatePickerCustom
-          label="Fecha de emisión del acta"
-          name="fechaEmisionActa"
-          onChange={onHandleChange}
-        />
-
-        <Dropdown
-          label="Afiliaciones"
-          name="afiliaciones"
-          variant="outlined"
-          value={data.afiliaciones ? data.afiliaciones : 0}
-          options={testData}
-          onChange={onHandleChange}
-        />
-
-        <Dropdown
-          label="Boletaje"
-          name="boletaje"
-          variant="outlined"
-          value={data.boletaje ? data.boletaje : 0}
-          options={testData}
+        <TimePickerCustom
+          label="Hora de cierre"
+          name="horaCierre"
+          ampm={false}
+          disabled={dateStart ? false : true}
+          minTime={dayjs(dateStart)}
           onChange={onHandleChange}
         />
       </section>
+
+      <Input
+        label="Observaciones Generales"
+        name="observacionesGenerales"
+        rows={4}
+        multiline
+        onChange={onHandleChange}
+      />
+
+      <Input
+        label="Observaciones Específicas"
+        name="observacionesEspecificas"
+        rows={4}
+        multiline
+        onChange={onHandleChange}
+      />
+
+      <Input
+        label="Observaciones Adicionales"
+        name="observacionesAdicionales"
+        rows={4}
+        multiline
+        onChange={onHandleChange}
+      />
 
       <div className=" flex gap-6 justify-between">
         <Button
@@ -112,4 +114,4 @@ const AgenciaViaje = ({
   )
 }
 
-export default AgenciaViaje
+export default DetalleGenerico

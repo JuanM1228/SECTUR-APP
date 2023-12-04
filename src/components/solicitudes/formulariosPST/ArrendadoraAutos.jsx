@@ -4,12 +4,10 @@ import React, { useState } from 'react'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
-import DatePickerCustom from '@/components/common/DatePicker'
 
-import { validate } from '@/utils/validation'
-import { INIT_AGENCIA_VIAJES } from '@/utils/constants'
+import { INIT_ARRENDADORA_AUTOS } from '@/utils/constants'
 
-const AgenciaViaje = ({
+const ArrendadoraAutos = ({
   step,
   dataPst,
   nextStep,
@@ -17,16 +15,20 @@ const AgenciaViaje = ({
   register,
   setRegister,
 }) => {
-  const [data, setData] = useState(dataPst ? dataPst : INIT_AGENCIA_VIAJES)
-  const [error, setError] = useState(INIT_AGENCIA_VIAJES)
+  const [data, setData] = useState(dataPst ? dataPst : INIT_ARRENDADORA_AUTOS)
+  const [dateStart, setDateStart] = useState(null)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
+    if (name === 'horaApertura') {
+      setDateStart(value)
+    }
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallePst: data })
+    console.log(data)
     // nextStep()
   }
 
@@ -35,7 +37,6 @@ const AgenciaViaje = ({
     { value: 2, title: 'test2' },
     { value: 3, title: 'test3' },
   ]
-
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -43,54 +44,43 @@ const AgenciaViaje = ({
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
+
       <section className="grid sm:grid-cols-2 gap-6">
-        <Input
-          label="Nombre de notario"
-          name="nombreNotario"
+        <Dropdown
+          label="Tipo de establecimiento"
+          name="tipoEstablecimiento"
+          variant="outlined"
+          value={data.tipoEstablecimiento ? data.tipoEstablecimiento : 0}
+          options={testData}
           onChange={onHandleChange}
         />
 
         <Input
-          label="Número de acta constitutiva"
-          name="numeroActaConstitutiva"
+          label="Nombre de la Matriz"
+          name="nombreMatriz"
+          onChange={onHandleChange}
+        />
+
+        <Input label="Domicilio" name="domicilio" onChange={onHandleChange} />
+
+        <Input
+          label="Número de sucursales"
+          name="numeroSucursales"
           type="number"
           onChange={onHandleChange}
         />
 
         <Input
-          label="Número de notaría"
-          name="numeroNotaria"
+          label="Captación nacional %"
+          name="captacionNacional"
           type="number"
           onChange={onHandleChange}
         />
 
         <Input
-          label="Lugar de expedición"
-          name="lugarExpedicion"
-          onChange={onHandleChange}
-        />
-
-        <DatePickerCustom
-          label="Fecha de emisión del acta"
-          name="fechaEmisionActa"
-          onChange={onHandleChange}
-        />
-
-        <Dropdown
-          label="Afiliaciones"
-          name="afiliaciones"
-          variant="outlined"
-          value={data.afiliaciones ? data.afiliaciones : 0}
-          options={testData}
-          onChange={onHandleChange}
-        />
-
-        <Dropdown
-          label="Boletaje"
-          name="boletaje"
-          variant="outlined"
-          value={data.boletaje ? data.boletaje : 0}
-          options={testData}
+          label="Captación extrangero %"
+          name="captacionExtrangero"
+          type="number"
           onChange={onHandleChange}
         />
       </section>
@@ -112,4 +102,4 @@ const AgenciaViaje = ({
   )
 }
 
-export default AgenciaViaje
+export default ArrendadoraAutos

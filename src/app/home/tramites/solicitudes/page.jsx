@@ -7,9 +7,12 @@ import DatosGenerales from '@/components/solicitudes/DatosGenerales'
 import InformacionLegal from '@/components/solicitudes/InformacionLegal'
 import AgenciaViaje from '@/components/solicitudes/formulariosPST/AgenciaViaje'
 import Detalles from '@/components/solicitudes/Detalles'
-
 import Stepper from '@/components/common/Stepper'
 import Documents from '@/components/solicitudes/Documents'
+import OperadoraBuceo from '@/components/solicitudes/formulariosPST/OperadoraBuceo'
+import DetalleGenerico from '@/components/solicitudes/formulariosPST/DetalleGenerico'
+import ArrendadoraAutos from '@/components/solicitudes/formulariosPST/ArrendadoraAutos'
+import AlimentosBebidas from '@/components/solicitudes/formulariosPST/AlimentosBebidas'
 
 const documentsList = [
   {
@@ -67,8 +70,11 @@ const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
 })
 
+import Icons from '@/assets/icons'
+import { GENERIC_DETAILS_PST_ARRAY } from '@/utils/constants'
+
 const Solicitudes = () => {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(4)
 
   const [register, setRegister] = useState({
     datosGenerales: null,
@@ -77,7 +83,6 @@ const Solicitudes = () => {
     informacionLegal: null,
     detallePst: null,
   })
-  console.log(register)
   const onNextStepHandler = () => setStep(step + 1)
 
   const onBackStepHandler = () => setStep(step - 1)
@@ -88,7 +93,6 @@ const Solicitudes = () => {
   }
 
   const tipoPST = register.datosGenerales?.tipoPST
-  console.log(tipoPST)
   return (
     <div className="h-[calc(100vh-5rem)] flex flex-col justify-start  sm:items-center ">
       <DatosGenerales
@@ -141,6 +145,49 @@ const Solicitudes = () => {
         documentsList={documentsList}
         onSubmitHandler={onSubmitHandler}
       />
+      {GENERIC_DETAILS_PST_ARRAY.includes(tipoPST) && (
+        <DetalleGenerico
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
+
+      {tipoPST === 3 && (
+        <AlimentosBebidas
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
+
+      {tipoPST === 4 && (
+        <ArrendadoraAutos
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
+
+      {tipoPST === 11 && (
+        <OperadoraBuceo
+          step={step}
+          dataPst={register.detallePst}
+          nextStep={onNextStepHandler}
+          backStep={onBackStepHandler}
+          register={register}
+          setRegister={setRegister}
+        />
+      )}
     </div>
   )
 }
