@@ -70,8 +70,10 @@ const Domicilio = ({
       <h1 className="font-GMX font-bold text-2xl">DOMICILIO</h1>
 
       <div className="grid sm:grid-cols-2 gap-6">
+        {/* TODO: Add maxLength prop (zip code 5 maxLength) */}
         <Input
           label="Código postal *"
+          type="number"
           name="codigoPostal"
           error={Boolean(error.codigoPostal)}
           helpText={error.codigoPostal}
