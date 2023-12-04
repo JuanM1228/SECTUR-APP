@@ -5,7 +5,7 @@ import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import Image from 'next/image'
 
-import { URL_API_BASE, INIT_DATA_LOGIN } from '@/utils/constants'
+import { INIT_DATA_LOGIN } from '@/utils/constants'
 import { validate } from '@/utils/validation'
 
 import Icons from '@/assets/icons'
