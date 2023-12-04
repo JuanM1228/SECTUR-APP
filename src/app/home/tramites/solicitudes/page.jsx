@@ -70,11 +70,10 @@ const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
 })
 
-import Icons from '@/assets/icons'
 import { GENERIC_DETAILS_PST_ARRAY } from '@/utils/constants'
 
 const Solicitudes = () => {
-  const [step, setStep] = useState(4)
+  const [step, setStep] = useState(0)
 
   const [register, setRegister] = useState({
     datosGenerales: null,
@@ -145,7 +144,7 @@ const Solicitudes = () => {
         documentsList={documentsList}
         onSubmitHandler={onSubmitHandler}
       />
-      {GENERIC_DETAILS_PST_ARRAY.includes(tipoPST) && (
+      {true && (
         <DetalleGenerico
           step={step}
           dataPst={register.detallePst}

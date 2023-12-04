@@ -111,3 +111,15 @@ export const INIT_OPERADORA_BUCEO = {
   numeroSucursales: null,
   afiliaciones: '',
 }
+
+/**
+ * Enumerates the steps for a multi-step process.
+ * @enum {number}
+ */
+export const STEP_ENUM = {
+  DATOS_GENERALES: 0,
+  DOMICILIO: 1,
+  CONTACTO: 2,
+  INFO_LEGAL: 3,
+  DETALLES: 4, // TODO: Verificar si es necesario
+}

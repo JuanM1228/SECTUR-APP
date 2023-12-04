@@ -3,14 +3,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Icons from '@/assets/icons'
 import Button from '../common/Button'
+import { STEP_ENUM } from '@/utils/constants'
 
 const Documents = props => {
   const { documentsList, step, onSubmitHandler } = props
-
+  // TODO: CHANGE STEP_ENUM value
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 0 ? '' : 'hide'
+        step === STEP_ENUM.DATOS_GENERALES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       {documentsList.map(item => {
