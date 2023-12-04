@@ -1,8 +1,6 @@
 const API_URL = `${process.env.ENV_URL}/api`
 export default API_URL
 
-export const GENERIC_DETAILS_PST_ARRAY = [2, 5, 6, 7, 8, 10, 13, 14, 16, 18]
-
 export const INIT_DATA_REGISTER_USER = {
   name: '',
   paternalSurname: '',
@@ -123,3 +121,47 @@ export const STEP_ENUM = {
   INFO_LEGAL: 3,
   DETALLES: 4, // TODO: Verificar si es necesario
 }
+
+/**
+ * Enumerates the types of establishments for the PST process.
+ * @enum {number}
+ */
+export const PST_ENUM = {
+  GENERICO: 0, // Default value, it's not a valid PST type
+  AGENCIA_VIAJES: 1,
+  AGENCIA_SERVICIOS: 2,
+  ALIMENTOS_Y_BEBIDAS: 3,
+  ARRENDADORA_AUTOS: 4,
+  BALNEARIO_ACUATICO: 5,
+  CAMPO_GOLF: 6,
+  SALVAVIDA: 7,
+  GUIA_TURISTICO: 8,
+  HOSPEDAJE: 9,
+  OPERADORA_NATURALEZA: 10,
+  OPERADORA_BUCEO: 11,
+  OPERADORA_MARINA: 12,
+  PARQUE_TEMATICO: 13,
+  SPA: 14,
+  TIEMPOS_COMPARTIDOS: 15,
+  TOUR_OPERADOR: 16,
+  TRANSPORTISTA_TURISTICO: 17,
+  VUELO_EN_GLOBO: 18,
+}
+
+/**
+ * Array containing generic details of PST categories.
+ * @type {Array<PST_ENUM>}
+ */
+export const GENERIC_DETAILS_PST_LIST = [
+  PST_ENUM.GENERICO, // Default value
+  PST_ENUM.AGENCIA_SERVICIOS,
+  PST_ENUM.BALNEARIO_ACUATICO,
+  PST_ENUM.CAMPO_GOLF,
+  PST_ENUM.SALVAVIDA,
+  PST_ENUM.GUIA_TURISTICO,
+  PST_ENUM.OPERADORA_NATURALEZA,
+  PST_ENUM.PARQUE_TEMATICO,
+  PST_ENUM.SPA,
+  PST_ENUM.TOUR_OPERADOR,
+  PST_ENUM.VUELO_EN_GLOBO,
+]
