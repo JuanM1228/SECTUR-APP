@@ -10,6 +10,59 @@ import Detalles from '@/components/solicitudes/Detalles'
 
 import Icons from '@/assets/icons'
 import Stepper from '@/components/common/Stepper'
+import Documents from '@/components/solicitudes/Documents'
+
+const documentsList = [
+  {
+    documentId: '232342323',
+    title:
+      'Escritura pública del inmueble, contrato de arrendamiento o contrato de comodato',
+    subtitle:
+      'Documento que acredite la posesión legal o uso del inmueble donde realiza la actividad',
+    fileTypes: '',
+    isRequired: true,
+  },
+  {
+    documentId: '2323423323',
+    title: 'Identificación oficial del promvente',
+    subtitle:
+      'Credencial de elector (INE), cédula profesional, pasaporte del propietario o representante legal',
+    fileTypes: '',
+    isRequired: true,
+  },
+  {
+    documentId: '2322342323',
+    title: 'Comprobante de domicilio',
+    subtitle:
+      'Recibo de agua, luz, teléfono, predial, etc., del domicilio donde se realiza la actividad',
+    fileTypes: '',
+    isRequired: true,
+  },
+  {
+    documentId: '2232342323',
+    title: 'Formato firmado por el propietario o representante legal',
+    subtitle:
+      'Formato único para los trámites del Registro Nacional de Turismo',
+    fileTypes: '',
+    isRequired: true,
+  },
+  {
+    documentId: '1132342323',
+    title: 'Registro Federal de Contribuyentes RFC (Persona Física o Moral)',
+    subtitle:
+      'Documento que acredita la actividad lícita del solicitante de servicios turísticos',
+    fileTypes: '',
+    isRequired: true,
+  },
+  {
+    documentId: '1132342324',
+    title:
+      'Acta Constitutiva (Persona Moral). Persona Física deberá adjuntar RFC',
+    subtitle: 'Documento que acredita la legal constitución de la empresa',
+    fileTypes: '',
+    isRequired: true,
+  },
+]
 
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
@@ -29,6 +82,11 @@ const Solicitudes = () => {
   const onNextStepHandler = () => setStep(step + 1)
 
   const onBackStepHandler = () => setStep(step - 1)
+
+  const onSubmitHandler = event => {
+    event.preventDefault()
+    console.log(event)
+  }
 
   const tipoPST = register.datosGenerales?.tipoPST
   console.log(tipoPST)
@@ -79,6 +137,11 @@ const Solicitudes = () => {
           setRegister={setRegister}
         />
       )}
+      <Documents
+        step={step}
+        documentsList={documentsList}
+        onSubmitHandler={onSubmitHandler}
+      />
     </div>
   )
 }
