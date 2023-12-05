@@ -76,7 +76,7 @@ const Hospedaje = ({
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
           label="Distinción"
-          name="distincion"
+          name="distincionSelected"
           variant="outlined"
           value={data.distincionSelected ? data.distincionSelected : 0}
           options={distioncionData}
