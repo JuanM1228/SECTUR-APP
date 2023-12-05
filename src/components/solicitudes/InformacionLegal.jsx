@@ -5,7 +5,7 @@ import Input from '../common/Input'
 import Button from '../common/Button'
 
 import { validate } from '@/utils/validation'
-import { INIT_INFO_LEGAL } from '@/utils/constants'
+import { INIT_INFO_LEGAL, STEP_ENUM } from '@/utils/constants'
 
 const InformacionLegal = ({
   step,
@@ -39,7 +39,7 @@ const InformacionLegal = ({
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 3 ? '' : 'hide'
+        step === STEP_ENUM.INFO_LEGAL ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">INFORMACIÓN LEGAL</h1>

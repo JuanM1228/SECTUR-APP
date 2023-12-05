@@ -31,25 +31,30 @@ const SectionCatalog = ({ title, catalogs }) => {
   return (
     <Accordion className="bg-merinoTransparent w-full max-w-3xl">
       <AccordionSummary
-        expandIcon={Icons.ExpandMore}
+        expandIcon={<Icons.ExpandMore />}
         className="font-GMX font-bold">
         {title}
       </AccordionSummary>
       <AccordionDetails className="flex flex-col">
-        {catalogs.map(catalog => (
-          <ListItemButton
-            key={catalog.id}
-            className="flex"
-            onClick={() => onHandleClickCatalog(catalog.id)}>
-            <ListItemAvatar>
-              <Avatar>{Icons[catalog.icon]}</Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primaryTypographyProps={{ className: 'font-Montserrat' }}
-              primary={catalog.name}
-            />
-          </ListItemButton>
-        ))}
+        {catalogs.map(catalog => {
+          const CustomIcon = Icons[catalog.icon]
+          return (
+            <ListItemButton
+              key={catalog.id}
+              className="flex"
+              onClick={() => onHandleClickCatalog(catalog.id)}>
+              <ListItemAvatar>
+                <Avatar>
+                  <CustomIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primaryTypographyProps={{ className: 'font-Montserrat' }}
+                primary={catalog.name}
+              />
+            </ListItemButton>
+          )
+        })}
       </AccordionDetails>
       <PopupCatalog
         open={openDialog}

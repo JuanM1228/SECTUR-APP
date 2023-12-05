@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/auth'
 import { useHttpClient } from '@/hooks/useHttpClient'
 
 import { List } from '@mui/material'
-import { Close } from '@mui/icons-material'
+import Icons from '@/assets/icons'
 
 import { NAVIGATION_CONFIG } from '@/configuration/navigation/navigation.config'
 import MenuItem from './MenuItem'
@@ -42,7 +42,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
         <section className="flex justify-between items-center h-14 px-5 bg-blueDianne text-merino ">
           <h1 className="font-GMX text-2xl ">Menu</h1>
 
-          <Close
+          <Icons.Close
             onClick={() => setOpenMenu(false)}
             className="cursor-pointer"
           />

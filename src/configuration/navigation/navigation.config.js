@@ -1,16 +1,11 @@
-import {
-  Search,
-  Assignment,
-  BarChart,
-  FormatListBulleted,
-} from '@mui/icons-material'
+import Icons from "@/assets/icons"
 
 export const NAVIGATION_CONFIG = [
   {
     key: 'consulta',
     path: null,
     title: 'CONSULTA',
-    icon: <Search />,
+    icon: <Icons.Search />,
     authority: [],
     subMenu: [
       {
@@ -43,7 +38,7 @@ export const NAVIGATION_CONFIG = [
     key: 'tramites',
     path: null,
     title: 'TRÁMITES',
-    icon: <Assignment />,
+    icon: <Icons.Assignment />,
     authority: [],
     subMenu: [
       {
@@ -84,7 +79,7 @@ export const NAVIGATION_CONFIG = [
     key: 'reportes',
     path: null,
     title: 'REPORTES',
-    icon: <BarChart />,
+    icon: <Icons.BarChart />,
     authority: [],
     subMenu: [
       {
@@ -166,7 +161,7 @@ export const NAVIGATION_CONFIG = [
     key: 'catalogos',
     path: null,
     title: 'CATÁLOGOS',
-    icon: <FormatListBulleted />,
+    icon: <Icons.FormatListBulleted />,
     authority: [],
     subMenu: [
       {

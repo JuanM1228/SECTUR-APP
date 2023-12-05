@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { TextField, InputAdornment, IconButton } from '@mui/material'
 
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import Icons from '@/assets/icons'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import Colors from '@/assets/colors'
 
@@ -20,7 +20,7 @@ const Input = ({
   maxLength = 500,
   size = 'small',
   fullWidth = true,
-  icon = null,
+  IconComponent = null,
   iconPosition = 'start',
   margin = 'none',
   id,
@@ -51,7 +51,7 @@ const Input = ({
         onClick={handleClickShowPassword}
         // onMouseDown={handleMouseDownPassword}
         edge="end">
-        {showPassword ? <VisibilityOff /> : <Visibility />}
+        {showPassword ? <Icons.VisibilityOff /> : <Icons.Visibility />}
       </IconButton>
     )
   }
@@ -71,12 +71,12 @@ const Input = ({
         onBlur={e => setShrink(!!e.target.value)}
         InputLabelProps={{
           className: 'font-GMX font-semibold text-sm',
-          sx: { ml: icon ? 4.5 : '' },
+          sx: { ml: IconComponent ? 4.5 : '' },
           shrink,
         }}
         sx={theme => ({
           '& .MuiOutlinedInput-notchedOutline': {
-            px: icon ? 5.5 : '',
+            px: IconComponent ? 5.5 : '',
           },
         })}
         inputProps={{
@@ -99,13 +99,13 @@ const Input = ({
         multiline={multiline}
         fullWidth={fullWidth}
         InputProps={{
-          startAdornment: icon && iconPosition === 'start' && (
-            <InputAdornment position="start">{icon}</InputAdornment>
+          startAdornment: IconComponent && iconPosition === 'start' && (
+            <InputAdornment position="start"><IconComponent/></InputAdornment>
           ),
-          endAdornment: icon &&
+          endAdornment: IconComponent &&
             (iconPosition === 'end' || type === 'password') && (
               <InputAdornment position="end">
-                {type === 'password' ? passwordIcon() : icon}
+                {type === 'password' ? passwordIcon() : <IconComponent/>}
               </InputAdornment>
             ),
         }}

@@ -4,9 +4,6 @@ import PropTypes from 'prop-types'
 
 import ButtonMUI from '@mui/material/Button'
 
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import Colors from '@/assets/colors'
-
 const Button = ({
   className = '',
   fullWidth = true,

@@ -9,7 +9,7 @@ import {
   ListItemText,
   Collapse,
 } from '@mui/material'
-import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import Icons from '@/assets/icons'
 
 const SubMenuItem = ({ section }) => {
   const [open, setOpen] = useState(false)
@@ -26,7 +26,7 @@ const SubMenuItem = ({ section }) => {
 
   const showExpand = length => {
     if (length === 0) return
-    return open ? <ExpandLess /> : <ExpandMore />
+    return open ? <Icons.ExpandLess /> : <Icons.ExpandMore />
   }
 
   return (

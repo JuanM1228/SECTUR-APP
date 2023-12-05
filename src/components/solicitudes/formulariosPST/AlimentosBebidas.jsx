@@ -6,7 +6,7 @@ import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 
 import { validate } from '@/utils/validation'
-import { INIT_ALIMENTOS_BEBIDAS } from '@/utils/constants'
+import { INIT_ALIMENTOS_BEBIDAS, STEP_ENUM } from '@/utils/constants'
 
 const AlimentosBebidas = ({
   step,
@@ -41,7 +41,7 @@ const AlimentosBebidas = ({
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 4 ? '' : 'hide'
+        step === STEP_ENUM.DETALLES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
