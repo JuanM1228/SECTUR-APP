@@ -1,8 +1,6 @@
 const API_URL = `${process.env.ENV_URL}/api`
 export default API_URL
 
-export const GENERIC_DETAILS_PST_ARRAY = [2, 5, 6, 7, 8, 10, 13, 14, 16, 18]
-
 export const INIT_DATA_REGISTER_USER = {
   name: '',
   paternalSurname: '',
@@ -106,8 +104,105 @@ export const INIT_ARRENDADORA_AUTOS = {
 export const INIT_OPERADORA_BUCEO = {
   nombreMatriz: '',
   domicilio: '',
-  telefono: null,
-  tipoEstablecimiento: null,
-  numeroSucursales: null,
+  telefono: '',
+  tipoEstablecimiento: 0,
+  numeroSucursales: '',
   afiliaciones: '',
 }
+
+export const HOSPEDAJE_INIT_DATA = {
+  distincionSelected: null,
+  porcentajeMercadoNacional: '',
+  porcentajeMercadoExtrenjero: '',
+  clasificacionObtenidaSelected: null,
+  folioDeClasificacion: '',
+  tipoDeAlojamientoList: [],
+  tipoDeHospedajeList: [],
+  ubicacionSelected: null,
+  serviciosAdicionalesList: [],
+}
+
+export const OPERADORA_MARINA_INIT_DATA = {
+  superficieTerrestre: '',
+  superficieTotal: '',
+  superficieAcuatica: '',
+  espaciosAtraqueSelected: null,
+  espaciosFondoSelected: null,
+  serviciosAdicionalesList: [],
+  instalacionesOfrecidasList: [],
+}
+
+export const TIEMPOS_COMPARTIDOS_INIT_DATA = {
+  ubicacionSelected: null,
+  tipoOperacionSelected: null,
+  nombreComercial: '',
+  categoria: '',
+  mercadoNacional: '',
+  mercadoExtranjero: '',
+  serviciosAdicionalesList: [],
+}
+
+export const TRANSPORTISTA_TURISTICO_INIT_DATA = {
+  tipoEstablecimientoSelected: null,
+  tipoServicioSelected: null,
+  numSucursales: '',
+  nombreMatriz: '',
+  direcionMatriz: '',
+  numDeGuias: '',
+}
+
+/**
+ * Enumerates the steps for a multi-step process.
+ * @enum {number}
+ */
+export const STEP_ENUM = {
+  DATOS_GENERALES: 0,
+  DOMICILIO: 1,
+  CONTACTO: 2,
+  INFO_LEGAL: 3,
+  DETALLES: 4, // TODO: Verificar si es necesario
+}
+
+/**
+ * Enumerates the types of establishments for the PST process.
+ * @enum {number}
+ */
+export const PST_ENUM = {
+  GENERICO: 0, // Default value, it's not a valid PST type
+  AGENCIA_VIAJES: 1,
+  AGENCIA_SERVICIOS: 2,
+  ALIMENTOS_Y_BEBIDAS: 3,
+  ARRENDADORA_AUTOS: 4,
+  BALNEARIO_ACUATICO: 5,
+  CAMPO_GOLF: 6,
+  SALVAVIDA: 7,
+  GUIA_TURISTICO: 8,
+  HOSPEDAJE: 9,
+  OPERADORA_NATURALEZA: 10,
+  OPERADORA_BUCEO: 11,
+  OPERADORA_MARINA: 12,
+  PARQUE_TEMATICO: 13,
+  SPA: 14,
+  TIEMPOS_COMPARTIDOS: 15,
+  TOUR_OPERADOR: 16,
+  TRANSPORTISTA_TURISTICO: 17,
+  VUELO_EN_GLOBO: 18,
+}
+
+/**
+ * Array containing generic details of PST categories.
+ * @type {Array<PST_ENUM>}
+ */
+export const GENERIC_DETAILS_PST_LIST = [
+  PST_ENUM.GENERICO, // Default value
+  PST_ENUM.AGENCIA_SERVICIOS,
+  PST_ENUM.BALNEARIO_ACUATICO,
+  PST_ENUM.CAMPO_GOLF,
+  PST_ENUM.SALVAVIDA,
+  PST_ENUM.GUIA_TURISTICO,
+  PST_ENUM.OPERADORA_NATURALEZA,
+  PST_ENUM.PARQUE_TEMATICO,
+  PST_ENUM.SPA,
+  PST_ENUM.TOUR_OPERADOR,
+  PST_ENUM.VUELO_EN_GLOBO,
+]

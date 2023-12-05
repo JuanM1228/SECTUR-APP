@@ -1,12 +1,10 @@
 'use client'
 import React, { useState } from 'react'
 
-import Input from '../common/Input'
 import Button from '../common/Button'
-import Dropdown from '../common/Dropdown'
 
 import { validate } from '@/utils/validation'
-import { INIT_DATOS_GENERALES } from '@/utils/constants'
+import { INIT_DATOS_GENERALES, STEP_ENUM } from '@/utils/constants'
 
 const Detalles = ({
   step,
@@ -44,7 +42,7 @@ const Detalles = ({
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 4 ? '' : 'hide'
+        step === STEP_ENUM.DETALLES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLES PST</h1>

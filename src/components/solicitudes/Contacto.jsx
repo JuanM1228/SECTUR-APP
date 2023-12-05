@@ -5,7 +5,7 @@ import Input from '../common/Input'
 import Button from '../common/Button'
 
 import { validate } from '@/utils/validation'
-import { INIT_CONTACTO } from '@/utils/constants'
+import { INIT_CONTACTO, STEP_ENUM } from '@/utils/constants'
 
 const Contacto = ({
   step,
@@ -37,7 +37,7 @@ const Contacto = ({
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 2 ? '' : 'hide'
+        step === STEP_ENUM.CONTACTO ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">CONTACTO</h1>

@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { useTheme } from '@mui/material/styles'
 import MobileStepper from '@mui/material/MobileStepper'
 import Button from './Button'
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 
 function Stepper({ steps }) {
   const theme = useTheme()

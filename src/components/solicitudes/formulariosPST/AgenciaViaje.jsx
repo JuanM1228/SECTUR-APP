@@ -7,7 +7,7 @@ import Dropdown from '@/components/common/Dropdown'
 import DatePickerCustom from '@/components/common/DatePicker'
 
 import { validate } from '@/utils/validation'
-import { INIT_AGENCIA_VIAJES } from '@/utils/constants'
+import { INIT_AGENCIA_VIAJES, STEP_ENUM } from '@/utils/constants'
 
 const AgenciaViaje = ({
   step,
@@ -39,7 +39,7 @@ const AgenciaViaje = ({
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 4 ? '' : 'hide'
+        step === STEP_ENUM.DETALLES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>

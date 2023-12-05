@@ -6,7 +6,7 @@ import Button from '../common/Button'
 import Dropdown from '../common/Dropdown'
 
 import { validate } from '@/utils/validation'
-import { INIT_DATOS_GENERALES } from '@/utils/constants'
+import { INIT_DATOS_GENERALES, STEP_ENUM } from '@/utils/constants'
 
 const DatosGenerales = ({
   step,
@@ -45,7 +45,7 @@ const DatosGenerales = ({
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === 0 ? '' : 'hide'
+        step === STEP_ENUM.DATOS_GENERALES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DATOS GENERALES</h1>
