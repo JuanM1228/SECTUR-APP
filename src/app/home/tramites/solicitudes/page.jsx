@@ -19,7 +19,7 @@ import Icons from '@/assets/icons'
 import { GENERIC_DETAILS_PST_ARRAY } from '@/utils/constants'
 
 const Solicitudes = () => {
-  const [step, setStep] = useState(4)
+  const [step, setStep] = useState(0)
 
   const [register, setRegister] = useState({
     datosGenerales: null,

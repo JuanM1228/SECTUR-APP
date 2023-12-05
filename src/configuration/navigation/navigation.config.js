@@ -16,7 +16,7 @@ export const NAVIGATION_CONFIG = [
       {
         key: 'tramitesEnProceso',
         path: null,
-        title: 'TRÁMITES EN PROCESO',
+        title: 'Trámites en proceso',
         icon: null,
         authority: [],
         subMenu: [],
@@ -48,7 +48,7 @@ export const NAVIGATION_CONFIG = [
     subMenu: [
       {
         key: 'solicitudes',
-        path: null,
+        path: '/home/tramites/solicitudes',
         title: 'Solicitudes',
         icon: null,
         authority: [],
@@ -171,7 +171,7 @@ export const NAVIGATION_CONFIG = [
     subMenu: [
       {
         key: 'edicionDeCatalogos',
-        path: null,
+        path: '/home/catalogos',
         title: 'Edición de catálogos',
         icon: null,
         authority: [],

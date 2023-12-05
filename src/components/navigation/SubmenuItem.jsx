@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import {
   List,
@@ -12,11 +13,15 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material'
 
 const SubMenuItem = ({ section }) => {
   const [open, setOpen] = useState(false)
-
+  const router = useRouter()
   const { subMenu } = section
 
   const onHandleClick = () => {
     setOpen(!open)
+    console.log(section.path)
+    if (section.path) {
+      router.push(section.path)
+    }
   }
 
   const showExpand = length => {

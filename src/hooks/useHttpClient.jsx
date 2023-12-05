@@ -14,81 +14,78 @@ export const useHttpClient = () => {
 
   const activeHttpRequests = useRef([])
 
-  const sendRequest = useCallback(
-    async (url, reqOptions) => {
-      setIsLoading(true)
-      const httpAbortController = new AbortController()
-      activeHttpRequests.current.push(httpAbortController)
+  const sendRequest = useCallback(async (url, reqOptions) => {
+    setIsLoading(true)
+    const httpAbortController = new AbortController()
+    activeHttpRequests.current.push(httpAbortController)
 
-      let fetchUrl = url
-      // let fetchUrl = `${API_URL}${url}`
-      const reqParams = {
-        method: reqOptions?.method ?? GET_METHOD,
-        signal: httpAbortController.signal,
+    let fetchUrl = url
+    // let fetchUrl = `${API_URL}${url}`
+    const reqParams = {
+      method: reqOptions?.method ?? GET_METHOD,
+      signal: httpAbortController.signal,
+    }
+
+    if (reqParams?.method !== GET_METHOD) {
+      reqParams.headers = { 'Content-Type': 'application/json' }
+      reqParams.body = JSON.stringify(reqOptions?.body) ?? null
+    }
+
+    if (reqOptions?.file) {
+      reqParams.body = reqOptions.file
+    }
+
+    if (reqOptions?.isAuth ?? true) {
+      // const { accessToken } = await getAccessToken()
+      // reqParams.headers.Authorization = `Bearer ${accessToken}`
+    }
+
+    if (reqOptions?.params) {
+      const urlParams = reqOptions.params
+      const newUrl = new URL(fetchUrl)
+      for (const key in urlParams) {
+        newUrl.searchParams.append(key, urlParams[key])
+      }
+      fetchUrl = newUrl.toString()
+    }
+
+    console.log('%cRequest url: ', 'color: green', url)
+    console.log('\tOptions: ', reqOptions)
+    console.log('\tOptions: ', reqParams)
+
+    try {
+      const response = await fetch(url, reqParams)
+      const data = await response.json()
+      console.log('\tResponse: ', data)
+      activeHttpRequests.current = activeHttpRequests.current.filter(
+        reqControl => reqControl !== httpAbortController,
+      )
+
+      // if (data.unAuthorizedRequest) {
+      //   const isTokenRefresh = await autoRefreshToken()
+      //   if (!isTokenRefresh || retry > MAX_RETRY_ATTEMPTS) {
+      //     logOutUser()
+      //   } else {
+      //     retry++
+      //     await sendRequest(url, method, isAuth, headers, body, retry)
+      //   }
+      // }
+      console.log('res', response)
+      if (!response.ok) {
+        const errorMessage = data?.error?.message ?? data.message
+        throw new Error(errorMessage)
       }
 
-      if (reqParams?.method !== GET_METHOD) {
-        reqParams.headers = { 'Content-Type': 'application/json' }
-        reqParams.body = JSON.stringify(reqOptions?.body) ?? null
-      }
+      setIsLoading(false)
 
-      if (reqOptions?.file) {
-        reqParams.body = reqOptions.file
-      }
-
-      if (reqOptions?.isAuth ?? true) {
-        // const { accessToken } = await getAccessToken()
-        // reqParams.headers.Authorization = `Bearer ${accessToken}`
-      }
-
-      if (reqOptions?.params) {
-        const urlParams = reqOptions.params
-        const newUrl = new URL(fetchUrl)
-        for (const key in urlParams) {
-          newUrl.searchParams.append(key, urlParams[key])
-        }
-        fetchUrl = newUrl.toString()
-      }
-
-      console.log('%cRequest url: ', 'color: green', url)
-      console.log('\tOptions: ', reqOptions)
-      console.log('\tOptions: ', reqParams)
-
-      try {
-        const response = await fetch(url, reqParams)
-        const data = await response.json()
-        console.log('\tResponse: ', data)
-        activeHttpRequests.current = activeHttpRequests.current.filter(
-          reqControl => reqControl !== httpAbortController,
-        )
-
-        // if (data.unAuthorizedRequest) {
-        //   const isTokenRefresh = await autoRefreshToken()
-        //   if (!isTokenRefresh || retry > MAX_RETRY_ATTEMPTS) {
-        //     logOutUser()
-        //   } else {
-        //     retry++
-        //     await sendRequest(url, method, isAuth, headers, body, retry)
-        //   }
-        // }
-
-        if (!response.ok) {
-          const errorMessage = data?.error?.message ?? data.message
-          throw new Error(errorMessage)
-        }
-
-        setIsLoading(false)
-
-        return data
-      } catch (err) {
-        console.log('\tError: ', err)
-        setError(err.message)
-        setIsLoading(false)
-        throw new Error(err.message)
-      }
-    },
-    [],
-  )
+      return data
+    } catch (err) {
+      console.log('\tError: ', err)
+      setError(err.message)
+      setIsLoading(false)
+      throw new Error(err.message)
+    }
+  }, [])
 
   const clearError = () => {
     setError(null)

@@ -24,6 +24,21 @@ const DatosGenerales = ({
     setData({ ...data, [name]: value })
   }
 
+  // const getEstados = () => {
+  //   const url = `http://34.29.98.230:3002/api/configuration/menu-user/${profile.email}`
+  //   try {
+  //     const res = await sendRequest(url)
+  //     if (res.success) {
+  //       console.log('paso', res.result.data)
+  //       // setMenu(res.result.data)
+  //     } else {
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error)
+  //     // showErrorMessage()
+  //   }
+  // }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const { hasError, errors } = validate.datosGeneralesForm(data)

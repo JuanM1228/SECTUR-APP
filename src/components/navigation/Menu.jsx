@@ -1,4 +1,7 @@
-import React from 'react'
+'use client'
+import React, { useState, useEffect } from 'react'
+import { useAuthStore } from '@/store/auth'
+import { useHttpClient } from '@/hooks/useHttpClient'
 
 import { List } from '@mui/material'
 import { Close } from '@mui/icons-material'
@@ -7,6 +10,29 @@ import { NAVIGATION_CONFIG } from '@/configuration/navigation/navigation.config'
 import MenuItem from './MenuItem'
 
 const Menu = ({ openMenu, setOpenMenu }) => {
+  const { profile } = useAuthStore()
+  const { sendRequest, isLoading } = useHttpClient()
+  const [menu, setMenu] = useState([])
+
+  useEffect(() => {
+    getMenu()
+  }, [])
+
+  const getMenu = async () => {
+    const url = `http://34.29.98.230:3002/api/configuration/menu-user/${profile.email}`
+    try {
+      const res = await sendRequest(url)
+      if (res.success) {
+        console.log('paso', res.result.data)
+        setMenu(res.result.data)
+      } else {
+      }
+    } catch (error) {
+      console.log('error', error)
+      // showErrorMessage()
+    }
+  }
+
   return (
     <div
       className={`w-full sm:w-64 h-screen bg-white shadow-[2px_3px_9px_0px_rgba(0,0,0,0.1)] overflow-y-auto t-ease z-40 ${
@@ -26,7 +52,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
 
       <nav>
         <List component="nav" aria-labelledby="nested-list-subheader">
-          {NAVIGATION_CONFIG.map(section => (
+          {menu.map(section => (
             <MenuItem key={section.key} section={section}>
               <MenuItem />
             </MenuItem>

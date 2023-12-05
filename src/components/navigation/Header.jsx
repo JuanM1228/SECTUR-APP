@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import { useAuthStore } from '@/store/auth'
 
 import Image from 'next/image'
 import { Avatar } from '@mui/material'
@@ -8,6 +9,8 @@ import { Menu } from '@mui/icons-material'
 import Images from '@/assets/images'
 
 const Header = ({ setOpenMenu, openMenu }) => {
+  const { profile } = useAuthStore()
+
   return (
     <header className="flex flex-col t-ease sticky top-0 z-30">
       <div className=" flex justify-between items-center h-14 bg-blueDianne px-6 ">
@@ -24,7 +27,7 @@ const Header = ({ setOpenMenu, openMenu }) => {
         </section>
         <section className="flex justify-center items-center gap-6">
           <h6 className="text-merino font-GMX font-bold hidden sm:block">
-            Juan Manuel Herrera
+            {profile.email}
           </h6>
           <Avatar src="https://pbs.twimg.com/media/Dr-HXjWVYAEYHNM.jpg" />
         </section>
