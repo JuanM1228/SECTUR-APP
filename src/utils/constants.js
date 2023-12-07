@@ -116,8 +116,8 @@ export const HOSPEDAJE_INIT_DATA = {
   porcentajeMercadoExtrenjero: '',
   clasificacionObtenidaSelected: null,
   folioDeClasificacion: '',
-  tipoDeAlojamientoList: [],
-  tipoDeHospedajeList: [],
+  tiposDeAlojamientoList: [],
+  tiposDeHospedajeList: [],
   ubicacionSelected: null,
   serviciosAdicionalesList: [],
 }

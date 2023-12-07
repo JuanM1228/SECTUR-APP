@@ -81,7 +81,7 @@ export default PSTHandler
 //       {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
 //         <DetalleGenerico
 //           step={step}
-//           dataPst={register.detallePst}
+//           dataPst={register.detallesPST}
 //           nextStep={onNextStepHandler}
 //           backStep={onBackStepHandler}
 //           register={register}
@@ -91,7 +91,7 @@ export default PSTHandler
 //       {tipoPST === PST_ENUM.AGENCIA_VIAJES && (
 //         <AgenciaViaje
 //           step={step}
-//           dataPst={register.detallePst}
+//           dataPst={register.detallesPST}
 //           nextStep={onNextStepHandler}
 //           backStep={onBackStepHandler}
 //           register={register}
@@ -101,7 +101,7 @@ export default PSTHandler
 //       {tipoPST === PST_ENUM.ALIMENTOS_Y_BEBIDAS && (
 //         <AlimentosBebidas
 //           step={step}
-//           dataPst={register.detallePst}
+//           dataPst={register.detallesPST}
 //           nextStep={onNextStepHandler}
 //           backStep={onBackStepHandler}
 //           register={register}
@@ -111,7 +111,7 @@ export default PSTHandler
 //       {tipoPST === PST_ENUM.ARRENDADORA_AUTOS && (
 //         <ArrendadoraAutos
 //           step={step}
-//           dataPst={register.detallePst}
+//           dataPst={register.detallesPST}
 //           nextStep={onNextStepHandler}
 //           backStep={onBackStepHandler}
 //           register={register}
@@ -121,7 +121,7 @@ export default PSTHandler
 //       {tipoPST === PST_ENUM.OPERADORA_BUCEO && (
 //         <OperadoraBuceo
 //           step={step}
-//           dataPst={register.detallePst}
+//           dataPst={register.detallesPST}
 //           nextStep={onNextStepHandler}
 //           backStep={onBackStepHandler}
 //           register={register}

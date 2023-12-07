@@ -6,6 +6,7 @@ import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 
 import { HOSPEDAJE_INIT_DATA, STEP_ENUM } from '@/utils/constants'
+import CheckboxForm from '@/components/common/CheckboxForm'
 
 const distioncionData = [
   { value: 1, title: 'Distintivo H' },
@@ -37,6 +38,18 @@ const ubicacionData = [
   { value: 11, title: 'Terminal Marítima' },
 ]
 
+const sampleData = [
+  { key: 1, value: 'Bungalows' },
+  { key: 2, value: 'Cabañas' },
+  { key: 3, value: 'Campamento' },
+  { key: 4, value: 'Casa de Huéspedes' },
+  { key: 5, value: 'Hotel' },
+  { key: 6, value: 'Motel' },
+  { key: 7, value: 'Suite' },
+  { key: 8, value: 'Trailer Park' },
+  { key: 9, value: 'Villas' },
+]
+
 const Hospedaje = ({
   step,
   dataPst,
@@ -46,18 +59,27 @@ const Hospedaje = ({
   setRegister,
 }) => {
   const [data, setData] = useState(dataPst ? dataPst : HOSPEDAJE_INIT_DATA)
-  const [dateStart, setDateStart] = useState(null)
+
+  const [checkedItems, setCheckedItems] = React.useState({
+    gilad: true,
+    jason: false,
+    antoine: false,
+  })
+
+  const handleChange = event => {
+    setCheckedItems({
+      ...checkedItems,
+      [event.target.name]: event.target.checked,
+    })
+  }
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
-    if (name === 'horaApertura') {
-      setDateStart(value)
-    }
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    setRegister({ ...register, detallePst: data })
+    setRegister({ ...register, detallesPST: data })
     console.log(data)
     // TODO: Add validation and next step handler
     // nextStep()
@@ -120,6 +142,13 @@ const Hospedaje = ({
           onChange={onHandleChange}
         />
       </section>
+      <CheckboxForm
+        title="Tipos de alojamiento"
+        helperText="Selecciona los tipos de alojamiento que van de acuerdo con el servicio que ofreces"
+        options={sampleData}
+        checkedItems={checkedItems}
+        handleChange={handleChange}
+      />
       {/* TODO: Add Tipos de alojamiento CheckBox */}
       {/* TODO: Add Tipos de hospedaje CheckBox */}
       {/* TODO: Add Servicios adicionales CheckBox */}

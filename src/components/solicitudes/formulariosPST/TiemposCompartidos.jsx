@@ -31,18 +31,14 @@ const TiemposCompartidos = ({
   const [data, setData] = useState(
     dataPst ? dataPst : TIEMPOS_COMPARTIDOS_INIT_DATA,
   )
-  const [dateStart, setDateStart] = useState(null)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
-    if (name === 'horaApertura') {
-      setDateStart(value)
-    }
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    setRegister({ ...register, detallePst: data })
+    setRegister({ ...register, detallesPST: data })
     console.log(data)
     // TODO: Add validation and next step handler
     // nextStep()
