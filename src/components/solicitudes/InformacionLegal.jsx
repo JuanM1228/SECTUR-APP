@@ -26,6 +26,7 @@ const InformacionLegal = ({
 
   const onSubmitHandler = async e => {
     e.preventDefault()
+    // TODO: Add dates validation. Now hasError is true due date validation is not implemented
     const { hasError, errors } = validate.infoLegalForm(data)
     if (hasError) {
       setError(errors)

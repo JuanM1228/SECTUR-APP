@@ -27,7 +27,14 @@ const theme = createTheme({
 })
 
 const CheckboxForm = props => {
-  const { title, helperText, options, checkedItems, handleChange } = props
+  const {
+    title = '',
+    helperText = '',
+    options,
+    checkedItems,
+    handleChange,
+    name,
+  } = props
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,7 +53,7 @@ const CheckboxForm = props => {
               control={
                 <Checkbox
                   checked={checkedItems[option.key] || false}
-                  onChange={handleChange}
+                  onChange={e => handleChange(e, name)}
                   name={option.key}
                 />
               }
@@ -71,11 +78,6 @@ CheckboxForm.propTypes = {
   ).isRequired,
   checkedItems: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
-}
-
-CheckboxForm.defaultProps = {
-  title: '',
-  helperText: '',
 }
 
 export default CheckboxForm

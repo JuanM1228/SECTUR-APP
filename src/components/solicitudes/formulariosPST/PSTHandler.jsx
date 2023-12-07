@@ -64,10 +64,6 @@ export default PSTHandler
 //   onBackStepHandler: PropTypes.func.isRequired,
 // }
 
-// PSTHandler.defaultProps = {
-//   step: 0,
-// }
-
 // const PSTHandler2 = ({
 //   step,
 //   tipoPST,
@@ -138,14 +134,6 @@ export default PSTHandler
 //   setRegister: PropTypes.func,
 //   onNextStepHandler: PropTypes.func,
 //   onBackStepHandler: PropTypes.func,
-// }
-
-// PSTHandler2.defaultProps = {
-//   step: 0,
-//   tipoPST: PST_ENUM.GENERICO,
-//   setRegister: () => {},
-//   onNextStepHandler: () => {},
-//   onBackStepHandler: () => {},
 // }
 
 // export default PSTHandler

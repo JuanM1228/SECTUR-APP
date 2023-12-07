@@ -1,13 +1,14 @@
 'use client'
 import React, { useState } from 'react'
 
+import CheckboxForm from '@/components/common/CheckboxForm'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 import DatePickerCustom from '@/components/common/DatePicker'
 
-import { validate } from '@/utils/validation'
 import { INIT_AGENCIA_VIAJES, STEP_ENUM } from '@/utils/constants'
+import { getSelectedValues } from '@/utils/common'
 
 const AgenciaViaje = ({
   step,
@@ -19,21 +20,47 @@ const AgenciaViaje = ({
 }) => {
   const [data, setData] = useState(dataPst ? dataPst : INIT_AGENCIA_VIAJES)
   const [error, setError] = useState(INIT_AGENCIA_VIAJES)
+  const [checkedItems, setCheckedItems] = useState({
+    afiliacionesList: {},
+  })
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
   }
 
+  const checkboxHandler = (event, name) => {
+    setCheckedItems({
+      ...checkedItems,
+      [name]: {
+        ...checkedItems[name],
+        [event.target.name]: event.target.checked,
+      },
+    })
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
-    setRegister({ ...register, detallesPST: data })
+    const infoObject = {
+      ...data,
+      afiliacionesList: getSelectedValues(checkedItems.afiliacionesList),
+    }
+    setRegister({ ...register, detallesPST: infoObject })
     // nextStep()
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
+  const boletajeData = [
+    { value: 1, title: 'Ninguno' },
+    { value: 2, title: 'Doméstico' },
+    { value: 3, title: 'Internacional' },
+  ]
+
+  const afiliacionesData = [
+    { key: 'id1', value: 'AMAV' },
+    { key: 'id2', value: 'ASTA' },
+    { key: 'id3', value: 'COTAL' },
+    { key: 'id4', value: 'FUAV' },
+    { key: 'id5', value: 'IATA' },
+    { key: 'id6', value: 'OTURMEX' },
   ]
 
   return (
@@ -49,49 +76,44 @@ const AgenciaViaje = ({
           name="nombreNotario"
           onChange={onHandleChange}
         />
-
         <Input
           label="Número de acta constitutiva"
           name="numeroActaConstitutiva"
           type="number"
           onChange={onHandleChange}
         />
-
         <Input
           label="Número de notaría"
           name="numeroNotaria"
           type="number"
           onChange={onHandleChange}
         />
-
         <Input
           label="Lugar de expedición"
           name="lugarExpedicion"
           onChange={onHandleChange}
         />
-
         <DatePickerCustom
           label="Fecha de emisión del acta"
           name="fechaEmisionActa"
           onChange={onHandleChange}
         />
-
-        <Dropdown
-          label="Afiliaciones"
-          name="afiliaciones"
-          variant="outlined"
-          value={data.afiliaciones ? data.afiliaciones : 0}
-          options={testData}
-          onChange={onHandleChange}
-        />
-
         <Dropdown
           label="Boletaje"
           name="boletaje"
           variant="outlined"
           value={data.boletaje ? data.boletaje : 0}
-          options={testData}
+          options={boletajeData}
           onChange={onHandleChange}
+        />
+      </section>
+      <section className="grid sm:grid-cols-2 gap-6">
+        <CheckboxForm
+          title="Afiliaciones"
+          name="afiliacionesList"
+          options={afiliacionesData}
+          checkedItems={checkedItems.afiliacionesList}
+          handleChange={checkboxHandler}
         />
       </section>
 
