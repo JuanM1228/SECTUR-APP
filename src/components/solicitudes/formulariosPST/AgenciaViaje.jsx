@@ -27,7 +27,7 @@ const AgenciaViaje = ({
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallePst: data })
-    // nextStep()
+    nextStep()
   }
 
   const testData = [

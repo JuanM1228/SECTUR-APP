@@ -94,6 +94,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.email !== ''}
           helpText={error.email}
+          value={user.email}
         />
 
         <Input
@@ -104,6 +105,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.password !== ''}
           helpText={error.password}
+          value={user.password}
         />
 
         <Button content="Iniciar Sesión" type="submit" />

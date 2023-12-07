@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { TextField, InputAdornment, IconButton } from '@mui/material'
 
 import Icons from '@/assets/icons'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
 import Colors from '@/assets/colors'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 const Input = ({
   label = '',
@@ -27,6 +27,7 @@ const Input = ({
   focused = true,
   rows = 1,
   multiline = null,
+  value = '',
   onChange = () => {},
 }) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -88,6 +89,7 @@ const Input = ({
         color={setColor}
         margin={margin}
         id={id}
+        value={value}
         variant={variant}
         error={error}
         helperText={helpText}
@@ -100,12 +102,14 @@ const Input = ({
         fullWidth={fullWidth}
         InputProps={{
           startAdornment: IconComponent && iconPosition === 'start' && (
-            <InputAdornment position="start"><IconComponent/></InputAdornment>
+            <InputAdornment position="start">
+              <IconComponent />
+            </InputAdornment>
           ),
           endAdornment: IconComponent &&
             (iconPosition === 'end' || type === 'password') && (
               <InputAdornment position="end">
-                {type === 'password' ? passwordIcon() : <IconComponent/>}
+                {type === 'password' ? passwordIcon() : <IconComponent />}
               </InputAdornment>
             ),
         }}

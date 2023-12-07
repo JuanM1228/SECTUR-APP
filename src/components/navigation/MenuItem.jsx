@@ -20,17 +20,24 @@ const MenuItem = ({ section }) => {
     setOpen(!open)
   }
 
+  const CustomIcon = Icons[section.icon]
+
   return (
     <>
       <ListItemButton onClick={onHandleClick}>
-        <ListItemIcon>{section.icon}</ListItemIcon>
+        <ListItemIcon>
+          <CustomIcon />
+        </ListItemIcon>
         <ListItemText
-          primary={section.title}
-          primaryTypographyProps={{
-            className: `font-GMX text-gray ${
-              subMenu.length !== 0 ? 'font-semibold' : ''
-            }`,
-          }}
+          primary={
+            <p
+              className={`font-GMX text-gray ${
+                subMenu.length !== 0 ? 'font-semibold' : ''
+              }`}>
+              {section.title}
+            </p>
+          }
+          className="font-GMX"
         />
         {open ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
       </ListItemButton>

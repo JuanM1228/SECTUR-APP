@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import Head from 'next/head'
 import { GMX, montserrat } from '@/assets/fonts'
-
 export const metadata = {
   title: 'SECTUR',
   description: '',

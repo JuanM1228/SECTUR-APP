@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect } from 'react'
 import { useAuthStore } from '@/store/auth'
 import { useHttpClient } from '@/hooks/useHttpClient'
@@ -51,8 +50,8 @@ const Menu = ({ openMenu, setOpenMenu }) => {
       </div>
 
       <nav>
-        <List component="nav" aria-labelledby="nested-list-subheader">
-          {menu.map(section => (
+        <List>
+          {NAVIGATION_CONFIG.map(section => (
             <MenuItem key={section.key} section={section}>
               <MenuItem />
             </MenuItem>
