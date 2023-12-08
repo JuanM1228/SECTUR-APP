@@ -1,12 +1,56 @@
 'use client'
 import React, { useState } from 'react'
 
-import Input from '@/components/common/Input'
-import Button from '@/components/common/Button'
+import CheckboxForm from '@/components/common/CheckboxForm'
 import Dropdown from '@/components/common/Dropdown'
+import Button from '@/components/common/Button'
+import Input from '@/components/common/Input'
 
-import { validate } from '@/utils/validation'
 import { INIT_ALIMENTOS_BEBIDAS, STEP_ENUM } from '@/utils/constants'
+import { getSelectedValues } from '@/utils/common'
+
+const ubicacionData = [
+  { value: 1, title: 'Ninguno' },
+  { value: 2, title: 'Hotel' },
+  { value: 3, title: 'Museo' },
+  { value: 4, title: 'Terminal de transportes' },
+  { value: 5, title: 'Zona arqueológica' },
+]
+const tipoServicioData = [
+  { value: 1, title: 'Autoservicio' },
+  { value: 2, title: 'En mesa' },
+  { value: 3, title: 'Mixto' },
+]
+const espectaculoData = [
+  { value: 1, title: 'Ninguno' },
+  { value: 2, title: 'Mixto' },
+  { value: 3, title: 'Música grabada' },
+  { value: 4, title: 'Música viva' },
+]
+const especialidadesData = [
+  { value: 1, title: 'Aves' },
+  { value: 2, title: 'Carnes' },
+  { value: 3, title: 'Mixta' },
+  { value: 4, title: 'Pescados y mariscos' },
+  { value: 5, title: 'Vegetariana' },
+  { value: 6, title: 'Otra' },
+]
+const comidaData = [
+  { value: 1, title: 'Ninguno' },
+  { value: 2, title: 'Comercial' },
+  { value: 3, title: 'Internacional' },
+  { value: 4, title: 'País o Regional' },
+]
+
+const serviciosData = [
+  { key: 'id1', value: 'Aire acondicionado' },
+  { key: 'id2', value: 'Área de recepción' },
+  { key: 'id3', value: 'Estacionamiento' },
+  { key: 'id4', value: "Maitre d'" },
+  { key: 'id5', value: 'Reservaciones' },
+  { key: 'id6', value: 'Valet de estacionamiento' },
+]
+// Llena ubicacionData, siguiendo la estructura de distioncionData, pero remplaza los valores de title por los siguientes valores: HOTEL,MUSEO,NINGUNO,TERMINAL DE TRANSPORTES,ZONA ARQUEOLÓGICA. Usa maysculas solo en la primera letra o en donde sea necesario segun la buena ortografia del español
 
 const AlimentosBebidas = ({
   step,
@@ -17,19 +61,34 @@ const AlimentosBebidas = ({
   setRegister,
 }) => {
   const [data, setData] = useState(dataPst ? dataPst : INIT_ALIMENTOS_BEBIDAS)
-  const [dateStart, setDateStart] = useState(null)
+
+  const [checkedItems, setCheckedItems] = useState({
+    serviciosAdicionalesList: {},
+  })
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
-    if (name === 'horaApertura') {
-      setDateStart(value)
-    }
+  }
+
+  const checkboxHandler = (event, name) => {
+    setCheckedItems({
+      ...checkedItems,
+      [name]: {
+        ...checkedItems[name],
+        [event.target.name]: event.target.checked,
+      },
+    })
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    setRegister({ ...register, detallePst: data })
-    console.log(data)
+    const infoObject = {
+      ...data,
+      serviciosAdicionalesList: getSelectedValues(
+        checkedItems.serviciosAdicionalesList,
+      ),
+    }
+    setRegister({ ...register, detallesPST: infoObject })
     // nextStep()
   }
 
@@ -45,80 +104,63 @@ const AlimentosBebidas = ({
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
-
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
           label="Tipo de servicio"
           name="tipoDeServicio"
           variant="outlined"
           value={data.tipoDeServicio ? data.tipoDeServicio : 0}
-          options={testData}
+          options={tipoServicioData}
           onChange={onHandleChange}
         />
-
         <Dropdown
           label="Espectáculo"
           name="espectaculo"
           variant="outlined"
           value={data.espectaculo ? data.espectaculo : 0}
-          options={testData}
+          options={espectaculoData}
           onChange={onHandleChange}
         />
-
         <Dropdown
           label="Especialidades"
           name="especialidades"
           variant="outlined"
           value={data.especialidades ? data.especialidades : 0}
-          options={testData}
+          options={especialidadesData}
           onChange={onHandleChange}
         />
-
         <Dropdown
           label="Tipos de comida"
           name="tiposDeComida"
           variant="outlined"
           value={data.tiposDeComida ? data.tiposDeComida : 0}
-          options={testData}
+          options={comidaData}
           onChange={onHandleChange}
         />
-
         <Input
           label="Número de cajones"
           name="numeroDeCajones"
           type="number"
           onChange={onHandleChange}
         />
-
         <Input
           label="Mercado extranjero"
           name="mercadoExtranjero"
           type="number"
           onChange={onHandleChange}
         />
-
         <Input
           label="Mercado nacional"
           name="mercadoNacional"
           type="number"
           onChange={onHandleChange}
         />
-
-        <Dropdown
-          label="Servicios adicionales"
-          name="serviciosAdicionales"
-          variant="outlined"
-          value={data.serviciosAdicionales ? data.serviciosAdicionales : 0}
-          options={testData}
-          onChange={onHandleChange}
-        />
-
         <Dropdown
           label="Ubicación"
           name="ubicacion"
           variant="outlined"
           value={data.ubicacion ? data.ubicacion : 0}
-          options={testData}
+          options={ubicacionData}
           onChange={onHandleChange}
         />
       </section>
@@ -130,7 +172,15 @@ const AlimentosBebidas = ({
         multiline
         onChange={onHandleChange}
       />
-
+      <section className="grid sm:grid-cols-2 gap-6">
+        <CheckboxForm
+          title="Servicios adicionales"
+          name="serviciosAdicionalesList"
+          options={serviciosData}
+          checkedItems={checkedItems.serviciosAdicionalesList}
+          handleChange={checkboxHandler}
+        />
+      </section>
       <div className=" flex gap-6 justify-between">
         <Button
           content="Regresar"

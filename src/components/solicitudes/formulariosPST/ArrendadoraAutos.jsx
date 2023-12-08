@@ -16,18 +16,14 @@ const ArrendadoraAutos = ({
   setRegister,
 }) => {
   const [data, setData] = useState(dataPst ? dataPst : INIT_ARRENDADORA_AUTOS)
-  const [dateStart, setDateStart] = useState(null)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
-    if (name === 'horaApertura') {
-      setDateStart(value)
-    }
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    setRegister({ ...register, detallePst: data })
+    setRegister({ ...register, detallesPST: data })
     console.log(data)
     // nextStep()
   }

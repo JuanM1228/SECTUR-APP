@@ -66,7 +66,7 @@ export const INIT_AGENCIA_VIAJES = {
   numeroNotaria: null,
   lugarExpedicion: '',
   fechaEmisionActa: '',
-  afiliaciones: null,
+  afiliacionesList: [],
   boletaje: null,
 }
 
@@ -87,7 +87,7 @@ export const INIT_ALIMENTOS_BEBIDAS = {
   numeroDeCajones: null,
   mercadoExtranjero: null,
   mercadoNacional: null,
-  serviciosAdicionales: null,
+  serviciosAdicionalesList: [],
   ubicacion: null,
   descripcionUbicacion: '',
 }
@@ -116,8 +116,8 @@ export const HOSPEDAJE_INIT_DATA = {
   porcentajeMercadoExtrenjero: '',
   clasificacionObtenidaSelected: null,
   folioDeClasificacion: '',
-  tipoDeAlojamientoList: [],
-  tipoDeHospedajeList: [],
+  tiposDeAlojamientoList: [],
+  tiposDeHospedajeList: [],
   ubicacionSelected: null,
   serviciosAdicionalesList: [],
 }
@@ -129,7 +129,7 @@ export const OPERADORA_MARINA_INIT_DATA = {
   espaciosAtraqueSelected: null,
   espaciosFondoSelected: null,
   serviciosAdicionalesList: [],
-  instalacionesOfrecidasList: [],
+  instalacionesList: [],
 }
 
 export const TIEMPOS_COMPARTIDOS_INIT_DATA = {

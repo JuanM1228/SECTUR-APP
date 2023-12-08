@@ -21,18 +21,14 @@ const OperadoraBuceo = ({
   setRegister,
 }) => {
   const [data, setData] = useState(dataPst ? dataPst : INIT_OPERADORA_BUCEO)
-  const [dateStart, setDateStart] = useState(null)
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
-    if (name === 'horaApertura') {
-      setDateStart(value)
-    }
   }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    setRegister({ ...register, detallePst: data })
+    setRegister({ ...register, detallesPST: data })
     // TODO: Add validation and next step handler
     console.log(data)
     // nextStep()
