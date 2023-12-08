@@ -6,7 +6,7 @@ import { unstable_noStore as noStore } from 'next/cache'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Pagination } from '@mui/material'
 import { DataGrid, esES } from '@mui/x-data-grid'
-import Colors from '@/assets/colors'
+import colors from '@/assets/colors'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
@@ -19,10 +19,10 @@ const theme = createTheme(
   {
     palette: {
       primary: {
-        main: Colors.bigDipORuby,
+        main: colors.bigDipORuby,
       },
       secondary: {
-        main: Colors.gray,
+        main: colors.gray,
       },
     },
   },

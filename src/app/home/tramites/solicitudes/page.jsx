@@ -86,7 +86,7 @@ const Solicitudes = () => {
     domicilio: null,
     contacto: null,
     informacionLegal: null,
-    detallePst: null,
+    detallesPST: null,
   })
   const onNextStepHandler = () => setStep(step + 1)
 
@@ -98,7 +98,7 @@ const Solicitudes = () => {
   }
 
   const tipoPST = register.datosGenerales?.tipoPST
-  // const tipoPST = PST_ENUM.TRANSPORTISTA_TURISTICO
+  // const tipoPST = PST_ENUM.HOSPEDAJE
 
   return (
     <div className="h-[calc(100vh-5rem)] flex flex-col justify-start  sm:items-center ">
@@ -144,7 +144,7 @@ const Solicitudes = () => {
       {/* TODO: Add PSTHandler */}
       {/* <PSTHandler
         step={step}
-        dataPst={register.detallePst}
+        dataPst={register.detallesPST}
         nextStep={onNextStepHandler}
         backStep={onBackStepHandler}
         register={register}
@@ -154,7 +154,7 @@ const Solicitudes = () => {
       {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
         <DetalleGenerico
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -164,7 +164,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.AGENCIA_VIAJES && (
         <AgenciaViaje
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -174,7 +174,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.ALIMENTOS_Y_BEBIDAS && (
         <AlimentosBebidas
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -184,7 +184,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.ARRENDADORA_AUTOS && (
         <ArrendadoraAutos
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -194,7 +194,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.HOSPEDAJE && (
         <Hospedaje
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -204,7 +204,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.OPERADORA_BUCEO && (
         <OperadoraBuceo
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -214,7 +214,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.OPERADORA_MARINA && (
         <OperadoraMarina
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -224,7 +224,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.TIEMPOS_COMPARTIDOS && (
         <TiemposCompartidos
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
@@ -234,7 +234,7 @@ const Solicitudes = () => {
       {tipoPST === PST_ENUM.TRANSPORTISTA_TURISTICO && (
         <TransportistaTuristico
           step={step}
-          dataPst={register.detallePst}
+          dataPst={register.detallesPST}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}

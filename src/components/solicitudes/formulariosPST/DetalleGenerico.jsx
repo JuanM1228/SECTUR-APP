@@ -29,7 +29,7 @@ const DetalleGenerico = ({
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    setRegister({ ...register, detallePst: data })
+    setRegister({ ...register, detallesPST: data })
     console.log(data)
     // nextStep()
   }
