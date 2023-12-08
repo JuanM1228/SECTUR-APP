@@ -178,10 +178,10 @@ const infoLegalForm = data => {
   if (!hasText(data.puestoDelSolicitante)) {
     err.puestoDelSolicitante = 'Ingrese un puesto de solicitante'
   }
-  if (!hasText(data.fechaDeSolicitud)) {
+  if (!(data.fechaDeSolicitud instanceof Date)) {
     err.fechaDeSolicitud = 'Ingrese una fecha de solicitud'
   }
-  if (!hasText(data.fechaIngresoSECTUR)) {
+  if (!(data.fechaIngresoSECTUR instanceof Date)) {
     err.fechaIngresoSECTUR = 'Ingrese una fecha de ingreso a SECTUR'
   }
 

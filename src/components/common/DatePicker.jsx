@@ -16,6 +16,7 @@ const DatePickerCustom = ({
   disabled = false,
   color,
   size = 'small',
+  value = '',
   onChange = () => {},
 }) => {
   const theme = createTheme({
@@ -30,8 +31,9 @@ const DatePickerCustom = ({
   })
 
   const onHandleChange = e => {
-    const value = Date(e.$d)
+    const value = new Date(e.$d)
     const resp = { target: { name, value } }
+    console.log(resp)
     onChange(resp)
   }
 
@@ -42,6 +44,7 @@ const DatePickerCustom = ({
           label={label}
           className="w-full"
           format="DD-MM-YYYY"
+          value={value}
           disabled={disabled}
           onChange={onHandleChange}
           slotProps={{
