@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '../common/Input'
 import Button from '../common/Button'
@@ -7,6 +7,7 @@ import Dropdown from '../common/Dropdown'
 
 import { validate } from '@/utils/validation'
 import { INIT_DATOS_GENERALES, STEP_ENUM } from '@/utils/constants'
+import { useHttpClient } from '@/hooks/useHttpClient'
 
 const DatosGenerales = ({
   step,
@@ -19,9 +20,24 @@ const DatosGenerales = ({
     datosGenerales ? datosGenerales : INIT_DATOS_GENERALES,
   )
   const [error, setError] = useState(INIT_DATOS_GENERALES)
+  const [catalogoPST, setCatalogoPST] = useState([])
+  const { sendRequest, isLoading } = useHttpClient()
 
-  const onHandleChange = ({ target: { name, value } }) => {
-    setData({ ...data, [name]: value })
+  useEffect(() => {
+    getCatalogoPST()
+  }, [])
+
+  const getCatalogoPST = async () => {
+    const url = `http://34.29.98.230:3002/api/configuration/catalogo-pst`
+    try {
+      const res = await sendRequest(url)
+      if (res.success) {
+        setCatalogoPST(res.result.data)
+      } else {
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const onSubmitHandler = async e => {
@@ -36,11 +52,9 @@ const DatosGenerales = ({
     }
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
+  const onHandleChange = ({ target: { name, value } }) => {
+    setData({ ...data, [name]: value })
+  }
 
   return (
     <form
@@ -55,7 +69,7 @@ const DatosGenerales = ({
           name="tipoPST"
           variant="outlined"
           value={data.tipoPST ? data.tipoPST : 0}
-          options={testData}
+          options={catalogoPST}
           error={Boolean(error.tipoPST)}
           helpText={error.tipoPST}
           onChange={onHandleChange}
@@ -66,6 +80,7 @@ const DatosGenerales = ({
           error={error.nombreComercial !== ''}
           helpText={error.nombreComercial}
           onChange={onHandleChange}
+          value={data.nombreComercial}
         />
         <Input
           label="RFC *"
@@ -74,28 +89,37 @@ const DatosGenerales = ({
           helpText={error.rfc}
           onChange={onHandleChange}
           maxLength={13}
+          value={data.rfc}
         />
         <Input
           label="Registro INEGI"
           name="registroINEGI"
           onChange={onHandleChange}
+          value={data.registroINEGI}
         />
         <Input
           label="Registro anterior"
           name="registroAnterior"
           onChange={onHandleChange}
+          value={data.registroAnterior}
         />
         <Input
           label="Razón social"
           name="razonSocial"
           onChange={onHandleChange}
+          value={data.razonSocial}
         />
-        <Input label="CURP" name="curp" onChange={onHandleChange} />
+        <Input
+          label="CURP"
+          name="curp"
+          onChange={onHandleChange}
+          value={data.curp}
+        />
       </section>
       <Button
         content="Siguiente"
         type="submit"
-        className=" w-full sm:w-auto self-end"
+        className="w-full sm:w-auto self-end"
       />
     </form>
   )

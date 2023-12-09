@@ -1,10 +1,15 @@
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuthStore } from '@/store/auth'
 
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import Image from 'next/image'
 
+import { Snackbar, Alert } from '@mui/material'
+
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_DATA_LOGIN } from '@/utils/constants'
 import { validate } from '@/utils/validation'
 
@@ -13,8 +18,12 @@ import Images from '@/assets/images'
 
 const SingIn = ({ showRegister, setShowRegister }) => {
   const [user, setUser] = useState(INIT_DATA_LOGIN)
-
   const [error, setError] = useState(INIT_DATA_LOGIN)
+  const [showAlert, setShowAlert] = useState(false)
+  const { sendRequest, isLoading } = useHttpClient()
+  const setToken = useAuthStore(state => state.setToken)
+  const setProfile = useAuthStore(state => state.setProfile)
+  const router = useRouter()
 
   const onHandleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value })
@@ -22,8 +31,23 @@ const SingIn = ({ showRegister, setShowRegister }) => {
 
   const loginHandler = async data => {
     try {
-      //TODO: REQUEST HOOK
-    } catch (e) {}
+      const url = `http://34.29.98.230:3002/api/autenticacion/login`
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: data,
+      })
+      if (res.success) {
+        router.push('/home/tramites/solicitudes')
+        setToken(res.result.token)
+        setProfile(res.result.user)
+      } else {
+        setShowAlert(true)
+      }
+    } catch (e) {
+      console.log(e)
+      setShowAlert(true)
+    }
   }
 
   const onHandleSubmit = e => {
@@ -33,7 +57,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
       setError(errors)
     } else {
       setError(INIT_DATA_LOGIN)
-      console.log('pass')
+      loginHandler(user)
     }
   }
 
@@ -70,6 +94,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.email !== ''}
           helpText={error.email}
+          value={user.email}
         />
 
         <Input
@@ -80,10 +105,24 @@ const SingIn = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.password !== ''}
           helpText={error.password}
+          value={user.password}
         />
 
         <Button content="Iniciar Sesión" type="submit" />
       </form>
+
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={() => setShowAlert(false)}>
+        <Alert
+          onClose={() => setShowAlert(false)}
+          severity="error"
+          sx={{ width: '100%' }}>
+          USUARIO NO REGISTRADO
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

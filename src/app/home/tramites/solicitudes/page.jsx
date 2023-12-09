@@ -79,7 +79,7 @@ import TiemposCompartidos from '@/components/solicitudes/formulariosPST/TiemposC
 import TransportistaTuristico from '@/components/solicitudes/formulariosPST/TransportistaTuristico'
 
 const Solicitudes = () => {
-  const [step, setStep] = useState(4)
+  const [step, setStep] = useState(0)
 
   const [register, setRegister] = useState({
     datosGenerales: null,

@@ -160,7 +160,8 @@ export const STEP_ENUM = {
   DOMICILIO: 1,
   CONTACTO: 2,
   INFO_LEGAL: 3,
-  DETALLES: 4, // TODO: Verificar si es necesario
+  DETALLES: 4,
+  DOCUMENTOS: 5, // TODO: Verificar si es necesario
 }
 
 /**

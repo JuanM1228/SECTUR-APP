@@ -9,6 +9,7 @@ import Input from '../common/Input'
 import Dropdown from '../common/Dropdown'
 
 import { INIT_DATA_DOMICILIO, STEP_ENUM } from '@/utils/constants'
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { validate } from '@/utils/validation'
 import 'leaflet/dist/leaflet.css'
 
@@ -23,8 +24,10 @@ const Domicilio = ({
   const [data, setData] = useState(
     dataDomicilio ? dataDomicilio : INIT_DATA_DOMICILIO,
   )
-
+  const [colonias, setColonias] = useState([])
   const [error, setError] = useState(INIT_DATA_DOMICILIO)
+  const { sendRequest, isLoading } = useHttpClient()
+
   const myIcon = new Icon({
     iconUrl: '/location.png',
     iconSize: [25, 35],
@@ -38,6 +41,28 @@ const Domicilio = ({
       },
     })
     return null
+  }
+
+  const locationHandler = async () => {
+    try {
+      const url = `http://34.29.98.230:3002/api/address/colonias`
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: { codigo: data.codigoPostal },
+      })
+      if (res.success) {
+        const info = res.result.data
+        setData({
+          ...data,
+          estado: info.estado,
+          municipio: info.municipio,
+        })
+        setColonias(info.colonias)
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const onHandleChange = ({ target: { name, value } }) => {
@@ -56,11 +81,6 @@ const Domicilio = ({
     }
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -69,27 +89,37 @@ const Domicilio = ({
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DOMICILIO</h1>
 
-      <div className="grid sm:grid-cols-2 gap-6">
-        {/* TODO: Add maxLength prop (zip code 5 maxLength) */}
+      <section className="flex flex-wrap sm:flex-nowrap gap-4">
         <Input
           label="Código postal *"
           type="number"
+          maxLength={5}
           name="codigoPostal"
+          value={data.codigoPostal}
           error={Boolean(error.codigoPostal)}
           helpText={error.codigoPostal}
           onChange={onHandleChange}
         />
 
-        <Input label="Estado" disabled />
+        <Button
+          content="Buscar"
+          type="button"
+          className=" w-full sm:w-auto shrink"
+          onClick={locationHandler}
+        />
+      </section>
 
-        <Input label="Municipio" disabled />
+      <div className="grid sm:grid-cols-2 gap-6">
+        <Input label="Estado" value={data.estado} disabled />
+
+        <Input label="Municipio" value={data.municipio} disabled />
 
         <Dropdown
           label="Colonia *"
           name="colonia"
           variant="outlined"
           value={data.colonia ? data.colonia : 0}
-          options={testData}
+          options={colonias}
           error={Boolean(error.colonia)}
           helpText={error.colonia}
           onChange={onHandleChange}
@@ -101,6 +131,7 @@ const Domicilio = ({
           error={error.calle !== ''}
           helpText={error.calle}
           onChange={onHandleChange}
+          value={data.calle}
         />
       </div>
 

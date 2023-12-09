@@ -1,17 +1,17 @@
-import Icons from "@/assets/icons"
+import Icons from '@/assets/icons'
 
 export const NAVIGATION_CONFIG = [
   {
     key: 'consulta',
     path: null,
     title: 'CONSULTA',
-    icon: <Icons.Search />,
+    icon: 'Search',
     authority: [],
     subMenu: [
       {
         key: 'tramitesEnProceso',
         path: null,
-        title: 'TRÁMITES EN PROCESO',
+        title: 'Trámites en proceso',
         icon: null,
         authority: [],
         subMenu: [],
@@ -38,12 +38,12 @@ export const NAVIGATION_CONFIG = [
     key: 'tramites',
     path: null,
     title: 'TRÁMITES',
-    icon: <Icons.Assignment />,
+    icon: 'Assignment',
     authority: [],
     subMenu: [
       {
         key: 'solicitudes',
-        path: null,
+        path: '/home/tramites/solicitudes',
         title: 'Solicitudes',
         icon: null,
         authority: [],
@@ -79,7 +79,7 @@ export const NAVIGATION_CONFIG = [
     key: 'reportes',
     path: null,
     title: 'REPORTES',
-    icon: <Icons.BarChart />,
+    icon: 'BarChart',
     authority: [],
     subMenu: [
       {
@@ -161,12 +161,12 @@ export const NAVIGATION_CONFIG = [
     key: 'catalogos',
     path: null,
     title: 'CATÁLOGOS',
-    icon: <Icons.FormatListBulleted />,
+    icon: 'FormatListBulleted',
     authority: [],
     subMenu: [
       {
         key: 'edicionDeCatalogos',
-        path: null,
+        path: '/home/catalogos',
         title: 'Edición de catálogos',
         icon: null,
         authority: [],

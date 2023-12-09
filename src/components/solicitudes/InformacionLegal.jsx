@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import Input from '../common/Input'
 import Button from '../common/Button'
+import DatePickerCustom from '../common/DatePicker'
 
 import { validate } from '@/utils/validation'
 import { INIT_INFO_LEGAL, STEP_ENUM } from '@/utils/constants'
@@ -51,6 +52,7 @@ const InformacionLegal = ({
           error={error.nombreDelPropietario !== ''}
           helpText={error.nombreDelPropietario}
           onChange={onHandleChange}
+          value={data.nombreDelPropietario}
         />
         <Input
           label="Nombre del Representante Legal *"
@@ -58,6 +60,7 @@ const InformacionLegal = ({
           error={error.representanteLegal !== ''}
           helpText={error.representanteLegal}
           onChange={onHandleChange}
+          value={data.representanteLegal}
         />
         <Input
           label="Nombre del solicitante *"
@@ -65,6 +68,7 @@ const InformacionLegal = ({
           error={error.nombreDelSolicitante !== ''}
           helpText={error.nombreDelSolicitante}
           onChange={onHandleChange}
+          value={data.nombreDelSolicitante}
         />
         <Input
           label="Puesto del solicitante *"
@@ -72,19 +76,24 @@ const InformacionLegal = ({
           error={error.puestoDelSolicitante !== ''}
           helpText={error.puestoDelSolicitante}
           onChange={onHandleChange}
+          value={data.puestoDelSolicitante}
         />
-        {/* TODO: Update dates into date component instead of Text Input */}
-        <Input
-          label="Fecha de solicitud"
+        <DatePickerCustom
+          label="Fecha de solicitud *"
           name="fechaDeSolicitud"
+          error={error.fechaDeSolicitud !== ''}
+          helpText={error.fechaDeSolicitud}
           onChange={onHandleChange}
+          value={data.fechaDeSolicitud}
         />
-        <Input
-          label="Fecha de ingreso a SECTUR"
+        <DatePickerCustom
+          label="Fecha de ingreso a SECTUR *"
           name="fechaIngresoSECTUR"
+          error={error.fechaIngresoSECTUR !== ''}
+          helpText={error.fechaIngresoSECTUR}
           onChange={onHandleChange}
+          value={data.fechaIngresoSECTUR}
         />
-        {/* TODO: Update input into dropdown component instead of Text Input */}
         <Input
           label="Tipo de inmueble"
           name="tipoDeInmueble"

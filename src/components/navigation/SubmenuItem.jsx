@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import {
   List,
@@ -12,11 +13,15 @@ import Icons from '@/assets/icons'
 
 const SubMenuItem = ({ section }) => {
   const [open, setOpen] = useState(false)
-
+  const router = useRouter()
   const { subMenu } = section
 
   const onHandleClick = () => {
     setOpen(!open)
+    console.log(section.path)
+    if (section.path) {
+      router.push(section.path)
+    }
   }
 
   const showExpand = length => {
@@ -26,15 +31,17 @@ const SubMenuItem = ({ section }) => {
 
   return (
     <>
-      <ListItemButton key={section.key} sx={{ pl: 2 }} onClick={onHandleClick}>
-        <ListItemIcon>{section.icon}</ListItemIcon>
+      <ListItemButton key={section.key} sx={{ pl: 8 }} onClick={onHandleClick}>
+        {/* <ListItemIcon>{section.icon}</ListItemIcon> */}
         <ListItemText
-          primary={section.title}
-          primaryTypographyProps={{
-            className: `font-GMX text-gray ${
-              subMenu.length !== 0 ? 'font-semibold' : ''
-            }`,
-          }}
+          primary={
+            <p
+              className={`font-GMX  text-gray ${
+                subMenu.length !== 0 ? 'font-semibold' : ''
+              }`}>
+              {section.title}
+            </p>
+          }
         />
         {showExpand(subMenu.length)}
       </ListItemButton>
@@ -42,12 +49,13 @@ const SubMenuItem = ({ section }) => {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {subMenu.map(subsection => (
-              <ListItemButton sx={{ pl: 2 }} key={subsection.key}>
-                <ListItemIcon></ListItemIcon>
+              <ListItemButton sx={{ pl: 5 }} key={subsection.key}>
                 <ListItemText
-                  primary={subsection.title}
+                  primary={
+                    <p className="font-GMX  text-gray">{subsection.title}</p>
+                  }
                   primaryTypographyProps={{
-                    className: 'font-GMX font-base text-gray',
+                    className: 'pl-10 font-GMX font-base text-gray',
                   }}
                 />
               </ListItemButton>

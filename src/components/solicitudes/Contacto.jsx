@@ -48,6 +48,7 @@ const Contacto = ({
           error={error.telefono !== ''}
           helpText={error.telefono}
           onChange={onHandleChange}
+          value={data.telefono}
         />
         <Input
           label="Correo electrónico *"
@@ -55,12 +56,38 @@ const Contacto = ({
           error={error.email !== ''}
           helpText={error.email}
           onChange={onHandleChange}
+          value={data.email}
         />
-        <Input label="Celular" name="celular" onChange={onHandleChange} />
-        <Input label="Página Web" name="web" onChange={onHandleChange} />
-        <Input label="Facebook" name="facebook" onChange={onHandleChange} />
-        <Input label="X (Twitter)" name="twitter" onChange={onHandleChange} />
-        <Input label="Fax" name="fax" onChange={onHandleChange} />
+        <Input
+          label="Celular"
+          name="celular"
+          onChange={onHandleChange}
+          value={data.celular}
+        />
+        <Input
+          label="Página Web"
+          name="web"
+          onChange={onHandleChange}
+          value={data.web}
+        />
+        <Input
+          label="Facebook"
+          name="facebook"
+          onChange={onHandleChange}
+          value={data.facebook}
+        />
+        <Input
+          label="X (Twitter)"
+          name="twitter"
+          onChange={onHandleChange}
+          value={data.twitter}
+        />
+        <Input
+          label="Fax"
+          name="fax"
+          onChange={onHandleChange}
+          value={data.fax}
+        />
       </section>
       <div className=" flex gap-6 justify-between">
         <Button

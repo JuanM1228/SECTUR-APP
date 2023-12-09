@@ -11,7 +11,7 @@ const Documents = props => {
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        step === STEP_ENUM.DATOS_GENERALES ? '' : 'hide'
+        step === STEP_ENUM.DOCUMENTOS ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
       {documentsList.map(item => {
