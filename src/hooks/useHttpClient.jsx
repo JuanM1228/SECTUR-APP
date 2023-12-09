@@ -19,8 +19,7 @@ export const useHttpClient = () => {
     const httpAbortController = new AbortController()
     activeHttpRequests.current.push(httpAbortController)
 
-    let fetchUrl = url
-    // let fetchUrl = `${API_URL}${url}`
+    let fetchUrl = `${process.env.ENV_URL}${url}`
     const reqParams = {
       method: reqOptions?.method ?? GET_METHOD,
       signal: httpAbortController.signal,
@@ -49,12 +48,12 @@ export const useHttpClient = () => {
       fetchUrl = newUrl.toString()
     }
 
-    console.log('%cRequest url: ', 'color: green', url)
+    console.log('%cRequest url: ', 'color: green', fetchUrl)
     console.log('\tOptions: ', reqOptions)
     console.log('\tOptions: ', reqParams)
 
     try {
-      const response = await fetch(url, reqParams)
+      const response = await fetch(fetchUrl, reqParams)
       const data = await response.json()
       console.log('\tResponse: ', data)
       activeHttpRequests.current = activeHttpRequests.current.filter(
@@ -67,7 +66,7 @@ export const useHttpClient = () => {
       //     logOutUser()
       //   } else {
       //     retry++
-      //     await sendRequest(url, method, isAuth, headers, body, retry)
+      //     await sendRequest(fetchUrl, method, isAuth, headers, body, retry)
       //   }
       // }
       console.log('res', response)

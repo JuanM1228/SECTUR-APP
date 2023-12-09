@@ -50,7 +50,6 @@ const serviciosData = [
   { key: 'id5', value: 'Reservaciones' },
   { key: 'id6', value: 'Valet de estacionamiento' },
 ]
-// Llena ubicacionData, siguiendo la estructura de distioncionData, pero remplaza los valores de title por los siguientes valores: HOTEL,MUSEO,NINGUNO,TERMINAL DE TRANSPORTES,ZONA ARQUEOLÓGICA. Usa maysculas solo en la primera letra o en donde sea necesario segun la buena ortografia del español
 
 const AlimentosBebidas = ({
   step,

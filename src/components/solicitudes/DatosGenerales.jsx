@@ -28,7 +28,7 @@ const DatosGenerales = ({
   }, [])
 
   const getCatalogoPST = async () => {
-    const url = `http://34.29.98.230:3002/api/configuration/catalogo-pst`
+    const url = '/api/configuration/catalogo-pst'
     try {
       const res = await sendRequest(url)
       if (res.success) {

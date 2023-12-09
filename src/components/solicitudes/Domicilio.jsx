@@ -45,8 +45,7 @@ const Domicilio = ({
 
   const locationHandler = async () => {
     try {
-      const url = `http://34.29.98.230:3002/api/address/colonias`
-
+      const url = '/api/address/colonias'
       const res = await sendRequest(url, {
         method: 'POST',
         body: { codigo: data.codigoPostal },

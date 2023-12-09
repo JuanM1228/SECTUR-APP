@@ -31,8 +31,6 @@ const PSTHandler = ({
     onBackStepHandler,
   }
 
-  console.log('commonProps', commonProps)
-
   if (!tipoPST) return null
 
   if (GENERIC_DETAILS_PST_LIST.includes(tipoPST)) {

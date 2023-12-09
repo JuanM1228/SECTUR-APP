@@ -31,7 +31,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
 
   const loginHandler = async data => {
     try {
-      const url = `http://34.29.98.230:3002/api/autenticacion/login`
+      const url = '/api/autenticacion/login'
 
       const res = await sendRequest(url, {
         method: 'POST',

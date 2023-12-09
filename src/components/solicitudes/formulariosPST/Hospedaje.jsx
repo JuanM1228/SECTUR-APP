@@ -85,9 +85,6 @@ const serviciosData = [
   { key: 'id26', value: 'T.V.' },
 ]
 
-// TODO: Delete this comment
-// crea elementos siguiendo la estructura de alojamientosData, pero cambia las propiedades value por estas:AGENCIA DE VIAJES,AIRE ACONDICIONADO,ALBERCA,ANTENA PARABÓLICA O CABLE,ÁREA DE JUEGOS INFANTILES,ARRENDADORA DE AUTOS,BOUTIQUE,CAMPO DE GOLF,CANCHA DE TENIS,CENTRO EJECUTIVO,CHAPOTEADERO,ESTACIONAMIENTO,FLORERÍA,GIMNASIO,GRUPO DE ANIMADORES,MARINA,REGALOS Y TABAQUERÍA,RENTA DE CABALLOS,RENTA DE EQUIPO PARA DEPORTES ACUÁTICOS,ROOM SERVICE,SALÓN DE BANQUETES Y CONVENCIONES,SALÓN DE BELLEZA,SERVICIO DE LAVANDERÍA Y TINTORERÍA,SERVICIO PARA DISCAPACITADOS,SPA,T.V., Adicionalmente pon todo en minúsuclas excepto en cosas que requieren mayúscula, o sea, cuida la redacción.
-
 const Hospedaje = ({
   step,
   dataPst,

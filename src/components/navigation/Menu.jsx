@@ -18,7 +18,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
   }, [])
 
   const getMenu = async () => {
-    const url = `http://34.29.98.230:3002/api/configuration/menu-user/${profile.email}`
+    const url = `/api/configuration/menu-user/${profile.email}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
