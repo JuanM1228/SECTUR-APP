@@ -21,6 +21,7 @@ const TimePickerCustom = ({
   minTime = null,
   maxTime = null,
   onChange = () => {},
+  defaultValue = '',
 }) => {
   const theme = createTheme({
     palette: {
@@ -38,6 +39,7 @@ const TimePickerCustom = ({
     try {
       const resp = { target: { name, value } }
       onChange(resp)
+      console.log(resp)
     } catch (err) {
       console.log(err)
     }
@@ -47,6 +49,7 @@ const TimePickerCustom = ({
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <MobileTimePicker
+          defaultValue={defaultValue}
           label={label}
           ampm={ampm}
           minTime={minTime}

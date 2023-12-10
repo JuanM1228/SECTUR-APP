@@ -43,6 +43,15 @@ const ArrendadoraAutos = ({
 
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
+          label="Subcategoría"
+          name="subcategoria"
+          variant="outlined"
+          value={data.subcategoria ? data.subcategoria : 0}
+          options={testData}
+          onChange={onHandleChange}
+        />
+
+        <Dropdown
           label="Tipo de establecimiento"
           name="tipoEstablecimiento"
           variant="outlined"
@@ -55,15 +64,22 @@ const ArrendadoraAutos = ({
           label="Nombre de la Matriz"
           name="nombreMatriz"
           onChange={onHandleChange}
+          value={data.nombreMatriz}
         />
 
-        <Input label="Domicilio" name="domicilio" onChange={onHandleChange} />
+        <Input
+          label="Domicilio"
+          name="domicilio"
+          onChange={onHandleChange}
+          value={data.domicilio}
+        />
 
         <Input
           label="Número de sucursales"
           name="numeroSucursales"
           type="number"
           onChange={onHandleChange}
+          value={data.numeroSucursales}
         />
 
         <Input
@@ -71,6 +87,7 @@ const ArrendadoraAutos = ({
           name="captacionNacional"
           type="number"
           onChange={onHandleChange}
+          value={data.captacionNacional}
         />
 
         <Input
@@ -78,6 +95,7 @@ const ArrendadoraAutos = ({
           name="captacionExtrangero"
           type="number"
           onChange={onHandleChange}
+          value={data.captacionExtrangero}
         />
       </section>
 

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
@@ -7,6 +7,7 @@ import Dropdown from '@/components/common/Dropdown'
 import TimePickerCustom from '@/components/common/TimePicker'
 
 import dayjs from 'dayjs'
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_DETALLE_GENERICO, STEP_ENUM } from '@/utils/constants'
 
 const DetalleGenerico = ({
@@ -17,8 +18,27 @@ const DetalleGenerico = ({
   register,
   setRegister,
 }) => {
+  const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(dataPst ? dataPst : INIT_DETALLE_GENERICO)
   const [dateStart, setDateStart] = useState(null)
+  const [tipoDePersona, setTipoPersona] = useState([])
+
+  useEffect(() => {
+    getDropdownsData()
+  }, [])
+
+  const getDropdownsData = async () => {
+    const url = '/api/configuration/catalogo-detalle-pst/2'
+    try {
+      const res = await sendRequest(url)
+      if (res.success) {
+        console.log('detalle generico', res.result.data)
+        setTipoPersona(res.result.data.tipoDePersona)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
@@ -46,18 +66,30 @@ const DetalleGenerico = ({
       }`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
+
+      <Dropdown
+        label="Subcategoría"
+        name="subcategoria"
+        variant="outlined"
+        value={data.subcategoria ? data.subcategoria : 0}
+        options={testData}
+        onChange={onHandleChange}
+      />
+
       <Dropdown
         label="Tipo de persona"
         name="tipoPersona"
         variant="outlined"
         value={data.tipoPersona ? data.tipoPersona : 0}
-        options={testData}
+        options={tipoDePersona}
         onChange={onHandleChange}
       />
+
       <section className="grid sm:grid-cols-2 gap-6">
         <TimePickerCustom
           label="Hora de apertura"
           name="horaApertura"
+          defaultValue={dayjs(data.horaApertura)}
           ampm={false}
           onChange={onHandleChange}
         />
@@ -65,6 +97,7 @@ const DetalleGenerico = ({
         <TimePickerCustom
           label="Hora de cierre"
           name="horaCierre"
+          defaultValue={dayjs(data.horaCierre)}
           ampm={false}
           disabled={dateStart ? false : true}
           minTime={dayjs(dateStart)}
@@ -78,6 +111,7 @@ const DetalleGenerico = ({
         rows={4}
         multiline
         onChange={onHandleChange}
+        value={data.observacionesGenerales}
       />
 
       <Input
@@ -86,6 +120,7 @@ const DetalleGenerico = ({
         rows={4}
         multiline
         onChange={onHandleChange}
+        value={data.observacionesEspecificas}
       />
 
       <Input
@@ -94,6 +129,7 @@ const DetalleGenerico = ({
         rows={4}
         multiline
         onChange={onHandleChange}
+        value={data.observacionesAdicionales}
       />
 
       <div className=" flex gap-6 justify-between">

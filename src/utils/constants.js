@@ -61,6 +61,7 @@ export const INIT_INFO_LEGAL = {
 }
 
 export const INIT_AGENCIA_VIAJES = {
+  subcategoria: null,
   nombreNotario: '',
   numeroActaConstitutiva: null,
   numeroNotaria: null,
@@ -71,6 +72,7 @@ export const INIT_AGENCIA_VIAJES = {
 }
 
 export const INIT_DETALLE_GENERICO = {
+  subcategoria: null,
   tipoPersona: null,
   horaApertura: '',
   horaCierre: '',
@@ -80,6 +82,7 @@ export const INIT_DETALLE_GENERICO = {
 }
 
 export const INIT_ALIMENTOS_BEBIDAS = {
+  subcategoria: null,
   tipoDeServicio: null,
   espectaculo: null,
   especialidades: null,
@@ -93,6 +96,7 @@ export const INIT_ALIMENTOS_BEBIDAS = {
 }
 
 export const INIT_ARRENDADORA_AUTOS = {
+  subcategoria: null,
   tipoEstablecimiento: null,
   nombreMatriz: '',
   domicilio: '',
@@ -111,6 +115,7 @@ export const INIT_OPERADORA_BUCEO = {
 }
 
 export const HOSPEDAJE_INIT_DATA = {
+  subcategoria: null,
   distincionSelected: null,
   porcentajeMercadoNacional: '',
   porcentajeMercadoExtrenjero: '',
