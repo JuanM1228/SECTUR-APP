@@ -146,6 +146,15 @@ const Hospedaje = ({
 
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
+          label="Subcategoría"
+          name="subcategoria"
+          variant="outlined"
+          value={data.subcategoria ? data.subcategoria : 0}
+          options={distioncionData}
+          onChange={onHandleChange}
+        />
+
+        <Dropdown
           label="Distinción"
           name="distincionSelected"
           variant="outlined"
@@ -158,12 +167,20 @@ const Hospedaje = ({
           name="porcentajeMercadoNacional"
           type="number"
           onChange={onHandleChange}
+          value={
+            data.porcentajeMercadoNacional ? data.porcentajeMercadoNacional : 0
+          }
         />
         <Input
           label="Porcentaje de mercado extranjero"
           name="porcentajeMercadoExtrenjero"
           type="number"
           onChange={onHandleChange}
+          value={
+            data.porcentajeMercadoExtrenjero
+              ? data.porcentajeMercadoExtrenjero
+              : 0
+          }
         />
         <Dropdown
           label="Clasificación Obtenida"
@@ -181,6 +198,7 @@ const Hospedaje = ({
           label="Folio de su clasificación"
           name="folioDeClasificacion"
           onChange={onHandleChange}
+          value={data.folioDeClasificacion ? data.folioDeClasificacion : 0}
         />
         <Dropdown
           label="Ubicación"
