@@ -71,32 +71,45 @@ const AgenciaViaje = ({
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
       <section className="grid sm:grid-cols-2 gap-6">
+        <Dropdown
+          label="Subcategoría"
+          name="subcategoria"
+          variant="outlined"
+          value={data.subcategoria ? data.subcategoria : 0}
+          options={boletajeData}
+          onChange={onHandleChange}
+        />
         <Input
           label="Nombre de notario"
           name="nombreNotario"
           onChange={onHandleChange}
+          value={data.nombreNotario}
         />
         <Input
           label="Número de acta constitutiva"
           name="numeroActaConstitutiva"
           type="number"
           onChange={onHandleChange}
+          value={data.numeroActaConstitutiva}
         />
         <Input
           label="Número de notaría"
           name="numeroNotaria"
           type="number"
           onChange={onHandleChange}
+          value={data.numeroNotaria}
         />
         <Input
           label="Lugar de expedición"
           name="lugarExpedicion"
           onChange={onHandleChange}
+          value={data.lugarExpedicion}
         />
         <DatePickerCustom
           label="Fecha de emisión del acta"
           name="fechaEmisionActa"
           onChange={onHandleChange}
+          value={data.fechaEmisionActa}
         />
         <Dropdown
           label="Boletaje"

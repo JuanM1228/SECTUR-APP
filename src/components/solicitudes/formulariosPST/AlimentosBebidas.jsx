@@ -105,6 +105,15 @@ const AlimentosBebidas = ({
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
+          label="Subcategoría"
+          name="subcategoria"
+          variant="outlined"
+          value={data.subcategoria ? data.subcategoria : 0}
+          options={tipoServicioData}
+          onChange={onHandleChange}
+        />
+
+        <Dropdown
           label="Tipo de servicio"
           name="tipoDeServicio"
           variant="outlined"
@@ -141,18 +150,21 @@ const AlimentosBebidas = ({
           name="numeroDeCajones"
           type="number"
           onChange={onHandleChange}
+          value={data.numeroDeCajones}
         />
         <Input
           label="Mercado extranjero"
           name="mercadoExtranjero"
           type="number"
           onChange={onHandleChange}
+          value={data.mercadoExtranjero}
         />
         <Input
           label="Mercado nacional"
           name="mercadoNacional"
           type="number"
           onChange={onHandleChange}
+          value={data.mercadoNacional}
         />
         <Dropdown
           label="Ubicación"
@@ -170,6 +182,7 @@ const AlimentosBebidas = ({
         rows={4}
         multiline
         onChange={onHandleChange}
+        value={data.descripcionUbicacion}
       />
       <section className="grid sm:grid-cols-2 gap-6">
         <CheckboxForm
