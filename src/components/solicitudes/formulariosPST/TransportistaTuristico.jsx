@@ -7,6 +7,12 @@ import Dropdown from '@/components/common/Dropdown'
 
 import { STEP_ENUM, TRANSPORTISTA_TURISTICO_INIT_DATA } from '@/utils/constants'
 
+const subcategoriaData = [
+  { value: 1, title: 'Embarcación menor de recreo' },
+  { value: 2, title: 'Transporte terrestre' },
+  { value: 3, title: 'Transporte aéreo' },
+]
+
 const tipoServicioData = [
   { value: 1, title: 'Transportadora' },
   { value: 2, title: 'Transportadora Matriz' },
@@ -54,6 +60,16 @@ const TransportistaTuristico = ({
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
       <section className="grid sm:grid-cols-2 gap-6">
+        <Dropdown
+          label="Subcategoría"
+          name="subcategoria"
+          variant="outlined"
+          value={
+            data.subcategoria ? data.subcategoria : 0 // TODO: default value 0 or null?
+          }
+          options={subcategoriaData}
+          onChange={onHandleChange}
+        />
         <Dropdown
           label="Tipo de establecimiento"
           name="tipoEstablecimientoSelected"
