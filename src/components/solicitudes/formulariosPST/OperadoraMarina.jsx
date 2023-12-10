@@ -104,18 +104,21 @@ const OperadoraMarina = ({
           name="superficieTerrestre"
           type="number"
           onChange={onHandleChange}
+          value={data.superficieTerrestre}
         />
         <Input
           label="Superficie total (metros)"
           name="superficieTotal"
           type="number"
           onChange={onHandleChange}
+          value={data.superficieTotal}
         />
         <Input
           label="Superficie acuática (metros)"
           name="superficieAcuatica"
           type="number"
           onChange={onHandleChange}
+          value={data.superficieAcuatica}
         />
         <Dropdown
           label="Número de espacios de atraque"

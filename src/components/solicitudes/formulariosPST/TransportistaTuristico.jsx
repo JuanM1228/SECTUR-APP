@@ -81,23 +81,32 @@ const TransportistaTuristico = ({
           type="number"
           name="numSucursales"
           onChange={onHandleChange}
+          value={data.numSucursales}
         />
-        <Input label="Categoría" name="categoria" onChange={onHandleChange} />
+        <Input
+          label="Categoría"
+          name="categoria"
+          onChange={onHandleChange}
+          value={data.categoria}
+        />
         <Input
           label="Nombre de la matriz"
           name="nombreMatriz"
           onChange={onHandleChange}
+          value={data.nombreMatriz}
         />
         <Input
           label="Dirección de la matriz"
           name="direcionMatriz"
           onChange={onHandleChange}
+          value={data.direcionMatriz}
         />
         <Input
           label="Número de guías"
           type="number"
           name="numDeGuias"
           onChange={onHandleChange}
+          value={data.numDeGuias}
         />
       </section>
       <div className=" flex gap-6 justify-between">

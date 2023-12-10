@@ -33,7 +33,6 @@ const DatePickerCustom = ({
   const onHandleChange = e => {
     const value = new Date(e.$d)
     const resp = { target: { name, value } }
-    console.log(resp)
     onChange(resp)
   }
 

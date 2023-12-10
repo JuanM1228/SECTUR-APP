@@ -14,8 +14,6 @@ import DetalleGenerico from '@/components/solicitudes/formulariosPST/DetalleGene
 import ArrendadoraAutos from '@/components/solicitudes/formulariosPST/ArrendadoraAutos'
 import AlimentosBebidas from '@/components/solicitudes/formulariosPST/AlimentosBebidas'
 
-import PSTHandler from '@/components/solicitudes/formulariosPST/PSTHandler'
-
 const documentsList = [
   {
     documentId: '232342323',
@@ -141,15 +139,6 @@ const Solicitudes = () => {
         documentsList={documentsList}
         onSubmitHandler={onSubmitHandler}
       />
-      {/* TODO: Add PSTHandler */}
-      {/* <PSTHandler
-        step={step}
-        dataPst={register.detallesPST}
-        nextStep={onNextStepHandler}
-        backStep={onBackStepHandler}
-        register={register}
-        setRegister={setRegister}
-      /> */}
       {/* TODO: Añadir subcategoría en los detalles de pst? */}
       {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
         <DetalleGenerico

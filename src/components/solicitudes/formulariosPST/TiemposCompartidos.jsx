@@ -127,17 +127,25 @@ const TiemposCompartidos = ({
           label="Nombre Comercial"
           name="nombreComercial"
           onChange={onHandleChange}
+          value={data.nombreComercial}
         />
-        <Input label="Categoría" name="categoria" onChange={onHandleChange} />
+        <Input
+          label="Categoría"
+          name="categoria"
+          onChange={onHandleChange}
+          value={data.categoria}
+        />
         <Input
           label="Mercado Nacional"
           name="mercadoNacional"
           onChange={onHandleChange}
+          value={data.mercadoNacional}
         />
         <Input
           label="Mercado Extranjero"
           name="mercadoExtranjero"
           onChange={onHandleChange}
+          value={data.mercadoExtranjero}
         />
         <CheckboxForm
           title="Servicios adicionales"
