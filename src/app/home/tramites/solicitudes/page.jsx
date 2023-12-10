@@ -14,58 +14,6 @@ import DetalleGenerico from '@/components/solicitudes/formulariosPST/DetalleGene
 import ArrendadoraAutos from '@/components/solicitudes/formulariosPST/ArrendadoraAutos'
 import AlimentosBebidas from '@/components/solicitudes/formulariosPST/AlimentosBebidas'
 
-const documentsList = [
-  {
-    documentId: '232342323',
-    title:
-      'Escritura pública del inmueble, contrato de arrendamiento o contrato de comodato',
-    subtitle:
-      'Documento que acredite la posesión legal o uso del inmueble donde realiza la actividad',
-    fileTypes: '',
-    isRequired: true,
-  },
-  {
-    documentId: '2323423323',
-    title: 'Identificación oficial del promvente',
-    subtitle:
-      'Credencial de elector (INE), cédula profesional, pasaporte del propietario o representante legal',
-    fileTypes: '',
-    isRequired: true,
-  },
-  {
-    documentId: '2322342323',
-    title: 'Comprobante de domicilio',
-    subtitle:
-      'Recibo de agua, luz, teléfono, predial, etc., del domicilio donde se realiza la actividad',
-    fileTypes: '',
-    isRequired: true,
-  },
-  {
-    documentId: '2232342323',
-    title: 'Formato firmado por el propietario o representante legal',
-    subtitle:
-      'Formato único para los trámites del Registro Nacional de Turismo',
-    fileTypes: '',
-    isRequired: true,
-  },
-  {
-    documentId: '1132342323',
-    title: 'Registro Federal de Contribuyentes RFC (Persona Física o Moral)',
-    subtitle:
-      'Documento que acredita la actividad lícita del solicitante de servicios turísticos',
-    fileTypes: '',
-    isRequired: true,
-  },
-  {
-    documentId: '1132342324',
-    title:
-      'Acta Constitutiva (Persona Moral). Persona Física deberá adjuntar RFC',
-    subtitle: 'Documento que acredita la legal constitución de la empresa',
-    fileTypes: '',
-    isRequired: true,
-  },
-]
-
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
 })
@@ -96,7 +44,7 @@ const Solicitudes = () => {
   }
 
   const tipoPST = register.datosGenerales?.tipoPST
-  // const tipoPST = PST_ENUM.HOSPEDAJE
+  // const tipoPST = PST_ENUM.TRANSPORTISTA_TURISTICO
 
   return (
     <div className="h-[calc(100vh-5rem)] flex flex-col justify-start  sm:items-center ">
@@ -136,7 +84,7 @@ const Solicitudes = () => {
       />
       <Documents
         step={step}
-        documentsList={documentsList}
+        pstId={register?.datosGenerales?.tipoPST}
         onSubmitHandler={onSubmitHandler}
       />
       {/* TODO: Añadir subcategoría en los detalles de pst? */}
