@@ -47,7 +47,7 @@ const TransportistaTuristico = ({
     setRegister({ ...register, detallesPST: data })
     console.log(data)
     // TODO: Add validation and next step handler
-    // nextStep()
+    nextStep()
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)

@@ -88,7 +88,7 @@ const AlimentosBebidas = ({
       ),
     }
     setRegister({ ...register, detallesPST: infoObject })
-    // nextStep()
+    nextStep()
   }
 
   const testData = [

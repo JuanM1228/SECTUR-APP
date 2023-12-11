@@ -31,7 +31,7 @@ const OperadoraBuceo = ({
     setRegister({ ...register, detallesPST: data })
     // TODO: Add validation and next step handler
     console.log(data)
-    // nextStep()
+    nextStep()
   }
 
   return (

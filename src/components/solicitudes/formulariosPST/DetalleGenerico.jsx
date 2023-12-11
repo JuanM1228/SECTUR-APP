@@ -51,7 +51,7 @@ const DetalleGenerico = ({
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
     console.log(data)
-    // nextStep()
+    nextStep()
   }
 
   const testData = [

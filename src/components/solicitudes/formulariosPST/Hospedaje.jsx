@@ -131,7 +131,7 @@ const Hospedaje = ({
     }
     setRegister({ ...register, detallesPST: infoObject })
     // TODO: Add validation and next step handler
-    // nextStep()
+    nextStep()
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)

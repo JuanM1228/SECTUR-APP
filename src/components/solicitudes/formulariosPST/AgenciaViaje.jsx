@@ -45,7 +45,8 @@ const AgenciaViaje = ({
       afiliacionesList: getSelectedValues(checkedItems.afiliacionesList),
     }
     setRegister({ ...register, detallesPST: infoObject })
-    // nextStep()
+    console.log({ ...register, detallesPST: infoObject })
+    nextStep()
   }
 
   const boletajeData = [
