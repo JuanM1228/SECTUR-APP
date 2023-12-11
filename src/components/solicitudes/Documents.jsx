@@ -36,25 +36,56 @@ const Documents = props => {
     }
   }
 
-  const handleFileUpload = (e, id) => {
+  const handleFileUpload = async (e, id) => {
     const file = e.target.files[0]
-    const fileData = {id, file}
-    setFilesList([...filesList, fileData])
-    // const formData = new FormData()
-    // formData.append('file', file)
-    // formData.append('id', id)
-    // console.log('formData', formData)
-    // const url = `/api/registro/cat_docs/${pstId}`
-    // try {
-    //   const res = await sendRequest(url)
-    //   if (!res.success) return
-    //   setDocumentsList(res.result.data)
-    // } catch (error) {
-    //   console.log('error', error)
-    // }
+    if (!file) {
+      //   const updatedFilesList = filesList.filter(item => item.id !== id)
+      //   setFilesList(updatedFilesList)
+      return
+    }
+    // console.log('event', e.target.files[0])
+    // const fileData = { id, file }
+    // setFilesList([...filesList, fileData])
+
+    const formData = new FormData()
+    formData.append('id', id)
+    formData.append('step', 5)
+    formData.append('file', file)
+    console.log('formData', formData)
+    const url = `/api/registro/solicitud`
+    try {
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: formData,
+      })
+      console.log(res, 'res')
+      if (!res.success) return
+      console.log(res, 'res')
+      // setDocumentsList(res.result.data)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
+  // const onSubmitDocumentsHandler = async () => {
+  //   const formData = new FormData()
+  //   filesList.forEach(item => {
+  //     formData.append('data', item)
+  //     formData.append('file', item.file)
+  //     formData.append('id', item.id)
+  //   })
+  //   const url = `/api/registro/cat_docs/${pstId}`
+  //   try {
+  //     const res = await sendRequest(url, 'POST', formData)
+  //     if (!res.success) return
+  //     setDocumentsList(res.result.data)
+  //   } catch (error) {
+  //     console.log('error', error)
+  //   }
+  // }
+
   console.log(documentsList)
+  console.log('filesList', filesList)
 
   return (
     <form
@@ -64,7 +95,7 @@ const Documents = props => {
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DOCUMENTOS</h1>
       {documentsList.map(item => {
-        const isDocumentUploaded = true
+        // const isDocumentUploaded = true
         return (
           <div key={`i-${item.id}`} className="border-b border-silver pb-4">
             <h2 className="font-GMX font-bold">
