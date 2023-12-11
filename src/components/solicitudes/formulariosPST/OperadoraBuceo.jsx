@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_OPERADORA_BUCEO, STEP_ENUM } from '@/utils/constants'
 
 const establecimientoData = [
@@ -20,7 +21,27 @@ const OperadoraBuceo = ({
   register,
   setRegister,
 }) => {
+  const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(dataPst ? dataPst : INIT_OPERADORA_BUCEO)
+  const [establecimientoData, setEstablecimientoData] = useState([])
+
+  useEffect(() => {
+    getDropdownsData()
+  }, [])
+
+  const getDropdownsData = async () => {
+    const url = '/api/configuration/catalogo-detalle-pst/11'
+    try {
+      const res = await sendRequest(url)
+      console.log(res)
+      if (res.success) {
+        const { tiposDeEstablecimientos } = res.result.data
+        setEstablecimientoData(tiposDeEstablecimientos)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })

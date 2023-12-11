@@ -38,7 +38,7 @@ const CheckboxForm = props => {
 
   return (
     <ThemeProvider theme={theme}>
-      <FormControl component="fieldset" variant="standard">
+      <FormControl component="fieldset" variant="standard" className="my-4">
         {title && (
           <FormLabel
             component="legend"
@@ -46,18 +46,18 @@ const CheckboxForm = props => {
             {title}
           </FormLabel>
         )}
-        <FormGroup>
+        <FormGroup className="grid grid-cols-1 sm:grid-cols-2">
           {options.map(option => (
             <FormControlLabel
-              key={option.key}
+              key={option.value}
               control={
                 <Checkbox
-                  checked={checkedItems[option.key] || false}
+                  checked={checkedItems[option.value] || false}
                   onChange={e => handleChange(e, name)}
-                  name={option.key}
+                  name={option.value}
                 />
               }
-              label={option.value}
+              label={option.title}
             />
           ))}
         </FormGroup>
