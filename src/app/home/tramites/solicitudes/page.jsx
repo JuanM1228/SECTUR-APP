@@ -159,6 +159,7 @@ const Solicitudes = () => {
           backStep={onBackStepHandler}
           register={register}
           setRegister={setRegister}
+          pstId={tipoPST}
         />
       )}
       {tipoPST === PST_ENUM.AGENCIA_VIAJES && (
