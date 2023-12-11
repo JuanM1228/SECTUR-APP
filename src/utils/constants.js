@@ -167,7 +167,8 @@ export const STEP_ENUM = {
   CONTACTO: 2,
   INFO_LEGAL: 3,
   DETALLES: 4,
-  DOCUMENTOS: 5, // TODO: Verificar si es necesario
+  DOCUMENTOS: 5,
+  COMPLETADO: 6,
 }
 
 /**

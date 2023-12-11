@@ -13,6 +13,7 @@ import OperadoraBuceo from '@/components/solicitudes/formulariosPST/OperadoraBuc
 import DetalleGenerico from '@/components/solicitudes/formulariosPST/DetalleGenerico'
 import ArrendadoraAutos from '@/components/solicitudes/formulariosPST/ArrendadoraAutos'
 import AlimentosBebidas from '@/components/solicitudes/formulariosPST/AlimentosBebidas'
+import ProcedureCompleted from '@/components/solicitudes/ProcedureCompleted'
 
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
@@ -86,6 +87,8 @@ const Solicitudes = () => {
         step={step}
         pstId={register?.datosGenerales?.tipoPST}
         onSubmitHandler={onSubmitHandler}
+        nextStep={onNextStepHandler}
+        backStep={onBackStepHandler}
       />
       {/* TODO: Añadir subcategoría en los detalles de pst? */}
       {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
@@ -179,6 +182,7 @@ const Solicitudes = () => {
           setRegister={setRegister}
         />
       )}
+      <ProcedureCompleted step={step} />
     </div>
   )
 }

@@ -9,7 +9,7 @@ import Icons from '@/assets/icons'
 import { STEP_ENUM } from '@/utils/constants'
 
 const Documents = props => {
-  const { step, onSubmitHandler } = props
+  const { step, nextStep, backStep } = props
   // const { step, onSubmitHandler, pstId } = props
   const { sendRequest, isLoading } = useHttpClient()
   const [documentsList, setDocumentsList] = useState([])
@@ -47,24 +47,24 @@ const Documents = props => {
     // const fileData = { id, file }
     // setFilesList([...filesList, fileData])
 
-    const formData = new FormData()
-    formData.append('id', id)
-    formData.append('step', 5)
-    formData.append('file', file)
-    console.log('formData', formData)
-    const url = `/api/registro/solicitud`
-    try {
-      const res = await sendRequest(url, {
-        method: 'POST',
-        body: formData,
-      })
-      console.log(res, 'res')
-      if (!res.success) return
-      console.log(res, 'res')
-      // setDocumentsList(res.result.data)
-    } catch (error) {
-      console.log('error', error)
-    }
+    // const formData = new FormData()
+    // formData.append('id', id)
+    // formData.append('step', 5)
+    // formData.append('file', file)
+    // // console.log('formData', formData)
+    // const url = `/api/registro/solicitud`
+    // try {
+    //   const res = await sendRequest(url, {
+    //     method: 'POST',
+    //     body: formData,
+    //   })
+    //   console.log(res, 'res')
+    //   if (!res.success) return
+    //   console.log(res, 'res')
+    //   // setDocumentsList(res.result.data)
+    // } catch (error) {
+    //   console.log('error', error)
+    // }
   }
 
   // const onSubmitDocumentsHandler = async () => {
@@ -83,6 +83,18 @@ const Documents = props => {
   //     console.log('error', error)
   //   }
   // }
+
+  const onSubmitHandler = async e => {
+    e.preventDefault()
+    // const infoObject = {
+    //   ...data,
+    //   serviciosAdicionalesList: getSelectedValues(
+    //     checkedItems.serviciosAdicionalesList,
+    //   ),
+    // }
+    // setRegister({ ...register, detallesPST: infoObject })
+    nextStep()
+  }
 
   console.log(documentsList)
   console.log('filesList', filesList)
@@ -118,7 +130,19 @@ const Documents = props => {
           </div>
         )
       })}
-      <Button content="Siguiente" type="submit" className=" w-full sm:w-auto" />
+           <div className=" flex gap-6 justify-between">
+        <Button
+          content="Regresar"
+          type="button"
+          className=" w-full sm:w-auto"
+          onClick={backStep}
+        />
+        <Button
+          content="Siguiente"
+          type="submit"
+          className=" w-full sm:w-auto"
+        />
+      </div>
     </form>
   )
 }
