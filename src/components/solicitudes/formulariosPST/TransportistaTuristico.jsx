@@ -8,6 +8,12 @@ import Dropdown from '@/components/common/Dropdown'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { STEP_ENUM, TRANSPORTISTA_TURISTICO_INIT_DATA } from '@/utils/constants'
 
+const subcategoriaData = [
+  { value: 1, title: 'Embarcación menor de recreo' },
+  { value: 2, title: 'Transporte terrestre' },
+  { value: 3, title: 'Transporte aéreo' },
+]
+
 const tipoServicioData = [
   { value: 1, title: 'Transportadora' },
   { value: 2, title: 'Transportadora Matriz' },
@@ -71,7 +77,7 @@ const TransportistaTuristico = ({
     setRegister({ ...register, detallesPST: data })
     console.log(data)
     // TODO: Add validation and next step handler
-    // nextStep()
+    nextStep()
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)

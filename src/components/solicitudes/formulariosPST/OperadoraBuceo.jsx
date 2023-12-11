@@ -52,7 +52,7 @@ const OperadoraBuceo = ({
     setRegister({ ...register, detallesPST: data })
     // TODO: Add validation and next step handler
     console.log(data)
-    // nextStep()
+    nextStep()
   }
 
   return (
@@ -68,13 +68,20 @@ const OperadoraBuceo = ({
           label="Nombre de la Matriz"
           name="nombreMatriz"
           onChange={onHandleChange}
+          value={data.nombreMatriz}
         />
-        <Input label="Domicilio" name="domicilio" onChange={onHandleChange} />
+        <Input
+          label="Domicilio"
+          name="domicilio"
+          onChange={onHandleChange}
+          value={data.domicilio}
+        />
         <Input
           label="Teléfono"
           name="telefono"
           type="number"
           onChange={onHandleChange}
+          value={data.telefono}
         />
         <Dropdown
           label="Tipo de establecimiento"
@@ -89,6 +96,7 @@ const OperadoraBuceo = ({
           name="numeroSucursales"
           type="number"
           onChange={onHandleChange}
+          value={data.numeroSucursales}
         />
       </section>
       <Input
@@ -97,6 +105,7 @@ const OperadoraBuceo = ({
         rows={4}
         multiline
         onChange={onHandleChange}
+        value={data.afiliaciones}
       />
       <div className=" flex gap-6 justify-between">
         <Button

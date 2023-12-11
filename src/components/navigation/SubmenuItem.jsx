@@ -18,7 +18,6 @@ const SubMenuItem = ({ section }) => {
 
   const onHandleClick = () => {
     setOpen(!open)
-    console.log(section.path)
     if (section.path) {
       router.push(section.path)
     }

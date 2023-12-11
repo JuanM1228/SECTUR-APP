@@ -148,6 +148,7 @@ export const TIEMPOS_COMPARTIDOS_INIT_DATA = {
 }
 
 export const TRANSPORTISTA_TURISTICO_INIT_DATA = {
+  subcategoria: null,
   tipoEstablecimientoSelected: null,
   tipoServicioSelected: null,
   numSucursales: '',
@@ -166,7 +167,8 @@ export const STEP_ENUM = {
   CONTACTO: 2,
   INFO_LEGAL: 3,
   DETALLES: 4,
-  DOCUMENTOS: 5, // TODO: Verificar si es necesario
+  DOCUMENTOS: 5,
+  COMPLETADO: 6,
 }
 
 /**
