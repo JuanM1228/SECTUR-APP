@@ -1,55 +1,14 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import CheckboxForm from '@/components/common/CheckboxForm'
 import Dropdown from '@/components/common/Dropdown'
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 
-import { INIT_ALIMENTOS_BEBIDAS, STEP_ENUM } from '@/utils/constants'
 import { getSelectedValues } from '@/utils/common'
-
-const ubicacionData = [
-  { value: 1, title: 'Ninguno' },
-  { value: 2, title: 'Hotel' },
-  { value: 3, title: 'Museo' },
-  { value: 4, title: 'Terminal de transportes' },
-  { value: 5, title: 'Zona arqueológica' },
-]
-const tipoServicioData = [
-  { value: 1, title: 'Autoservicio' },
-  { value: 2, title: 'En mesa' },
-  { value: 3, title: 'Mixto' },
-]
-const espectaculoData = [
-  { value: 1, title: 'Ninguno' },
-  { value: 2, title: 'Mixto' },
-  { value: 3, title: 'Música grabada' },
-  { value: 4, title: 'Música viva' },
-]
-const especialidadesData = [
-  { value: 1, title: 'Aves' },
-  { value: 2, title: 'Carnes' },
-  { value: 3, title: 'Mixta' },
-  { value: 4, title: 'Pescados y mariscos' },
-  { value: 5, title: 'Vegetariana' },
-  { value: 6, title: 'Otra' },
-]
-const comidaData = [
-  { value: 1, title: 'Ninguno' },
-  { value: 2, title: 'Comercial' },
-  { value: 3, title: 'Internacional' },
-  { value: 4, title: 'País o Regional' },
-]
-
-const serviciosData = [
-  { key: 'id1', value: 'Aire acondicionado' },
-  { key: 'id2', value: 'Área de recepción' },
-  { key: 'id3', value: 'Estacionamiento' },
-  { key: 'id4', value: "Maitre d'" },
-  { key: 'id5', value: 'Reservaciones' },
-  { key: 'id6', value: 'Valet de estacionamiento' },
-]
+import { useHttpClient } from '@/hooks/useHttpClient'
+import { INIT_ALIMENTOS_BEBIDAS, STEP_ENUM } from '@/utils/constants'
 
 const AlimentosBebidas = ({
   step,
@@ -59,7 +18,51 @@ const AlimentosBebidas = ({
   register,
   setRegister,
 }) => {
+  const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(dataPst ? dataPst : INIT_ALIMENTOS_BEBIDAS)
+  const [dataBackend, setDataBackend] = useState({
+    subcategoriaData: [],
+    tipoServicioData: [],
+    espectaculoData: [],
+    especialidadesData: [],
+    comidaData: [],
+    ubicacionData: [],
+    serviciosAdicionalesData: [],
+  })
+
+  useEffect(() => {
+    getDropdownsData()
+  }, [])
+
+  const getDropdownsData = async () => {
+    const url = '/api/configuration/catalogo-detalle-pst/3'
+    try {
+      const res = await sendRequest(url)
+      console.log(res)
+      if (res.success) {
+        const {
+          ubicacionAYB,
+          tiposDeServicio,
+          espectaculosAYB,
+          especialidadesAYB,
+          tiposDeComida,
+          serviciosAdicionales,
+          SubCategoria,
+        } = res.result.data
+        setDataBackend({
+          subcategoriaData: SubCategoria,
+          tipoServicioData: tiposDeServicio,
+          espectaculoData: espectaculosAYB,
+          especialidadesData: especialidadesAYB,
+          comidaData: tiposDeComida,
+          ubicacionData: ubicacionAYB,
+          serviciosAdicionalesData: serviciosAdicionales,
+        })
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const [checkedItems, setCheckedItems] = useState({
     serviciosAdicionalesList: {},
@@ -91,11 +94,6 @@ const AlimentosBebidas = ({
     nextStep()
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -109,7 +107,7 @@ const AlimentosBebidas = ({
           name="subcategoria"
           variant="outlined"
           value={data.subcategoria ? data.subcategoria : 0}
-          options={tipoServicioData}
+          options={dataBackend.tipoServicioData}
           onChange={onHandleChange}
         />
 
@@ -118,7 +116,7 @@ const AlimentosBebidas = ({
           name="tipoDeServicio"
           variant="outlined"
           value={data.tipoDeServicio ? data.tipoDeServicio : 0}
-          options={tipoServicioData}
+          options={dataBackend.tipoServicioData}
           onChange={onHandleChange}
         />
         <Dropdown
@@ -126,7 +124,7 @@ const AlimentosBebidas = ({
           name="espectaculo"
           variant="outlined"
           value={data.espectaculo ? data.espectaculo : 0}
-          options={espectaculoData}
+          options={dataBackend.espectaculoData}
           onChange={onHandleChange}
         />
         <Dropdown
@@ -134,7 +132,7 @@ const AlimentosBebidas = ({
           name="especialidades"
           variant="outlined"
           value={data.especialidades ? data.especialidades : 0}
-          options={especialidadesData}
+          options={dataBackend.especialidadesData}
           onChange={onHandleChange}
         />
         <Dropdown
@@ -142,7 +140,7 @@ const AlimentosBebidas = ({
           name="tiposDeComida"
           variant="outlined"
           value={data.tiposDeComida ? data.tiposDeComida : 0}
-          options={comidaData}
+          options={dataBackend.comidaData}
           onChange={onHandleChange}
         />
         <Input
@@ -171,7 +169,7 @@ const AlimentosBebidas = ({
           name="ubicacion"
           variant="outlined"
           value={data.ubicacion ? data.ubicacion : 0}
-          options={ubicacionData}
+          options={dataBackend.ubicacionData}
           onChange={onHandleChange}
         />
       </section>
@@ -188,7 +186,7 @@ const AlimentosBebidas = ({
         <CheckboxForm
           title="Servicios adicionales"
           name="serviciosAdicionalesList"
-          options={serviciosData}
+          options={dataBackend.serviciosAdicionalesData}
           checkedItems={checkedItems.serviciosAdicionalesList}
           handleChange={checkboxHandler}
         />

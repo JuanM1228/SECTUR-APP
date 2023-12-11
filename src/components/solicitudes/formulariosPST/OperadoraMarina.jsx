@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import CheckboxForm from '@/components/common/CheckboxForm'
 import Dropdown from '@/components/common/Dropdown'
@@ -7,41 +7,8 @@ import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 
 import { OPERADORA_MARINA_INIT_DATA, STEP_ENUM } from '@/utils/constants'
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { getSelectedValues } from '@/utils/common'
-
-const espaciosData = [
-  { value: 1, title: '0 hasta 31 pies' },
-  { value: 2, title: '32 hasta 41 pies' },
-  { value: 3, title: '42 hasta 51 pies' },
-  { value: 4, title: '52 hasta 61 pies' },
-  { value: 5, title: '62 hasta 71 pies' },
-  { value: 6, title: '72 hasta 81 pies' },
-  { value: 7, title: '82 hasta 91 pies' },
-  { value: 8, title: '92 hasta 101 pies' },
-  { value: 9, title: 'Más de 102 pies' },
-]
-
-const serviciosData = [
-  { key: 'id1', value: 'Hotel' },
-  { key: 'id2', value: 'Locales' },
-  { key: 'id3', value: 'Restaurante' },
-  { key: 'id4', value: 'Supermecado' },
-]
-
-const instalacionesData = [
-  { key: 'id1', value: 'Agua potable' },
-  { key: 'id2', value: 'Alumbrado general' },
-  { key: 'id3', value: 'Eliminación de aguas residuales' },
-  { key: 'id4', value: 'Equipo contra incendio' },
-  { key: 'id5', value: 'Radiocomunicación' },
-  { key: 'id6', value: 'Rampa para barda y botadura' },
-  { key: 'id7', value: 'Recolección de basura y desechos' },
-  { key: 'id8', value: 'Sanitario' },
-  { key: 'id9', value: 'Señales de entrada y salida' },
-  { key: 'id10', value: 'Suministro de combustible y lubricantes' },
-  { key: 'id11', value: 'Suministro de energía eléctrica' },
-  { key: 'id12', value: 'Taller de mantenimiento' },
-]
 
 const OperadoraMarina = ({
   step,
@@ -51,14 +18,49 @@ const OperadoraMarina = ({
   register,
   setRegister,
 }) => {
+  const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(
     dataPst ? dataPst : OPERADORA_MARINA_INIT_DATA,
   )
+  const [dataBackend, setDataBackend] = useState({
+    espacioDeFondoData: [],
+    espacioDeAtraqueData: [],
+    serviciosAdicionalesData: [],
+    instalacionesOfrecidasData: [],
+  })
 
   const [checkedItems, setCheckedItems] = useState({
     serviciosAdicionalesList: {},
     instalacionesList: {},
   })
+
+  useEffect(() => {
+    getDropdownsData()
+  }, [])
+
+  const getDropdownsData = async () => {
+    const url = '/api/configuration/catalogo-detalle-pst/12'
+    try {
+      const res = await sendRequest(url)
+      console.log(res)
+      if (res.success) {
+        const {
+          serviciosAdicionales,
+          espacioDeFondo,
+          espacioDeAtraque,
+          instalacionesOfrecidas,
+        } = res.result.data
+        setDataBackend({
+          espacioDeFondoData: espacioDeFondo,
+          espacioDeAtraqueData: espacioDeAtraque,
+          serviciosAdicionalesData: serviciosAdicionales,
+          instalacionesOfrecidasData: instalacionesOfrecidas,
+        })
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
@@ -113,6 +115,7 @@ const OperadoraMarina = ({
           onChange={onHandleChange}
           value={data.superficieTotal}
         />
+
         <Input
           label="Superficie acuática (metros)"
           name="superficieAcuatica"
@@ -120,6 +123,7 @@ const OperadoraMarina = ({
           onChange={onHandleChange}
           value={data.superficieAcuatica}
         />
+
         <Dropdown
           label="Número de espacios de atraque"
           name="espaciosAtraqueSelected"
@@ -127,9 +131,10 @@ const OperadoraMarina = ({
           value={
             data.espaciosAtraqueSelected ? data.espaciosAtraqueSelected : 0 // TODO: default value 0 or null?
           }
-          options={espaciosData}
+          options={dataBackend.espacioDeAtraqueData}
           onChange={onHandleChange}
         />
+
         <Dropdown
           label="Número de espacios de fondo"
           name="espaciosFondoSelected"
@@ -137,22 +142,22 @@ const OperadoraMarina = ({
           value={
             data.espaciosFondoSelected ? data.espaciosFondoSelected : 0 // TODO: default value 0 or null?
           }
-          options={espaciosData}
+          options={dataBackend.espacioDeFondoData}
           onChange={onHandleChange}
         />
       </section>
-      <section className="grid sm:grid-cols-2 gap-6">
+      <section className="flex flex-col">
         <CheckboxForm
           title="Instalaciones ofrecidas"
           name="instalacionesList"
-          options={instalacionesData}
+          options={dataBackend.instalacionesOfrecidasData}
           checkedItems={checkedItems.instalacionesList}
           handleChange={checkboxHandler}
         />
         <CheckboxForm
           title="Servicios adicionales"
           name="serviciosAdicionalesList"
-          options={serviciosData}
+          options={dataBackend.serviciosAdicionalesData}
           checkedItems={checkedItems.serviciosAdicionalesList}
           handleChange={checkboxHandler}
         />

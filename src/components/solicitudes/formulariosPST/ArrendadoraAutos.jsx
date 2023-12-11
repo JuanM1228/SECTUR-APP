@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_ARRENDADORA_AUTOS, STEP_ENUM } from '@/utils/constants'
 
 const ArrendadoraAutos = ({
@@ -15,7 +16,28 @@ const ArrendadoraAutos = ({
   register,
   setRegister,
 }) => {
+  const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(dataPst ? dataPst : INIT_ARRENDADORA_AUTOS)
+  const [tiposDeEstablecimientosData, setTiposDeEstablecimientosData] =
+    useState([])
+
+  useEffect(() => {
+    getDropdownsData()
+  }, [])
+
+  const getDropdownsData = async () => {
+    const url = '/api/configuration/catalogo-detalle-pst/4'
+    try {
+      const res = await sendRequest(url)
+      console.log(res)
+      if (res.success) {
+        const { tiposDeEstablecimientos } = res.result.data
+        setTiposDeEstablecimientosData(tiposDeEstablecimientos)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
@@ -28,11 +50,6 @@ const ArrendadoraAutos = ({
     nextStep()
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -43,20 +60,11 @@ const ArrendadoraAutos = ({
 
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
-          label="Subcategoría"
-          name="subcategoria"
-          variant="outlined"
-          value={data.subcategoria ? data.subcategoria : 0}
-          options={testData}
-          onChange={onHandleChange}
-        />
-
-        <Dropdown
           label="Tipo de establecimiento"
           name="tipoEstablecimiento"
           variant="outlined"
           value={data.tipoEstablecimiento ? data.tipoEstablecimiento : 0}
-          options={testData}
+          options={tiposDeEstablecimientosData}
           onChange={onHandleChange}
         />
 

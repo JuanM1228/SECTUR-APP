@@ -17,23 +17,31 @@ const DetalleGenerico = ({
   backStep,
   register,
   setRegister,
+  pstId,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(dataPst ? dataPst : INIT_DETALLE_GENERICO)
   const [dateStart, setDateStart] = useState(null)
-  const [tipoDePersona, setTipoPersona] = useState([])
+  const [dataBackend, setDataBackend] = useState({
+    tipoDePersona: [],
+    subcategoriaData: null,
+  })
 
   useEffect(() => {
     getDropdownsData()
-  }, [])
+  }, [pstId])
 
   const getDropdownsData = async () => {
-    const url = '/api/configuration/catalogo-detalle-pst/2'
+    console.log(pstId)
+    const url = `/api/configuration/catalogo-detalle-pst/${pstId}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
         console.log('detalle generico', res.result.data)
-        setTipoPersona(res.result.data.tipoDePersona)
+        setDataBackend({
+          tipoDePersona: res.result.data.tipoDePersona,
+          subcategoriaData: res.result.data.SubCategoria,
+        })
       }
     } catch (error) {
       console.log('error', error)
@@ -67,21 +75,23 @@ const DetalleGenerico = ({
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
 
-      <Dropdown
-        label="Subcategoría"
-        name="subcategoria"
-        variant="outlined"
-        value={data.subcategoria ? data.subcategoria : 0}
-        options={testData}
-        onChange={onHandleChange}
-      />
+      {dataBackend.subcategoriaData && (
+        <Dropdown
+          label="Subcategoría"
+          name="subcategoria"
+          variant="outlined"
+          value={data.subcategoria ? data.subcategoria : 0}
+          options={dataBackend.subcategoriaData}
+          onChange={onHandleChange}
+        />
+      )}
 
       <Dropdown
         label="Tipo de persona"
         name="tipoPersona"
         variant="outlined"
         value={data.tipoPersona ? data.tipoPersona : 0}
-        options={tipoDePersona}
+        options={dataBackend.tipoDePersona}
         onChange={onHandleChange}
       />
 

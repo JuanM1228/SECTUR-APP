@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { STEP_ENUM, TRANSPORTISTA_TURISTICO_INIT_DATA } from '@/utils/constants'
 
 const subcategoriaData = [
@@ -34,9 +35,38 @@ const TransportistaTuristico = ({
   register,
   setRegister,
 }) => {
+  const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(
     dataPst ? dataPst : TRANSPORTISTA_TURISTICO_INIT_DATA,
   )
+  const [dataBackend, setDataBackend] = useState({
+    subcategoriaData: [],
+    tipoServicioData: [],
+    tiposDeEstablecimientosData: [],
+  })
+
+  useEffect(() => {
+    getDropdownsData()
+  }, [])
+
+  const getDropdownsData = async () => {
+    const url = '/api/configuration/catalogo-detalle-pst/17'
+    try {
+      const res = await sendRequest(url)
+      console.log(res)
+      if (res.success) {
+        const { tiposDeEstablecimientos, serviciosOfrecidos, SubCategoria } =
+          res.result.data
+        setDataBackend({
+          subcategoriaData: SubCategoria,
+          tipoServicioData: serviciosOfrecidos,
+          tiposDeEstablecimientosData: tiposDeEstablecimientos,
+        })
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
@@ -64,10 +94,8 @@ const TransportistaTuristico = ({
           label="Subcategoría"
           name="subcategoria"
           variant="outlined"
-          value={
-            data.subcategoria ? data.subcategoria : 0 // TODO: default value 0 or null?
-          }
-          options={subcategoriaData}
+          value={data.subcategoria ? data.subcategoria : 0}
+          options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
         <Dropdown
@@ -79,7 +107,7 @@ const TransportistaTuristico = ({
               ? data.tipoEstablecimientoSelected
               : 0 // TODO: default value 0 or null?
           }
-          options={tipoServicioData}
+          options={dataBackend.tiposDeEstablecimientosData}
           onChange={onHandleChange}
         />
         <Dropdown
@@ -89,7 +117,7 @@ const TransportistaTuristico = ({
           value={
             data.tipoServicioSelected ? data.tipoServicioSelected : 0 // TODO: default value 0 or null?
           }
-          options={servicioOfrecidoData}
+          options={dataBackend.tipoServicioData}
           onChange={onHandleChange}
         />
         <Input

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import CheckboxForm from '@/components/common/CheckboxForm'
 import Input from '@/components/common/Input'
@@ -7,8 +7,9 @@ import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 import DatePickerCustom from '@/components/common/DatePicker'
 
-import { INIT_AGENCIA_VIAJES, STEP_ENUM } from '@/utils/constants'
 import { getSelectedValues } from '@/utils/common'
+import { useHttpClient } from '@/hooks/useHttpClient'
+import { INIT_AGENCIA_VIAJES, STEP_ENUM } from '@/utils/constants'
 
 const AgenciaViaje = ({
   step,
@@ -18,11 +19,39 @@ const AgenciaViaje = ({
   register,
   setRegister,
 }) => {
+  const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(dataPst ? dataPst : INIT_AGENCIA_VIAJES)
   const [error, setError] = useState(INIT_AGENCIA_VIAJES)
+  const [dataBackend, setDataBackend] = useState({
+    afiliacionesData: [],
+    boletajeData: [],
+    subcategoriaData: [],
+  })
   const [checkedItems, setCheckedItems] = useState({
     afiliacionesList: {},
   })
+
+  useEffect(() => {
+    getDropdownsData()
+  }, [])
+
+  const getDropdownsData = async () => {
+    const url = '/api/configuration/catalogo-detalle-pst/1'
+    try {
+      const res = await sendRequest(url)
+      console.log(res)
+      if (res.success) {
+        const { afiliacion, tipoBoletaje, SubCategoria } = res.result.data
+        setDataBackend({
+          afiliacionesData: afiliacion,
+          boletajeData: tipoBoletaje,
+          subcategoriaData: SubCategoria,
+        })
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
@@ -49,21 +78,6 @@ const AgenciaViaje = ({
     nextStep()
   }
 
-  const boletajeData = [
-    { value: 1, title: 'Ninguno' },
-    { value: 2, title: 'Doméstico' },
-    { value: 3, title: 'Internacional' },
-  ]
-
-  const afiliacionesData = [
-    { key: 'id1', value: 'AMAV' },
-    { key: 'id2', value: 'ASTA' },
-    { key: 'id3', value: 'COTAL' },
-    { key: 'id4', value: 'FUAV' },
-    { key: 'id5', value: 'IATA' },
-    { key: 'id6', value: 'OTURMEX' },
-  ]
-
   return (
     <form
       className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
@@ -77,7 +91,7 @@ const AgenciaViaje = ({
           name="subcategoria"
           variant="outlined"
           value={data.subcategoria ? data.subcategoria : 0}
-          options={boletajeData}
+          options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
         <Input
@@ -117,7 +131,7 @@ const AgenciaViaje = ({
           name="boletaje"
           variant="outlined"
           value={data.boletaje ? data.boletaje : 0}
-          options={boletajeData}
+          options={dataBackend.boletajeData}
           onChange={onHandleChange}
         />
       </section>
@@ -125,7 +139,7 @@ const AgenciaViaje = ({
         <CheckboxForm
           title="Afiliaciones"
           name="afiliacionesList"
-          options={afiliacionesData}
+          options={dataBackend.afiliacionesData}
           checkedItems={checkedItems.afiliacionesList}
           handleChange={checkboxHandler}
         />
