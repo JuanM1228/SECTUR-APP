@@ -40,6 +40,7 @@ import {
   Visibility,
   VisibilityOff,
   Waves,
+  TaskAlt,
 } from '@mui/icons-material'
 
 const Icons = {
@@ -84,6 +85,7 @@ const Icons = {
   Visibility,
   VisibilityOff,
   Waves,
+  TaskAlt,
 }
 
 export default Icons
