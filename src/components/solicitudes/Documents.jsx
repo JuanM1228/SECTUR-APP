@@ -84,6 +84,55 @@ const Documents = props => {
   //   }
   // }
 
+  const handleFileUpload2 = async (e, id) => {
+    const file = e.target.files[0]
+    if (!file) {
+      //   const updatedFilesList = filesList.filter(item => item.id !== id)
+      //   setFilesList(updatedFilesList)
+      return
+    }
+    // console.log('event', e.target.files[0])
+    // const fileData = { id, file }
+    // setFilesList([...filesList, fileData])
+
+    const formData = new FormData()
+    console.log('file', file)
+    formData.append('id', id)
+    formData.append('step', 5)
+    formData.append('file', file)
+    console.log('formData', formData)
+    const url = `http://localhost:3000/send`
+    try {
+      const res = await sendRequest(url, {
+        method: 'POST',
+        file: formData,
+      })
+      console.log(res, 'res')
+      if (!res.success) return
+      console.log(res, 'res')
+      // setDocumentsList(res.result.data)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  // const onSubmitDocumentsHandler = async () => {
+  //   const formData = new FormData()
+  //   filesList.forEach(item => {
+  //     formData.append('data', item)
+  //     formData.append('file', item.file)
+  //     formData.append('id', item.id)
+  //   })
+  //   const url = `/api/registro/cat_docs/${pstId}`
+  //   try {
+  //     const res = await sendRequest(url, 'POST', formData)
+  //     if (!res.success) return
+  //     setDocumentsList(res.result.data)
+  //   } catch (error) {
+  //     console.log('error', error)
+  //   }
+  // }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     // const infoObject = {
@@ -123,7 +172,7 @@ const Documents = props => {
                 type="file"
                 accept="image/png, image/jpeg, .pdf"
                 className="block w-full text-sm text-black font-GMX file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-GMX file:bg-bigDipORuby file:text-white file:shadow-xl file:cursor-pointer"
-                onChange={e => handleFileUpload(e, item.id)}
+                onChange={e => handleFileUpload2(e, item.id)}
               />
               {/* {isDocumentUploaded && <Icons.Delete className="text-error" />} */}
             </div>
