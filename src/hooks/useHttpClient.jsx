@@ -31,6 +31,8 @@ export const useHttpClient = () => {
     }
 
     if (reqOptions?.file) {
+      // reqParams.headers = null
+      delete reqParams.headers
       reqParams.body = reqOptions.file
     }
 
