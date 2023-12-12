@@ -101,7 +101,7 @@ const Documents = props => {
     formData.append('step', 5)
     formData.append('file', file)
     console.log('formData', formData)
-    const url = `http://localhost:3000/send`
+    const url = `/api/registro/solicitud-documents`
     try {
       const res = await sendRequest(url, {
         method: 'POST',
