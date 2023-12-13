@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import './transitions.css';
+@import './solicitudes.css';
 
 @layer base {
     :root {}

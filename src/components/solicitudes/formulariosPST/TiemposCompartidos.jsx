@@ -85,7 +85,7 @@ const TiemposCompartidos = ({
 
   return (
     <form
-      className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
+      className={`container-form-solicitud t-ease ${
         step === STEP_ENUM.DETALLES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>

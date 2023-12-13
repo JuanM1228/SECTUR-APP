@@ -1,0 +1,3 @@
+.container-form-solicitud{
+  @apply absolute w-11/12 sm:w-7/12 flex flex-col m-4 gap-6 rounded-lg shadow-xl p-12
+}

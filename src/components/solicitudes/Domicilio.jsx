@@ -12,6 +12,7 @@ import { INIT_DATA_DOMICILIO, STEP_ENUM } from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { validate } from '@/utils/validation'
 import 'leaflet/dist/leaflet.css'
+import '@/styles/leaflet.css'
 
 const Domicilio = ({
   step,
@@ -82,7 +83,7 @@ const Domicilio = ({
 
   return (
     <form
-      className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
+      className={`container-form-solicitud t-ease ${
         step === STEP_ENUM.DOMICILIO ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
@@ -151,7 +152,7 @@ const Domicilio = ({
           data.latitud ? [data.latitud, data.longitud] : [19.42847, -99.12766]
         }
         zoom={13}
-        className="sm:col-span-2 w-full h-[500px]">
+        className="sm:col-span-2 w-full h-[500px] bg-bigDipORuby">
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
