@@ -98,6 +98,7 @@ const Documents = props => {
     const formData = new FormData()
     console.log('file', file)
     formData.append('id', id)
+    formData.append('idSolicitud', id)
     formData.append('step', 5)
     formData.append('file', file)
     console.log('formData', formData)
@@ -179,7 +180,7 @@ const Documents = props => {
           </div>
         )
       })}
-           <div className=" flex gap-6 justify-between">
+      <div className=" flex gap-6 justify-between">
         <Button
           content="Regresar"
           type="button"
