@@ -5,7 +5,6 @@ import { useHttpClient } from '@/hooks/useHttpClient'
 import { List } from '@mui/material'
 import Icons from '@/assets/icons'
 
-import { NAVIGATION_CONFIG } from '@/configuration/navigation/navigation.config'
 import MenuItem from './MenuItem'
 
 const Menu = ({ openMenu, setOpenMenu }) => {
@@ -18,7 +17,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
   }, [])
 
   const getMenu = async () => {
-    const url = `/api/configuration/menu-user/${profile.email}`
+    const url = `/api/configuration/menu-user/${profile?.email}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
@@ -51,10 +50,8 @@ const Menu = ({ openMenu, setOpenMenu }) => {
 
       <nav>
         <List>
-          {NAVIGATION_CONFIG.map(section => (
-            <MenuItem key={section.key} section={section}>
-              <MenuItem />
-            </MenuItem>
+          {menu.map(section => (
+            <MenuItem key={section.key} section={section} />
           ))}
         </List>
       </nav>
