@@ -6,8 +6,6 @@ import Contacto from '@/components/solicitudes/Contacto'
 import DatosGenerales from '@/components/solicitudes/DatosGenerales'
 import InformacionLegal from '@/components/solicitudes/InformacionLegal'
 import AgenciaViaje from '@/components/solicitudes/formulariosPST/AgenciaViaje'
-import Detalles from '@/components/solicitudes/Detalles'
-import Stepper from '@/components/common/Stepper'
 import Documents from '@/components/solicitudes/Documents'
 import OperadoraBuceo from '@/components/solicitudes/formulariosPST/OperadoraBuceo'
 import DetalleGenerico from '@/components/solicitudes/formulariosPST/DetalleGenerico'
@@ -48,7 +46,7 @@ const Solicitudes = () => {
   // const tipoPST = PST_ENUM.TRANSPORTISTA_TURISTICO
 
   return (
-    <div className="h-[calc(100vh-5rem)] flex flex-col justify-start  sm:items-center ">
+    <div className="container flex flex-col justify-start items-center ">
       <DatosGenerales
         step={step}
         datosGenerales={register.datosGenerales}

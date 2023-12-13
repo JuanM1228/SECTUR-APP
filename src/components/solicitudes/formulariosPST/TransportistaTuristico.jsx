@@ -8,25 +8,6 @@ import Dropdown from '@/components/common/Dropdown'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { STEP_ENUM, TRANSPORTISTA_TURISTICO_INIT_DATA } from '@/utils/constants'
 
-const subcategoriaData = [
-  { value: 1, title: 'Embarcación menor de recreo' },
-  { value: 2, title: 'Transporte terrestre' },
-  { value: 3, title: 'Transporte aéreo' },
-]
-
-const tipoServicioData = [
-  { value: 1, title: 'Transportadora' },
-  { value: 2, title: 'Transportadora Matriz' },
-  { value: 3, title: 'Transportadora Sucursal' },
-]
-
-const servicioOfrecidoData = [
-  { value: 1, title: 'Sin Guía de Turistas' },
-  { value: 2, title: 'Exclusivo' },
-  { value: 3, title: 'Contrato' },
-  { value: 4, title: 'Con Guía de Turistas' },
-]
-
 const TransportistaTuristico = ({
   step,
   dataPst,
@@ -84,7 +65,7 @@ const TransportistaTuristico = ({
 
   return (
     <form
-      className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
+      className={`container-form-solicitud t-ease ${
         step === STEP_ENUM.DETALLES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>

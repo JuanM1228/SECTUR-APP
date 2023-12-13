@@ -152,9 +152,7 @@ const Documents = props => {
 
   return (
     <form
-      className={`flex flex-col min-w-fit m-4 sm:w-2/3 gap-6 rounded-lg shadow-xl t-ease p-12 ${
-        showScreen ? '' : 'hide'
-      }`}
+      className={`container-form-solicitud t-ease ${showScreen ? '' : 'hide'}`}
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DOCUMENTOS</h1>
       {documentsList.map(item => {
