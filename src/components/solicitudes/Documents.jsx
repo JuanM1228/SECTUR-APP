@@ -98,6 +98,7 @@ const Documents = props => {
     const formData = new FormData()
     console.log('file', file)
     formData.append('id', id)
+    // TODO: change hardcoded idSolicitud
     formData.append('idSolicitud', id)
     formData.append('step', 5)
     formData.append('file', file)
