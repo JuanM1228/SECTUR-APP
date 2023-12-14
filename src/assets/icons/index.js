@@ -12,6 +12,7 @@ import {
   Check,
   Close,
   Delete,
+  Description,
   DinnerDining,
   Edit,
   Email,
@@ -20,6 +21,7 @@ import {
   ExpandMore,
   Flag,
   FormatListBulleted,
+  Gavel,
   Home,
   Hotel,
   Key,
@@ -29,6 +31,7 @@ import {
   NightShelter,
   Payment,
   Person,
+  Phone,
   Place,
   Public,
   RamenDining,
@@ -36,11 +39,11 @@ import {
   Search,
   Star,
   Straighten,
+  TaskAlt,
   TheaterComedy,
   Visibility,
   VisibilityOff,
   Waves,
-  TaskAlt,
 } from '@mui/icons-material'
 
 const Icons = {
@@ -57,6 +60,7 @@ const Icons = {
   Check,
   Close,
   Delete,
+  Description,
   DinnerDining,
   Edit,
   Email,
@@ -65,6 +69,7 @@ const Icons = {
   ExpandMore,
   Flag,
   FormatListBulleted,
+  Gavel,
   Home,
   Hotel,
   Key,
@@ -74,6 +79,7 @@ const Icons = {
   NightShelter,
   Payment,
   Person,
+  Phone,
   Place,
   Public,
   RamenDining,
@@ -81,11 +87,11 @@ const Icons = {
   Search,
   Star,
   Straighten,
+  TaskAlt,
   TheaterComedy,
   Visibility,
   VisibilityOff,
   Waves,
-  TaskAlt,
 }
 
 export default Icons
