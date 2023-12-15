@@ -200,7 +200,7 @@ export const PST_ENUM = {
 export const PST_INFO = {
   0: { name: 'Default', icon: 'HelpOutline' },
   1: { name: 'Agencia de Viajes', icon: 'Flight' },
-  2: { name: 'Agencia de Servicios', icon: 'Build' },
+  2: { name: 'Agencia de Servicios', icon: 'RoomService' },
   3: { name: 'Alimentos y Bebidas', icon: 'Restaurant' },
   4: { name: 'Arrendadora de Autos', icon: 'DriveEta' },
   5: { name: 'Balneario Acuático', icon: 'Pool' },
@@ -219,6 +219,12 @@ export const PST_INFO = {
   18: { name: 'Vuelo en Globo', icon: 'FlightTakeoff' },
 }
 
+export const STATUS_TRAMITE = {
+  EN_PROCESO: 1,
+  REVISION: 2,
+  RECHAZADO: 3,
+  FINALIZADO: 4,
+}
 /**
  * Array containing generic details of PST categories.
  * @type {Array<PST_ENUM>}

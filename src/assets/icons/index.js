@@ -1,4 +1,5 @@
 import {
+  Add,
   AccountBalance,
   Article,
   Assignment,
@@ -57,9 +58,11 @@ import {
   Tour,
   Commute,
   FlightTakeoff,
+  RoomService,
 } from '@mui/icons-material'
 
 const Icons = {
+  Add,
   AccountBalance,
   Article,
   Assignment,
@@ -118,6 +121,7 @@ const Icons = {
   Tour,
   Commute,
   FlightTakeoff,
+  RoomService,
 }
 
 export default Icons
