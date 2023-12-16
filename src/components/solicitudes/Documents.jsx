@@ -280,18 +280,12 @@ const Documents = props => {
                 </div>
               ) : (
                 <div className="flex items-center justify-center mt-2">
-                  {/* <input
-                    type="file"
-                    accept="image/png, image/jpeg, .pdf"
-                    className="block w-full text-sm text-black font-GMX file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-GMX file:bg-bigDipORuby file:text-white file:shadow-xl file:cursor-pointer mt-2"
-                    onChange={uploadDocumentHandler}
-                  /> */}
                   <ButtonMUI
                     className={`bg-bigDipORuby text-white hover:bg-bigDipORuby font-GMX font-bold w-full max-w-xs`}
                     component="label"
                     variant="contained"
                     startIcon={<CloudUploadIcon />}>
-                    Upload file
+                    Subir archivo
                     <VisuallyHiddenInput
                       type="file"
                       accept="image/png, image/jpeg, .pdf"
@@ -329,12 +323,20 @@ const Documents = props => {
           )
         })}
         {photosList?.length <= MAX_PHOTO_LENGTH ? (
-          <input
-            type="file"
-            accept="image/png, image/jpeg, .pdf"
-            className="block w-full text-sm text-black font-GMX file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-GMX file:bg-bigDipORuby file:text-white file:shadow-xl file:cursor-pointer mt-2"
-            onChange={uploadPhotoHandler}
-          />
+          <div className="flex items-center justify-center mt-2">
+          <ButtonMUI
+            className={`bg-bigDipORuby text-white hover:bg-bigDipORuby font-GMX font-bold w-full max-w-xs`}
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}>
+            Subir foto
+            <VisuallyHiddenInput
+              type="file"
+              accept="image/png, image/jpeg, .pdf"
+              onChange={uploadPhotoHandler}
+            />
+          </ButtonMUI>
+        </div>
         ) : (
           <p className="font-GMX text-gray text-sm">
             Límite de fotos alcanzado
