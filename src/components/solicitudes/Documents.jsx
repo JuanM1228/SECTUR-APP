@@ -93,25 +93,29 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Documents = props => {
-  const { step, nextStep, backStep, pstId, solicitudId } = props
+  const { step, nextStep, backStep } = props
   const [state, dispatch] = useReducer(reducer, initialState)
   const { sendRequest, isLoading } = useHttpClient()
   const showScreen = step === STEP_ENUM.DOCUMENTOS
 
+  // TODO: Delete this mock psdId & solicitudId
+  const pstId = 18
+  const solicitudId = 18
+
   useEffect(() => {
+    if (!pstId || !solicitudId) return
     initDataHandler()
   }, [pstId, solicitudId])
 
   const initDataHandler = async () => {
-    if (!pstId || !solicitudId) return
     const urls = [
-      `/api/registro/solicitud-documents/?${pstId}=18&solicitudId=${solicitudId}`,
+      `/api/registro/solicitud-documents/?pstId=${pstId}&solicitudId=${solicitudId}`,
       `/api/registro/solicitud-images/?solicitudId=${solicitudId}`,
     ]
-    console.log(urls)
     const requests = urls.map(url => sendRequest(url))
     Promise.all(requests)
       .then(res => {
+        console.log(res)
         const documentsList = res[0].result.data
         const photosList = res[1].result.data
         dispatch({
