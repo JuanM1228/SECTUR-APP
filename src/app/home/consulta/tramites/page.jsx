@@ -238,6 +238,7 @@ const Tramites = () => {
             {/* TODO: Add initial date and end date */}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <view>
+                {/* Cambiar por componente de fechas */}
                 <p className="flex-none mr-4 font-GMX text-gray text-sm">
                   Rango de fechas
                 </p>

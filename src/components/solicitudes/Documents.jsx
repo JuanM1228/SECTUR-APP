@@ -1,198 +1,381 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import { produce } from 'immer'
 
+import { IconButton } from '@mui/material'
 import Button from '../common/Button'
 import Icons from '@/assets/icons'
 
-import { STEP_ENUM } from '@/utils/constants'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+
+import ButtonMUI from '@mui/material/Button'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { styled } from '@mui/material/styles'
+
+import { MAX_PHOTO_LENGTH, STEP_ENUM } from '@/utils/constants'
+import colors from '@/assets/colors'
+
+const TYPE = {
+  INIT_DATA: 'INIT_DATA',
+  SHOW_MODAL: 'SHOW_MODAL',
+  HIDE_MODAL: 'HIDE_MODAL',
+  UPDATE_PHOTOS: 'UPDATE_PHOTOS',
+  UPDATE_DOCUMENTS: 'UPDATE_DOCUMENTS',
+}
+
+const FILE_TYPE = {
+  DOCUMENT: 'DOCUMENT',
+  PHOTO: 'PHOTO',
+}
+
+const initialState = {
+  documentsList: [],
+  photosList: [],
+  showModal: false,
+  selectedDoc: {
+    documentId: null,
+    documentName: null,
+    fileType: null,
+  },
+}
+
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case TYPE.SHOW_MODAL:
+      return produce(state, draftState => {
+        draftState.showModal = true
+        draftState.selectedDoc.documentId = payload.documentId
+        draftState.selectedDoc.documentName = payload.documentName
+        draftState.selectedDoc.fileType = payload.fileType
+      })
+    case TYPE.HIDE_MODAL:
+      return produce(state, draftState => {
+        draftState.showModal = false
+        draftState.selectedDoc.documentId = null
+        draftState.selectedDoc.documentName = null
+        draftState.selectedDoc.fileType = null
+      })
+    case TYPE.INIT_DATA:
+      return produce(state, draftState => {
+        draftState.photosList = payload.photosList
+        draftState.documentsList = payload.documentsList
+      })
+    case TYPE.UPDATE_PHOTOS:
+      return produce(state, draftState => {
+        draftState.photosList = payload.photosList
+      })
+    case TYPE.UPDATE_DOCUMENTS:
+      return produce(state, draftState => {
+        draftState.documentsList = payload.documentsList
+      })
+    default:
+      throw new Error()
+  }
+}
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+  color: colors.bigDipORuby,
+})
 
 const Documents = props => {
   const { step, nextStep, backStep } = props
-  // const { step, onSubmitHandler, pstId } = props
+  const [state, dispatch] = useReducer(reducer, initialState)
   const { sendRequest, isLoading } = useHttpClient()
-  const [documentsList, setDocumentsList] = useState([])
-  const [filesList, setFilesList] = useState([])
-  // const [idList, setIdList] = useState([])
   const showScreen = step === STEP_ENUM.DOCUMENTOS
 
-  // TODO: Delete this mock psdId
+  // TODO: Delete this mock psdId & solicitudId
   const pstId = 18
+  const solicitudId = 18
 
   useEffect(() => {
-    getDocumentsList()
-  }, [pstId])
+    initDataHandler()
+  }, [pstId, solicitudId])
 
-  const getDocumentsList = async () => {
+  const initDataHandler = async () => {
     if (!pstId) return
-    const url = `/api/registro/cat_docs/${pstId}`
+    const urls = [
+      `http://localhost:3000/api/registro/solicitud-documents/?${pstId}=18&solicitudId=${solicitudId}`,
+      `http://localhost:3000/api/registro/solicitud-images/?solicitudId=${solicitudId}`,
+    ]
+    const requests = urls.map(url => sendRequest(url))
+    Promise.all(requests)
+      .then(res => {
+        const documentsList = res[0].result.data
+        const photosList = res[1].result.data
+        dispatch({
+          type: TYPE.INIT_DATA,
+          payload: { documentsList, photosList },
+        })
+      })
+      .catch(err => console.log(err))
+  }
+
+  // Modal related functions
+  const handleClickOpen = (documentId, documentName, fileType) => {
+    dispatch({
+      type: TYPE.SHOW_MODAL,
+      payload: { documentId, documentName, fileType },
+    })
+  }
+
+  const handleClose = () => {
+    dispatch({ type: TYPE.HIDE_MODAL })
+  }
+
+  // Documents related functions
+  const updateDocumentsList = async () => {
+    const url = `http://localhost:3000/api/registro/solicitud-documents/?pstId=${pstId}&solicitudId=${solicitudId}`
     try {
       const res = await sendRequest(url)
       if (!res.success) return
-      setDocumentsList(res.result.data)
+      dispatch({
+        type: TYPE.UPDATE_DOCUMENTS,
+        payload: { documentsList: res.result.data },
+      })
     } catch (error) {
       console.log('error', error)
     }
   }
 
-  const handleFileUpload = async (e, id) => {
+  const uploadDocumentHandler = async e => {
     const file = e.target.files[0]
-    if (!file) {
-      //   const updatedFilesList = filesList.filter(item => item.id !== id)
-      //   setFilesList(updatedFilesList)
-      return
-    }
-    // console.log('event', e.target.files[0])
-    // const fileData = { id, file }
-    // setFilesList([...filesList, fileData])
-
-    // const formData = new FormData()
-    // formData.append('id', id)
-    // formData.append('step', 5)
-    // formData.append('file', file)
-    // // console.log('formData', formData)
-    // const url = `/api/registro/solicitud`
-    // try {
-    //   const res = await sendRequest(url, {
-    //     method: 'POST',
-    //     body: formData,
-    //   })
-    //   console.log(res, 'res')
-    //   if (!res.success) return
-    //   console.log(res, 'res')
-    //   // setDocumentsList(res.result.data)
-    // } catch (error) {
-    //   console.log('error', error)
-    // }
-  }
-
-  // const onSubmitDocumentsHandler = async () => {
-  //   const formData = new FormData()
-  //   filesList.forEach(item => {
-  //     formData.append('data', item)
-  //     formData.append('file', item.file)
-  //     formData.append('id', item.id)
-  //   })
-  //   const url = `/api/registro/cat_docs/${pstId}`
-  //   try {
-  //     const res = await sendRequest(url, 'POST', formData)
-  //     if (!res.success) return
-  //     setDocumentsList(res.result.data)
-  //   } catch (error) {
-  //     console.log('error', error)
-  //   }
-  // }
-
-  const handleFileUpload2 = async (e, id) => {
-    const file = e.target.files[0]
-    if (!file) {
-      //   const updatedFilesList = filesList.filter(item => item.id !== id)
-      //   setFilesList(updatedFilesList)
-      return
-    }
-    // console.log('event', e.target.files[0])
-    // const fileData = { id, file }
-    // setFilesList([...filesList, fileData])
+    if (!file) return
 
     const formData = new FormData()
-    console.log('file', file)
-    formData.append('id', id)
-    // TODO: change hardcoded idSolicitud
-    formData.append('idSolicitud', id)
-    formData.append('step', 5)
+    formData.append('idSolicitud', solicitudId) // TODO: Integrar con cambios de Juan
     formData.append('file', file)
-    console.log('formData', formData)
-    const url = `/api/registro/solicitud-documents`
+    const url = `http://localhost:3000/api/registro/solicitud-documents/`
     try {
       const res = await sendRequest(url, {
         method: 'POST',
         file: formData,
       })
-      console.log(res, 'res')
       if (!res.success) return
-      console.log(res, 'res')
-      // setDocumentsList(res.result.data)
+      updateDocumentsList()
     } catch (error) {
       console.log('error', error)
     }
   }
 
-  // const onSubmitDocumentsHandler = async () => {
-  //   const formData = new FormData()
-  //   filesList.forEach(item => {
-  //     formData.append('data', item)
-  //     formData.append('file', item.file)
-  //     formData.append('id', item.id)
-  //   })
-  //   const url = `/api/registro/cat_docs/${pstId}`
-  //   try {
-  //     const res = await sendRequest(url, 'POST', formData)
-  //     if (!res.success) return
-  //     setDocumentsList(res.result.data)
-  //   } catch (error) {
-  //     console.log('error', error)
-  //   }
-  // }
+  const removeDocumentHandler = async documentId => {
+    const url = `http://localhost:3000/api/registro/solicitud-documents/${documentId}`
+    try {
+      const res = await sendRequest(url, { method: 'DELETE' })
+      if (!res.success) return
+      dispatch({ type: TYPE.HIDE_MODAL })
+      updateDocumentsList()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  // Photos related functions
+  const updatePhotosList = async () => {
+    const url = `http://localhost:3000/api/registro/solicitud-images/?solicitudId=${solicitudId}`
+    try {
+      const res = await sendRequest(url)
+      if (!res.success) return
+      dispatch({
+        type: TYPE.UPDATE_PHOTOS,
+        payload: { photosList: res.result.data },
+      })
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const uploadPhotoHandler = async e => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const formData = new FormData()
+    formData.append('idSolicitud', solicitudId) // TODO: Integrar con cambios de Juan
+    formData.append('file', file)
+    const url = `http://localhost:3000/api/registro/solicitud-images`
+    try {
+      const res = await sendRequest(url, {
+        method: 'POST',
+        file: formData,
+      })
+      if (!res.success) return
+      updatePhotosList()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const removePhotoHandler = async photoId => {
+    const url = `http://localhost:3000/api/registro/solicitud-images/${photoId}`
+    try {
+      const res = await sendRequest(url, { method: 'DELETE' })
+      if (!res.success) return
+      dispatch({ type: TYPE.HIDE_MODAL })
+      updatePhotosList()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const removeFileHandler = async fileId => {
+    const { fileType } = state.selectedDoc
+    if (fileType === FILE_TYPE.DOCUMENT) {
+      removeDocumentHandler(fileId)
+    } else if (fileType === FILE_TYPE.PHOTO) {
+      removePhotoHandler(fileId)
+    }
+  }
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    // const infoObject = {
-    //   ...data,
-    //   serviciosAdicionalesList: getSelectedValues(
-    //     checkedItems.serviciosAdicionalesList,
-    //   ),
-    // }
-    // setRegister({ ...register, detallesPST: infoObject })
     nextStep()
   }
-
-  console.log(documentsList)
-  console.log('filesList', filesList)
-
+  const { documentsList, selectedDoc, showModal, photosList } = state
   return (
-    <form
-      className={`container-form-solicitud t-ease ${showScreen ? '' : 'hide'}`}
-      onSubmit={onSubmitHandler}>
-      <h1 className="font-GMX font-bold text-2xl">DOCUMENTOS</h1>
-      {documentsList.map(item => {
-        // const isDocumentUploaded = true
-        return (
-          <div key={`i-${item.id}`} className="border-b border-silver pb-4">
-            <h2 className="font-GMX font-bold">
-              {item.nombre_completo}
-              <span className="text-error"> *</span>
-            </h2>
-            <h3 className="font-GMX text-gray text-sm">{item.descripcion}</h3>
-            <div className="flex items-center mt-2">
-              {/* {isDocumentUploaded && (
-                <Icons.Check className="text-seaGreen mr-1" />
-              )} */}
-              <input
-                type="file"
-                accept="image/png, image/jpeg, .pdf"
-                className="block w-full text-sm text-black font-GMX file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-GMX file:bg-bigDipORuby file:text-white file:shadow-xl file:cursor-pointer"
-                onChange={e => handleFileUpload2(e, item.id)}
-              />
-              {/* {isDocumentUploaded && <Icons.Delete className="text-error" />} */}
+    <>
+      <form
+        className={`container-form-solicitud t-ease ${
+          showScreen ? '' : 'hide'
+        }`}
+        onSubmit={onSubmitHandler}>
+        <h1 className="font-GMX font-bold text-2xl">DOCUMENTOS</h1>
+        {documentsList.map(item => {
+          return (
+            <div key={`i-${item.id}`} className="border-b border-silver pb-4">
+              <h2 className="font-GMX font-bold">
+                {item.nombre_completo}
+                <span className="text-error"> *</span>
+              </h2>
+              <h3 className="font-GMX text-gray text-sm">{item.descripcion}</h3>
+              {item.documentId ? (
+                <div className="flex items-center mt-2">
+                  <Icons.Check className="text-seaGreen mr-1" />
+                  <p className="font-GMX text-gray text-sm grow">
+                    {item.documentName}
+                  </p>
+                  <IconButton
+                    onClick={() =>
+                      handleClickOpen(
+                        item.documentId,
+                        item.documentName,
+                        FILE_TYPE.DOCUMENT,
+                      )
+                    }>
+                    <Icons.Delete className="text-error" />
+                  </IconButton>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center mt-2">
+                  <ButtonMUI
+                    className={`bg-bigDipORuby text-white hover:bg-bigDipORuby font-GMX font-bold w-full max-w-xs`}
+                    component="label"
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}>
+                    Subir archivo
+                    <VisuallyHiddenInput
+                      type="file"
+                      accept="image/png, image/jpeg, .pdf"
+                      onChange={uploadDocumentHandler}
+                    />
+                  </ButtonMUI>
+                </div>
+              )}
             </div>
-          </div>
-        )
-      })}
-      <div className=" flex gap-6 justify-between">
-        <Button
-          content="Regresar"
-          type="button"
-          className=" w-full sm:w-auto"
-          onClick={backStep}
-        />
-        <Button
-          content="Siguiente"
-          type="submit"
-          className=" w-full sm:w-auto"
-        />
-      </div>
-    </form>
+          )
+        })}
+        <h1 className="font-GMX font-bold text-2xl">
+          FOTOS DEL ESTABLECIMIENTO
+        </h1>
+        {photosList.map(item => {
+          return (
+            <div
+              key={`i-${item.documentId}`}
+              className="flex items-center mt-2">
+              <Icons.Check className="text-seaGreen mr-1" />
+              <p className="font-GMX text-gray text-sm grow">
+                {item.documentName}
+              </p>
+              <IconButton
+                onClick={() =>
+                  handleClickOpen(
+                    item.documentId,
+                    item.documentName,
+                    FILE_TYPE.PHOTO,
+                  )
+                }>
+                <Icons.Delete className="text-error" />
+              </IconButton>
+            </div>
+          )
+        })}
+        {photosList?.length <= MAX_PHOTO_LENGTH ? (
+          <div className="flex items-center justify-center mt-2">
+          <ButtonMUI
+            className={`bg-bigDipORuby text-white hover:bg-bigDipORuby font-GMX font-bold w-full max-w-xs`}
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}>
+            Subir foto
+            <VisuallyHiddenInput
+              type="file"
+              accept="image/png, image/jpeg, .pdf"
+              onChange={uploadPhotoHandler}
+            />
+          </ButtonMUI>
+        </div>
+        ) : (
+          <p className="font-GMX text-gray text-sm">
+            Límite de fotos alcanzado
+          </p>
+        )}
+        <div className=" flex gap-6 justify-between">
+          <Button
+            content="Regresar"
+            type="button"
+            className=" w-full sm:w-auto"
+            onClick={backStep}
+          />
+          <Button
+            content="Siguiente"
+            type="submit"
+            className=" w-full sm:w-auto"
+          />
+        </div>
+      </form>
+      <Dialog
+        open={showModal}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Eliminar Documento</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            ¿Estás seguro de que deseas eliminar {selectedDoc.documentName}?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} content="Cancelar" />
+          <Button
+            onClick={() => removeFileHandler(selectedDoc.documentId)}
+            content="Aceptar"
+          />
+        </DialogActions>
+      </Dialog>
+    </>
   )
 }
 
