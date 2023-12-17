@@ -64,7 +64,6 @@ const Solicitudes = () => {
 
   const onSubmitHandler = event => {
     event.preventDefault()
-    console.log(event)
   }
 
   const tipoPST = register.datosGenerales?.tipoPST
@@ -106,7 +105,8 @@ const Solicitudes = () => {
       />
       <Documents
         step={step}
-        pstId={register?.datosGenerales?.tipoPST}
+        pstId={tipoPST}
+        solicitudId={params.idSolicitud}
         onSubmitHandler={onSubmitHandler}
         nextStep={onNextStepHandler}
         backStep={onBackStepHandler}

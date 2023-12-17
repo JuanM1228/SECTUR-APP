@@ -54,7 +54,7 @@ const Domicilio = ({
   }
 
   const SetViewOnClick = ({ coords }) => {
-    console.log(coords)
+    // console.log(coords)
     const map = useMap()
     map.setView(coords, map.getZoom())
     return null
@@ -87,7 +87,6 @@ const Domicilio = ({
 
   const onSubmitHandler = async e => {
     e.preventDefault()
-    console.log(data)
     const { hasError, errors } = validate.domicilioForm(data)
     if (hasError) {
       setError(errors)

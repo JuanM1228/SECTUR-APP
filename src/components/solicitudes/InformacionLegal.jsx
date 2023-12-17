@@ -19,7 +19,6 @@ const InformacionLegal = ({
 }) => {
   const [data, setData] = useState(INIT_INFO_LEGAL)
   const [error, setError] = useState(INIT_INFO_LEGAL)
-  console.log(data)
   useEffect(() => {
     if (!dataInformacionLegal) return
     setData(dataInformacionLegal)

@@ -52,12 +52,7 @@ const PanelSolicitudesUsuario = () => {
     <div className="flex flex-col h-[calc(100vh-4rem)] items-center p-4  gap-4">
       <h1 className="font-GMX text-3xl font-bold mb-6">MIS SOLICITUDES</h1>
 
-      <Button
-        content={contentButton}
-        fullWidth={false}
-        className="self-end"
-        onClick={() => console.log('test')}
-      />
+      <Button content={contentButton} fullWidth={false} className="self-end" />
 
       {tramites.length !== 0 && (
         <Table

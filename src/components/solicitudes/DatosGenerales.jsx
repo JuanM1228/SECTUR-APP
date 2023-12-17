@@ -23,7 +23,6 @@ const DatosGenerales = ({
 
   useEffect(() => {
     getCatalogoPST()
-    console.log(datosGenerales)
     if (!datosGenerales) return
     setData(datosGenerales)
   }, [datosGenerales])

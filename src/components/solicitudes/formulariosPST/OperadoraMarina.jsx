@@ -42,7 +42,6 @@ const OperadoraMarina = ({
     const url = '/api/configuration/catalogo-detalle-pst/12'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const {
           serviciosAdicionales,

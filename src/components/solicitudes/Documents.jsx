@@ -93,25 +93,22 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Documents = props => {
-  const { step, nextStep, backStep } = props
+  const { step, nextStep, backStep, pstId, solicitudId } = props
   const [state, dispatch] = useReducer(reducer, initialState)
   const { sendRequest, isLoading } = useHttpClient()
   const showScreen = step === STEP_ENUM.DOCUMENTOS
-
-  // TODO: Delete this mock psdId & solicitudId
-  const pstId = 18
-  const solicitudId = 18
 
   useEffect(() => {
     initDataHandler()
   }, [pstId, solicitudId])
 
   const initDataHandler = async () => {
-    if (!pstId) return
+    if (!pstId || !solicitudId) return
     const urls = [
-      `http://localhost:3000/api/registro/solicitud-documents/?${pstId}=18&solicitudId=${solicitudId}`,
-      `http://localhost:3000/api/registro/solicitud-images/?solicitudId=${solicitudId}`,
+      `/api/registro/solicitud-documents/?${pstId}=18&solicitudId=${solicitudId}`,
+      `/api/registro/solicitud-images/?solicitudId=${solicitudId}`,
     ]
+    console.log(urls)
     const requests = urls.map(url => sendRequest(url))
     Promise.all(requests)
       .then(res => {
@@ -139,7 +136,7 @@ const Documents = props => {
 
   // Documents related functions
   const updateDocumentsList = async () => {
-    const url = `http://localhost:3000/api/registro/solicitud-documents/?pstId=${pstId}&solicitudId=${solicitudId}`
+    const url = `/api/registro/solicitud-documents/?pstId=${pstId}&solicitudId=${solicitudId}`
     try {
       const res = await sendRequest(url)
       if (!res.success) return
@@ -159,7 +156,7 @@ const Documents = props => {
     const formData = new FormData()
     formData.append('idSolicitud', solicitudId) // TODO: Integrar con cambios de Juan
     formData.append('file', file)
-    const url = `http://localhost:3000/api/registro/solicitud-documents/`
+    const url = `/api/registro/solicitud-documents/`
     try {
       const res = await sendRequest(url, {
         method: 'POST',
@@ -173,7 +170,7 @@ const Documents = props => {
   }
 
   const removeDocumentHandler = async documentId => {
-    const url = `http://localhost:3000/api/registro/solicitud-documents/${documentId}`
+    const url = `/api/registro/solicitud-documents/${documentId}`
     try {
       const res = await sendRequest(url, { method: 'DELETE' })
       if (!res.success) return
@@ -186,7 +183,7 @@ const Documents = props => {
 
   // Photos related functions
   const updatePhotosList = async () => {
-    const url = `http://localhost:3000/api/registro/solicitud-images/?solicitudId=${solicitudId}`
+    const url = `/api/registro/solicitud-images/?solicitudId=${solicitudId}`
     try {
       const res = await sendRequest(url)
       if (!res.success) return
@@ -206,7 +203,7 @@ const Documents = props => {
     const formData = new FormData()
     formData.append('idSolicitud', solicitudId) // TODO: Integrar con cambios de Juan
     formData.append('file', file)
-    const url = `http://localhost:3000/api/registro/solicitud-images`
+    const url = `/api/registro/solicitud-images`
     try {
       const res = await sendRequest(url, {
         method: 'POST',
@@ -220,7 +217,7 @@ const Documents = props => {
   }
 
   const removePhotoHandler = async photoId => {
-    const url = `http://localhost:3000/api/registro/solicitud-images/${photoId}`
+    const url = `/api/registro/solicitud-images/${photoId}`
     try {
       const res = await sendRequest(url, { method: 'DELETE' })
       if (!res.success) return
@@ -324,19 +321,19 @@ const Documents = props => {
         })}
         {photosList?.length <= MAX_PHOTO_LENGTH ? (
           <div className="flex items-center justify-center mt-2">
-          <ButtonMUI
-            className={`bg-bigDipORuby text-white hover:bg-bigDipORuby font-GMX font-bold w-full max-w-xs`}
-            component="label"
-            variant="contained"
-            startIcon={<CloudUploadIcon />}>
-            Subir foto
-            <VisuallyHiddenInput
-              type="file"
-              accept="image/png, image/jpeg, .pdf"
-              onChange={uploadPhotoHandler}
-            />
-          </ButtonMUI>
-        </div>
+            <ButtonMUI
+              className={`bg-bigDipORuby text-white hover:bg-bigDipORuby font-GMX font-bold w-full max-w-xs`}
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}>
+              Subir foto
+              <VisuallyHiddenInput
+                type="file"
+                accept="image/png, image/jpeg, .pdf"
+                onChange={uploadPhotoHandler}
+              />
+            </ButtonMUI>
+          </div>
         ) : (
           <p className="font-GMX text-gray text-sm">
             Límite de fotos alcanzado
