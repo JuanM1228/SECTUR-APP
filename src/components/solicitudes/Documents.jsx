@@ -93,14 +93,10 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Documents = props => {
-  const { step, nextStep, backStep } = props
+  const { step, nextStep, backStep, pstId, solicitudId } = props
   const [state, dispatch] = useReducer(reducer, initialState)
   const { sendRequest, isLoading } = useHttpClient()
   const showScreen = step === STEP_ENUM.DOCUMENTOS
-
-  // TODO: Delete this mock psdId & solicitudId
-  const pstId = 18
-  const solicitudId = 18
 
   useEffect(() => {
     if (!pstId || !solicitudId) return
@@ -153,12 +149,13 @@ const Documents = props => {
     }
   }
 
-  const uploadDocumentHandler = async e => {
+  const uploadDocumentHandler = async (e, id) => {
     const file = e.target.files[0]
     if (!file) return
 
     const formData = new FormData()
-    formData.append('idSolicitud', solicitudId) // TODO: Integrar con cambios de Juan
+    formData.append('idSolicitud', solicitudId)
+    formData.append('documentTypeId', id)
     formData.append('file', file)
     const url = `/api/registro/solicitud-documents/`
     try {
@@ -205,7 +202,7 @@ const Documents = props => {
     if (!file) return
 
     const formData = new FormData()
-    formData.append('idSolicitud', solicitudId) // TODO: Integrar con cambios de Juan
+    formData.append('idSolicitud', solicitudId)
     formData.append('file', file)
     const url = `/api/registro/solicitud-images`
     try {
@@ -290,7 +287,7 @@ const Documents = props => {
                     <VisuallyHiddenInput
                       type="file"
                       accept="image/png, image/jpeg, .pdf"
-                      onChange={uploadDocumentHandler}
+                      onChange={e => uploadDocumentHandler(e, item.id)}
                     />
                   </ButtonMUI>
                 </div>
