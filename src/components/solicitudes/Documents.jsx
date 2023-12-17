@@ -153,12 +153,13 @@ const Documents = props => {
     }
   }
 
-  const uploadDocumentHandler = async e => {
+  const uploadDocumentHandler = async (e, id) => {
     const file = e.target.files[0]
     if (!file) return
 
     const formData = new FormData()
-    formData.append('idSolicitud', solicitudId) // TODO: Integrar con cambios de Juan
+    formData.append('idSolicitud', solicitudId)
+    formData.append('documentTypeId', id)
     formData.append('file', file)
     const url = `/api/registro/solicitud-documents/`
     try {
@@ -290,7 +291,7 @@ const Documents = props => {
                     <VisuallyHiddenInput
                       type="file"
                       accept="image/png, image/jpeg, .pdf"
-                      onChange={uploadDocumentHandler}
+                      onChange={e => uploadDocumentHandler(e, item.id)}
                     />
                   </ButtonMUI>
                 </div>
