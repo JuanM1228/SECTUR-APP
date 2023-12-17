@@ -1,78 +1,73 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 
-import Link from 'next/link'
 import Button from '@/components/common/Button'
-import SolicitudCard from '@/components/solicitudes/panelSolicitudesUsuario/SolicitudCard'
-import SectionSolicitud from '@/components/solicitudes/panelSolicitudesUsuario/SectionSolicitud'
+import Table from '@/components/common/Table'
 
-import { STATUS_TRAMITE } from '@/utils/constants'
 import Icons from '@/assets/icons'
+import { useRouter } from 'next/navigation'
+import { useAuthStore } from '@/store/auth'
+import { STATUS_TRAMITE } from '@/utils/constants'
+import { useHttpClient } from '@/hooks/useHttpClient'
+import { COLUMNS_TABLE_TRAMITES_USUARIO } from '@/utils/columsTables'
 
 const { EN_PROCESO, FINALIZADO, RECHAZADO, REVISION } = STATUS_TRAMITE
 
-const INIT_DATOS_GENERALES = {
-  tipoPST: 1,
-  nombreComercial: 'SHANGAI',
-  rfc: 'MAHJ280603MM',
-  registroINEGI: 12348423,
-  registroAnterior: '#ASD123ASD123',
-  razonSocial: '',
-  curp: 'MAHJ280603MSPRRV09',
-}
+const PanelSolicitudesUsuario = () => {
+  const router = useRouter()
+  const { profile } = useAuthStore()
+  const { sendRequest, isLoading } = useHttpClient()
+  const [tramites, setTramites] = useState([])
 
-const getTramites = async () => {
-  const res = await fetch(
-    `${process.env.ENV_URL}/api/registro/tramites-usuario/1`,
-  )
-  const data = await res.json()
-  return data
-}
+  useEffect(() => {
+    if (!profile) return
+    getTramites(profile.id)
+  }, [])
 
-const panelSolicitudesUsuario = async () => {
-  const tramites = await getTramites()
-  const {
-    result: { data },
-  } = tramites
+  const getTramites = async id => {
+    const url = `/api/registro/tramites-usuario/${id}`
+    try {
+      const res = await sendRequest(url)
+      if (res.success) {
+        setTramites(res.result.data)
+      } else {
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
-  const tramitesEnProceso = data[STATUS_TRAMITE.EN_PROCESO]
-  const tramitesRevision = data[STATUS_TRAMITE.REVISION]
-  const tramitesRechazado = data[STATUS_TRAMITE.RECHAZADO]
-  const tramitesFinalizado = data[STATUS_TRAMITE.FINALIZADO]
-
-  console.log(tramitesRechazado)
+  const onNuevaSolicitudHandler = () => {
+    router.push('/home/tramites/solicitudes/null')
+  }
 
   const contentButton = (
-    <span className="flex gap-2">
+    <span className="flex gap-2" onClick={onNuevaSolicitudHandler}>
       <Icons.Add />
       <p>NUEVA SOLICITUD</p>
     </span>
   )
 
   return (
-    <div className="flex flex-col items-center p-4 container max-w-3xl gap-1">
+    <div className="flex flex-col h-[calc(100vh-4rem)] items-center p-4  gap-4">
       <h1 className="font-GMX text-3xl font-bold mb-6">MIS SOLICITUDES</h1>
-      <Link href="/home/tramites/solicitudes" className="self-end mb-4">
-        <Button content={contentButton} fullWidth={false} />
-      </Link>
 
-      <SectionSolicitud title="Rechazados" idStatus={RECHAZADO} />
-      {tramitesRechazado.map(tramite => (
-        <SolicitudCard data={tramite} key={tramite.id_solicitud} />
-      ))}
-      <SectionSolicitud title="En proceso" idStatus={EN_PROCESO} />
-      {tramitesEnProceso.map(tramite => (
-        <SolicitudCard data={tramite} key={tramite.id_solicitud} />
-      ))}
-      <SectionSolicitud title="En revisión" idStatus={REVISION} />
-      {tramitesRevision.map(tramite => (
-        <SolicitudCard data={tramite} key={tramite.id_solicitud} />
-      ))}
-      <SectionSolicitud title="Tramites finalizados" idStatus={FINALIZADO} />
-      {tramitesFinalizado.map(tramite => (
-        <SolicitudCard data={tramite} key={tramite.id_solicitud} />
-      ))}
+      <Button
+        content={contentButton}
+        fullWidth={false}
+        className="self-end"
+        onClick={() => console.log('test')}
+      />
+
+      {tramites.length !== 0 && (
+        <Table
+          columns={COLUMNS_TABLE_TRAMITES_USUARIO}
+          isLoading={isLoading}
+          rows={tramites}
+        />
+      )}
     </div>
   )
 }
 
-export default panelSolicitudesUsuario
+export default PanelSolicitudesUsuario

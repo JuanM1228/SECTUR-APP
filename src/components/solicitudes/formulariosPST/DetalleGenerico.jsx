@@ -62,11 +62,6 @@ const DetalleGenerico = ({
     nextStep()
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
   return (
     <form
       className={`container-form-solicitud t-ease ${

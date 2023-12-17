@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import dayjs from 'dayjs'
 
 import Input from '../common/Input'
 import Button from '../common/Button'
@@ -16,10 +17,13 @@ const InformacionLegal = ({
   register,
   setRegister,
 }) => {
-  const [data, setData] = useState(
-    dataInformacionLegal ? dataInformacionLegal : INIT_INFO_LEGAL,
-  )
+  const [data, setData] = useState(INIT_INFO_LEGAL)
   const [error, setError] = useState(INIT_INFO_LEGAL)
+  console.log(data)
+  useEffect(() => {
+    if (!dataInformacionLegal) return
+    setData(dataInformacionLegal)
+  }, [dataInformacionLegal])
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
@@ -84,7 +88,7 @@ const InformacionLegal = ({
           error={error.fechaDeSolicitud !== ''}
           helpText={error.fechaDeSolicitud}
           onChange={onHandleChange}
-          value={data.fechaDeSolicitud}
+          value={dayjs(data.fechaDeSolicitud)}
         />
         <DatePickerCustom
           label="Fecha de ingreso a SECTUR *"
@@ -92,7 +96,7 @@ const InformacionLegal = ({
           error={error.fechaIngresoSECTUR !== ''}
           helpText={error.fechaIngresoSECTUR}
           onChange={onHandleChange}
-          value={data.fechaIngresoSECTUR}
+          value={dayjs(data.fechaIngresoSECTUR)}
         />
         <Input
           label="Tipo de inmueble"

@@ -16,16 +16,17 @@ const DatosGenerales = ({
   register,
   setRegister,
 }) => {
-  const [data, setData] = useState(
-    datosGenerales ? datosGenerales : INIT_DATOS_GENERALES,
-  )
+  const [data, setData] = useState(INIT_DATOS_GENERALES)
   const [error, setError] = useState(INIT_DATOS_GENERALES)
   const [catalogoPST, setCatalogoPST] = useState([])
   const { sendRequest, isLoading } = useHttpClient()
 
   useEffect(() => {
     getCatalogoPST()
-  }, [])
+    console.log(datosGenerales)
+    if (!datosGenerales) return
+    setData(datosGenerales)
+  }, [datosGenerales])
 
   const getCatalogoPST = async () => {
     const url = '/api/configuration/catalogo-pst'

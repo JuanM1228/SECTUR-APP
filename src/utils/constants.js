@@ -224,6 +224,7 @@ export const STATUS_TRAMITE = {
   REVISION: 2,
   RECHAZADO: 3,
   FINALIZADO: 4,
+  REVOCADO: 5,
 }
 /**
  * Array containing generic details of PST categories.

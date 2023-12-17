@@ -120,7 +120,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
           onClose={() => setShowAlert(false)}
           severity="error"
           sx={{ width: '100%' }}>
-          USUARIO NO REGISTRADO
+          USUARIO O CONTRASEÑA INCORRECTO
         </Alert>
       </Snackbar>
     </div>

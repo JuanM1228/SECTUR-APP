@@ -1,6 +1,8 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import { useParams } from 'next/navigation'
+import { useHttpClient } from '@/hooks/useHttpClient'
 
 import Contacto from '@/components/solicitudes/Contacto'
 import DatosGenerales from '@/components/solicitudes/DatosGenerales'
@@ -16,16 +18,19 @@ import ProcedureCompleted from '@/components/solicitudes/ProcedureCompleted'
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
 })
-
-import { GENERIC_DETAILS_PST_LIST, PST_ENUM } from '@/utils/constants'
+import {
+  GENERIC_DETAILS_PST_LIST,
+  INIT_DATOS_GENERALES,
+  PST_ENUM,
+} from '@/utils/constants'
 import OperadoraMarina from '@/components/solicitudes/formulariosPST/OperadoraMarina'
 import Hospedaje from '@/components/solicitudes/formulariosPST/Hospedaje'
 import TiemposCompartidos from '@/components/solicitudes/formulariosPST/TiemposCompartidos'
 import TransportistaTuristico from '@/components/solicitudes/formulariosPST/TransportistaTuristico'
 
 const Solicitudes = () => {
-  const [step, setStep] = useState(0)
-
+  const params = useParams()
+  const { sendRequest, isLoading } = useHttpClient()
   const [register, setRegister] = useState({
     datosGenerales: null,
     domicilio: null,
@@ -33,6 +38,26 @@ const Solicitudes = () => {
     informacionLegal: null,
     detallesPST: null,
   })
+  const [step, setStep] = useState(0)
+
+  useEffect(() => {
+    if (!params.idSolicitud) return
+    getRegisterData(params.idSolicitud)
+  }, [])
+
+  const getRegisterData = async idSolicitud => {
+    const url = `/api/registro/detalle-tramite/${idSolicitud}`
+    try {
+      const res = await sendRequest(url)
+      console.log('DATA RODO', res.result.data)
+      if (res.success) {
+        setRegister(res.result.data)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
   const onNextStepHandler = () => setStep(step + 1)
 
   const onBackStepHandler = () => setStep(step - 1)
@@ -43,8 +68,6 @@ const Solicitudes = () => {
   }
 
   const tipoPST = register.datosGenerales?.tipoPST
-  // const tipoPST = PST_ENUM.TRANSPORTISTA_TURISTICO
-
   return (
     <div className="container flex flex-col justify-start items-center ">
       <DatosGenerales
@@ -88,7 +111,6 @@ const Solicitudes = () => {
         nextStep={onNextStepHandler}
         backStep={onBackStepHandler}
       />
-      {/* TODO: Añadir subcategoría en los detalles de pst? */}
       {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
         <DetalleGenerico
           step={step}
