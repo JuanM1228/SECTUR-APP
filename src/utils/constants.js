@@ -243,3 +243,9 @@ export const GENERIC_DETAILS_PST_LIST = [
   PST_ENUM.TOUR_OPERADOR,
   PST_ENUM.VUELO_EN_GLOBO,
 ]
+
+/**
+ * Maximum length of photos allowed.
+ * @type {number}
+ */
+export const MAX_PHOTO_LENGTH = 10
