@@ -29,7 +29,6 @@ const ArrendadoraAutos = ({
     const url = '/api/configuration/catalogo-detalle-pst/4'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const { tiposDeEstablecimientos } = res.result.data
         setTiposDeEstablecimientosData(tiposDeEstablecimientos)
@@ -46,7 +45,6 @@ const ArrendadoraAutos = ({
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
-    console.log(data)
     nextStep()
   }
 

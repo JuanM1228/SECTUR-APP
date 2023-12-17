@@ -1,8 +1,14 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Icon } from 'leaflet'
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  useMap,
+} from 'react-leaflet'
 
 import Button from '../common/Button'
 import Input from '../common/Input'
@@ -22,12 +28,15 @@ const Domicilio = ({
   register,
   setRegister,
 }) => {
-  const [data, setData] = useState(
-    dataDomicilio ? dataDomicilio : INIT_DATA_DOMICILIO,
-  )
+  const [data, setData] = useState(INIT_DATA_DOMICILIO)
   const [colonias, setColonias] = useState([])
   const [error, setError] = useState(INIT_DATA_DOMICILIO)
   const { sendRequest, isLoading } = useHttpClient()
+
+  useEffect(() => {
+    if (!dataDomicilio) return
+    setData(dataDomicilio)
+  }, [dataDomicilio])
 
   const myIcon = new Icon({
     iconUrl: '/location.png',
@@ -41,6 +50,13 @@ const Domicilio = ({
         setData({ ...data, latitud: lat, longitud: lng })
       },
     })
+    return null
+  }
+
+  const SetViewOnClick = ({ coords }) => {
+    // console.log(coords)
+    const map = useMap()
+    map.setView(coords, map.getZoom())
     return null
   }
 
@@ -164,6 +180,11 @@ const Domicilio = ({
             alt="location"></Marker>
         )}
         <LocationMap />
+        <SetViewOnClick
+          coords={
+            data.latitud ? [data.latitud, data.longitud] : [19.42847, -99.12766]
+          }
+        />
       </MapContainer>
 
       <div className=" flex gap-6 justify-between">

@@ -38,7 +38,6 @@ const AlimentosBebidas = ({
     const url = '/api/configuration/catalogo-detalle-pst/3'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const {
           ubicacionAYB,

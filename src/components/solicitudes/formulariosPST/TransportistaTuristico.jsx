@@ -34,7 +34,6 @@ const TransportistaTuristico = ({
     const url = '/api/configuration/catalogo-detalle-pst/17'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const { tiposDeEstablecimientos, serviciosOfrecidos, SubCategoria } =
           res.result.data
@@ -56,7 +55,6 @@ const TransportistaTuristico = ({
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
-    console.log(data)
     // TODO: Add validation and next step handler
     nextStep()
   }

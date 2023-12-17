@@ -39,7 +39,6 @@ const TiemposCompartidos = ({
     const url = '/api/configuration/catalogo-detalle-pst/15'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const { serviciosAdicionales, ubicacion, tipoDeOperacion } =
           res.result.data

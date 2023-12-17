@@ -33,7 +33,6 @@ const OperadoraBuceo = ({
     const url = '/api/configuration/catalogo-detalle-pst/11'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const { tiposDeEstablecimientos } = res.result.data
         setEstablecimientoData(tiposDeEstablecimientos)
@@ -51,7 +50,6 @@ const OperadoraBuceo = ({
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
     // TODO: Add validation and next step handler
-    console.log(data)
     nextStep()
   }
 

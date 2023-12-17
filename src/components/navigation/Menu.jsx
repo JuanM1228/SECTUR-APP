@@ -21,7 +21,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
     try {
       const res = await sendRequest(url)
       if (res.success) {
-        console.log('paso', res.result.data)
+        // console.log('paso', res.result.data)
         setMenu(res.result.data)
       } else {
       }
