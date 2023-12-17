@@ -32,12 +32,10 @@ const DetalleGenerico = ({
   }, [pstId])
 
   const getDropdownsData = async () => {
-    console.log(pstId)
     const url = `/api/configuration/catalogo-detalle-pst/${pstId}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
-        console.log('detalle generico', res.result.data)
         setDataBackend({
           tipoDePersona: res.result.data.tipoDePersona,
           subcategoriaData: res.result.data.SubCategoria,
@@ -58,15 +56,9 @@ const DetalleGenerico = ({
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
-    console.log(data)
     nextStep()
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
   return (
     <form
       className={`container-form-solicitud t-ease ${

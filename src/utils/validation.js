@@ -114,7 +114,7 @@ const domicilioForm = data => {
     longitud: '',
   }
 
-  if (!hasText(data.codigoPostal)) {
+  if (!data.codigoPostal) {
     err.codigoPostal = 'Ingrese un código postal'
   }
   if (!data.colonia) {
@@ -178,10 +178,17 @@ const infoLegalForm = data => {
   if (!hasText(data.puestoDelSolicitante)) {
     err.puestoDelSolicitante = 'Ingrese un puesto de solicitante'
   }
-  if (!(data.fechaDeSolicitud instanceof Date)) {
+  if (
+    !(data.fechaDeSolicitud instanceof Date || hasText(data.fechaDeSolicitud))
+  ) {
     err.fechaDeSolicitud = 'Ingrese una fecha de solicitud'
   }
-  if (!(data.fechaIngresoSECTUR instanceof Date)) {
+  if (
+    !(
+      data.fechaIngresoSECTUR instanceof Date ||
+      hasText(data.fechaIngresoSECTUR)
+    )
+  ) {
     err.fechaIngresoSECTUR = 'Ingrese una fecha de ingreso a SECTUR'
   }
 

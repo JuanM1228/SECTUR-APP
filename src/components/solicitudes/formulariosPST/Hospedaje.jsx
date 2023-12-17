@@ -39,7 +39,6 @@ const Hospedaje = ({
     const url = '/api/configuration/catalogo-detalle-pst/9'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const {
           distintivos,

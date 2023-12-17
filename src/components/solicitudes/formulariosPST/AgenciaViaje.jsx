@@ -39,7 +39,6 @@ const AgenciaViaje = ({
     const url = '/api/configuration/catalogo-detalle-pst/1'
     try {
       const res = await sendRequest(url)
-      console.log(res)
       if (res.success) {
         const { afiliacion, tipoBoletaje, SubCategoria } = res.result.data
         setDataBackend({

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '../common/Input'
 import Button from '../common/Button'
@@ -15,8 +15,13 @@ const Contacto = ({
   register,
   setRegister,
 }) => {
-  const [data, setData] = useState(dataContacto ? dataContacto : INIT_CONTACTO)
+  const [data, setData] = useState(INIT_CONTACTO)
   const [error, setError] = useState(INIT_CONTACTO)
+
+  useEffect(() => {
+    if (!dataContacto) return
+    setData(dataContacto)
+  }, [dataContacto])
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })

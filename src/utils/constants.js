@@ -197,6 +197,35 @@ export const PST_ENUM = {
   VUELO_EN_GLOBO: 18,
 }
 
+export const PST_INFO = {
+  0: { name: 'Default', icon: 'HelpOutline' },
+  1: { name: 'Agencia de Viajes', icon: 'Flight' },
+  2: { name: 'Agencia de Servicios', icon: 'RoomService' },
+  3: { name: 'Alimentos y Bebidas', icon: 'Restaurant' },
+  4: { name: 'Arrendadora de Autos', icon: 'DriveEta' },
+  5: { name: 'Balneario Acuático', icon: 'Pool' },
+  6: { name: 'Campo de Golf', icon: 'GolfCourse' },
+  7: { name: 'Salvavidas', icon: 'BeachAccess' },
+  8: { name: 'Guía Turístico', icon: 'Directions' },
+  9: { name: 'Hospedaje', icon: 'Hotel' },
+  10: { name: 'Operadora de Naturaleza', icon: 'NaturePeople' },
+  11: { name: 'Operadora de Buceo', icon: 'BubbleChart' },
+  12: { name: 'Operadora Marina', icon: 'DirectionsBoat' },
+  13: { name: 'Parque Temático', icon: 'LocalPlay' },
+  14: { name: 'Spa', icon: 'Spa' },
+  15: { name: 'Tiempos Compartidos', icon: 'Schedule' },
+  16: { name: 'Tour Operador', icon: 'Tour' },
+  17: { name: 'Transportista Turístico', icon: 'Commute' },
+  18: { name: 'Vuelo en Globo', icon: 'FlightTakeoff' },
+}
+
+export const STATUS_TRAMITE = {
+  EN_PROCESO: 1,
+  REVISION: 2,
+  RECHAZADO: 3,
+  FINALIZADO: 4,
+  REVOCADO: 5,
+}
 /**
  * Array containing generic details of PST categories.
  * @type {Array<PST_ENUM>}
