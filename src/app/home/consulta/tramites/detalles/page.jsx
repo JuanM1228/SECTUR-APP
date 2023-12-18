@@ -3,6 +3,12 @@ import React, { useState, useEffect } from 'react'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { produce } from 'immer'
 
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 
@@ -89,9 +95,16 @@ const initialState = {
   observaciones: '',
 }
 
+const ACTION = {
+  EDIT: 'EDIT',
+  REJECT: 'REJECT',
+  APPROVE: 'APPROVE',
+}
+
 const DetallesDeSolicitud = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(initialState)
+  const [modal, setModal] = useState({ show: false, title: '', content: '' })
   console.log('myData', data)
 
   useEffect(() => {
@@ -146,6 +159,32 @@ const DetallesDeSolicitud = () => {
     }
   }
 
+  const modalHandler = action => {
+    if (action === ACTION.EDIT) {
+      setModal({
+        show: true,
+        title: 'Editar',
+        content: '¿Estás seguro de que deseas editar este trámite?',
+      })
+    } else if (action === ACTION.REJECT) {
+      setModal({
+        show: true,
+        title: 'Rechazar',
+        content: '¿Estás seguro de que deseas rechazar este trámite?',
+      })
+    } else if (action === ACTION.APPROVE) {
+      setModal({
+        show: true,
+        title: 'Aceptar',
+        content: '¿Estás seguro de que deseas aceptar este trámite?',
+      })
+    }
+  }
+
+  const closeModalHandler = () => {
+    setModal({ show: false })
+  }
+
   return (
     <div className="w-full container font-Montserrat">
       <h1 className="font-GMX text-2xl sm:text-3xl font-bold col-span-2 text-center m-4">
@@ -156,17 +195,19 @@ const DetallesDeSolicitud = () => {
           content="Editar"
           type="button"
           className=" w-full sm:w-auto bg-twine hover:bg-twine"
-          // onClick={backStep}
+          onClick={() => modalHandler(ACTION.EDIT)}
         />
         <Button
           content="Rechazar"
-          type="submit"
+          type="button"
           className=" w-full sm:w-auto bg-bigDipORuby hover:bg-bigDipORuby"
+          onClick={() => modalHandler(ACTION.REJECT)}
         />
         <Button
           content="Aceptar"
-          type="submit"
+          type="button"
           className=" w-full sm:w-auto bg-blueDianne hover:bg-blueDianne"
+          onClick={() => modalHandler(ACTION.APPROVE)}
         />
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -328,6 +369,25 @@ const DetallesDeSolicitud = () => {
           </div>
         </section>
       </div>
+      <Dialog
+        open={modal.show}
+        onClose={closeModalHandler}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">{modal.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {modal.content}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeModalHandler} content="Cancelar" />
+          <Button
+            onClick={() => removeFileHandler(selectedDoc.documentId)}
+            content="Aceptar"
+          />
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
