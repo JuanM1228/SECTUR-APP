@@ -18,6 +18,7 @@ const AgenciaViaje = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
   const [data, setData] = useState(dataPst ? dataPst : INIT_AGENCIA_VIAJES)
@@ -66,15 +67,36 @@ const AgenciaViaje = ({
     })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const infoObject = {
       ...data,
       afiliacionesList: getSelectedValues(checkedItems.afiliacionesList),
     }
+    setData(infoObject)
     setRegister({ ...register, detallesPST: infoObject })
-    console.log({ ...register, detallesPST: infoObject })
-    nextStep()
+    const body = {
+      data_pst: infoObject,
+      id_solicitud: idSolicitud,
+      tipo_pst: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   return (

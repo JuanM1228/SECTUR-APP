@@ -4,7 +4,26 @@ import Icons from '@/assets/icons'
 import { IconButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
 
-const EditButton = params => {
+const onUpdateDatabase = async idSolicitud => {
+  try {
+    const url = `/api/registro/tramite-revocado/${idSolicitud}`
+    const res = await sendRequest(url)
+    if (res.success) {
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const DeleteButton = params => {
+  return (
+    <IconButton onClick={() => onUpdateDatabase(params.id)}>
+      <Icons.Delete />
+    </IconButton>
+  )
+}
+
+export const EditButton = params => {
   const router = useRouter()
   return (
     <IconButton

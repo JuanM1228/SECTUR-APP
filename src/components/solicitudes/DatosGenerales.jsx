@@ -17,6 +17,7 @@ const DatosGenerales = ({
   register,
   setRegister,
   idSolicitud,
+  setIdSolicitud,
 }) => {
   const [data, setData] = useState(INIT_DATOS_GENERALES)
   const [error, setError] = useState(INIT_DATOS_GENERALES)
@@ -69,6 +70,8 @@ const DatosGenerales = ({
         body: body,
       })
       if (res.success) {
+        console.log(res)
+        setIdSolicitud(res.result.data.folio)
         nextStep()
       }
     } catch (e) {

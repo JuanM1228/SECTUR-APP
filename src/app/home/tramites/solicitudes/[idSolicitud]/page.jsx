@@ -31,6 +31,7 @@ import TransportistaTuristico from '@/components/solicitudes/formulariosPST/Tran
 const Solicitudes = () => {
   const params = useParams()
   const { sendRequest, isLoading } = useHttpClient()
+  const [idSolicitud, setIdSolicitud] = useState(params.idSolicitud)
   const [register, setRegister] = useState({
     datosGenerales: null,
     domicilio: null,
@@ -75,7 +76,8 @@ const Solicitudes = () => {
         nextStep={onNextStepHandler}
         register={register}
         setRegister={setRegister}
-        idSolicitud={params.idSolicitud}
+        idSolicitud={idSolicitud}
+        setIdSolicitud={setIdSolicitud}
       />
 
       <Domicilio
@@ -85,7 +87,7 @@ const Solicitudes = () => {
         backStep={onBackStepHandler}
         register={register}
         setRegister={setRegister}
-        idSolicitud={params.idSolicitud}
+        idSolicitud={idSolicitud}
       />
 
       <Contacto
@@ -95,7 +97,7 @@ const Solicitudes = () => {
         backStep={onBackStepHandler}
         register={register}
         setRegister={setRegister}
-        idSolicitud={params.idSolicitud}
+        idSolicitud={idSolicitud}
       />
 
       <InformacionLegal
@@ -105,12 +107,12 @@ const Solicitudes = () => {
         backStep={onBackStepHandler}
         register={register}
         setRegister={setRegister}
-        idSolicitud={params.idSolicitud}
+        idSolicitud={idSolicitud}
       />
       <Documents
         step={step}
         pstId={tipoPST}
-        solicitudId={params.idSolicitud}
+        solicitudId={idSolicitud}
         onSubmitHandler={onSubmitHandler}
         nextStep={onNextStepHandler}
         backStep={onBackStepHandler}
@@ -134,6 +136,7 @@ const Solicitudes = () => {
           backStep={onBackStepHandler}
           register={register}
           setRegister={setRegister}
+          idSolicitud={idSolicitud}
         />
       )}
       {tipoPST === PST_ENUM.ALIMENTOS_Y_BEBIDAS && (
