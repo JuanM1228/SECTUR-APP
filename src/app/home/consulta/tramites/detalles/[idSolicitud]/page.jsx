@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import { produce } from 'immer'
 import { useAuthStore } from '@/store/auth'
+import { useParams, useRouter } from 'next/navigation'
 
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -13,52 +13,6 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import { ROLE_ENUM } from '@/utils/constants'
-
-const dummy = {
-  // Datos Generales
-  numeroDeTramite: '1234567890',
-  tipoDeTramite: 'Inscripción',
-  tipoDePST: 'Hospedaje',
-  nombreComercial: 'Hotel de la Selva',
-  RFC: 'HOS-123456-ABC',
-  // registroAnterior: 'HOS-123456-ABC', // TODO: Preguntar sobre este dato
-  procedenciaTramite: 'Nuevo', // Inscripción, renovación
-  RNTFolio: '1234567890', // TODO: Preguntar sobre este dato // Folio certificado de registro
-  razonSocial: 'Hotel de la Selva S.A. de C.V.',
-  CURP: 'HOS-123456-ABC',
-  registroINEGI: 'HOS-123456-ABC',
-  estadoDeTramite: 'En proceso', // TODO: Incompleto, en revisión, aceptado, rechazado, revocado
-  motivoDelRechazo: '',
-  // Domicilio
-  calle: 'Calle 1',
-  colonia: 'Jardines del Sur',
-  municipio: 'Benito Juárez',
-  estado: 'Quintana Roo',
-  codigoPostal: '77500',
-  latitud: '21.161908',
-  longitud: '-86.851528',
-  // Contacto
-  telefono: '9981234567',
-  celular: '9981234567', // TODO: Quitar fax del frontend y backend
-  email: 'example@test.com',
-  web: 'www.hotel.com',
-  x: 'hotelejemplo', // TODO: Agregar x al backend
-  facebook: 'hotelejemplo',
-  tiktok: 'hotelejemplo', // TODO: Agregar tiktok al backend
-  instagram: 'hotelejemplo', // TODO: Agregar instagran al backend
-  // Información legal
-  nombrePropietario: 'Roberto Pérez',
-  nombreRepresentanteLegal: 'Roberto Pérez',
-  nombreDelSoliciante: 'Roberto Pérez',
-  puestoDelSolicitante: 'Laura Pérez',
-  fechaDeSolicitud: '2021-10-10',
-  fechaIngreso: '2021-10-10',
-  // tipoDeInmueble: 1, // TODO: Propio o rentado
-  // numeroDeEscritura: '1234567890',
-  // vigenciaDelContrato: '2021-10-10',
-  // numRegistroDeLaPropiedad: '1234567890',
-  // observaciones: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-}
 
 const initialState = {
   // Datos Generales
@@ -91,9 +45,9 @@ const initialState = {
   nombreDelSolicitante: '',
   puestoDelSolicitante: '',
   fechaIngresoSECTUR: '',
-  tipoDeInmueble: null,
-  numEscritura: '',
-  numeroDeRegistro: '',
+  // tipoDeInmueble: null,
+  // numEscritura: '',
+  // numeroDeRegistro: '',
   observaciones: '',
 }
 
@@ -105,17 +59,24 @@ const ACTION = {
 
 const DetallesDeSolicitud = () => {
   const { sendRequest, isLoading } = useHttpClient()
+  const params = useParams()
+  const router = useRouter()
+  const idSolicitud = params.idSolicitud
   const { profile } = useAuthStore()
   const [data, setData] = useState(initialState)
-  const [modal, setModal] = useState({ show: false, title: '', content: '' })
-  console.log('myData', data)
+  const [modal, setModal] = useState({
+    show: false,
+    title: '',
+    content: '',
+    action: null,
+  })
 
   useEffect(() => {
     getInitialData()
   }, [])
 
   const getInitialData = async () => {
-    const url = `http://34.29.98.230:3002/api/registro/detalle-tramite/256`
+    const url = `/api/registro/detalle-tramite/${idSolicitud}}`
     try {
       const res = await sendRequest(url)
       if (!res.success) return
@@ -125,41 +86,67 @@ const DetallesDeSolicitud = () => {
         // Datos Generales
         tipoPST: datosGenerales.tipoPST,
         nombreComercial: datosGenerales.nombreComercial,
+        razonSocial: datosGenerales.razonSocial,
         rfc: datosGenerales.rfc,
+        curp: datosGenerales.curp,
         registroINEGI: datosGenerales.registroINEGI,
         registroAnterior: datosGenerales.registroAnterior,
-        razonSocial: datosGenerales.razonSocial,
-        curp: datosGenerales.curp,
         // Domicilio
-        codigoPostal: domicilio.codigoPostal,
-        estado: domicilio.estado,
-        municipio: domicilio.municipio,
-        colonia: domicilio.colonia,
         calle: domicilio.calle,
+        colonia: domicilio.colonia,
+        municipio: domicilio.municipio,
+        estado: domicilio.estado,
+        codigoPostal: domicilio.codigoPostal,
         latitud: domicilio.latitud,
         longitud: domicilio.longitud,
         // Contacto
         telefono: contacto.telefono,
-        email: contacto.email,
         celular: contacto.celular,
+        email: contacto.email,
         web: contacto.web,
         facebook: contacto.facebook,
         x: contacto.x,
         fax: contacto.fax,
         //Información legal
         nombreDelPropietario: informacionLegal.nombreDelPropietario,
-        representanteLegal: informacionLegal.nombreRepresentanteLegal,
-        nombreDelSolicitante: informacionLegal.nombreDelSoliciante,
+        representanteLegal: informacionLegal.representanteLegal,
+        nombreDelSolicitante: informacionLegal.nombreDelSolicitante,
         puestoDelSolicitante: informacionLegal.puestoDelSolicitante,
-        fechaIngresoSECTUR: informacionLegal.fechaIngreso,
-        tipoDeInmueble: informacionLegal.tipoDeInmueble,
-        numEscritura: informacionLegal.numeroDeEscritura,
-        numeroDeRegistro: informacionLegal.numRegistroDeLaPropiedad,
+        fechaIngresoSECTUR: informacionLegal.fechaIngresoSECTUR,
+        // tipoDeInmueble: informacionLegal.tipoDeInmueble,
+        // numEscritura: informacionLegal.numeroDeEscritura,
+        // numeroDeRegistro: informacionLegal.numRegistroDeLaPropiedad,
         observaciones: informacionLegal.observaciones,
       })
     } catch (error) {
       console.log('error', error)
     }
+  }
+
+  const onRejectHandler = async () => {
+    const url = `/api/registro/tramite-revocado/${idSolicitud}`
+    try {
+      const res = await sendRequest(url)
+      if (!res.success) return
+      router.push(`/home/tramites`)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const onApproveHandler = async () => {
+    const url = `/api/registro/tramite-aprobado/${idSolicitud}`
+    try {
+      const res = await sendRequest(url)
+      if (!res.success) return
+      router.push(`/home/tramites`)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const onEditHandler = async () => {
+    console.log('onEditHandler')
   }
 
   const modalHandler = action => {
@@ -168,18 +155,21 @@ const DetallesDeSolicitud = () => {
         show: true,
         title: 'Editar',
         content: '¿Estás seguro de que deseas editar este trámite?',
+        action: onEditHandler,
       })
     } else if (action === ACTION.REJECT) {
       setModal({
         show: true,
         title: 'Rechazar',
         content: '¿Estás seguro de que deseas rechazar este trámite?',
+        action: onRejectHandler,
       })
     } else if (action === ACTION.APPROVE) {
       setModal({
         show: true,
         title: 'Aceptar',
         content: '¿Estás seguro de que deseas aceptar este trámite?',
+        action: onApproveHandler,
       })
     }
   }
@@ -224,16 +214,16 @@ const DetallesDeSolicitud = () => {
             </h2>
           </div>
           <div>
-            <p className="font-semibold">
+            {/* <p className="font-semibold">
               Número de trámite:{' '}
               <span className="font-normal">{data.numeroDeTramite}</span>
             </p>
             <p className="font-semibold">
               Tipo de trámite:{' '}
               <span className="font-normal">{data.tipoDeTramite}</span>
-            </p>
+            </p> */}
             <p className="font-semibold">
-              Tipo de PST: <span className="font-normal">{data.tipoDePST}</span>
+              Tipo de PST: <span className="font-normal">{data.tipoPST}</span>
             </p>
             <p className="font-semibold">
               Nombre comercial:{' '}
@@ -244,23 +234,27 @@ const DetallesDeSolicitud = () => {
               <span className="font-normal">{data.razonSocial}</span>
             </p>
             <p className="font-semibold">
-              RFC: <span className="font-normal">{data.RFC}</span>
+              RFC: <span className="font-normal">{data.rfc}</span>
             </p>
             <p className="font-semibold">
-              CURP: <span className="font-normal">{data.CURP}</span>
+              CURP: <span className="font-normal">{data.curp}</span>
             </p>
             <p className="font-semibold">
               Registro INEGI:{' '}
               <span className="font-normal">{data.registroINEGI}</span>
             </p>
             <p className="font-semibold">
+              Registro anterior:{' '}
+              <span className="font-normal">{data.registroAnterior}</span>
+            </p>
+            {/* <p className="font-semibold">
               Procedencia del trámite:{' '}
               <span className="font-normal">{data.procedenciaTramite}</span>
             </p>
             <p className="font-semibold">
               Motivo del rechazo:{' '}
               <span className="font-normal">{data.motivoDelRechazo}</span>
-            </p>
+            </p> */}
           </div>
         </section>
         <section className="bg-silver bg-opacity-50 p-4 rounded-md col-span-2 sm:col-span-1">
@@ -316,11 +310,14 @@ const DetallesDeSolicitud = () => {
               Facebook: <span className="font-normal">{data.facebook}</span>
             </p>
             <p className="font-semibold">
+              Fax: <span className="font-normal">{data.fax}</span>
+            </p>
+            {/* <p className="font-semibold">
               Instagram: <span className="font-normal">{data.instagram}</span>
             </p>
             <p className="font-semibold">
               TikTok: <span className="font-normal">{data.tiktok}</span>
-            </p>
+            </p> */}
             <p className="font-semibold">
               X: <span className="font-normal">{data.x}</span>
             </p>
@@ -334,33 +331,35 @@ const DetallesDeSolicitud = () => {
           <div>
             <p className="font-semibold">
               Nombre del propietario:{' '}
-              <span className="font-normal">{data.nombrePropietario}</span>
+              <span className="font-normal">{data.nombreDelPropietario}</span>
             </p>
             <p className="font-semibold">
               Nombre del representante legal:{' '}
-              <span className="font-normal">
-                {data.nombreRepresentanteLegal}
-              </span>
+              <span className="font-normal">{data.representanteLegal}</span>
             </p>
             <p className="font-semibold">
               Nombre del solicitante:{' '}
-              <span className="font-normal">{data.nombreDelSoliciante}</span>
+              <span className="font-normal">{data.nombreDelSolicitante}</span>
             </p>
             <p className="font-semibold">
               Puesto del solicitante:{' '}
               <span className="font-normal">{data.puestoDelSolicitante}</span>
             </p>
-            <p className="font-semibold">
+            {/* <p className="font-semibold">
               Fecha de solicitud:{' '}
               <span className="font-normal">{data.fechaDeSolicitud}</span>
-            </p>
+            </p> */}
             <p className="font-semibold">
               Fecha de ingreso a SECTUR:{' '}
-              <span className="font-normal">{data.fechaIngreso}</span>
+              <span className="font-normal">{data.fechaIngresoSECTUR}</span>
+            </p>
+            <p className="font-semibold">
+              Observaciones:{' '}
+              <span className="font-normal">{data.observaciones}</span>
             </p>
           </div>
         </section>
-        <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
+        {/* <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
           <h2 className="text-lg font-semibold">
             Datos generales del prestador de servicios
           </h2>
@@ -372,7 +371,7 @@ const DetallesDeSolicitud = () => {
               AAAAAAAAAA: <span className="font-normal">{data.AAAAAAAAAA}</span>
             </p>
           </div>
-        </section>
+        </section> */}
       </div>
       <Dialog
         open={modal.show}
@@ -387,10 +386,7 @@ const DetallesDeSolicitud = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModalHandler} content="Cancelar" />
-          <Button
-            onClick={() => removeFileHandler(selectedDoc.documentId)}
-            content="Aceptar"
-          />
+          <Button onClick={modal.action} content="Aceptar" />
         </DialogActions>
       </Dialog>
     </div>
