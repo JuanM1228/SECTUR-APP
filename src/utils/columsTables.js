@@ -28,6 +28,8 @@ const DeleteButton = params => {
 
 export const EditButton = params => {
   const router = useRouter()
+  console.log(params)
+  if (params.row.status === 4) return
   return (
     <IconButton
       onClick={() => router.push(`/home/tramites/solicitudes/${params.id}`)}>
@@ -96,6 +98,14 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'status',
     headerName: 'Status',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'observaciones',
+    headerName: 'Observaciones',
     minWidth: 120,
     type: 'string',
     align: 'center',
@@ -205,6 +215,14 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
   {
     field: 'status',
     headerName: 'Status',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'observaciones',
+    headerName: 'Observaciones',
     minWidth: 120,
     type: 'string',
     align: 'center',

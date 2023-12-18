@@ -62,6 +62,7 @@ import {
   Commute,
   FlightTakeoff,
   RoomService,
+  ExitToApp,
 } from '@mui/icons-material'
 
 const Icons = {
@@ -128,6 +129,7 @@ const Icons = {
   Commute,
   FlightTakeoff,
   RoomService,
+  ExitToApp,
 }
 
 export default Icons

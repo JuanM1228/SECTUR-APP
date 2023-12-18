@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import Input from '@/components/common/Input'
 
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
@@ -64,6 +65,8 @@ const DetallesDeSolicitud = () => {
   const idSolicitud = params.idSolicitud
   const { profile } = useAuthStore()
   const [data, setData] = useState(initialState)
+  const [showRazonRechazo, setShowRazonRechazo] = useState(false)
+  const [comentario, setComentario] = useState('')
   const [modal, setModal] = useState({
     show: false,
     title: '',
@@ -123,15 +126,27 @@ const DetallesDeSolicitud = () => {
     }
   }
 
+  const onHandleChange = e => {
+    setComentario(e.target.value)
+  }
+
   const onRejectHandler = async () => {
-    const url = `/api/registro/tramite-revocado/${idSolicitud}`
-    try {
-      const res = await sendRequest(url)
-      if (!res.success) return
-      router.push(`/home/tramites`)
-    } catch (error) {
-      console.log('error', error)
-    }
+    console.log(comentario)
+    // try {
+    //   const url = '/api/registro/tramite-rechazado'
+
+    //   const res = await sendRequest(url, {
+    //     method: 'POST',
+    //     body: {
+    //       comentario,
+    //       idSolicitud: Number(idSolicitud),
+    //     },
+    //   })
+    //   if (!res.success) return
+    //   router.push(`/home/tramites`)
+    // } catch (e) {
+    //   console.log(e)
+    // }
   }
 
   const onApproveHandler = async () => {
@@ -147,6 +162,7 @@ const DetallesDeSolicitud = () => {
 
   const onEditHandler = async () => {
     console.log('onEditHandler')
+    router.push(`/home/tramites/solicitudes/${idSolicitud}`)
   }
 
   const modalHandler = action => {
@@ -157,6 +173,7 @@ const DetallesDeSolicitud = () => {
         content: '¿Estás seguro de que deseas editar este trámite?',
         action: onEditHandler,
       })
+      setShowRazonRechazo(false)
     } else if (action === ACTION.REJECT) {
       setModal({
         show: true,
@@ -164,6 +181,7 @@ const DetallesDeSolicitud = () => {
         content: '¿Estás seguro de que deseas rechazar este trámite?',
         action: onRejectHandler,
       })
+      setShowRazonRechazo(true)
     } else if (action === ACTION.APPROVE) {
       setModal({
         show: true,
@@ -171,6 +189,7 @@ const DetallesDeSolicitud = () => {
         content: '¿Estás seguro de que deseas aceptar este trámite?',
         action: onApproveHandler,
       })
+      setShowRazonRechazo(false)
     }
   }
 
@@ -382,6 +401,18 @@ const DetallesDeSolicitud = () => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {modal.content}
+            {showRazonRechazo && (
+              <div className="mt-4">
+                <Input
+                  label="Razon de rechazo"
+                  name="comentario"
+                  rows={4}
+                  multiline
+                  onChange={onHandleChange}
+                  value={comentario}
+                />
+              </div>
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

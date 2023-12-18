@@ -6,6 +6,8 @@ import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import Image from 'next/image'
 
+import { useAuthStore } from '@/store/auth'
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_DATA_REGISTER_USER } from '@/utils/constants'
 import { validate } from '@/utils/validation'
 
@@ -13,6 +15,9 @@ import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 
 const Register = ({ showRegister, setShowRegister }) => {
+  const { sendRequest, isLoading } = useHttpClient()
+  const setToken = useAuthStore(state => state.setToken)
+  const setProfile = useAuthStore(state => state.setProfile)
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
 
   const [error, setError] = useState(INIT_DATA_REGISTER_USER)
@@ -28,6 +33,24 @@ const Register = ({ showRegister, setShowRegister }) => {
       setError(errors)
     } else {
       setError(INIT_DATA_REGISTER_USER)
+      onRegisterHandler()
+    }
+  }
+
+  const onRegisterHandler = async body => {
+    try {
+      const url = '/api/autenticacion/registrar'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        router.push('/home/tramites')
+        setToken(res.result.token)
+        setProfile(res.result.user)
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
