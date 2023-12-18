@@ -55,6 +55,14 @@ const StatusBadge = params => {
   return <p>{STATUS_INFO[params.row.status]}</p>
 }
 
+const FolioBadge = params => {
+  return (
+    <a href={`http://172.16.100.47:3002/${params.row.pathFolioSolicitud}`}>
+      {params.row.folioSolicitud}
+    </a>
+  )
+}
+
 export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'delete',
@@ -124,6 +132,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     type: 'string',
     align: 'center',
     headerAlign: 'center',
+    renderCell: params => FolioBadge(params),
   },
   {
     field: 'tipoPST',
@@ -242,6 +251,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     type: 'string',
     align: 'center',
     headerAlign: 'center',
+    renderCell: params => FolioBadge(params),
   },
   {
     field: 'tipoPST',
