@@ -75,6 +75,7 @@ const Solicitudes = () => {
         nextStep={onNextStepHandler}
         register={register}
         setRegister={setRegister}
+        idSolicitud={params.idSolicitud}
       />
 
       <Domicilio
@@ -84,6 +85,7 @@ const Solicitudes = () => {
         backStep={onBackStepHandler}
         register={register}
         setRegister={setRegister}
+        idSolicitud={params.idSolicitud}
       />
 
       <Contacto
