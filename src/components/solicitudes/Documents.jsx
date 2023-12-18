@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { produce } from 'immer'
 
-import { IconButton } from '@mui/material'
+import { Alert, IconButton, Snackbar } from '@mui/material'
 import Button from '../common/Button'
 import Icons from '@/assets/icons'
 
@@ -27,6 +27,8 @@ const TYPE = {
   HIDE_MODAL: 'HIDE_MODAL',
   UPDATE_PHOTOS: 'UPDATE_PHOTOS',
   UPDATE_DOCUMENTS: 'UPDATE_DOCUMENTS',
+  SHOW_ERROR: 'SHOW_ERROR',
+  HIDE_ERROR: 'HIDE_ERROR',
 }
 
 const FILE_TYPE = {
@@ -38,6 +40,8 @@ const initialState = {
   documentsList: [],
   photosList: [],
   showModal: false,
+  showError: false,
+  errorMessage: '',
   selectedDoc: {
     documentId: null,
     documentName: null,
@@ -73,6 +77,16 @@ const reducer = (state, { type, payload }) => {
     case TYPE.UPDATE_DOCUMENTS:
       return produce(state, draftState => {
         draftState.documentsList = payload.documentsList
+      })
+    case TYPE.SHOW_ERROR:
+      return produce(state, draftState => {
+        draftState.showError = true
+        draftState.errorMessage = payload.errorMessage
+      })
+    case TYPE.HIDE_ERROR:
+      return produce(state, draftState => {
+        draftState.showError = false
+        draftState.errorMessage = ''
       })
     default:
       throw new Error()
@@ -240,6 +254,32 @@ const Documents = props => {
 
   const onSubmitHandler = async e => {
     e.preventDefault()
+    const { documentsList, photosList } = state
+    // Validate if there are documents available
+    if (documentsList?.length === 0) return
+    // Validate if all documents are uploaded
+    const isAllDocumentsUploaded = documentsList.every(
+      item => item.documentId !== null,
+    )
+    if (!isAllDocumentsUploaded) {
+      dispatch({
+        type: TYPE.SHOW_ERROR,
+        payload: {
+          errorMessage: 'Por favor sube todos los documentos requeridos',
+        },
+      })
+      return
+    }
+    // Validate if there is at least one photo
+    if (photosList?.length === 0) {
+      dispatch({
+        type: TYPE.SHOW_ERROR,
+        payload: {
+          errorMessage: 'Por favor sube al menos una foto',
+        },
+      })
+      return
+    }
     nextStep()
   }
   const { documentsList, selectedDoc, showModal, photosList } = state
@@ -367,6 +407,18 @@ const Documents = props => {
           />
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={state.showError}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={() => dispatch({ type: TYPE.HIDE_ERROR })}>
+        <Alert
+          onClose={() => dispatch({ type: TYPE.HIDE_ERROR })}
+          severity="warning"
+          sx={{ width: '100%' }}>
+          {state.errorMessage}
+        </Alert>
+      </Snackbar>
     </>
   )
 }
