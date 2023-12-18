@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { produce } from 'immer'
+import { useAuthStore } from '@/store/auth'
 
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -11,6 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
+import { ROLE_ENUM } from '@/utils/constants'
 
 const dummy = {
   // Datos Generales
@@ -103,6 +105,7 @@ const ACTION = {
 
 const DetallesDeSolicitud = () => {
   const { sendRequest, isLoading } = useHttpClient()
+  const { profile } = useAuthStore()
   const [data, setData] = useState(initialState)
   const [modal, setModal] = useState({ show: false, title: '', content: '' })
   console.log('myData', data)
@@ -190,26 +193,28 @@ const DetallesDeSolicitud = () => {
       <h1 className="font-GMX text-2xl sm:text-3xl font-bold col-span-2 text-center m-4">
         Detalles del trámite del Prestador de Servicios
       </h1>
-      <div className="flex gap-4 items-center justify-end mb-4">
-        <Button
-          content="Editar"
-          type="button"
-          className=" w-full sm:w-auto bg-twine hover:bg-twine"
-          onClick={() => modalHandler(ACTION.EDIT)}
-        />
-        <Button
-          content="Rechazar"
-          type="button"
-          className=" w-full sm:w-auto bg-bigDipORuby hover:bg-bigDipORuby"
-          onClick={() => modalHandler(ACTION.REJECT)}
-        />
-        <Button
-          content="Aceptar"
-          type="button"
-          className=" w-full sm:w-auto bg-blueDianne hover:bg-blueDianne"
-          onClick={() => modalHandler(ACTION.APPROVE)}
-        />
-      </div>
+      {profile.role === ROLE_ENUM.ADMIN && (
+        <div className="flex gap-4 items-center justify-end mb-4">
+          <Button
+            content="Editar"
+            type="button"
+            className=" w-full sm:w-auto bg-twine hover:bg-twine"
+            onClick={() => modalHandler(ACTION.EDIT)}
+          />
+          <Button
+            content="Rechazar"
+            type="button"
+            className=" w-full sm:w-auto bg-bigDipORuby hover:bg-bigDipORuby"
+            onClick={() => modalHandler(ACTION.REJECT)}
+          />
+          <Button
+            content="Aceptar"
+            type="button"
+            className=" w-full sm:w-auto bg-blueDianne hover:bg-blueDianne"
+            onClick={() => modalHandler(ACTION.APPROVE)}
+          />
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-2">
         <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
           <div className="flex mb-2 gap-1">

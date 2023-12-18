@@ -7,9 +7,9 @@ import Table from '@/components/common/Table'
 import Icons from '@/assets/icons'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/auth'
-import { STATUS_TRAMITE } from '@/utils/constants'
+import { ROLE_ENUM, STATUS_TRAMITE } from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import { COLUMNS_TABLE_TRAMITES_USUARIO } from '@/utils/columsTables'
+import { COLUMNS_TABLE_TRAMITES_ADMIN, COLUMNS_TABLE_TRAMITES_USUARIO } from '@/utils/columsTables'
 
 const { EN_PROCESO, FINALIZADO, RECHAZADO, REVISION } = STATUS_TRAMITE
 
@@ -47,19 +47,22 @@ const PanelSolicitudesUsuario = () => {
       <p>NUEVA SOLICITUD</p>
     </span>
   )
-
+  const columnsData =
+    profile.role === ROLE_ENUM.ADMIN
+      ? COLUMNS_TABLE_TRAMITES_ADMIN
+      : COLUMNS_TABLE_TRAMITES_USUARIO
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] items-center p-4  gap-4">
       <h1 className="font-GMX text-3xl font-bold mb-6">MIS SOLICITUDES</h1>
-
-      <Button content={contentButton} fullWidth={false} className="self-end" />
-
-      {tramites.length !== 0 && (
-        <Table
-          columns={COLUMNS_TABLE_TRAMITES_USUARIO}
-          isLoading={isLoading}
-          rows={tramites}
+      {profile.role === ROLE_ENUM.USER && (
+        <Button
+          content={contentButton}
+          fullWidth={false}
+          className="self-end"
         />
+      )}
+      {tramites.length !== 0 && (
+        <Table columns={columnsData} isLoading={isLoading} rows={tramites} />
       )}
       {tramites.length === 0 && (
         <div className="grow flex justify-center items-center ">

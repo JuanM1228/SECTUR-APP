@@ -249,3 +249,8 @@ export const GENERIC_DETAILS_PST_LIST = [
  * @type {number}
  */
 export const MAX_PHOTO_LENGTH = 10
+
+export const ROLE_ENUM = {
+  ADMIN: 10,
+  USER: 20,
+}
