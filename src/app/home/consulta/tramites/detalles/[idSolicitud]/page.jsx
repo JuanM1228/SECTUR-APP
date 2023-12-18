@@ -3,35 +3,17 @@ import React, { useState, useEffect } from 'react'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { useAuthStore } from '@/store/auth'
 import { useParams, useRouter } from 'next/navigation'
-import { EmbedPDF } from '@simplepdf/react-embed-pdf'
 
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-
-import Box from '@mui/material/Box'
-// import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import { ROLE_ENUM } from '@/utils/constants'
-
-// const style = {
-//   position: 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   transform: 'translate(-50%, -50%)',
-//   width: '100%',
-//   height: '100%',
-//   bgcolor: 'background.paper',
-//   // border: '2px solid #000',
-//   // boxShadow: 24,
-//   p: 4,
-// }
 
 const initialState = {
   // Datos Generales
@@ -68,6 +50,8 @@ const initialState = {
   // numEscritura: '',
   // numeroDeRegistro: '',
   observaciones: '',
+  documentsList: [],
+  picturesList: [],
 }
 
 const ACTION = {
@@ -90,9 +74,17 @@ const DetallesDeSolicitud = () => {
     action: null,
   })
 
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [mediaData, setMediaData] = React.useState({
+    documentUrl: null,
+    documentType: null,
+    show: false,
+  })
+  const handleClose = () =>
+    setMediaData({
+      documentUrl: null,
+      documentType: null,
+      show: false,
+    })
 
   useEffect(() => {
     getInitialData()
@@ -103,8 +95,14 @@ const DetallesDeSolicitud = () => {
     try {
       const res = await sendRequest(url)
       if (!res.success) return
-      const { datosGenerales, domicilio, contacto, informacionLegal } =
-        res.result.data
+      const {
+        datosGenerales,
+        domicilio,
+        contacto,
+        informacionLegal,
+        documentsList,
+        picturesList,
+      } = res.result.data
       setData({
         // Datos Generales
         tipoPST: datosGenerales.tipoPST,
@@ -140,6 +138,8 @@ const DetallesDeSolicitud = () => {
         // numEscritura: informacionLegal.numeroDeEscritura,
         // numeroDeRegistro: informacionLegal.numRegistroDeLaPropiedad,
         observaciones: informacionLegal.observaciones,
+        documentsList,
+        picturesList,
       })
     } catch (error) {
       console.log('error', error)
@@ -199,6 +199,10 @@ const DetallesDeSolicitud = () => {
 
   const closeModalHandler = () => {
     setModal({ show: false })
+  }
+
+  const openDoumentHandler = (url, type) => {
+    setMediaData({ documentUrl: url, documentType: type, show: true })
   }
 
   return (
@@ -382,26 +386,67 @@ const DetallesDeSolicitud = () => {
             </p>
           </div>
         </section>
-        {/* <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
-          <h2 className="text-lg font-semibold">
-            Datos generales del prestador de servicios
-          </h2>
-          <div>
-            <p className="font-semibold">
-              AAAAAAAAAA: <span className="font-normal">{data.AAAAAAAAAA}</span>
-            </p>
-            <p className="font-semibold">
-              AAAAAAAAAA: <span className="font-normal">{data.AAAAAAAAAA}</span>
-            </p>
+        <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
+          <div className="flex mb-2 gap-1">
+            <Icons.Description />
+            <h2 className="text-lg font-semibold">Doumentos</h2>
           </div>
-        </section> */}
-        <Button content='Open PDF' onClick={handleOpen}></Button>
+          {data.documentsList?.length > 0 ? (
+            <div>
+              {data.documentsList?.map((item, index) => {
+                return (
+                  <p className="font-semibold" key={`docId-${index}`}>
+                    {`${item.documentName}: `}
+                    <span
+                      className="font-normal"
+                      onClick={() =>
+                        openDoumentHandler(item.documentUrl, item.documentType)
+                      }>
+                      Ver documento
+                    </span>
+                  </p>
+                )
+              })}
+            </div>
+          ) : (
+            <div>
+              <p>No hay documentos para mostrar</p>
+            </div>
+          )}
+        </section>
+        <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
+          <div className="flex mb-2 gap-1">
+            <Icons.Description />
+            <h2 className="text-lg font-semibold">Fotos del establecimiento</h2>
+          </div>
+          {data.picturesList?.length > 0 ? (
+            <div>
+              {data.picturesList?.map((item, index) => {
+                return (
+                  <p className="font-semibold" key={`docId-${index}`}>
+                    {`${item.documentName}: `}
+                    <span
+                      className="font-normal"
+                      onClick={() =>
+                        openDoumentHandler(item.documentUrl, item.documentType)
+                      }>
+                      Ver foto
+                    </span>
+                  </p>
+                )
+              })}
+            </div>
+          ) : (
+            <div>
+              <p>No hay fotos para mostrar</p>
+            </div>
+          )}
+        </section>
         <Modal
-          open={open}
+          open={mediaData.show}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          {/* <Box sx={style}> */}
           {/* <embed
             src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
             type="application/pdf"
@@ -411,45 +456,23 @@ const DetallesDeSolicitud = () => {
             width="80%"
             style={{ display: "block", margin: "0 auto" }}
           ></embed> */}
-          <embed
+          {/* <embed
             src="https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg"
             type="image/jpg"
             frameBorder="0"
             scrolling="auto"
             height="80%"
             width="80%"
-            style={{ display: "block", margin: "0 auto" }}
-          ></embed>
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography> */}
-          {/* </Box> */}
+            style={{ display: 'block', margin: '0 auto' }}></embed> */}
+          <embed
+            src={mediaData.documentUrl}
+            type={mediaData.documentType}
+            frameBorder="0"
+            scrolling="auto"
+            height="80%"
+            width="80%"
+            style={{ display: 'block', margin: '0 auto' }}></embed>
         </Modal>
-        <EmbedPDF>
-          <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
-            Opens dummy.pdf
-          </a>
-        </EmbedPDF>
-        <EmbedPDF>
-          <a href="https://www.africau.edu/images/default/sample.pdf">
-            Opens dummy.pdf 2
-          </a>
-        </EmbedPDF>
-        {/* <embed
-    src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
-    type="application/pdf"
-    frameBorder="0"
-    scrolling="auto"
-    height="100%"
-    width="100%"
-></embed> */}
-        {/* 
-        <EmbedPDF>
-          <button>Opens the simplePDF editor</button>
-        </EmbedPDF> */}
       </div>
       <Dialog
         open={modal.show}
