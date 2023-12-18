@@ -107,7 +107,12 @@ const DetallesDeSolicitud = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const { profile } = useAuthStore()
   const [data, setData] = useState(initialState)
-  const [modal, setModal] = useState({ show: false, title: '', content: '' })
+  const [modal, setModal] = useState({
+    show: false,
+    title: '',
+    content: '',
+    action: null,
+  })
   console.log('myData', data)
 
   useEffect(() => {
@@ -162,24 +167,39 @@ const DetallesDeSolicitud = () => {
     }
   }
 
+  const onRejectHandler = async () => {
+    console.log('onRejectHandler')
+  }
+
+  const onApproveHandler = async () => {
+    console.log('onApproveHandler')
+  }
+
+  const onEditHandler = async () => {
+    console.log('onEditHandler')
+  }
+
   const modalHandler = action => {
     if (action === ACTION.EDIT) {
       setModal({
         show: true,
         title: 'Editar',
         content: '¿Estás seguro de que deseas editar este trámite?',
+        action: onEditHandler,
       })
     } else if (action === ACTION.REJECT) {
       setModal({
         show: true,
         title: 'Rechazar',
         content: '¿Estás seguro de que deseas rechazar este trámite?',
+        action: onRejectHandler,
       })
     } else if (action === ACTION.APPROVE) {
       setModal({
         show: true,
         title: 'Aceptar',
         content: '¿Estás seguro de que deseas aceptar este trámite?',
+        action: onApproveHandler,
       })
     }
   }
@@ -388,7 +408,7 @@ const DetallesDeSolicitud = () => {
         <DialogActions>
           <Button onClick={closeModalHandler} content="Cancelar" />
           <Button
-            onClick={() => removeFileHandler(selectedDoc.documentId)}
+            onClick={modal.action}
             content="Aceptar"
           />
         </DialogActions>
