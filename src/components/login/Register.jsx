@@ -6,6 +6,8 @@ import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import Image from 'next/image'
 
+import { useAuthStore } from '@/store/auth'
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_DATA_REGISTER_USER } from '@/utils/constants'
 import { validate } from '@/utils/validation'
 
@@ -13,6 +15,9 @@ import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 
 const Register = ({ showRegister, setShowRegister }) => {
+  const { sendRequest, isLoading } = useHttpClient()
+  const setToken = useAuthStore(state => state.setToken)
+  const setProfile = useAuthStore(state => state.setProfile)
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
 
   const [error, setError] = useState(INIT_DATA_REGISTER_USER)
@@ -23,11 +28,30 @@ const Register = ({ showRegister, setShowRegister }) => {
 
   const registerHandler = async e => {
     e.preventDefault()
-    const { hasError, errors } = validate.registerForm(register)
-    if (hasError) {
-      setError(errors)
-    } else {
-      setError(INIT_DATA_REGISTER_USER)
+    // const { hasError, errors } = validate.registerForm(register)
+    onRegisterHandler(register)
+    // if (hasError) {
+    //   setError(errors)
+    // } else {
+    //   setError(INIT_DATA_REGISTER_USER)
+    //   onRegisterHandler()
+    // }
+  }
+
+  const onRegisterHandler = async body => {
+    try {
+      const url = '/api/autenticacion/registrar'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        router.push('/home/tramites')
+        // setToken(res.result.token)
+        // setProfile(res.result.user)
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -65,6 +89,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.name !== ''}
           helpText={error.name}
+          value={register.name}
         />
 
         <Input
@@ -75,6 +100,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.paternalSurname !== ''}
           helpText={error.paternalSurname}
+          value={register.paternalSurname}
         />
 
         <Input
@@ -85,6 +111,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.maternalSurname !== ''}
           helpText={error.maternalSurname}
+          value={register.maternalSurname}
         />
 
         <DatePickerCustom
@@ -93,6 +120,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.birthDate !== ''}
           helpText={error.birthDate}
+          value={register.birthDate}
         />
 
         <Input
@@ -104,6 +132,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.email !== ''}
           helpText={error.email}
+          value={register.email}
         />
 
         <Input
@@ -115,6 +144,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           onChange={onHandleChange}
           error={error.password !== ''}
           helpText={error.password}
+          value={register.password}
         />
 
         <Input
@@ -126,6 +156,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           error={error.verifyPassword !== ''}
           helpText={error.verifyPassword}
           type="password"
+          value={register.verifyPassword}
         />
 
         <Button content="Registarme" type="submit" />

@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import Input from '@/components/common/Input'
 import Modal from '@mui/material/Modal'
 
 import Icons from '@/assets/icons'
@@ -67,6 +68,8 @@ const DetallesDeSolicitud = () => {
   const idSolicitud = params.idSolicitud
   const { profile } = useAuthStore()
   const [data, setData] = useState(initialState)
+  const [showRazonRechazo, setShowRazonRechazo] = useState(false)
+  const [comentario, setComentario] = useState('')
   const [modal, setModal] = useState({
     show: false,
     title: '',
@@ -146,14 +149,26 @@ const DetallesDeSolicitud = () => {
     }
   }
 
-  const onRejectHandler = async () => {
-    const url = `/api/registro/tramite-revocado/${idSolicitud}`
+  const onHandleChange = e => {
+    setComentario(e.target.value)
+  }
+
+  const onRejectHandler = async rejectComment => {
+    console.log(rejectComment, 'rejectComment')
     try {
-      const res = await sendRequest(url)
+      const url = '/api/registro/tramite-rechazado'
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: {
+          comentario: rejectComment,
+          idSolicitud: Number(idSolicitud),
+        },
+      })
       if (!res.success) return
       router.push(`/home/tramites`)
-    } catch (error) {
-      console.log('error', error)
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -170,6 +185,7 @@ const DetallesDeSolicitud = () => {
 
   const onEditHandler = async () => {
     console.log('onEditHandler')
+    router.push(`/home/tramites/solicitudes/${idSolicitud}`)
   }
 
   const modalHandler = action => {
@@ -180,6 +196,7 @@ const DetallesDeSolicitud = () => {
         content: '¿Estás seguro de que deseas editar este trámite?',
         action: onEditHandler,
       })
+      setShowRazonRechazo(false)
     } else if (action === ACTION.REJECT) {
       setModal({
         show: true,
@@ -187,6 +204,7 @@ const DetallesDeSolicitud = () => {
         content: '¿Estás seguro de que deseas rechazar este trámite?',
         action: onRejectHandler,
       })
+      setShowRazonRechazo(true)
     } else if (action === ACTION.APPROVE) {
       setModal({
         show: true,
@@ -194,6 +212,7 @@ const DetallesDeSolicitud = () => {
         content: '¿Estás seguro de que deseas aceptar este trámite?',
         action: onApproveHandler,
       })
+      setShowRazonRechazo(false)
     }
   }
 
@@ -400,7 +419,10 @@ const DetallesDeSolicitud = () => {
                     <span
                       className="font-normal"
                       onClick={() =>
-                        openDoumentHandler(item.documentUrl, item.documentType)
+                        openDoumentHandler(
+                          `http://172.16.100.47:3002/${item.documentUrl}`,
+                          item.documentType,
+                        )
                       }>
                       Ver documento
                     </span>
@@ -422,13 +444,17 @@ const DetallesDeSolicitud = () => {
           {data.picturesList?.length > 0 ? (
             <div>
               {data.picturesList?.map((item, index) => {
+                console.log(`http://172.16.100.47:3002/${item.documentUrl}`)
                 return (
                   <p className="font-semibold" key={`docId-${index}`}>
                     {`${item.documentName}: `}
                     <span
                       className="font-normal"
                       onClick={() =>
-                        openDoumentHandler(item.documentUrl, item.documentType)
+                        openDoumentHandler(
+                          `http://172.16.100.47:3002/${item.documentUrl}`,
+                          item.documentType,
+                        )
                       }>
                       Ver foto
                     </span>
@@ -483,11 +509,23 @@ const DetallesDeSolicitud = () => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {modal.content}
+            {showRazonRechazo && (
+              <div className="mt-4">
+                <Input
+                  label="Razon de rechazo"
+                  name="comentario"
+                  rows={4}
+                  multiline
+                  onChange={onHandleChange}
+                  value={comentario}
+                />
+              </div>
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModalHandler} content="Cancelar" />
-          <Button onClick={modal.action} content="Aceptar" />
+          <Button onClick={() => modal.action(comentario)} content="Aceptar" />
         </DialogActions>
       </Dialog>
     </div>

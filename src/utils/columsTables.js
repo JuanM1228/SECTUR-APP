@@ -3,19 +3,22 @@ import React from 'react'
 import Icons from '@/assets/icons'
 import { IconButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
-
-const onUpdateDatabase = async idSolicitud => {
-  try {
-    const url = `/api/registro/tramite-revocado/${idSolicitud}`
-    const res = await sendRequest(url)
-    if (res.success) {
-    }
-  } catch (e) {
-    console.log(e)
-  }
-}
+import { useHttpClient } from '@/hooks/useHttpClient'
 
 const DeleteButton = params => {
+  const { sendRequest, isLoading } = useHttpClient()
+  const onUpdateDatabase = async idSolicitud => {
+    try {
+      const url = `/api/registro/tramite-revocado/${idSolicitud}`
+      const res = await sendRequest(url)
+      if (res.success) {
+        window.location.reload(true)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <IconButton onClick={() => onUpdateDatabase(params.id)}>
       <Icons.Delete />
@@ -25,6 +28,8 @@ const DeleteButton = params => {
 
 export const EditButton = params => {
   const router = useRouter()
+  console.log(params)
+  if (params.row.status === 4) return
   return (
     <IconButton
       onClick={() => router.push(`/home/tramites/solicitudes/${params.id}`)}>
@@ -53,13 +58,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     type: 'bool',
     align: 'center',
     headerAlign: 'center',
-    renderCell: params => {
-      return (
-        <IconButton onClick={() => console.log(params)}>
-          <Icons.Delete />
-        </IconButton>
-      )
-    },
+    renderCell: params => DeleteButton(params),
   },
   {
     field: 'edit',
@@ -70,7 +69,15 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     headerAlign: 'center',
     renderCell: params => EditButton(params),
   },
-
+  {
+    field: 'review',
+    headerName: '',
+    minWidth: 80,
+    type: 'bool',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => ReviewButton(params),
+  },
   {
     field: 'fechaSolicitud',
     headerName: 'Fecha de Solicitud',
@@ -91,6 +98,14 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'status',
     headerName: 'Status',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'observaciones',
+    headerName: 'Observaciones',
     minWidth: 120,
     type: 'string',
     align: 'center',
@@ -200,6 +215,14 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
   {
     field: 'status',
     headerName: 'Status',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'observaciones',
+    headerName: 'Observaciones',
     minWidth: 120,
     type: 'string',
     align: 'center',
