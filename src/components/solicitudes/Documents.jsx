@@ -78,12 +78,12 @@ const reducer = (state, { type, payload }) => {
       return produce(state, draftState => {
         draftState.documentsList = payload.documentsList
       })
-    case TYPE.SHOW_MODAL:
+    case TYPE.SHOW_ERROR:
       return produce(state, draftState => {
         draftState.showError = true
         draftState.errorMessage = payload.errorMessage
       })
-    case TYPE.HIDE_MODAL:
+    case TYPE.HIDE_ERROR:
       return produce(state, draftState => {
         draftState.showError = false
         draftState.errorMessage = ''
@@ -253,8 +253,8 @@ const Documents = props => {
   }
 
   const onSubmitHandler = async e => {
-    const { documentsList, photosList } = state
     e.preventDefault()
+    const { documentsList, photosList } = state
     // Validate if there are documents available
     if (documentsList?.length === 0) return
     // Validate if all documents are uploaded
