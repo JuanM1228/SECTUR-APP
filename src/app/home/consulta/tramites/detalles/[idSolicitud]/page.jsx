@@ -70,14 +70,13 @@ const DetallesDeSolicitud = () => {
     content: '',
     action: null,
   })
-  console.log('myData', data)
 
   useEffect(() => {
     getInitialData()
   }, [])
 
   const getInitialData = async () => {
-    const url = `http://34.29.98.230:3002/api/registro/detalle-tramite/${idSolicitud}}`
+    const url = `/api/registro/detalle-tramite/${idSolicitud}}`
     try {
       const res = await sendRequest(url)
       if (!res.success) return
@@ -125,7 +124,6 @@ const DetallesDeSolicitud = () => {
   }
 
   const onRejectHandler = async () => {
-    console.log('onRejectHandler')
     const url = `/api/registro/tramite-revocado/${idSolicitud}`
     try {
       const res = await sendRequest(url)
@@ -137,7 +135,6 @@ const DetallesDeSolicitud = () => {
   }
 
   const onApproveHandler = async () => {
-    console.log('onApproveHandler')
     const url = `/api/registro/tramite-aprobado/${idSolicitud}`
     try {
       const res = await sendRequest(url)
