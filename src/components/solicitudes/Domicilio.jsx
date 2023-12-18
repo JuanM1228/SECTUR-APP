@@ -27,6 +27,7 @@ const Domicilio = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const [data, setData] = useState(INIT_DATA_DOMICILIO)
   const [colonias, setColonias] = useState([])
@@ -73,6 +74,8 @@ const Domicilio = ({
           ...data,
           estado: info.estado,
           municipio: info.municipio,
+          idEstado: info.idEstado,
+          idMunicipio: info.idMunicipio,
         })
         setColonias(info.colonias)
       }
@@ -85,6 +88,21 @@ const Domicilio = ({
     setData({ ...data, [name]: value })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const { hasError, errors } = validate.domicilioForm(data)
@@ -93,7 +111,11 @@ const Domicilio = ({
     } else {
       setError(INIT_DATA_DOMICILIO)
       setRegister({ ...register, domicilio: data })
-      nextStep()
+      const body = {
+        domicilio: data,
+        id_solicitud: idSolicitud,
+      }
+      onUpdateDatabase(body)
     }
   }
 

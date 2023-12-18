@@ -6,6 +6,7 @@ import Button from '../common/Button'
 import Dropdown from '../common/Dropdown'
 
 import { validate } from '@/utils/validation'
+import { useAuthStore } from '@/store/auth'
 import { INIT_DATOS_GENERALES, STEP_ENUM } from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
 
@@ -15,11 +16,13 @@ const DatosGenerales = ({
   nextStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const [data, setData] = useState(INIT_DATOS_GENERALES)
   const [error, setError] = useState(INIT_DATOS_GENERALES)
   const [catalogoPST, setCatalogoPST] = useState([])
   const { sendRequest, isLoading } = useHttpClient()
+  const { profile } = useAuthStore()
 
   useEffect(() => {
     getCatalogoPST()
@@ -48,7 +51,28 @@ const DatosGenerales = ({
     } else {
       setError(INIT_DATOS_GENERALES)
       setRegister({ ...register, datosGenerales: data })
-      nextStep()
+      const body = {
+        datosGenerales: data,
+        id_user: profile.id,
+        id_solicitud: idSolicitud,
+      }
+      onUpdateDatabase(body)
+    }
+  }
+
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 

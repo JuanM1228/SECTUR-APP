@@ -61,6 +61,13 @@ const PanelSolicitudesUsuario = () => {
           rows={tramites}
         />
       )}
+      {tramites.length === 0 && (
+        <div className="grow flex justify-center items-center ">
+          <h1 className="font-Montserrat font-simibold text-xl">
+            POR EL MOMENTO NO CONTIENES SOLICITUDES ACTIVAS
+          </h1>
+        </div>
+      )}
     </div>
   )
 }
