@@ -419,7 +419,10 @@ const DetallesDeSolicitud = () => {
                     <span
                       className="font-normal"
                       onClick={() =>
-                        openDoumentHandler(item.documentUrl, item.documentType)
+                        openDoumentHandler(
+                          `http://172.16.100.47:3002/${item.documentUrl}`,
+                          item.documentType,
+                        )
                       }>
                       Ver documento
                     </span>
@@ -441,13 +444,17 @@ const DetallesDeSolicitud = () => {
           {data.picturesList?.length > 0 ? (
             <div>
               {data.picturesList?.map((item, index) => {
+                console.log(`http://172.16.100.47:3002/${item.documentUrl}`)
                 return (
                   <p className="font-semibold" key={`docId-${index}`}>
                     {`${item.documentName}: `}
                     <span
                       className="font-normal"
                       onClick={() =>
-                        openDoumentHandler(item.documentUrl, item.documentType)
+                        openDoumentHandler(
+                          `http://172.16.100.47:3002/${item.documentUrl}`,
+                          item.documentType,
+                        )
                       }>
                       Ver foto
                     </span>
