@@ -300,20 +300,14 @@ const Documents = props => {
         </h1>
         {photosList.map(item => {
           return (
-            <div
-              key={`i-${item.documentId}`}
-              className="flex items-center mt-2">
+            <div key={`i-${item.imageId}`} className="flex items-center mt-2">
               <Icons.Check className="text-seaGreen mr-1" />
               <p className="font-GMX text-gray text-sm grow">
-                {item.documentName}
+                {item.imageName}
               </p>
               <IconButton
                 onClick={() =>
-                  handleClickOpen(
-                    item.documentId,
-                    item.documentName,
-                    FILE_TYPE.PHOTO,
-                  )
+                  handleClickOpen(item.imageId, item.imageName, FILE_TYPE.PHOTO)
                 }>
                 <Icons.Delete className="text-error" />
               </IconButton>
