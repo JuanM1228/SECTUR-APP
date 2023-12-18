@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import { produce } from 'immer'
 import { useAuthStore } from '@/store/auth'
+import { useParams, useRouter } from 'next/navigation'
 
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -13,52 +13,6 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import { ROLE_ENUM } from '@/utils/constants'
-
-const dummy = {
-  // Datos Generales
-  numeroDeTramite: '1234567890',
-  tipoDeTramite: 'Inscripción',
-  tipoDePST: 'Hospedaje',
-  nombreComercial: 'Hotel de la Selva',
-  RFC: 'HOS-123456-ABC',
-  // registroAnterior: 'HOS-123456-ABC', // TODO: Preguntar sobre este dato
-  procedenciaTramite: 'Nuevo', // Inscripción, renovación
-  RNTFolio: '1234567890', // TODO: Preguntar sobre este dato // Folio certificado de registro
-  razonSocial: 'Hotel de la Selva S.A. de C.V.',
-  CURP: 'HOS-123456-ABC',
-  registroINEGI: 'HOS-123456-ABC',
-  estadoDeTramite: 'En proceso', // TODO: Incompleto, en revisión, aceptado, rechazado, revocado
-  motivoDelRechazo: '',
-  // Domicilio
-  calle: 'Calle 1',
-  colonia: 'Jardines del Sur',
-  municipio: 'Benito Juárez',
-  estado: 'Quintana Roo',
-  codigoPostal: '77500',
-  latitud: '21.161908',
-  longitud: '-86.851528',
-  // Contacto
-  telefono: '9981234567',
-  celular: '9981234567', // TODO: Quitar fax del frontend y backend
-  email: 'example@test.com',
-  web: 'www.hotel.com',
-  x: 'hotelejemplo', // TODO: Agregar x al backend
-  facebook: 'hotelejemplo',
-  tiktok: 'hotelejemplo', // TODO: Agregar tiktok al backend
-  instagram: 'hotelejemplo', // TODO: Agregar instagran al backend
-  // Información legal
-  nombrePropietario: 'Roberto Pérez',
-  nombreRepresentanteLegal: 'Roberto Pérez',
-  nombreDelSoliciante: 'Roberto Pérez',
-  puestoDelSolicitante: 'Laura Pérez',
-  fechaDeSolicitud: '2021-10-10',
-  fechaIngreso: '2021-10-10',
-  // tipoDeInmueble: 1, // TODO: Propio o rentado
-  // numeroDeEscritura: '1234567890',
-  // vigenciaDelContrato: '2021-10-10',
-  // numRegistroDeLaPropiedad: '1234567890',
-  // observaciones: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-}
 
 const initialState = {
   // Datos Generales
@@ -105,6 +59,9 @@ const ACTION = {
 
 const DetallesDeSolicitud = () => {
   const { sendRequest, isLoading } = useHttpClient()
+  const params = useParams()
+  const router = useRouter()
+  const idSolicitud = params.idSolicitud
   const { profile } = useAuthStore()
   const [data, setData] = useState(initialState)
   const [modal, setModal] = useState({
@@ -120,7 +77,7 @@ const DetallesDeSolicitud = () => {
   }, [])
 
   const getInitialData = async () => {
-    const url = `http://34.29.98.230:3002/api/registro/detalle-tramite/256`
+    const url = `http://34.29.98.230:3002/api/registro/detalle-tramite/${idSolicitud}}`
     try {
       const res = await sendRequest(url)
       if (!res.success) return
@@ -169,10 +126,26 @@ const DetallesDeSolicitud = () => {
 
   const onRejectHandler = async () => {
     console.log('onRejectHandler')
+    const url = `/api/registro/tramite-revocado/${idSolicitud}`
+    try {
+      const res = await sendRequest(url)
+      if (!res.success) return
+      router.push(`/home/tramites`)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const onApproveHandler = async () => {
     console.log('onApproveHandler')
+    const url = `/api/registro/tramite-aprobado/${idSolicitud}`
+    try {
+      const res = await sendRequest(url)
+      if (!res.success) return
+      router.push(`/home/tramites`)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const onEditHandler = async () => {
