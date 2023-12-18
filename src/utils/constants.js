@@ -226,6 +226,14 @@ export const STATUS_TRAMITE = {
   FINALIZADO: 4,
   REVOCADO: 5,
 }
+
+export const STATUS_INFO = {
+  1: 'EN PROCESO',
+  2: 'REVISION',
+  3: 'RECHAZADO',
+  4: 'FINALIZADO',
+  5: 'REVOCADO',
+}
 /**
  * Array containing generic details of PST categories.
  * @type {Array<PST_ENUM>}

@@ -4,6 +4,7 @@ import Icons from '@/assets/icons'
 import { IconButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import { STATUS_INFO } from './constants'
 
 const DeleteButton = params => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -48,6 +49,10 @@ const ReviewButton = params => {
       <Icons.Visibility />
     </IconButton>
   )
+}
+
+const StatusBadge = params => {
+  return <p>{STATUS_INFO[params.row.status]}</p>
 }
 
 export const COLUMNS_TABLE_TRAMITES_USUARIO = [
@@ -102,6 +107,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     type: 'string',
     align: 'center',
     headerAlign: 'center',
+    renderCell: params => StatusBadge(params),
   },
   {
     field: 'observaciones',
@@ -219,6 +225,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     type: 'string',
     align: 'center',
     headerAlign: 'center',
+    renderCell: params => StatusBadge(params),
   },
   {
     field: 'observaciones',
