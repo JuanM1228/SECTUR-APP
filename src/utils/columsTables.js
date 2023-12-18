@@ -3,19 +3,22 @@ import React from 'react'
 import Icons from '@/assets/icons'
 import { IconButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
-
-const onUpdateDatabase = async idSolicitud => {
-  try {
-    const url = `/api/registro/tramite-revocado/${idSolicitud}`
-    const res = await sendRequest(url)
-    if (res.success) {
-    }
-  } catch (e) {
-    console.log(e)
-  }
-}
+import { useHttpClient } from '@/hooks/useHttpClient'
 
 const DeleteButton = params => {
+  const { sendRequest, isLoading } = useHttpClient()
+  const onUpdateDatabase = async idSolicitud => {
+    try {
+      const url = `/api/registro/tramite-revocado/${idSolicitud}`
+      const res = await sendRequest(url)
+      if (res.success) {
+        window.location.reload(true)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <IconButton onClick={() => onUpdateDatabase(params.id)}>
       <Icons.Delete />
@@ -53,13 +56,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     type: 'bool',
     align: 'center',
     headerAlign: 'center',
-    renderCell: params => {
-      return (
-        <IconButton onClick={() => console.log(params)}>
-          <Icons.Delete />
-        </IconButton>
-      )
-    },
+    renderCell: params => DeleteButton(params),
   },
   {
     field: 'edit',
