@@ -67,7 +67,15 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     headerAlign: 'center',
     renderCell: params => EditButton(params),
   },
-
+  {
+    field: 'review',
+    headerName: '',
+    minWidth: 80,
+    type: 'bool',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => ReviewButton(params),
+  },
   {
     field: 'fechaSolicitud',
     headerName: 'Fecha de Solicitud',
