@@ -10,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Input from '@/components/common/Input'
+import Modal from '@mui/material/Modal'
 
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
@@ -50,6 +51,8 @@ const initialState = {
   // numEscritura: '',
   // numeroDeRegistro: '',
   observaciones: '',
+  documentsList: [],
+  picturesList: [],
 }
 
 const ACTION = {
@@ -74,6 +77,18 @@ const DetallesDeSolicitud = () => {
     action: null,
   })
 
+  const [mediaData, setMediaData] = React.useState({
+    documentUrl: null,
+    documentType: null,
+    show: false,
+  })
+  const handleClose = () =>
+    setMediaData({
+      documentUrl: null,
+      documentType: null,
+      show: false,
+    })
+
   useEffect(() => {
     getInitialData()
   }, [])
@@ -83,8 +98,14 @@ const DetallesDeSolicitud = () => {
     try {
       const res = await sendRequest(url)
       if (!res.success) return
-      const { datosGenerales, domicilio, contacto, informacionLegal } =
-        res.result.data
+      const {
+        datosGenerales,
+        domicilio,
+        contacto,
+        informacionLegal,
+        documentsList,
+        picturesList,
+      } = res.result.data
       setData({
         // Datos Generales
         tipoPST: datosGenerales.tipoPST,
@@ -120,6 +141,8 @@ const DetallesDeSolicitud = () => {
         // numEscritura: informacionLegal.numeroDeEscritura,
         // numeroDeRegistro: informacionLegal.numRegistroDeLaPropiedad,
         observaciones: informacionLegal.observaciones,
+        documentsList,
+        picturesList,
       })
     } catch (error) {
       console.log('error', error)
@@ -197,12 +220,16 @@ const DetallesDeSolicitud = () => {
     setModal({ show: false })
   }
 
+  const openDoumentHandler = (url, type) => {
+    setMediaData({ documentUrl: url, documentType: type, show: true })
+  }
+
   return (
     <div className="w-full container font-Montserrat">
       <h1 className="font-GMX text-2xl sm:text-3xl font-bold col-span-2 text-center m-4">
         Detalles del trámite del Prestador de Servicios
       </h1>
-      {profile.role === ROLE_ENUM.ADMIN && (
+      {profile?.role === ROLE_ENUM.ADMIN && (
         <div className="flex gap-4 items-center justify-end mb-4">
           <Button
             content="Editar"
@@ -378,19 +405,93 @@ const DetallesDeSolicitud = () => {
             </p>
           </div>
         </section>
-        {/* <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
-          <h2 className="text-lg font-semibold">
-            Datos generales del prestador de servicios
-          </h2>
-          <div>
-            <p className="font-semibold">
-              AAAAAAAAAA: <span className="font-normal">{data.AAAAAAAAAA}</span>
-            </p>
-            <p className="font-semibold">
-              AAAAAAAAAA: <span className="font-normal">{data.AAAAAAAAAA}</span>
-            </p>
+        <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
+          <div className="flex mb-2 gap-1">
+            <Icons.Description />
+            <h2 className="text-lg font-semibold">Doumentos</h2>
           </div>
-        </section> */}
+          {data.documentsList?.length > 0 ? (
+            <div>
+              {data.documentsList?.map((item, index) => {
+                return (
+                  <p className="font-semibold" key={`docId-${index}`}>
+                    {`${item.documentName}: `}
+                    <span
+                      className="font-normal"
+                      onClick={() =>
+                        openDoumentHandler(item.documentUrl, item.documentType)
+                      }>
+                      Ver documento
+                    </span>
+                  </p>
+                )
+              })}
+            </div>
+          ) : (
+            <div>
+              <p>No hay documentos para mostrar</p>
+            </div>
+          )}
+        </section>
+        <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
+          <div className="flex mb-2 gap-1">
+            <Icons.Description />
+            <h2 className="text-lg font-semibold">Fotos del establecimiento</h2>
+          </div>
+          {data.picturesList?.length > 0 ? (
+            <div>
+              {data.picturesList?.map((item, index) => {
+                return (
+                  <p className="font-semibold" key={`docId-${index}`}>
+                    {`${item.documentName}: `}
+                    <span
+                      className="font-normal"
+                      onClick={() =>
+                        openDoumentHandler(item.documentUrl, item.documentType)
+                      }>
+                      Ver foto
+                    </span>
+                  </p>
+                )
+              })}
+            </div>
+          ) : (
+            <div>
+              <p>No hay fotos para mostrar</p>
+            </div>
+          )}
+        </section>
+        <Modal
+          open={mediaData.show}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description">
+          {/* <embed
+            src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
+            type="application/pdf"
+            frameBorder="0"
+            scrolling="auto"
+            height="80%"
+            width="80%"
+            style={{ display: "block", margin: "0 auto" }}
+          ></embed> */}
+          {/* <embed
+            src="https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg"
+            type="image/jpg"
+            frameBorder="0"
+            scrolling="auto"
+            height="80%"
+            width="80%"
+            style={{ display: 'block', margin: '0 auto' }}></embed> */}
+          <embed
+            src={mediaData.documentUrl}
+            type={mediaData.documentType}
+            frameBorder="0"
+            scrolling="auto"
+            height="80%"
+            width="80%"
+            style={{ display: 'block', margin: '0 auto' }}></embed>
+        </Modal>
       </div>
       <Dialog
         open={modal.show}
