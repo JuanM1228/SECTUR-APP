@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Input from '../common/Input'
 import Button from '../common/Button'
 
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { validate } from '@/utils/validation'
 import { INIT_CONTACTO, STEP_ENUM } from '@/utils/constants'
 
@@ -14,9 +15,11 @@ const Contacto = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const [data, setData] = useState(INIT_CONTACTO)
   const [error, setError] = useState(INIT_CONTACTO)
+  const { sendRequest, isLoading } = useHttpClient()
 
   useEffect(() => {
     if (!dataContacto) return
@@ -27,6 +30,21 @@ const Contacto = ({
     setData({ ...data, [name]: value })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const { hasError, errors } = validate.contactoForm(data)
@@ -35,7 +53,11 @@ const Contacto = ({
     } else {
       setError(INIT_CONTACTO)
       setRegister({ ...register, contacto: data })
-      nextStep()
+      const body = {
+        contacto: data,
+        id_solicitud: idSolicitud,
+      }
+      onUpdateDatabase(body)
     }
   }
 

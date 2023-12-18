@@ -6,6 +6,7 @@ import Input from '../common/Input'
 import Button from '../common/Button'
 import DatePickerCustom from '../common/DatePicker'
 
+import { useHttpClient } from '@/hooks/useHttpClient'
 import { validate } from '@/utils/validation'
 import { INIT_INFO_LEGAL, STEP_ENUM } from '@/utils/constants'
 
@@ -16,9 +17,12 @@ const InformacionLegal = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const [data, setData] = useState(INIT_INFO_LEGAL)
   const [error, setError] = useState(INIT_INFO_LEGAL)
+  const { sendRequest, isLoading } = useHttpClient()
+
   useEffect(() => {
     if (!dataInformacionLegal) return
     setData(dataInformacionLegal)
@@ -28,16 +32,35 @@ const InformacionLegal = ({
     setData({ ...data, [name]: value })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
-    // TODO: Add dates validation. Now hasError is true due date validation is not implemented
     const { hasError, errors } = validate.infoLegalForm(data)
     if (hasError) {
       setError(errors)
     } else {
       setError(INIT_INFO_LEGAL)
       setRegister({ ...register, informacionLegal: data })
-      nextStep()
+      const body = {
+        informacionLegal: data,
+        id_solicitud: idSolicitud,
+      }
+      console.log(body)
+      onUpdateDatabase(body)
     }
   }
 
@@ -80,14 +103,6 @@ const InformacionLegal = ({
           helpText={error.puestoDelSolicitante}
           onChange={onHandleChange}
           value={data.puestoDelSolicitante}
-        />
-        <DatePickerCustom
-          label="Fecha de solicitud *"
-          name="fechaDeSolicitud"
-          error={error.fechaDeSolicitud !== ''}
-          helpText={error.fechaDeSolicitud}
-          onChange={onHandleChange}
-          value={dayjs(data.fechaDeSolicitud)}
         />
         <DatePickerCustom
           label="Fecha de ingreso a SECTUR *"

@@ -37,6 +37,9 @@ const Domicilio = ({
   useEffect(() => {
     if (!dataDomicilio) return
     setData(dataDomicilio)
+    if (data.codigoPostal) {
+      locationHandler()
+    }
   }, [dataDomicilio])
 
   const myIcon = new Icon({
@@ -74,8 +77,8 @@ const Domicilio = ({
           ...data,
           estado: info.estado,
           municipio: info.municipio,
-          idEstado: info.idEstado,
-          idMunicipio: info.idMunicipio,
+          idEstado: info.id_estado,
+          idMunicipio: info.id_municipio,
         })
         setColonias(info.colonias)
       }

@@ -143,10 +143,10 @@ const contactoForm = data => {
     email: '',
   }
 
-  if (!hasText(data.telefono)) {
+  if (!data.telefono) {
     err.telefono = 'Ingrese un número de teléfono'
   }
-  if (!hasText(data.email)) {
+  if (!data.email) {
     err.email = 'Ingrese un correo electrónico'
   }
 
@@ -178,11 +178,7 @@ const infoLegalForm = data => {
   if (!hasText(data.puestoDelSolicitante)) {
     err.puestoDelSolicitante = 'Ingrese un puesto de solicitante'
   }
-  if (
-    !(data.fechaDeSolicitud instanceof Date || hasText(data.fechaDeSolicitud))
-  ) {
-    err.fechaDeSolicitud = 'Ingrese una fecha de solicitud'
-  }
+
   if (
     !(
       data.fechaIngresoSECTUR instanceof Date ||

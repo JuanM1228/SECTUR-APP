@@ -95,6 +95,7 @@ const Solicitudes = () => {
         backStep={onBackStepHandler}
         register={register}
         setRegister={setRegister}
+        idSolicitud={params.idSolicitud}
       />
 
       <InformacionLegal
@@ -104,6 +105,7 @@ const Solicitudes = () => {
         backStep={onBackStepHandler}
         register={register}
         setRegister={setRegister}
+        idSolicitud={params.idSolicitud}
       />
       <Documents
         step={step}
