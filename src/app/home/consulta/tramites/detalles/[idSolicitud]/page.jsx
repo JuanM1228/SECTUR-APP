@@ -130,23 +130,23 @@ const DetallesDeSolicitud = () => {
     setComentario(e.target.value)
   }
 
-  const onRejectHandler = async () => {
-    console.log(comentario)
-    // try {
-    //   const url = '/api/registro/tramite-rechazado'
+  const onRejectHandler = async rejectComment => {
+    console.log(rejectComment, 'rejectComment')
+    try {
+      const url = '/api/registro/tramite-rechazado'
 
-    //   const res = await sendRequest(url, {
-    //     method: 'POST',
-    //     body: {
-    //       comentario,
-    //       idSolicitud: Number(idSolicitud),
-    //     },
-    //   })
-    //   if (!res.success) return
-    //   router.push(`/home/tramites`)
-    // } catch (e) {
-    //   console.log(e)
-    // }
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: {
+          comentario: rejectComment,
+          idSolicitud: Number(idSolicitud),
+        },
+      })
+      if (!res.success) return
+      router.push(`/home/tramites`)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const onApproveHandler = async () => {
@@ -417,7 +417,7 @@ const DetallesDeSolicitud = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModalHandler} content="Cancelar" />
-          <Button onClick={modal.action} content="Aceptar" />
+          <Button onClick={() => modal.action(comentario)} content="Aceptar" />
         </DialogActions>
       </Dialog>
     </div>
