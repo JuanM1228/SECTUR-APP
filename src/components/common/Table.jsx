@@ -17,7 +17,7 @@ const theme = createTheme({
   },
 })
 
-const Table = ({ columns, rows, isLoading }) => {
+const Table = ({ columns, rows, isLoading, className }) => {
   return (
     <ThemeProvider theme={theme}>
       <DataGrid
@@ -73,7 +73,7 @@ const Table = ({ columns, rows, isLoading }) => {
         loading={isLoading}
         disableColumnFilter
         disableMultipleColumnsSorting
-        className="w-full"
+        className={className}
       />
     </ThemeProvider>
   )

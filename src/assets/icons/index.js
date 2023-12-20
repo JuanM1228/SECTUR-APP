@@ -63,6 +63,7 @@ import {
   FlightTakeoff,
   RoomService,
   ExitToApp,
+  Tune,
 } from '@mui/icons-material'
 
 const Icons = {
@@ -130,6 +131,7 @@ const Icons = {
   FlightTakeoff,
   RoomService,
   ExitToApp,
+  Tune,
 }
 
 export default Icons
