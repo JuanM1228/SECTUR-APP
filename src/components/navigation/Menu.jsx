@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuthStore } from '@/store/auth'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import { NAVIGATION_CONFIG } from '@/utils/menu'
 
 import { List } from '@mui/material'
 import Icons from '@/assets/icons'
@@ -11,10 +12,6 @@ const Menu = ({ openMenu, setOpenMenu }) => {
   const { profile } = useAuthStore()
   const { sendRequest, isLoading } = useHttpClient()
   const [menu, setMenu] = useState([])
-
-  useEffect(() => {
-    getMenu()
-  }, [])
 
   const getMenu = async () => {
     const url = `/api/configuration/menu-user/${profile?.email}`
@@ -50,7 +47,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
 
       <nav>
         <List>
-          {menu.map(section => (
+          {NAVIGATION_CONFIG.map(section => (
             <MenuItem key={section.key} section={section} />
           ))}
         </List>

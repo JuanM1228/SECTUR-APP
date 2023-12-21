@@ -64,6 +64,7 @@ import {
   RoomService,
   ExitToApp,
   Tune,
+  QrCode,
 } from '@mui/icons-material'
 
 const Icons = {
@@ -132,6 +133,7 @@ const Icons = {
   RoomService,
   ExitToApp,
   Tune,
+  QrCode,
 }
 
 export default Icons

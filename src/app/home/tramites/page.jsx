@@ -70,7 +70,7 @@ const PanelSolicitudesUsuario = () => {
       : COLUMNS_TABLE_TRAMITES_USUARIO
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] p-4 gap-4 ">
-      <h1 className="font-GMX text-3xl font-bold mb-6">MIS SOLICITUDES</h1>
+      <h1 className="font-GMX text-3xl font-bold mb-2">MIS SOLICITUDES</h1>
 
       <Button content={contentButton} fullWidth={false} className="self-end" />
       <div className="sm:hidden self-end">
@@ -86,8 +86,26 @@ const PanelSolicitudesUsuario = () => {
             <div
               className={` flex flex-col gap-6  col-span-1  sm:col-span-2 min-w-min `}>
               <Input
+                label="Fólio de trámite"
+                name="folio"
+                onChange={onHandleChange}
+                value={''}
+              />
+              <Input
                 label="Número de trámite"
                 name="idTramite"
+                onChange={onHandleChange}
+                value={''}
+              />
+              <Input
+                label="Nombre Solicitante"
+                name="nombre"
+                onChange={onHandleChange}
+                value={''}
+              />
+              <Input
+                label="Nombre comercial"
+                name="nombreComercial"
                 onChange={onHandleChange}
                 value={''}
               />

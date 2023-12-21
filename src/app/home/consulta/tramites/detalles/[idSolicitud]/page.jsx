@@ -106,6 +106,7 @@ const DetallesDeSolicitud = () => {
         documentsList,
         picturesList,
       } = res.result.data
+      console.log(res.result.data)
       setData({
         // Datos Generales
         tipoPST: datosGenerales.tipoPST,

@@ -38,7 +38,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         body: data,
       })
       if (res.success) {
-        router.push('/home/tramites')
+        router.push('/home')
         setToken(res.result.token)
         setProfile(res.result.user)
       } else {

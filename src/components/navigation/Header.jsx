@@ -13,7 +13,7 @@ const Header = ({ setOpenMenu, openMenu }) => {
   const { profile } = useAuthStore()
   const router = useRouter()
   return (
-    <header className="flex flex-col t-ease sticky top-0 z-30">
+    <header className="flex flex-col t-ease sticky top-0 z-30 self-stretch">
       <div className=" flex justify-between items-center h-14 bg-blueDianne px-6 ">
         <section className="flex items-center gap-6">
           <Icons.Menu

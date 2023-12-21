@@ -9,7 +9,7 @@ const HomeLayout = ({ children }) => {
   return (
     <div className="h-screen flex">
       <Menu openMenu={openMenu} setOpenMenu={setOpenMenu} />
-      <section className="w-full t-ease absolute">
+      <section className="w-full t-ease absolute flex flex-col items-center">
         <Header openMenu={openMenu} setOpenMenu={setOpenMenu} />
         {children}
       </section>
