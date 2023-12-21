@@ -118,6 +118,7 @@ const HomePage = () => {
 
   const getRegisterData = async () => {
     const url = `/api/registro/detalle-tramite-folio/${folio}`
+    setData(null)
     try {
       const res = await sendRequest(url)
       console.log('DATA RODO', res.result.data)
