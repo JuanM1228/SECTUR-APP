@@ -13,13 +13,28 @@ import {
 
 import Icons from '@/assets/icons'
 import PopupCatalog from './PopupCatalog'
+import { useHttpClient } from '@/hooks/useHttpClient'
 
 const SectionCatalog = ({ title, catalogs }) => {
   const [openDialog, setOpenDialog] = useState(false)
   const [idCatalogSelect, setIdCatalogSelect] = useState(null)
+  const [catalogData, setCatalogData] = useState([]);
 
-  const onHandleClickCatalog = idCatalog => {
+  const { sendRequest } = useHttpClient();
+  
+  // const fetchDataByCatalogName = async (name) => {
+  //   try {
+  //     const res = await sendRequest(`https://6574aa74b2fbb8f6509c81a7.mockapi.io/api/${name}`);
+  //     console.log(`API Response for ${name}:`, res);
+      
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
+
+  const onHandleClickCatalog = (idCatalog, catalogName)=> {
     setIdCatalogSelect(idCatalog)
+    //fetchDataByCatalogName(catalogName)
     setOpenDialog(true)
   }
 
@@ -60,6 +75,7 @@ const SectionCatalog = ({ title, catalogs }) => {
         open={openDialog}
         idCatalog={idCatalogSelect}
         onClose={onClose}
+        catalogName={idCatalogSelect !== null ? catalogs.find(catalog => catalog.id === idCatalogSelect).name : ''}
       />
     </Accordion>
   )

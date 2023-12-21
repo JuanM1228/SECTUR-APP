@@ -310,3 +310,23 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     headerAlign: 'center',
   },
 ]
+
+export const COLUMNS_TABLE_CATALOGOS = (catalogName)  => [
+  
+  {
+    field: 'name',
+    headerName: `${catalogName}`,
+    minWidth: 180,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'status',
+    headerName: 'Estatus',
+    minWidth: 100,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+]
