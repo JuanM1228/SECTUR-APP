@@ -8,6 +8,8 @@ import {
   Marker,
   useMapEvents,
   useMap,
+  LayerGroup,
+  LayersControl,
 } from 'react-leaflet'
 
 import Button from '../common/Button'
@@ -194,10 +196,24 @@ const Domicilio = ({
         }
         zoom={13}
         className="sm:col-span-2 w-full h-[500px] bg-bigDipORuby">
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <LayersControl>
+          <LayersControl.BaseLayer checked name="Google Map">
+            <TileLayer
+              attribution="Google Maps"
+              url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+            />
+          </LayersControl.BaseLayer>
+
+          <LayersControl.BaseLayer name="Google Map Satélite">
+            <LayerGroup>
+              <TileLayer
+                attribution="Google Maps Satellite"
+                url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+              />
+              <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+            </LayerGroup>
+          </LayersControl.BaseLayer>
+        </LayersControl>
         {data.latitud && (
           <Marker
             position={[data.latitud, data.longitud]}
