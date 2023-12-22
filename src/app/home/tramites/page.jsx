@@ -82,7 +82,7 @@ const PanelSolicitudesUsuario = () => {
         body: body,
       })
       if (res.success) {
-        console.log(res)
+        setTramites(res.result.data)
       }
     } catch (e) {
       console.log(e)
