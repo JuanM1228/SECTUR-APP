@@ -78,7 +78,7 @@ const DetalleGenerico = ({
         />
       )}
 
-      <Dropdown
+      {/* <Dropdown
         label="Tipo de persona"
         name="tipoPersona"
         variant="outlined"
@@ -105,7 +105,7 @@ const DetalleGenerico = ({
           minTime={dayjs(dateStart)}
           onChange={onHandleChange}
         />
-      </section>
+      </section> */}
 
       <Input
         label="Observaciones Generales"
@@ -116,7 +116,7 @@ const DetalleGenerico = ({
         value={data.observacionesGenerales}
       />
 
-      <Input
+      {/* <Input
         label="Observaciones Específicas"
         name="observacionesEspecificas"
         rows={4}
@@ -132,7 +132,7 @@ const DetalleGenerico = ({
         multiline
         onChange={onHandleChange}
         value={data.observacionesAdicionales}
-      />
+      /> */}
 
       <div className=" flex gap-6 justify-between">
         <Button

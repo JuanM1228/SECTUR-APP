@@ -77,7 +77,7 @@ const TransportistaTuristico = ({
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
-        <Dropdown
+        {/* <Dropdown
           label="Tipo de establecimiento"
           name="tipoEstablecimientoSelected"
           variant="outlined"
@@ -130,7 +130,7 @@ const TransportistaTuristico = ({
           name="numDeGuias"
           onChange={onHandleChange}
           value={data.numDeGuias}
-        />
+        /> */}
       </section>
       <div className=" flex gap-6 justify-between">
         <Button

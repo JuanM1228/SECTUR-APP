@@ -1,6 +1,19 @@
 const API_URL = `${process.env.ENV_URL}/api`
 export default API_URL
 
+export const INIT_FILTROS_DATA = {
+  idUsuario: '',
+  folio: '',
+  idTramite: '',
+  nombre: '',
+  nombreComercial: '',
+  idPST: '',
+  idEstado: '',
+  idStatus: '',
+  fechaInicio: '',
+  fechaFinal: '',
+}
+
 export const INIT_DATA_REGISTER_USER = {
   name: '',
   paternalSurname: '',
@@ -226,6 +239,14 @@ export const STATUS_TRAMITE = {
   FINALIZADO: 4,
   REVOCADO: 5,
 }
+
+export const STATUS_TRAMITE_DROPDOWN = [
+  { value: 1, title: 'En proceso' },
+  { value: 2, title: 'En revisión' },
+  { value: 3, title: 'Rechazado' },
+  { value: 4, title: 'Finalizado' },
+  { value: 5, title: 'Revocado' },
+]
 
 export const STATUS_INFO = {
   1: 'EN PROCESO',

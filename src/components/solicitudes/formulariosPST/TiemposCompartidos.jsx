@@ -90,7 +90,7 @@ const TiemposCompartidos = ({
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
       <section className="grid sm:grid-cols-2 gap-6">
-        <Dropdown
+        {/* <Dropdown
           label="Ubicación"
           name="ubicacionSelected"
           variant="outlined"
@@ -99,7 +99,7 @@ const TiemposCompartidos = ({
           }
           options={dataBackend.ubcacionData}
           onChange={onHandleChange}
-        />
+        /> */}
         <Dropdown
           label="Tipo de operación"
           name="tipoOperacionSelected"
@@ -110,7 +110,7 @@ const TiemposCompartidos = ({
           options={dataBackend.tipoDeOperacionData}
           onChange={onHandleChange}
         />
-        <Input
+        {/* <Input
           label="Nombre Comercial"
           name="nombreComercial"
           onChange={onHandleChange}
@@ -133,16 +133,16 @@ const TiemposCompartidos = ({
           name="mercadoExtranjero"
           onChange={onHandleChange}
           value={data.mercadoExtranjero}
-        />
+        /> */}
       </section>
 
-      <CheckboxForm
+      {/* <CheckboxForm
         title="Servicios adicionales"
         name="serviciosAdicionalesList"
         options={dataBackend.serviciosData}
         checkedItems={checkedItems.serviciosAdicionalesList}
         handleChange={checkboxHandler}
-      />
+      /> */}
 
       <div className=" flex gap-6 justify-between">
         <Button

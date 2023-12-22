@@ -61,7 +61,7 @@ const OperadoraBuceo = ({
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
 
-      <section className="grid sm:grid-cols-2 gap-6">
+      {/* <section className="grid sm:grid-cols-2 gap-6">
         <Input
           label="Nombre de la Matriz"
           name="nombreMatriz"
@@ -96,7 +96,7 @@ const OperadoraBuceo = ({
           onChange={onHandleChange}
           value={data.numeroSucursales}
         />
-      </section>
+      </section> */}
       <Input
         label="Asociaciones a las que está afiliado"
         name="afiliaciones"

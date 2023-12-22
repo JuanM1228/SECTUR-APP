@@ -114,7 +114,7 @@ const Hospedaje = ({
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
 
       <section className="grid sm:grid-cols-2 gap-6">
-        <Dropdown
+        {/* <Dropdown
           label="Subcategoría"
           name="subcategoria"
           variant="outlined"
@@ -150,7 +150,7 @@ const Hospedaje = ({
               ? data.porcentajeMercadoExtrenjero
               : 0
           }
-        />
+        /> */}
         <Dropdown
           label="Clasificación Obtenida"
           name="clasificacionObtenidaSelected"
@@ -163,12 +163,12 @@ const Hospedaje = ({
           options={dataBackend.scoreData}
           onChange={onHandleChange}
         />
-        <Input
+        {/* <Input
           label="Folio de su clasificación"
           name="folioDeClasificacion"
           onChange={onHandleChange}
           value={data.folioDeClasificacion ? data.folioDeClasificacion : 0}
-        />
+        /> */}
         <Dropdown
           label="Ubicación"
           name="ubicacionSelected"
@@ -178,7 +178,7 @@ const Hospedaje = ({
           onChange={onHandleChange}
         />
       </section>
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <CheckboxForm
           title="Tipos de alojamiento"
           name="tiposDeAlojamientoList"
@@ -200,7 +200,7 @@ const Hospedaje = ({
           checkedItems={checkedItems.serviciosAdicionalesList}
           handleChange={checkboxHandler}
         />
-      </div>
+      </div> */}
       <div className=" flex gap-6 justify-between">
         <Button
           content="Regresar"

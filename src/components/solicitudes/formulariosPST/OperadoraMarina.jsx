@@ -99,7 +99,7 @@ const OperadoraMarina = ({
       onSubmit={onSubmitHandler}>
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
 
-      <section className="grid sm:grid-cols-2 gap-6">
+      {/* <section className="grid sm:grid-cols-2 gap-6">
         <Input
           label="Superficie terrestre (metros)"
           name="superficieTerrestre"
@@ -144,7 +144,7 @@ const OperadoraMarina = ({
           options={dataBackend.espacioDeFondoData}
           onChange={onHandleChange}
         />
-      </section>
+      </section> */}
       <section className="flex flex-col">
         <CheckboxForm
           title="Instalaciones ofrecidas"
@@ -153,13 +153,13 @@ const OperadoraMarina = ({
           checkedItems={checkedItems.instalacionesList}
           handleChange={checkboxHandler}
         />
-        <CheckboxForm
+        {/* <CheckboxForm
           title="Servicios adicionales"
           name="serviciosAdicionalesList"
           options={dataBackend.serviciosAdicionalesData}
           checkedItems={checkedItems.serviciosAdicionalesList}
           handleChange={checkboxHandler}
-        />
+        /> */}
       </section>
       <div className=" flex gap-6 justify-between">
         <Button

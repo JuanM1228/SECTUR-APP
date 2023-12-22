@@ -118,7 +118,16 @@ const AlimentosBebidas = ({
           options={dataBackend.tipoServicioData}
           onChange={onHandleChange}
         />
+
         <Dropdown
+          label="Ubicación"
+          name="ubicacion"
+          variant="outlined"
+          value={data.ubicacion ? data.ubicacion : 0}
+          options={dataBackend.ubicacionData}
+          onChange={onHandleChange}
+        />
+        {/* <Dropdown
           label="Espectáculo"
           name="espectaculo"
           variant="outlined"
@@ -162,15 +171,7 @@ const AlimentosBebidas = ({
           type="number"
           onChange={onHandleChange}
           value={data.mercadoNacional}
-        />
-        <Dropdown
-          label="Ubicación"
-          name="ubicacion"
-          variant="outlined"
-          value={data.ubicacion ? data.ubicacion : 0}
-          options={dataBackend.ubicacionData}
-          onChange={onHandleChange}
-        />
+        /> */}
       </section>
 
       <Input
@@ -181,7 +182,7 @@ const AlimentosBebidas = ({
         onChange={onHandleChange}
         value={data.descripcionUbicacion}
       />
-      <section className="grid sm:grid-cols-2 gap-6">
+      {/* <section className="grid sm:grid-cols-2 gap-6">
         <CheckboxForm
           title="Servicios adicionales"
           name="serviciosAdicionalesList"
@@ -189,7 +190,7 @@ const AlimentosBebidas = ({
           checkedItems={checkedItems.serviciosAdicionalesList}
           handleChange={checkboxHandler}
         />
-      </section>
+      </section> */}
       <div className=" flex gap-6 justify-between">
         <Button
           content="Regresar"

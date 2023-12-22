@@ -27,6 +27,7 @@ import OperadoraMarina from '@/components/solicitudes/formulariosPST/OperadoraMa
 import Hospedaje from '@/components/solicitudes/formulariosPST/Hospedaje'
 import TiemposCompartidos from '@/components/solicitudes/formulariosPST/TiemposCompartidos'
 import TransportistaTuristico from '@/components/solicitudes/formulariosPST/TransportistaTuristico'
+import Stepper from '@/components/common/Stepper'
 
 const Solicitudes = () => {
   const params = useParams()
@@ -69,147 +70,150 @@ const Solicitudes = () => {
 
   const tipoPST = register.datosGenerales?.tipoPST
   return (
-    <div className="container flex flex-col justify-start items-center ">
-      <DatosGenerales
-        step={step}
-        datosGenerales={register.datosGenerales}
-        nextStep={onNextStepHandler}
-        register={register}
-        setRegister={setRegister}
-        idSolicitud={idSolicitud}
-        setIdSolicitud={setIdSolicitud}
-      />
-
-      <Domicilio
-        step={step}
-        dataDomicilio={register.domicilio}
-        nextStep={onNextStepHandler}
-        backStep={onBackStepHandler}
-        register={register}
-        setRegister={setRegister}
-        idSolicitud={idSolicitud}
-      />
-
-      <Contacto
-        step={step}
-        dataContacto={register.contacto}
-        nextStep={onNextStepHandler}
-        backStep={onBackStepHandler}
-        register={register}
-        setRegister={setRegister}
-        idSolicitud={idSolicitud}
-      />
-
-      <InformacionLegal
-        step={step}
-        dataInformacionLegal={register.informacionLegal}
-        nextStep={onNextStepHandler}
-        backStep={onBackStepHandler}
-        register={register}
-        setRegister={setRegister}
-        idSolicitud={idSolicitud}
-      />
-      <Documents
-        step={step}
-        pstId={tipoPST}
-        solicitudId={idSolicitud}
-        onSubmitHandler={onSubmitHandler}
-        nextStep={onNextStepHandler}
-        backStep={onBackStepHandler}
-      />
-      {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
-        <DetalleGenerico
+    <div className="flex flex-col gap-4 mt-8">
+      <Stepper activeStep={step} />
+      <div className=" flex flex-col justify-start items-center relative bg-bigDipORuby">
+        <DatosGenerales
           step={step}
-          dataPst={register.detallesPST}
+          datosGenerales={register.datosGenerales}
           nextStep={onNextStepHandler}
-          backStep={onBackStepHandler}
           register={register}
           setRegister={setRegister}
-          pstId={tipoPST}
+          idSolicitud={idSolicitud}
+          setIdSolicitud={setIdSolicitud}
         />
-      )}
-      {tipoPST === PST_ENUM.AGENCIA_VIAJES && (
-        <AgenciaViaje
+
+        <Domicilio
           step={step}
-          dataPst={register.detallesPST}
+          dataDomicilio={register.domicilio}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
           setRegister={setRegister}
           idSolicitud={idSolicitud}
         />
-      )}
-      {tipoPST === PST_ENUM.ALIMENTOS_Y_BEBIDAS && (
-        <AlimentosBebidas
+
+        <Contacto
           step={step}
-          dataPst={register.detallesPST}
+          dataContacto={register.contacto}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
           setRegister={setRegister}
+          idSolicitud={idSolicitud}
         />
-      )}
-      {tipoPST === PST_ENUM.ARRENDADORA_AUTOS && (
-        <ArrendadoraAutos
+
+        <InformacionLegal
           step={step}
-          dataPst={register.detallesPST}
+          dataInformacionLegal={register.informacionLegal}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
           register={register}
           setRegister={setRegister}
+          idSolicitud={idSolicitud}
         />
-      )}
-      {tipoPST === PST_ENUM.HOSPEDAJE && (
-        <Hospedaje
+        <Documents
           step={step}
-          dataPst={register.detallesPST}
+          pstId={tipoPST}
+          solicitudId={idSolicitud}
+          onSubmitHandler={onSubmitHandler}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
-          register={register}
-          setRegister={setRegister}
         />
-      )}
-      {tipoPST === PST_ENUM.OPERADORA_BUCEO && (
-        <OperadoraBuceo
-          step={step}
-          dataPst={register.detallesPST}
-          nextStep={onNextStepHandler}
-          backStep={onBackStepHandler}
-          register={register}
-          setRegister={setRegister}
-        />
-      )}
-      {tipoPST === PST_ENUM.OPERADORA_MARINA && (
-        <OperadoraMarina
-          step={step}
-          dataPst={register.detallesPST}
-          nextStep={onNextStepHandler}
-          backStep={onBackStepHandler}
-          register={register}
-          setRegister={setRegister}
-        />
-      )}
-      {tipoPST === PST_ENUM.TIEMPOS_COMPARTIDOS && (
-        <TiemposCompartidos
-          step={step}
-          dataPst={register.detallesPST}
-          nextStep={onNextStepHandler}
-          backStep={onBackStepHandler}
-          register={register}
-          setRegister={setRegister}
-        />
-      )}
-      {tipoPST === PST_ENUM.TRANSPORTISTA_TURISTICO && (
-        <TransportistaTuristico
-          step={step}
-          dataPst={register.detallesPST}
-          nextStep={onNextStepHandler}
-          backStep={onBackStepHandler}
-          register={register}
-          setRegister={setRegister}
-        />
-      )}
-      <ProcedureCompleted step={step} />
+        {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
+          <DetalleGenerico
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+            pstId={tipoPST}
+          />
+        )}
+        {tipoPST === PST_ENUM.AGENCIA_VIAJES && (
+          <AgenciaViaje
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+            idSolicitud={idSolicitud}
+          />
+        )}
+        {tipoPST === PST_ENUM.ALIMENTOS_Y_BEBIDAS && (
+          <AlimentosBebidas
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+          />
+        )}
+        {tipoPST === PST_ENUM.ARRENDADORA_AUTOS && (
+          <ArrendadoraAutos
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+          />
+        )}
+        {tipoPST === PST_ENUM.HOSPEDAJE && (
+          <Hospedaje
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+          />
+        )}
+        {tipoPST === PST_ENUM.OPERADORA_BUCEO && (
+          <OperadoraBuceo
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+          />
+        )}
+        {tipoPST === PST_ENUM.OPERADORA_MARINA && (
+          <OperadoraMarina
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+          />
+        )}
+        {tipoPST === PST_ENUM.TIEMPOS_COMPARTIDOS && (
+          <TiemposCompartidos
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+          />
+        )}
+        {tipoPST === PST_ENUM.TRANSPORTISTA_TURISTICO && (
+          <TransportistaTuristico
+            step={step}
+            dataPst={register.detallesPST}
+            nextStep={onNextStepHandler}
+            backStep={onBackStepHandler}
+            register={register}
+            setRegister={setRegister}
+          />
+        )}
+        <ProcedureCompleted step={step} />
+      </div>
     </div>
   )
 }

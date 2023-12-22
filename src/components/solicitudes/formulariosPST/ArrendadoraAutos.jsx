@@ -66,7 +66,7 @@ const ArrendadoraAutos = ({
           onChange={onHandleChange}
         />
 
-        <Input
+        {/* <Input
           label="Nombre de la Matriz"
           name="nombreMatriz"
           onChange={onHandleChange}
@@ -102,7 +102,7 @@ const ArrendadoraAutos = ({
           type="number"
           onChange={onHandleChange}
           value={data.captacionExtrangero}
-        />
+        /> */}
       </section>
 
       <div className=" flex gap-6 justify-between">

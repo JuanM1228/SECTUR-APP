@@ -10,7 +10,12 @@ import Table from '@/components/common/Table'
 import Icons from '@/assets/icons'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/auth'
-import { ROLE_ENUM, STATUS_TRAMITE } from '@/utils/constants'
+import {
+  ROLE_ENUM,
+  STATUS_TRAMITE,
+  INIT_FILTROS_DATA,
+  STATUS_TRAMITE_DROPDOWN,
+} from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import {
   COLUMNS_TABLE_TRAMITES_ADMIN,
@@ -19,16 +24,26 @@ import {
 
 const { EN_PROCESO, FINALIZADO, RECHAZADO, REVISION } = STATUS_TRAMITE
 
+const testData = [
+  { value: 1, title: 'test1' },
+  { value: 2, title: 'test2' },
+  { value: 3, title: 'test3' },
+]
+
 const PanelSolicitudesUsuario = () => {
   const router = useRouter()
   const { profile } = useAuthStore()
   const { sendRequest, isLoading } = useHttpClient()
   const [tramites, setTramites] = useState([])
   const [showFilters, setShowFilters] = useState(true)
+  const [catalogoPST, setCatalogoPST] = useState([])
+  const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
 
   useEffect(() => {
     if (!profile) return
+    setFiltros({ ...filtros, idUsuario: profile.id })
     getTramites(profile.id)
+    getCatalogoPST()
   }, [])
 
   const getTramites = async id => {
@@ -37,10 +52,40 @@ const PanelSolicitudesUsuario = () => {
       const res = await sendRequest(url)
       if (res.success) {
         setTramites(res.result.data)
+        console.log(res.result.data)
       } else {
       }
     } catch (error) {
       console.log('error', error)
+    }
+  }
+
+  const getCatalogoPST = async () => {
+    const url = '/api/configuration/catalogo-pst'
+    try {
+      const res = await sendRequest(url)
+      if (res.success) {
+        setCatalogoPST(res.result.data)
+      } else {
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const getTramitesFiltros = async body => {
+    try {
+      const url = '/api/registro/tramites-usuario'
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        console.log(res)
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -49,14 +94,17 @@ const PanelSolicitudesUsuario = () => {
   }
 
   const onHandleChange = ({ target: { name, value } }) => {
-    setData({ ...data, [name]: value })
+    setFiltros({ ...filtros, [name]: value })
   }
 
-  const testData = [
-    { value: 1, title: 'test1' },
-    { value: 2, title: 'test2' },
-    { value: 3, title: 'test3' },
-  ]
+  const onHandleFiltros = () => {
+    console.log(filtros)
+    getTramitesFiltros(filtros)
+  }
+
+  const clearFilters = () => {
+    setFiltros({ ...INIT_FILTROS_DATA, idUsuario: profile.id })
+  }
 
   const contentButton = (
     <span className="flex gap-2" onClick={onNuevaSolicitudHandler}>
@@ -69,8 +117,8 @@ const PanelSolicitudesUsuario = () => {
       ? COLUMNS_TABLE_TRAMITES_ADMIN
       : COLUMNS_TABLE_TRAMITES_USUARIO
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] p-4 gap-4 ">
-      <h1 className="font-GMX text-3xl font-bold mb-2">MIS SOLICITUDES</h1>
+    <div className="flex flex-col h-[calc(100vh-4rem)]  gap-4 ">
+      <h1 className="font-GMX text-3xl font-bold ">MIS SOLICITUDES</h1>
 
       <Button content={contentButton} fullWidth={false} className="self-end" />
       <div className="sm:hidden self-end">
@@ -81,7 +129,7 @@ const PanelSolicitudesUsuario = () => {
       </div>
 
       {tramites.length !== 0 && (
-        <div className="grid grid-cols-1 p-4 sm:grid-cols-12  gap-4  sm:overflow-y-auto">
+        <div className="grid grid-cols-1 px-4 py-2 sm:grid-cols-12  gap-4  sm:overflow-y-auto">
           {showFilters && (
             <div
               className={` flex flex-col gap-6  col-span-1  sm:col-span-2 min-w-min `}>
@@ -89,39 +137,39 @@ const PanelSolicitudesUsuario = () => {
                 label="Fólio de trámite"
                 name="folio"
                 onChange={onHandleChange}
-                value={''}
+                value={filtros.folio}
               />
               <Input
                 label="Número de trámite"
                 name="idTramite"
                 onChange={onHandleChange}
-                value={''}
+                value={filtros.idTramite}
               />
               <Input
                 label="Nombre Solicitante"
                 name="nombre"
                 onChange={onHandleChange}
-                value={''}
+                value={filtros.nombre}
               />
               <Input
                 label="Nombre comercial"
                 name="nombreComercial"
                 onChange={onHandleChange}
-                value={''}
+                value={filtros.nombreComercial}
               />
               <Dropdown
                 label="Tipo de PST"
                 name="idPST"
                 variant="outlined"
-                value={0}
-                options={testData}
+                value={filtros.idPST}
+                options={catalogoPST}
                 onChange={onHandleChange}
               />
               <Dropdown
                 label="Estado"
                 name="idEstado"
                 variant="outlined"
-                value={0}
+                value={filtros.idEstado}
                 options={testData}
                 onChange={onHandleChange}
               />
@@ -130,8 +178,8 @@ const PanelSolicitudesUsuario = () => {
                 label="Estatus"
                 name="idStatus"
                 variant="outlined"
-                value={0}
-                options={testData}
+                value={filtros.idStatus}
+                options={STATUS_TRAMITE_DROPDOWN}
                 onChange={onHandleChange}
               />
 
@@ -141,17 +189,18 @@ const PanelSolicitudesUsuario = () => {
                 label="Inicio"
                 name="fechaInicio"
                 onChange={onHandleChange}
-                value={''}
+                value={filtros.fechaInicio}
               />
 
               <DatePickerCustom
                 label="Final"
-                name="fechaFin"
+                name="fechaFinal"
                 onChange={onHandleChange}
-                value={''}
+                value={filtros.fechaFinal}
               />
 
-              <Button content="Aplicar filtros" />
+              <Button content="Aplicar filtros" onClick={onHandleFiltros} />
+              <Button content="Limpiar filtros" onClick={clearFilters} />
             </div>
           )}
           <Table

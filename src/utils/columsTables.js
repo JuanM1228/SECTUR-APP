@@ -29,7 +29,6 @@ const DeleteButton = params => {
 
 export const EditButton = params => {
   const router = useRouter()
-  console.log(params)
   if (params.row.status === 4) return
   return (
     <IconButton

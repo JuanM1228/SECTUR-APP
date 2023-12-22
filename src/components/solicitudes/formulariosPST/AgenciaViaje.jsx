@@ -115,7 +115,7 @@ const AgenciaViaje = ({
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
-        <Input
+        {/* <Input
           label="Nombre de notario"
           name="nombreNotario"
           onChange={onHandleChange}
@@ -154,7 +154,7 @@ const AgenciaViaje = ({
           value={data.boletaje ? data.boletaje : 0}
           options={dataBackend.boletajeData}
           onChange={onHandleChange}
-        />
+        /> */}
       </section>
       <section className="grid sm:grid-cols-2 gap-6">
         <CheckboxForm

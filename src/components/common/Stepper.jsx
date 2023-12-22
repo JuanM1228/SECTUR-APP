@@ -1,46 +1,43 @@
-import React, { useState } from 'react'
-import { useTheme } from '@mui/material/styles'
-import MobileStepper from '@mui/material/MobileStepper'
-import Button from './Button'
+'use client'
+import React from 'react'
+import Box from '@mui/material/Box'
+import StepperMUI from '@mui/material/Stepper'
+import Step from '@mui/material/Step'
+import StepLabel from '@mui/material/StepLabel'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import Colors from '@/assets/colors'
+const steps = [
+  'Datos Generales',
+  'Domicilio',
+  'Contacto',
+  'Información Legal',
+  'Detalle PST',
+]
 
-function Stepper({ steps }) {
-  const theme = useTheme()
-  const [activeStep, setActiveStep] = useState(0)
-
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1)
-  }
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1)
-  }
-
+const Stepper = ({ activeStep }) => {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: Colors.bigDipORuby,
+      },
+      secondary: {
+        main: Colors.gray,
+      },
+    },
+  })
   return (
-    <MobileStepper
-      variant="progress"
-      steps={steps}
-      position="static"
-      activeStep={activeStep}
-      className="min self-center"
-      nextButton={
-        <Button
-          variant="text"
-          fullWidth={false}
-          content="Siguiente"
-          onClick={handleNext}
-          disabled={activeStep === steps - 1}
-        />
-      }
-      backButton={
-        <Button
-          variant="text"
-          fullWidth={false}
-          content="Regresar"
-          onClick={handleBack}
-          disabled={activeStep === 0}
-        />
-      }
-    />
+    <ThemeProvider theme={theme}>
+      <StepperMUI
+        activeStep={activeStep}
+        alternativeLabel
+        className="font-Montserrat w-full">
+        {steps.map(label => (
+          <Step key={label} className="font-Montserrat">
+            <StepLabel className="font-Montserrat">{label}</StepLabel>
+          </Step>
+        ))}
+      </StepperMUI>
+    </ThemeProvider>
   )
 }
 
