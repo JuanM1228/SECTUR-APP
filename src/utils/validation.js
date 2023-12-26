@@ -48,7 +48,7 @@ const registerForm = data => {
   if (!hasText(data.maternalSurname)) {
     err.maternalSurname = 'Ingrese su apellido materno'
   }
-  if (!hasText(data.birthDate)) {
+  if (!(data.birthDate instanceof Date || hasText(data.birthDate))) {
     err.birthDate = 'Ingrese su fecha de nacimiento'
   }
   if (!hasText(data.email)) {
@@ -112,6 +112,7 @@ const domicilioForm = data => {
     calle: '',
     latitud: '',
     longitud: '',
+    numeroExterior: '',
   }
 
   if (!data.codigoPostal) {
@@ -126,13 +127,17 @@ const domicilioForm = data => {
   if (!data.latitud) {
     err.latitud = 'Ingrese la ubicación en el mapa'
   }
+  if (!data.numeroExterior) {
+    err.numeroExterior = 'Ingrese el número exterior'
+  }
 
   return {
     hasError:
       err.codigoPostal !== '' ||
       err.colonia !== '' ||
       err.calle !== '' ||
-      err.latitud !== '',
+      err.latitud !== '' ||
+      err.numeroExterior !== '',
     errors: err,
   }
 }

@@ -120,6 +120,7 @@ const Domicilio = ({
         domicilio: data,
         id_solicitud: idSolicitud,
       }
+      console.log(body)
       onUpdateDatabase(body)
     }
   }
@@ -169,12 +170,28 @@ const Domicilio = ({
         />
 
         <Input
-          label="Calle y número *"
+          label="Calle *"
           name="calle"
           error={error.calle !== ''}
           helpText={error.calle}
           onChange={onHandleChange}
           value={data.calle}
+        />
+        <Input
+          label="Número exterior *"
+          name="numeroExterior"
+          type="number"
+          error={Boolean(error.numeroExterior)}
+          helpText={error.numeroExterior}
+          onChange={onHandleChange}
+          value={data.numeroExterior}
+        />
+        <Input
+          label="Número interior"
+          name="numeroInterior"
+          type="number"
+          onChange={onHandleChange}
+          value={data.numeroInterior}
         />
       </div>
 

@@ -9,6 +9,7 @@ import { validate } from '@/utils/validation'
 import { useAuthStore } from '@/store/auth'
 import { INIT_DATOS_GENERALES, STEP_ENUM } from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import { useRouter } from 'next/navigation'
 
 const DatosGenerales = ({
   step,
@@ -19,6 +20,7 @@ const DatosGenerales = ({
   idSolicitud,
   setIdSolicitud,
 }) => {
+  const router = useRouter()
   const [data, setData] = useState(INIT_DATOS_GENERALES)
   const [error, setError] = useState(INIT_DATOS_GENERALES)
   const [catalogoPST, setCatalogoPST] = useState([])
@@ -143,11 +145,20 @@ const DatosGenerales = ({
           value={data.curp}
         />
       </section>
-      <Button
-        content="Siguiente"
-        type="submit"
-        className="w-full sm:w-auto self-end"
-      />
+
+      <div className=" flex gap-6 justify-between">
+        <Button
+          content="Regresar"
+          type="button"
+          className=" w-full sm:w-auto"
+          onClick={() => router.push('/home/tramites/')}
+        />
+        <Button
+          content="Siguiente"
+          type="submit"
+          className=" w-full sm:w-auto"
+        />
+      </div>
     </form>
   )
 }

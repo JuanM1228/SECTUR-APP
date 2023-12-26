@@ -2,7 +2,11 @@
 import React from 'react'
 
 import { Pagination } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarExport,
+} from '@mui/x-data-grid'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import colors from '@/assets/colors'
 
@@ -17,7 +21,15 @@ const theme = createTheme({
   },
 })
 
-const Table = ({ columns, rows, isLoading, className }) => {
+const CustomToolBar = () => {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  )
+}
+
+const Table = ({ columns, rows, isLoading, className, getRowClassName }) => {
   return (
     <ThemeProvider theme={theme}>
       <DataGrid
@@ -30,12 +42,13 @@ const Table = ({ columns, rows, isLoading, className }) => {
         rows={rows}
         page
         columns={columns}
+        pagination
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 100 },
           },
         }}
-        // pageSizeOptions={[5, 10, 15, 20]}
+        pageSizeOptions={[5, 10, 50, 100]}
         rowSelection={false}
         disableDensitySelector={true}
         disableRowSelectionOnClick={true}
@@ -43,23 +56,24 @@ const Table = ({ columns, rows, isLoading, className }) => {
         hideFooterSelectedRowCount={true}
         hideFooterPagination={false}
         slots={{
-          footer: () => (
-            <view className="m-4 flex justify-center">
-              {/* TODO: Add dropdown menu to view pages */}
-              <Pagination
-                count={10} // The total number of pages.
-                // page={2} // The current page.
-                color="primary"
-                shape="rounded"
-                onChange={(event, page) => {
-                  console.log('paginationOnChange: event', event)
-                  console.log('paginationOnChange: page', page)
-                }}
-                // showFirstButton
-                // showLastButton
-              />
-            </view>
-          ),
+          toolbar: CustomToolBar,
+          // footer: () => (
+          //   <view className="m-4 flex justify-center">
+          //     {/* TODO: Add dropdown menu to view pages */}
+          //     <Pagination
+          //       count={10} // The total number of pages.
+          //       // page={2} // The current page.
+          //       color="primary"
+          //       shape="rounded"
+          //       onChange={(event, page) => {
+          //         console.log('paginationOnChange: event', event)
+          //         console.log('paginationOnChange: page', page)
+          //       }}
+          //       // showFirstButton
+          //       // showLastButton
+          //     />
+          //   </view>
+          // ),
         }}
         onPaginationModelChange={(model, details) => {
           console.log('onPaginationModelChange: model', model)
@@ -73,6 +87,7 @@ const Table = ({ columns, rows, isLoading, className }) => {
         loading={isLoading}
         disableColumnFilter
         disableMultipleColumnsSorting
+        getRowClassName={getRowClassName}
         className={className}
       />
     </ThemeProvider>

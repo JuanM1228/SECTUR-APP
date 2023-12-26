@@ -45,6 +45,8 @@ export const INIT_DATA_DOMICILIO = {
   municipio: '',
   colonia: null,
   calle: '',
+  numeroInterior: null,
+  numeroExterior: null,
   latitud: null,
   longitud: null,
 }
@@ -283,3 +285,34 @@ export const ROLE_ENUM = {
   ADMIN: 10,
   USER: 20,
 }
+
+export const CONFIGURATIONS_APP = {
+  LOGO: 1,
+  COLOR: 2,
+  DIRECTOR: 3,
+  FIRMA: 4,
+  SELLO: 5,
+  FONDO: 6,
+  SEGURIDAD: 7,
+}
+
+export const DUMMY_DATA_GRAPHS = [
+  { name: 'Agencia de Viajes', value: 687 },
+  { name: 'Agencia de Servicios', value: 521 },
+  { name: 'Alimentos y Bebidas', value: 954 },
+  { name: 'Arrendadora de Autos', value: 699 },
+  { name: 'Balneario Acuático', value: 843 },
+  { name: 'Campo de Golf', value: 765 },
+  { name: 'Salvavidas', value: 588 },
+  { name: 'Guía Turístico', value: 932 },
+  { name: 'Hospedaje', value: 673 },
+  { name: 'Operadora de Naturaleza', value: 802 },
+  { name: 'Operadora de Buceo', value: 659 },
+  { name: 'Operadora Marina', value: 727 },
+  { name: 'Parque Temático', value: 816 },
+  { name: 'Spa', value: 537 },
+  { name: 'Tiempos Compartidos', value: 811 },
+  { name: 'Tour Operador', value: 500 },
+  { name: 'Transportista Turístico', value: 998 },
+  { name: 'Vuelo en Globo', value: 723 },
+]

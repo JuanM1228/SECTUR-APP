@@ -30,7 +30,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
 
   return (
     <div
-      className={`w-full sm:w-64 h-screen bg-white shadow-[2px_3px_9px_0px_rgba(0,0,0,0.1)] overflow-y-auto t-ease z-50 ${
+      className={`w-full sm:w-72 h-screen bg-white shadow-[2px_3px_9px_0px_rgba(0,0,0,0.1)] overflow-y-auto t-ease z-50 ${
         openMenu ? '' : 'hide_menu'
       }`}>
       <div className="flex flex-col ">

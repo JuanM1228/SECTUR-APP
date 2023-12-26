@@ -65,6 +65,12 @@ import {
   ExitToApp,
   Tune,
   QrCode,
+  Settings,
+  AccountCircle,
+  CheckCircle,
+  Cancel,
+  WatchLater,
+  Error,
 } from '@mui/icons-material'
 
 const Icons = {
@@ -134,6 +140,12 @@ const Icons = {
   ExitToApp,
   Tune,
   QrCode,
+  Settings,
+  AccountCircle,
+  CheckCircle,
+  Cancel,
+  WatchLater,
+  Error,
 }
 
 export default Icons

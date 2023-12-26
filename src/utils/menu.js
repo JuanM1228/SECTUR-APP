@@ -51,7 +51,7 @@ export const NAVIGATION_CONFIG = [
     subMenu: [
       {
         key: 'prestadoresDeServicio',
-        path: null,
+        path: '/home/reportes',
         title: 'Prestadores de servicio',
         icon: null,
         authority: [],
@@ -60,10 +60,10 @@ export const NAVIGATION_CONFIG = [
     ],
   },
   {
-    key: 'catalogos',
+    key: 'settings',
     path: null,
-    title: 'CATÁLOGOS',
-    icon: 'FormatListBulleted',
+    title: 'CONFIGURACIONES',
+    icon: 'Settings',
     authority: [],
     subMenu: [
       {
@@ -75,9 +75,9 @@ export const NAVIGATION_CONFIG = [
         subMenu: [],
       },
       {
-        key: 'parametrizacion',
-        path: null,
-        title: 'Parametrización',
+        key: 'configuration',
+        path: '/home/configuration',
+        title: 'Apariencia y configuraciones',
         icon: null,
         authority: [],
         subMenu: [],

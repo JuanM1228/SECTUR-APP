@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import DatePickerCustom from '../common/DatePicker'
 import Button from '@/components/common/Button'
@@ -13,12 +14,15 @@ import { validate } from '@/utils/validation'
 
 import Icons from '@/assets/icons'
 import Images from '@/assets/images'
+import { Alert, Snackbar } from '@mui/material'
 
 const Register = ({ showRegister, setShowRegister }) => {
   const { sendRequest, isLoading } = useHttpClient()
   const setToken = useAuthStore(state => state.setToken)
   const setProfile = useAuthStore(state => state.setProfile)
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
+  const [showAlert, setShowAlert] = useState(false)
+  const router = useRouter()
 
   const [error, setError] = useState(INIT_DATA_REGISTER_USER)
 
@@ -28,14 +32,14 @@ const Register = ({ showRegister, setShowRegister }) => {
 
   const registerHandler = async e => {
     e.preventDefault()
-    // const { hasError, errors } = validate.registerForm(register)
-    onRegisterHandler(register)
-    // if (hasError) {
-    //   setError(errors)
-    // } else {
-    //   setError(INIT_DATA_REGISTER_USER)
-    //   onRegisterHandler()
-    // }
+    const { hasError, errors } = validate.registerForm(register)
+    console.log(register)
+    if (hasError) {
+      setError(errors)
+    } else {
+      setError(INIT_DATA_REGISTER_USER)
+      onRegisterHandler(register)
+    }
   }
 
   const onRegisterHandler = async body => {
@@ -46,12 +50,15 @@ const Register = ({ showRegister, setShowRegister }) => {
         body: body,
       })
       if (res.success) {
-        router.push('/home/tramites')
-        // setToken(res.result.token)
-        // setProfile(res.result.user)
+        setToken(res.result.token)
+        setProfile(res.result.user)
+        router.push('/home')
+      } else {
+        setShowAlert(true)
       }
     } catch (e) {
       console.log(e)
+      setShowAlert(true)
     }
   }
 
@@ -161,6 +168,18 @@ const Register = ({ showRegister, setShowRegister }) => {
 
         <Button content="Registarme" type="submit" />
       </form>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={() => setShowAlert(false)}>
+        <Alert
+          onClose={() => setShowAlert(false)}
+          severity="error"
+          sx={{ width: '100%' }}>
+          FALLO REGISTRO
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

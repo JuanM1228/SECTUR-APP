@@ -112,7 +112,7 @@ const InformacionLegal = ({
           onChange={onHandleChange}
           value={dayjs(data.fechaIngresoSECTUR)}
         />
-        <Input
+        {/* <Input
           label="Tipo de inmueble"
           name="tipoDeInmueble"
           onChange={onHandleChange}
@@ -136,7 +136,7 @@ const InformacionLegal = ({
           label="Observaciones"
           name="observaciones"
           onChange={onHandleChange}
-        />
+        /> */}
       </section>
       <div className=" flex gap-6 justify-between">
         <Button

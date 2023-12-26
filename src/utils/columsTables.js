@@ -91,6 +91,14 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     renderCell: params => ReviewButton(params),
   },
   {
+    field: 'id',
+    headerName: 'No. Trámite',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
     field: 'fechaSolicitud',
     headerName: 'Fecha de Solicitud',
     minWidth: 150,
@@ -100,13 +108,16 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     valueGetter: params => new Date(params.row.fechaSolicitud),
   },
   {
-    field: 'id',
-    headerName: 'No. Trámite',
-    minWidth: 120,
+    field: 'fechaAceptacion',
+    headerName: 'Fecha de Aceptación',
+    minWidth: 150,
     type: 'string',
-    align: 'center',
+    align: 'left',
     headerAlign: 'center',
+    valueGetter: params =>
+      params.row.fechaAceptacion ? new Date(params.row.fechaAceptacion) : '',
   },
+
   {
     field: 'status',
     headerName: 'Status',
@@ -202,8 +213,16 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     renderCell: params => ReviewButton(params),
   },
   {
-    field: 'nombreUsuario',
-    headerName: 'Usuario',
+    field: 'id',
+    headerName: 'No. Trámite',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'nombreDelSolicitante',
+    headerName: 'Nombre del Solicitante',
     minWidth: 150,
     type: 'string',
     align: 'left',
@@ -219,12 +238,14 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     valueGetter: params => new Date(params.row.fechaSolicitud),
   },
   {
-    field: 'id',
-    headerName: 'No. Trámite',
-    minWidth: 120,
+    field: 'fechaAceptacion',
+    headerName: 'Fecha de Aceptación',
+    minWidth: 150,
     type: 'string',
-    align: 'center',
+    align: 'left',
     headerAlign: 'center',
+    valueGetter: params =>
+      params.row.fechaAceptacion ? new Date(params.row.fechaAceptacion) : '',
   },
   {
     field: 'status',

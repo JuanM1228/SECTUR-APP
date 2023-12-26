@@ -41,6 +41,7 @@ const PanelSolicitudesUsuario = () => {
 
   useEffect(() => {
     if (!profile) return
+    console.log(profile)
     setFiltros({ ...filtros, idUsuario: profile.id })
     getTramites(profile.id)
     getCatalogoPST()
@@ -116,108 +117,126 @@ const PanelSolicitudesUsuario = () => {
     profile.role === ROLE_ENUM.ADMIN
       ? COLUMNS_TABLE_TRAMITES_ADMIN
       : COLUMNS_TABLE_TRAMITES_USUARIO
+
+  const getRowClassName = params => {
+    const status = params.row.status
+    if (profile.role === ROLE_ENUM.ADMIN) {
+      if (status === STATUS_TRAMITE.REVISION)
+        return 'bg-[#f1e9da] hover:bg-[#f1e9da]'
+    }
+    if (profile.role === ROLE_ENUM.USER) {
+      if (status === STATUS_TRAMITE.RECHAZADO)
+        return 'bg-[#f1e9da] hover:bg-[#f1e9da]'
+    }
+    return
+  }
+
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)]  gap-4 ">
-      <h1 className="font-GMX text-3xl font-bold ">MIS SOLICITUDES</h1>
+    <div className="flex flex-col gap-4 h-[calc(100vh-3.5rem)] overflow-hidden p-4">
+      <h1 className="font-GMX text-3xl font-bold text-center">
+        MIS SOLICITUDES
+      </h1>
 
       <Button content={contentButton} fullWidth={false} className="self-end" />
-      <div className="sm:hidden self-end">
+      <div className="self-end">
         <Icons.Tune
           onClick={() => setShowFilters(!showFilters)}
           className="cursor-pointer text-gray  "
         />
       </div>
 
-      {tramites.length !== 0 && (
-        <div className="grid grid-cols-1 px-4 py-2 sm:grid-cols-12  gap-4  sm:overflow-y-auto">
-          {showFilters && (
-            <div
-              className={` flex flex-col gap-6  col-span-1  sm:col-span-2 min-w-min `}>
-              <Input
-                label="Fólio de trámite"
-                name="folio"
-                onChange={onHandleChange}
-                value={filtros.folio}
-              />
-              <Input
-                label="Número de trámite"
-                name="idTramite"
-                onChange={onHandleChange}
-                value={filtros.idTramite}
-              />
-              <Input
-                label="Nombre Solicitante"
-                name="nombre"
-                onChange={onHandleChange}
-                value={filtros.nombre}
-              />
-              <Input
-                label="Nombre comercial"
-                name="nombreComercial"
-                onChange={onHandleChange}
-                value={filtros.nombreComercial}
-              />
-              <Dropdown
-                label="Tipo de PST"
-                name="idPST"
-                variant="outlined"
-                value={filtros.idPST}
-                options={catalogoPST}
-                onChange={onHandleChange}
-              />
-              <Dropdown
-                label="Estado"
-                name="idEstado"
-                variant="outlined"
-                value={filtros.idEstado}
-                options={testData}
-                onChange={onHandleChange}
-              />
+      <div className="grid grid-cols-1 px-4 py-2 sm:grid-cols-12  gap-4  sm:overflow-y-auto">
+        {showFilters && (
+          <div
+            className={` flex flex-col gap-6  col-span-1  sm:col-span-2 min-w-min `}>
+            <Input
+              label="Fólio de trámite"
+              name="folio"
+              onChange={onHandleChange}
+              value={filtros.folio}
+            />
+            <Input
+              label="Número de trámite"
+              name="idTramite"
+              onChange={onHandleChange}
+              value={filtros.idTramite}
+            />
+            <Input
+              label="Nombre Solicitante"
+              name="nombre"
+              onChange={onHandleChange}
+              value={filtros.nombre}
+            />
+            <Input
+              label="Nombre comercial"
+              name="nombreComercial"
+              onChange={onHandleChange}
+              value={filtros.nombreComercial}
+            />
+            <Dropdown
+              label="Tipo de PST"
+              name="idPST"
+              variant="outlined"
+              value={filtros.idPST}
+              options={catalogoPST}
+              onChange={onHandleChange}
+            />
+            <Dropdown
+              label="Estado"
+              name="idEstado"
+              variant="outlined"
+              value={filtros.idEstado}
+              options={testData}
+              onChange={onHandleChange}
+            />
 
-              <Dropdown
-                label="Estatus"
-                name="idStatus"
-                variant="outlined"
-                value={filtros.idStatus}
-                options={STATUS_TRAMITE_DROPDOWN}
-                onChange={onHandleChange}
-              />
+            <Dropdown
+              label="Estatus"
+              name="idStatus"
+              variant="outlined"
+              value={filtros.idStatus}
+              options={STATUS_TRAMITE_DROPDOWN}
+              onChange={onHandleChange}
+            />
 
-              <p className="font-Montserrat font-semibold">Rango de fechas</p>
+            <p className="font-Montserrat font-semibold">Rango de fechas</p>
 
-              <DatePickerCustom
-                label="Inicio"
-                name="fechaInicio"
-                onChange={onHandleChange}
-                value={filtros.fechaInicio}
-              />
+            <DatePickerCustom
+              label="Inicio"
+              name="fechaInicio"
+              onChange={onHandleChange}
+              value={filtros.fechaInicio}
+            />
 
-              <DatePickerCustom
-                label="Final"
-                name="fechaFinal"
-                onChange={onHandleChange}
-                value={filtros.fechaFinal}
-              />
+            <DatePickerCustom
+              label="Final"
+              name="fechaFinal"
+              onChange={onHandleChange}
+              value={filtros.fechaFinal}
+            />
 
-              <Button content="Aplicar filtros" onClick={onHandleFiltros} />
-              <Button content="Limpiar filtros" onClick={clearFilters} />
-            </div>
-          )}
+            <Button content="Aplicar filtros" onClick={onHandleFiltros} />
+            <Button content="Limpiar filtros" onClick={clearFilters} />
+          </div>
+        )}
+        {tramites.length !== 0 && (
           <Table
             columns={columnsData}
             isLoading={isLoading}
             rows={tramites}
             className="col-span-1 sm:col-span-10 t-ease"
+            getRowClassName={getRowClassName}
           />
-        </div>
-      )}
-      {tramites.length === 0 && (
-        <div className="grow flex justify-center items-center ">
-          <h1 className="font-Montserrat font-simibold text-xl">
-            POR EL MOMENTO NO CONTIENES SOLICITUDES ACTIVAS
-          </h1>
-        </div>
-      )}
+        )}
+
+        {tramites.length === 0 && (
+          <div className="grow flex justify-center items-center sm:col-span-10 ">
+            <h1 className="font-Montserrat font-simibold text-xl">
+              POR EL MOMENTO NO CONTIENES SOLICITUDES ACTIVAS
+            </h1>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
