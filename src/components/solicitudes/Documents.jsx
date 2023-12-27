@@ -161,11 +161,11 @@ const Documents = props => {
       RFC: register.datosGenerales.rfc,
       codigi_postal: String(register.domicilio.codigoPostal),
       calle: register.domicilio.calle,
-      no_int: register.domicilio.numeroInterior
-        ? register.domicilio.numeroInterior
+      no_int: register.domicilio.numInterior
+        ? register.domicilio.numInterior
         : '',
-      no_ext: register.domicilio.numeroExterior
-        ? register.domicilio.numeroExterior
+      no_ext: register.domicilio.numExterior
+        ? register.domicilio.numExterior
         : '',
       municipio: register.domicilio.municipio,
       estado: register.domicilio.estado,

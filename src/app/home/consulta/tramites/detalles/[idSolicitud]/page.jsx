@@ -431,7 +431,7 @@ const DetallesDeSolicitud = () => {
                       className="font-normal"
                       onClick={() =>
                         openDoumentHandler(
-                          `http://172.16.100.47:3002/${item.documentUrl}`,
+                          `${process.env.ENV_URL}/${item.documentUrl}`,
                           item.documentType,
                         )
                       }>

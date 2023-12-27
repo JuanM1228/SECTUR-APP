@@ -45,7 +45,6 @@ const Domicilio = ({
     setData(dataDomicilio)
     if (data.codigoPostal && data.codigoPostal) {
       locationHandler(data.codigoPostal)
-      console.log('ejecuto')
     }
   }, [dataDomicilio, step])
 
