@@ -84,7 +84,7 @@ export const NAVIGATION_CONFIG = [
       },
       {
         key: 'usuarios',
-        path: null,
+        path: '/home/usuarios',
         title: 'Usuarios',
         icon: null,
         authority: [],
@@ -92,8 +92,8 @@ export const NAVIGATION_CONFIG = [
       },
       {
         key: 'temas',
-        path: null,
-        title: 'Temas',
+        path: '/home/inicio',
+        title: 'INICIO TEST',
         icon: null,
         authority: [],
         subMenu: [],

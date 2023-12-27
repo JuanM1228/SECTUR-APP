@@ -114,6 +114,14 @@ const Hospedaje = ({
       <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
 
       <section className="grid sm:grid-cols-2 gap-6">
+        <Dropdown
+          label="Subcategoría"
+          name="subcategoria"
+          variant="outlined"
+          value={data.subcategoria ? data.subcategoria : 0}
+          options={dataBackend.subcategoriaData}
+          onChange={onHandleChange}
+        />
         {/* <Dropdown
           label="Subcategoría"
           name="subcategoria"

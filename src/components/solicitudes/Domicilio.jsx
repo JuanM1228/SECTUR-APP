@@ -30,19 +30,24 @@ const Domicilio = ({
   register,
   setRegister,
   idSolicitud,
+  coloniaActual,
+  setColoniaActual,
 }) => {
   const [data, setData] = useState(INIT_DATA_DOMICILIO)
   const [colonias, setColonias] = useState([])
   const [error, setError] = useState(INIT_DATA_DOMICILIO)
   const { sendRequest, isLoading } = useHttpClient()
+  const [coordenadas, setCoordenadas] = useState(null)
+  console.log(data)
 
   useEffect(() => {
     if (!dataDomicilio) return
     setData(dataDomicilio)
-    if (data.codigoPostal) {
-      locationHandler()
+    if (data.codigoPostal && data.codigoPostal) {
+      locationHandler(data.codigoPostal)
+      console.log('ejecuto')
     }
-  }, [dataDomicilio])
+  }, [dataDomicilio, step])
 
   const myIcon = new Icon({
     iconUrl: '/location.png',
@@ -60,9 +65,9 @@ const Domicilio = ({
   }
 
   const SetViewOnClick = ({ coords }) => {
-    // console.log(coords)
     const map = useMap()
     map.setView(coords, map.getZoom())
+    map.flyTo({ lat: coords[0], lng: coords[1] }, 15)
     return null
   }
 
@@ -83,6 +88,7 @@ const Domicilio = ({
           idMunicipio: info.id_municipio,
         })
         setColonias(info.colonias)
+        setCoordenadas([info.lat, info.lon])
       }
     } catch (e) {
       console.log(e)
@@ -91,6 +97,10 @@ const Domicilio = ({
 
   const onHandleChange = ({ target: { name, value } }) => {
     setData({ ...data, [name]: value })
+    if (name === 'colonia') {
+      const objectColonia = colonias.find(colonia => colonia.value === value)
+      setColoniaActual(objectColonia.title)
+    }
   }
 
   const onUpdateDatabase = async body => {
@@ -179,19 +189,19 @@ const Domicilio = ({
         />
         <Input
           label="Número exterior *"
-          name="numeroExterior"
+          name="numExterior"
           type="number"
-          error={Boolean(error.numeroExterior)}
-          helpText={error.numeroExterior}
+          error={Boolean(error.numExterior)}
+          helpText={error.numExterior}
           onChange={onHandleChange}
-          value={data.numeroExterior}
+          value={data.numExterior}
         />
         <Input
           label="Número interior"
-          name="numeroInterior"
+          name="numInterior"
           type="number"
           onChange={onHandleChange}
-          value={data.numeroInterior}
+          value={data.numInterior}
         />
       </div>
 
@@ -209,18 +219,15 @@ const Domicilio = ({
 
       <MapContainer
         center={
-          data.latitud ? [data.latitud, data.longitud] : [19.42847, -99.12766]
+          data.latitud
+            ? [data.latitud, data.longitud]
+            : coordenadas
+            ? coordenadas
+            : [19.42847, -99.12766]
         }
         zoom={13}
         className="sm:col-span-2 w-full h-[500px] bg-bigDipORuby">
         <LayersControl>
-          <LayersControl.BaseLayer checked name="Google Map">
-            <TileLayer
-              attribution="Google Maps"
-              url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
-            />
-          </LayersControl.BaseLayer>
-
           <LayersControl.BaseLayer name="Google Map Satélite">
             <LayerGroup>
               <TileLayer
@@ -230,8 +237,14 @@ const Domicilio = ({
               <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
             </LayerGroup>
           </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer checked name="Google Map">
+            <TileLayer
+              attribution="Google Maps"
+              url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+            />
+          </LayersControl.BaseLayer>
         </LayersControl>
-        {data.latitud && (
+        {data.latitud && data.longitud && (
           <Marker
             position={[data.latitud, data.longitud]}
             icon={myIcon}
@@ -240,7 +253,11 @@ const Domicilio = ({
         <LocationMap />
         <SetViewOnClick
           coords={
-            data.latitud ? [data.latitud, data.longitud] : [19.42847, -99.12766]
+            data.latitud
+              ? [data.latitud, data.longitud]
+              : coordenadas
+              ? coordenadas
+              : [19.42847, -99.12766]
           }
         />
       </MapContainer>

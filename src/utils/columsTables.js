@@ -28,15 +28,13 @@ const DeleteButton = params => {
   )
 }
 
-const ListEstados = (arrayEstados) =>{
+const ListEstados = arrayEstados => {
   //console.log(arrayEstados)
   return (
     <div>
-      {arrayEstados.map(estado => 
-        <p>
-          {estado}
-        </p>
-      )}
+      {arrayEstados.map(estado => (
+        <p>{estado}</p>
+      ))}
     </div>
   )
 }
@@ -52,7 +50,6 @@ export const EditButton = params => {
     </IconButton>
   )
 }
-
 
 const ReviewButton = params => {
   const router = useRouter()
@@ -135,7 +132,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'observaciones',
     headerName: 'Observaciones',
-    minWidth: 120,
+    minWidth: 300,
     type: 'string',
     align: 'center',
     headerAlign: 'center',
@@ -326,7 +323,136 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
   },
 ]
 
-export const COLUMNS_TABLE_CATALOGOS =  [
+export const COLUMNS_TABLE_TRAMITES_ADMIN_DASHBOARD = [
+  {
+    field: 'review',
+    headerName: '',
+    minWidth: 80,
+    type: 'bool',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => ReviewButton(params),
+  },
+  {
+    field: 'id',
+    headerName: 'No. Trámite',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'nombreDelSolicitante',
+    headerName: 'Nombre del Solicitante',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'fechaSolicitud',
+    headerName: 'Fecha de Solicitud',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+    valueGetter: params => new Date(params.row.fechaSolicitud),
+  },
+  {
+    field: 'fechaAceptacion',
+    headerName: 'Fecha de Aceptación',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+    valueGetter: params =>
+      params.row.fechaAceptacion ? new Date(params.row.fechaAceptacion) : '',
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => StatusBadge(params),
+  },
+  {
+    field: 'observaciones',
+    headerName: 'Observaciones',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'folioSolicitud',
+    headerName: 'Folio Solicitud',
+    minWidth: 100,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => FolioBadge(params),
+  },
+  {
+    field: 'tipoPST',
+    headerName: 'PST',
+    minWidth: 140,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'nombreComercial',
+    headerName: 'Nombre Comercial',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'razonSocial',
+    headerName: 'Razón Social',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'calle',
+    headerName: 'Calle y Número',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'colonia',
+    headerName: 'Colonia',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'estado',
+    headerName: 'Estado',
+    minWidth: 120,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'municipio',
+    headerName: 'Municipio',
+    minWidth: 120,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+]
+
+export const COLUMNS_TABLE_CATALOGOS = [
   {
     field: 'id',
     headerName: 'Número',
@@ -353,7 +479,7 @@ export const COLUMNS_TABLE_CATALOGOS =  [
   },
 ]
 
-export const COLUMNS_TABLE_USUARIOS =  [
+export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'id',
     headerName: 'No. Usuario',
@@ -386,7 +512,7 @@ export const COLUMNS_TABLE_USUARIOS =  [
     align: 'left',
     headerAlign: 'center',
   },
- 
+
   // {
   //   field: 'phoneNumber',
   //   headerName: 'No. Telefono',
@@ -410,8 +536,7 @@ export const COLUMNS_TABLE_USUARIOS =  [
     type: 'string',
     align: 'left',
     headerAlign: 'center',
-    
-  },   
+  },
   {
     field: 'estados',
     headerName: 'Estados',
@@ -419,11 +544,8 @@ export const COLUMNS_TABLE_USUARIOS =  [
     type: 'string',
     align: 'center',
     headerAlign: 'center',
-    renderCell: (params) => ListEstados(params.row.estados)
-
+    renderCell: params => ListEstados(params.row.estados),
   },
- 
-          
 ]
 
 export const OPTIONS_ESTADOS = [
@@ -459,4 +581,4 @@ export const OPTIONS_ESTADOS = [
   { value: 30, title: 'Veracruz de Ignacio de la Llave' },
   { value: 31, title: 'Yucatán' },
   { value: 32, title: 'Zacatecas' },
-];
+]

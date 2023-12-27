@@ -8,7 +8,7 @@ const DashboardCard = ({ iconName, title, value }) => {
       <CustomIcon className="w-20 h-20 text-gray" />
       <div className="flex flex-col">
         <p className="font-semibold">{title}</p>
-        <p>{value}</p>
+        <p>{value || 0}</p>
       </div>
     </div>
   )

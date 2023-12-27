@@ -33,6 +33,7 @@ const Solicitudes = () => {
   const params = useParams()
   const { sendRequest, isLoading } = useHttpClient()
   const [idSolicitud, setIdSolicitud] = useState(params.idSolicitud)
+  const [coloniaActual, setColoniaActual] = useState('')
   const [register, setRegister] = useState({
     datosGenerales: null,
     domicilio: null,
@@ -72,7 +73,7 @@ const Solicitudes = () => {
   return (
     <div className="flex flex-col gap-4 mt-8">
       <Stepper activeStep={step} />
-      <div className=" flex flex-col justify-start items-center relative bg-bigDipORuby">
+      <div className=" flex flex-col justify-start items-center relative ">
         <DatosGenerales
           step={step}
           datosGenerales={register.datosGenerales}
@@ -91,6 +92,8 @@ const Solicitudes = () => {
           register={register}
           setRegister={setRegister}
           idSolicitud={idSolicitud}
+          setColoniaActual={setColoniaActual}
+          coloniaActual={coloniaActual}
         />
 
         <Contacto
@@ -119,6 +122,8 @@ const Solicitudes = () => {
           onSubmitHandler={onSubmitHandler}
           nextStep={onNextStepHandler}
           backStep={onBackStepHandler}
+          coloniaActual={coloniaActual}
+          register={register}
         />
         {GENERIC_DETAILS_PST_LIST.includes(tipoPST) && (
           <DetalleGenerico

@@ -106,7 +106,7 @@ const AlimentosBebidas = ({
           name="subcategoria"
           variant="outlined"
           value={data.subcategoria ? data.subcategoria : 0}
-          options={dataBackend.tipoServicioData}
+          options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
 

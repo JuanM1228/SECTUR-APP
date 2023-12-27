@@ -8,7 +8,7 @@ import Icons from '@/assets/icons'
 
 import MenuItem from './MenuItem'
 
-const Menu = ({ openMenu, setOpenMenu }) => {
+const Menu = ({ openMenu, setOpenMenu, configuration }) => {
   const { profile } = useAuthStore()
   const { sendRequest, isLoading } = useHttpClient()
   const [menu, setMenu] = useState([])
@@ -34,7 +34,9 @@ const Menu = ({ openMenu, setOpenMenu }) => {
         openMenu ? '' : 'hide_menu'
       }`}>
       <div className="flex flex-col ">
-        <section className="flex justify-between items-center h-14 px-5 bg-blueDianne text-merino ">
+        <section
+          className="flex justify-between items-center h-14 px-5 text-merino "
+          style={{ backgroundColor: configuration.color }}>
           <h1 className="font-GMX text-2xl ">Menu</h1>
 
           <Icons.Close

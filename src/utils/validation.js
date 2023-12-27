@@ -112,7 +112,7 @@ const domicilioForm = data => {
     calle: '',
     latitud: '',
     longitud: '',
-    numeroExterior: '',
+    numExterior: '',
   }
 
   if (!data.codigoPostal) {
@@ -127,8 +127,8 @@ const domicilioForm = data => {
   if (!data.latitud) {
     err.latitud = 'Ingrese la ubicación en el mapa'
   }
-  if (!data.numeroExterior) {
-    err.numeroExterior = 'Ingrese el número exterior'
+  if (!data.numExterior) {
+    err.numExterior = 'Ingrese el número exterior'
   }
 
   return {
@@ -137,7 +137,7 @@ const domicilioForm = data => {
       err.colonia !== '' ||
       err.calle !== '' ||
       err.latitud !== '' ||
-      err.numeroExterior !== '',
+      err.numExterior !== '',
     errors: err,
   }
 }
