@@ -1,12 +1,12 @@
 import React from 'react'
 import { BarChart } from '@mui/x-charts/BarChart'
 
-import { DUMMY_DATA_GRAPHS } from '@/utils/constants'
+import { INIT_DATA_GRAPH } from '@/utils/constants'
 import colors from '@/assets/colors'
-const GraphBar = () => {
+const GraphBar = ({ data }) => {
   return (
     <BarChart
-      dataset={DUMMY_DATA_GRAPHS}
+      dataset={data}
       className="w-full"
       xAxis={[
         {
