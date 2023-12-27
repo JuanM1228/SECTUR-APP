@@ -17,10 +17,13 @@ import PopupCatalog from './PopupCatalog'
 const SectionCatalog = ({ title, catalogs }) => {
   const [openDialog, setOpenDialog] = useState(false)
   const [idCatalogSelect, setIdCatalogSelect] = useState(null)
-
-  const onHandleClickCatalog = idCatalog => {
+  const [catalogName, setCatalogName] = useState('')
+  
+  const onHandleClickCatalog = (idCatalog, name)=> {
     setIdCatalogSelect(idCatalog)
     setOpenDialog(true)
+    setCatalogName(name)
+    console.log('selectedId',idCatalog)
   }
 
   const onClose = () => {
@@ -42,7 +45,7 @@ const SectionCatalog = ({ title, catalogs }) => {
             <ListItemButton
               key={catalog.id}
               className="flex"
-              onClick={() => onHandleClickCatalog(catalog.id)}>
+              onClick={() => onHandleClickCatalog(catalog.id, catalog.name)}>
               <ListItemAvatar>
                 <Avatar>
                   <CustomIcon />
@@ -60,7 +63,8 @@ const SectionCatalog = ({ title, catalogs }) => {
         open={openDialog}
         idCatalog={idCatalogSelect}
         onClose={onClose}
-      />
+        catalogName={catalogName}
+        />
     </Accordion>
   )
 }

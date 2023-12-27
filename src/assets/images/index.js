@@ -5,6 +5,8 @@ import logoSECTUR from './logos/logoSECTUR.svg'
 import logoGobMexRojo from './logos/logoGobMexRojo.svg'
 import logoSECTURWhite from './logos/logoSECTURWhite.svg'
 import location from './map/location.png'
+import googleplay from './logos/GooglePlay.png'
+import appstore from './logos/App-Store.png'
 
 const Images = {
   escudoMex,
@@ -14,6 +16,8 @@ const Images = {
   bandera,
   logoSECTURWhite,
   location,
+  appstore,
+  googleplay,
 }
 
 export default Images
