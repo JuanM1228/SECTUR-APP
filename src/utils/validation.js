@@ -83,6 +83,7 @@ const datosGeneralesForm = data => {
     tipoPST: '',
     nombreComercial: '',
     rfc: '',
+    razonSocial: '',
   }
 
   if (!data.tipoPST) {
@@ -94,13 +95,19 @@ const datosGeneralesForm = data => {
   if (!hasText(data.rfc)) {
     err.rfc = 'Ingrese su RFC'
   }
+  if (!hasText(data.razonSocial)) {
+    err.razonSocial = 'Ingrese su razón social'
+  }
   // else if (rfc(data.rfc)) {
   //   err.rfc = 'Por favor ingrese un RFC valido'
   // }
 
   return {
     hasError:
-      err.tipoPST !== '' || err.nombreComercial !== '' || err.rfc !== '',
+      err.tipoPST !== '' ||
+      err.nombreComercial !== '' ||
+      err.rfc !== '' ||
+      err.razonSocial !== '',
     errors: err,
   }
 }

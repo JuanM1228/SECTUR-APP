@@ -133,9 +133,11 @@ const DatosGenerales = ({
           value={data.registroAnterior}
         />
         <Input
-          label="Razón social"
+          label="Razón social *"
           name="razonSocial"
           onChange={onHandleChange}
+          error={error.razonSocial !== ''}
+          helpText={error.razonSocial}
           value={data.razonSocial}
         />
         <Input

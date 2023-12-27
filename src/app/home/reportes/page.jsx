@@ -47,6 +47,7 @@ const Reportes = () => {
   const [catalogoPST, setCatalogoPST] = useState([])
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
   const [dataGraph, setDataGraph] = useState(INIT_DATA_GRAPH)
+  const [estados, setEstados] = useState([])
   const [kpi, setKpi] = useState(INIT_DATA_KPIS)
 
   useEffect(() => {
@@ -54,6 +55,7 @@ const Reportes = () => {
     console.log(profile)
     setFiltros({ ...filtros, idUsuario: profile.id })
     getCatalogoPST()
+    getCatalogoEstados()
     getDataDashboard({ ...filtros, idUsuario: profile.id })
   }, [])
 
@@ -63,6 +65,19 @@ const Reportes = () => {
       const res = await sendRequest(url)
       if (res.success) {
         setCatalogoPST(res.result.data)
+      } else {
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const getCatalogoEstados = async () => {
+    const url = '/api/address/estados'
+    try {
+      const res = await sendRequest(url)
+      if (res.success) {
+        setEstados(res.result.data)
       } else {
       }
     } catch (error) {
@@ -149,7 +164,7 @@ const Reportes = () => {
             name="idEstado"
             variant="outlined"
             value={filtros.idEstado}
-            options={testData}
+            options={estados}
             onChange={onHandleChange}
           />
 
