@@ -69,7 +69,7 @@ const StatusBadge = params => {
 
 const FolioBadge = params => {
   return (
-    <a href={`http://172.16.100.47:3002/${params.row.pathFolioSolicitud}`}>
+    <a href={`${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`}>
       {params.row.folioSolicitud}
     </a>
   )
