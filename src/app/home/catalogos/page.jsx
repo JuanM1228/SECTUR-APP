@@ -1,14 +1,35 @@
-import React from 'react'
-
+'use client'
+import React, { useEffect, useState } from 'react'
 import SectionCatalog from '@/components/catalogos/SectionCatalog'
-
-import { CATALOGOS } from '@/utils/dummyData'
+import { useHttpClient } from '@/hooks/useHttpClient' 
 
 const Catalogos = () => {
+  const { sendRequest, isLoading } = useHttpClient()
+  const [catalogo, setCatalogo] = useState([])
+
+  useEffect( ()  => {
+   getCatalogs()
+  }, [])
+
+  const getCatalogs = async () => {
+    try {
+      const url = '/api/configuration/catalogo-sevicios'
+      const res = await sendRequest(url)
+      if (res.success) {
+        setCatalogo(res.result.data)
+        console.log('Rodo',res)
+        // setToken(res.result.token)
+        // setProfile(res.result.user)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <div className=" flex h-[calc(100vh-5rem)] flex-col items-center p-4 gap-2 overflow-y-auto">
       <h1 className="font-GMX text-4xl font-bold mb-6 text-start">CATÁLOGOS</h1>
-      {CATALOGOS.map(section => (
+      {catalogo.map(section => (
         <SectionCatalog
           key={section.id}
           title={section.name}
