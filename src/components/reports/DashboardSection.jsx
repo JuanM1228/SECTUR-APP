@@ -23,13 +23,9 @@ const DashboardSection = ({ data }) => {
       <DashboardCard
         iconName="WatchLater"
         title="PSTs pendientes"
-        value={revision}
+        value={data['en proceso'] + revision}
       />
-      <DashboardCard
-        iconName="Error"
-        title="PSTs por actualizar"
-        value={expirado}
-      />
+      <DashboardCard iconName="Error" title="PSTs caducados" value={expirado} />
     </section>
   )
 }
