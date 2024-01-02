@@ -27,7 +27,7 @@ const Catalogos = () => {
   }
 
   return (
-    <div className=" flex h-[calc(100vh-5rem)] flex-col items-center p-4 gap-2 overflow-y-auto">
+    <div className=" flex w-3/4  h-[calc(100vh-5rem)] flex-col items-center p-4 gap-2 overflow-y-auto">
       <h1 className="font-GMX text-4xl font-bold mb-6 text-start">CATÁLOGOS</h1>
       {catalogo.map(section => (
         <SectionCatalog

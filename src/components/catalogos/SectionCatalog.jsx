@@ -32,7 +32,7 @@ const SectionCatalog = ({ title, catalogs }) => {
   }
 
   return (
-    <Accordion className="bg-merinoTransparent w-full max-w-3xl">
+    <Accordion className="bg-merinoTransparent  w-full max-w-3xl">
       <AccordionSummary
         expandIcon={<Icons.ExpandMore />}
         className="font-GMX font-bold">
