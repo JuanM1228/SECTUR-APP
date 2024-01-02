@@ -333,7 +333,7 @@ const Documents = props => {
           <Button
             fullWidth={false}
             className="bg-seaGreen"
-            content="Descargar formato unico de registro"
+            content="Descargar formato único para firma y envío"
             onClick={getFormatoUnico}
           />
         </div>

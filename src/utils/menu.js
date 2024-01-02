@@ -57,6 +57,14 @@ export const NAVIGATION_CONFIG = [
         authority: [],
         subMenu: [],
       },
+      {
+        key: 'reportesGraficos',
+        path: '/home/reportesGraficos',
+        title: 'Gráficos',
+        icon: null,
+        authority: [],
+        subMenu: [],
+      },
     ],
   },
   {

@@ -68,10 +68,41 @@ const StatusBadge = params => {
 }
 
 const FolioBadge = params => {
+  console.log(params.row.folioSolicitud)
+  const onButtonClick = async () => {
+    const url = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
+    link.click()
+  }
+  const handleDownload = async () => {
+    try {
+      const pdfUrl = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
+
+      const response = await fetch(pdfUrl)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`)
+      }
+      const blob = await response.blob()
+
+      // Crea un enlace para descargar el blob
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${params.row.pathFolioSolicitud}`
+      document.body.appendChild(link)
+      link.click()
+
+      // Limpia el enlace y la URL creada
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Hubo un problema con la petición Fetch:', error)
+    }
+  }
+
   return (
-    <a href={`${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`}>
-      {params.row.folioSolicitud}
-    </a>
+    params.row.folioSolicitud && (
+      <Button content="Descargar certificado" onClick={handleDownload} />
+    )
   )
 }
 
@@ -140,7 +171,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'folioSolicitud',
     headerName: 'Folio Solicitud',
-    minWidth: 100,
+    minWidth: 300,
     type: 'string',
     align: 'center',
     headerAlign: 'center',
@@ -259,7 +290,15 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
   {
     field: 'folioSolicitud',
     headerName: 'Folio Solicitud',
-    minWidth: 100,
+    minWidth: 200,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: '-',
+    headerName: 'certificado',
+    minWidth: 250,
     type: 'string',
     align: 'center',
     headerAlign: 'center',

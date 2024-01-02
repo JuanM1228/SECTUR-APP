@@ -15,13 +15,17 @@ const ArrendadoraAutos = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(dataPst ? dataPst : INIT_ARRENDADORA_AUTOS)
+  const [data, setData] = useState(INIT_ARRENDADORA_AUTOS)
   const [tiposDeEstablecimientosData, setTiposDeEstablecimientosData] =
     useState([])
 
   useEffect(() => {
+    // if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -42,10 +46,31 @@ const ArrendadoraAutos = ({
     setData({ ...data, [name]: value })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
-    nextStep()
+    const body = {
+      detallesPST: data,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   return (
@@ -61,7 +86,7 @@ const ArrendadoraAutos = ({
           label="Tipo de establecimiento"
           name="tipoEstablecimiento"
           variant="outlined"
-          value={data.tipoEstablecimiento ? data.tipoEstablecimiento : 0}
+          value={data?.tipoEstablecimiento ? data.tipoEstablecimiento : 0}
           options={tiposDeEstablecimientosData}
           onChange={onHandleChange}
         />

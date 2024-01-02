@@ -21,7 +21,7 @@ const AgenciaViaje = ({
   idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(dataPst ? dataPst : INIT_AGENCIA_VIAJES)
+  const [data, setData] = useState(INIT_AGENCIA_VIAJES)
   const [error, setError] = useState(INIT_AGENCIA_VIAJES)
   const [dataBackend, setDataBackend] = useState({
     afiliacionesData: [],
@@ -33,6 +33,17 @@ const AgenciaViaje = ({
   })
 
   useEffect(() => {
+    if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
+    if (dataPst.afiliaciones.length !== 0) {
+      const objectAfiliaciones = {}
+      for (let index = 0; index < dataPst.afiliaciones.length; index++) {
+        objectAfiliaciones[dataPst.afiliaciones[index]] = true
+      }
+      setCheckedItems({ afiliacionesList: objectAfiliaciones })
+    }
+
     getDropdownsData()
   }, [])
 
@@ -91,9 +102,9 @@ const AgenciaViaje = ({
     setData(infoObject)
     setRegister({ ...register, detallesPST: infoObject })
     const body = {
-      data_pst: infoObject,
+      detallesPST: infoObject,
       id_solicitud: idSolicitud,
-      tipo_pst: register.datosGenerales.tipoPST,
+      tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
     onUpdateDatabase(body)

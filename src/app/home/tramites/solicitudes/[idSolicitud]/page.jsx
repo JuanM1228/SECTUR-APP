@@ -133,6 +133,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
             pstId={tipoPST}
           />
         )}
@@ -155,6 +156,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
           />
         )}
         {tipoPST === PST_ENUM.ARRENDADORA_AUTOS && (
@@ -165,6 +167,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
           />
         )}
         {tipoPST === PST_ENUM.HOSPEDAJE && (
@@ -175,6 +178,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
           />
         )}
         {tipoPST === PST_ENUM.OPERADORA_BUCEO && (
@@ -185,6 +189,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
           />
         )}
         {tipoPST === PST_ENUM.OPERADORA_MARINA && (
@@ -195,6 +200,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
           />
         )}
         {tipoPST === PST_ENUM.TIEMPOS_COMPARTIDOS && (
@@ -205,6 +211,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
           />
         )}
         {tipoPST === PST_ENUM.TRANSPORTISTA_TURISTICO && (
@@ -215,6 +222,7 @@ const Solicitudes = () => {
             backStep={onBackStepHandler}
             register={register}
             setRegister={setRegister}
+            idSolicitud={idSolicitud}
           />
         )}
         <ProcedureCompleted step={step} />

@@ -18,9 +18,10 @@ const Hospedaje = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(dataPst ? dataPst : HOSPEDAJE_INIT_DATA)
+  const [data, setData] = useState(HOSPEDAJE_INIT_DATA)
   const [dataBackend, setDataBackend] = useState({
     subcategoriaData: [],
     distioncionData: [],
@@ -32,6 +33,9 @@ const Hospedaje = ({
   })
 
   useEffect(() => {
+    // if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -84,6 +88,21 @@ const Hospedaje = ({
     setData({ ...data, [name]: value })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const infoObject = {
@@ -100,7 +119,13 @@ const Hospedaje = ({
     }
     setRegister({ ...register, detallesPST: infoObject })
     // TODO: Add validation and next step handler
-    nextStep()
+    const body = {
+      detallesPST: infoObject,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -118,7 +143,7 @@ const Hospedaje = ({
           label="Subcategoría"
           name="subcategoria"
           variant="outlined"
-          value={data.subcategoria ? data.subcategoria : 0}
+          value={data?.subcategoria ? data.subcategoria : 0}
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
@@ -164,7 +189,7 @@ const Hospedaje = ({
           name="clasificacionObtenidaSelected"
           variant="outlined"
           value={
-            data.clasificacionObtenidaSelected
+            data?.clasificacionObtenidaSelected
               ? data.clasificacionObtenidaSelected
               : 0
           }
@@ -181,7 +206,7 @@ const Hospedaje = ({
           label="Ubicación"
           name="ubicacionSelected"
           variant="outlined"
-          value={data.ubicacionSelected ? data.ubicacionSelected : 0}
+          value={data?.ubicacionSelected ? data.ubicacionSelected : 0}
           options={dataBackend.ubicacionData}
           onChange={onHandleChange}
         />

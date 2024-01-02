@@ -23,6 +23,7 @@ const Configurations = () => {
     5: null,
     6: null,
     7: null,
+    8: '',
   })
   const [director, setDirector] = useState('')
   const [configuration, setConfiguration] = useState({
@@ -33,6 +34,7 @@ const Configurations = () => {
     sello_path: null,
     fondo_path: null,
     seguridad_path: null,
+    reportes_path: null,
   })
 
   useEffect(() => {
@@ -95,10 +97,10 @@ const Configurations = () => {
     }
   }
 
-  const changeTextInput = e => {
+  const changeTextInput = (e, index) => {
     setNewConfiguration({
       ...newConfiguration,
-      [CONFIGURATIONS_APP.DIRECTOR]: e.target.value,
+      [index]: e.target.value,
     })
   }
 
@@ -147,6 +149,25 @@ const Configurations = () => {
         </section>
       </div>
 
+      <h3 className="text-2xl font-semibold">REPORTES POWER BI</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 pb-4 gap-10 border-b-[1px]  border-b-gray">
+        <section className="flex flex-col gap-4">
+          <h4 className="text-base font-semibold">PATH REPORTES</h4>
+          <Input
+            value={newConfiguration[CONFIGURATIONS_APP.REPORTES]}
+            onChange={e => changeTextInput(e, CONFIGURATIONS_APP.REPORTES)}
+          />
+          <Button
+            content="ACTUALIZAR CAMPO"
+            onClick={() => uploadTextToDB(CONFIGURATIONS_APP.REPORTES)}
+          />
+        </section>
+        <section className="flex flex-col gap-4  overflow-hidden break-words">
+          <h4 className="text-base font-semibold">PATH ACTUAL</h4>
+          <p className="text-ellipsis">{configuration.reportes_path}</p>
+        </section>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 pb-4 gap-10 border-b-[1px]  border-b-gray">
         <section className="flex flex-col gap-4">
           <h4 className="text-base font-semibold">
@@ -176,7 +197,7 @@ const Configurations = () => {
           <h4 className="text-base font-semibold">DIRECTOR</h4>
           <Input
             value={newConfiguration[CONFIGURATIONS_APP.DIRECTOR]}
-            onChange={changeTextInput}
+            onChange={e => changeTextInput(e, CONFIGURATIONS_APP.DIRECTOR)}
           />
           <Button
             content="ACTUALIZAR CAMPO"

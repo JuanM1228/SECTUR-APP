@@ -1,163 +1,176 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
 import Resumen from '@/components/home/Resumen'
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+
+import { useAuthStore } from '@/store/auth'
 
 import { useHttpClient } from '@/hooks/useHttpClient'
-const DATA = {
-  datosGenerales: {
-    tipoPST: 1,
-    nombreComercial: 'Prueba_001',
-    rfc: 'Prueba_001',
-    registroINEGI: 'Prueba_001',
-    registroAnterior: 'Prueba_001',
-    razonSocial: 'Prueba_001',
-    curp: '000000000001',
+import { createTheme, ThemeProvider } from '@mui/material'
+import colors from '@/assets/colors'
+import Dropdown from '@/components/common/Dropdown'
+import { INIT_FILTROS_DATA, ROLE_ENUM } from '@/utils/constants'
+import Table from '@/components/common/Table'
+import {
+  COLUMNS_TABLE_TRAMITES_ADMIN,
+  COLUMNS_TABLE_TRAMITES_USUARIO,
+} from '@/utils/columsTables'
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: colors.bigDipORuby,
+    },
+    secondary: {
+      main: colors.gray,
+    },
   },
-  domicilio: {
-    codigoPostal: 7860,
-    estado: '',
-    municipio: '',
-    colonia: '9005695',
-    calle: 'Norte 56',
-    latitud: 20.3248,
-    longitud: -99.8491,
-  },
-  contacto: {
-    telefono: '5555122200',
-    email: 'antoniohdz0899@outlook.com',
-    celular: '5555122200',
-    web: 'prueba.com',
-    facebook: 'prueba',
-    x: '',
-    fax: '0001',
-  },
-  informacionLegal: {
-    nombreDelPropietario: 'Prueba_001',
-    representanteLegal: 'Prueba_001',
-    nombreDelSolicitante: 'Prueba_001',
-    puestoDelSolicitante: 'Prueba_001',
-    fechaIngresoSECTUR: '2023-12-20T00:00:00.000Z',
-    tipoDeInmueble: '1',
-    numEscritura: '5',
-    numeroDeRegistro: '5',
-    observaciones: '',
-  },
-  detallesPST: [
-    {
-      id: 11,
-      nombre_notario: 'prueba_1',
-      numero_acta_constitutiva: '23423423423',
-      numero_notaria: '12',
-      lugar_expedicion: null,
-      fecha_emision_acta: '2023-12-20T12:00:00.000Z',
-      afiliaciones: null,
-      boletaje: '11',
-    },
-  ],
-  documentsList: [
-    {
-      documentName: 'PRUEBA_001.pdf',
-      documentType: 'application/pdf',
-      documentUrl: 'documentos/solicitudes/1703016744090_346.pdf',
-    },
-    {
-      documentName: 'PRUEBA_001.pdf',
-      documentType: 'application/pdf',
-      documentUrl: 'documentos/solicitudes/1703016747251_279.pdf',
-    },
-    {
-      documentName: 'PRUEBA_001.pdf',
-      documentType: 'application/pdf',
-      documentUrl: 'documentos/solicitudes/1703016750552_1.pdf',
-    },
-    {
-      documentName: 'PRUEBA_001.pdf',
-      documentType: 'application/pdf',
-      documentUrl: 'documentos/solicitudes/1703016753928_802.pdf',
-    },
-    {
-      documentName: 'PRUEBA_001.pdf',
-      documentType: 'application/pdf',
-      documentUrl: 'documentos/solicitudes/1703016757157_755.pdf',
-    },
-    {
-      documentName: 'PRUEBA_001.pdf',
-      documentType: 'application/pdf',
-      documentUrl: 'documentos/solicitudes/1703016760715_923.pdf',
-    },
-    {
-      documentName: 'PRUEBA_001.pdf',
-      documentType: 'application/pdf',
-      documentUrl: 'documentos/solicitudes/1703016764466_272.pdf',
-    },
-  ],
-  picturesList: [
-    {
-      documentName: 'PRUEBA_001.jpg',
-      documentType: 'image/jpeg',
-      documentUrl: 'documentos/solicitudes/images/1703016828781_345.jpg',
-    },
-  ],
-  folioSolicitud: null,
-  pathFolioSolicitud: '/certificados/null.pdf',
-}
+})
+
 const HomePage = () => {
   const { sendRequest, isLoading } = useHttpClient()
-
-  const [folio, setFolio] = useState('')
+  const { profile } = useAuthStore()
+  const [estados, setEstados] = useState([])
+  const [tab, setTab] = useState(0)
+  const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
   const [data, setData] = useState(null)
   const [firstConsulta, setFirstConsulta] = useState(true)
+  const [tramites, setTramites] = useState([])
+
+  useEffect(() => {
+    if (!profile) return
+    console.log(profile)
+    setFiltros({ ...filtros, idUsuario: profile.id })
+    getCatalogoEstados()
+  }, [])
 
   const onHandleChange = ({ target: { name, value } }) => {
-    setFolio(value)
+    setFiltros({ ...filtros, [name]: value })
   }
 
-  const getRegisterData = async () => {
-    const url = `/api/registro/detalle-tramite-folio/${folio}`
-    setData(null)
+  const getCatalogoEstados = async () => {
+    const url = '/api/address/estados'
     try {
       const res = await sendRequest(url)
-      console.log('DATA RODO', res.result.data)
       if (res.success) {
-        setData(res.result.data)
-        setFirstConsulta(false)
+        setEstados(res.result.data)
+      } else {
       }
     } catch (error) {
       console.log('error', error)
-      setData(null)
-      setFirstConsulta(false)
     }
   }
 
+  const onHandleFiltros = () => {
+    console.log(filtros)
+    getTramitesFiltros(filtros)
+    setFirstConsulta(false)
+  }
+
+  const getTramitesFiltros = async body => {
+    try {
+      const url = '/api/registro/tramites-usuario'
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        setTramites(res.result.data)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const handleChangeTab = (event, newValue) => {
+    setTab(newValue)
+    setFiltros({ ...filtros, folio: '', idEstado: 0, nombreComercial: '' })
+  }
+
+  const columnsData =
+    profile.role === ROLE_ENUM.ADMIN
+      ? COLUMNS_TABLE_TRAMITES_ADMIN
+      : COLUMNS_TABLE_TRAMITES_USUARIO
+
   return (
-    <div className="flex flex-col items-center p-4 gap-10 sm:w-1/2">
+    <div className="flex flex-col  p-4 gap-4 sm:w-1/2">
       <h2 className="font-GMX text-3xl font-semibold text-center mt-4">
         Consulta de Certificados
       </h2>
-      <div className="flex flex-wrap w-full gap-4 justify-center">
-        <div className="w-full sm:w-1/2">
-          <Input
-            label="Folio"
-            name="folio"
-            IconComponent={Icons.QrCode}
-            onChange={onHandleChange}
-            value={folio}
-          />
-        </div>
+      <h2 className="font-GMX text-xl font-semibold">Buscar por:</h2>
+      <div className="flex flex-col flex-wrap w-full gap-4 justify-center">
+        <ThemeProvider theme={theme}>
+          <Tabs
+            value={tab}
+            onChange={handleChangeTab}
+            className="bg-gray bg-opacity-10 rounded">
+            <Tab value={0} label="Folio" />
+            <Tab value={1} label="Estado y Nombre Comercial" />
+          </Tabs>
 
-        <Button
-          content="Buscar"
-          className="w-full sm:w-auto"
-          onClick={getRegisterData}
-        />
+          <section className="flex justify-center items-center  ">
+            {tab === 0 && (
+              <div className="flex flex-wrap sm:flex-nowrap gap-4 w-3/4">
+                <Input
+                  label="Folio"
+                  name="folio"
+                  IconComponent={Icons.QrCode}
+                  onChange={onHandleChange}
+                  value={filtros.folio}
+                />
+                <Button
+                  content="Buscar"
+                  className="w-full sm:w-auto h-auto "
+                  onClick={onHandleFiltros}
+                />
+              </div>
+            )}
+            {tab === 1 && (
+              <div className="flex flex-wrap sm:flex-nowrap justify-center gap-4 w-3/4 ">
+                <section className="flex flex-col gap-4  w-full">
+                  <Input
+                    label="Nombre comercial"
+                    name="nombreComercial"
+                    onChange={onHandleChange}
+                    value={filtros.nombreComercial}
+                  />
+                  <Dropdown
+                    label="Estado"
+                    name="idEstado"
+                    variant="outlined"
+                    value={filtros.idEstado}
+                    options={estados}
+                    onChange={onHandleChange}
+                  />
+                </section>
+                <Button
+                  content="Buscar"
+                  className="w-full sm:w-auto self-center "
+                  onClick={onHandleFiltros}
+                />
+              </div>
+            )}
+          </section>
+        </ThemeProvider>
       </div>
 
-      {data && <Resumen information={data} />}
-      {!data && (
+      {tramites.length !== 0 && (
+        <Table
+          columns={columnsData}
+          isLoading={isLoading}
+          rows={tramites}
+          className="col-span-1 sm:col-span-10 t-ease h-[calc(40vh-10rem)]"
+        />
+      )}
+
+      {/* {data && <Resumen information={data} />} */}
+      {tramites.length === 0 && (
         <div className="flex flex-col justify-center items-center text-gray mt-10">
           <Icons.Search className="w-36 h-36 animate-bounce" />
           <p className="font-Montserrat font-semibold text-4xl">

@@ -179,10 +179,10 @@ const Resumen = ({ information }) => {
             Fecha de ingreso a SECTUR:{' '}
             <span className="font-normal">{data.fechaIngresoSECTUR}</span>
           </p>
-          <p className="font-semibold">
+          {/* <p className="font-semibold">
             Observaciones:{' '}
             <span className="font-normal">{data.observaciones}</span>
-          </p>
+          </p> */}
         </div>
       </section>
 

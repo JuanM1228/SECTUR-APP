@@ -410,10 +410,10 @@ const DetallesDeSolicitud = () => {
               Fecha de ingreso a SECTUR:{' '}
               <span className="font-normal">{data.fechaIngresoSECTUR}</span>
             </p>
-            <p className="font-semibold">
+            {/* <p className="font-semibold">
               Observaciones:{' '}
               <span className="font-normal">{data.observaciones}</span>
-            </p>
+            </p> */}
           </div>
         </section>
         <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">

@@ -255,7 +255,7 @@ export const STATUS_INFO = {
   1: 'EN PROCESO',
   2: 'REVISION',
   3: 'RECHAZADO',
-  4: 'FINALIZADO',
+  4: 'CONCLUIDO',
   5: 'REVOCADO',
 }
 /**
@@ -295,6 +295,7 @@ export const CONFIGURATIONS_APP = {
   SELLO: 5,
   FONDO: 6,
   SEGURIDAD: 7,
+  REPORTES: 8,
 }
 
 export const INIT_DATA_GRAPH = [
