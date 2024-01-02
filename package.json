@@ -1,4 +1,9 @@
 {
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  },
   "name": "sectur-app",
   "version": "0.1.0",
   "private": true,
@@ -17,7 +22,10 @@
     "@mui/x-data-grid": "^6.18.2",
     "@mui/x-date-pickers": "^6.18.1",
     "dayjs": "^1.11.10",
+    "fs": "^0.0.1-security",
+    "image-to-base64": "^2.2.0",
     "immer": "^10.0.3",
+    "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
     "next": "14.0.2",
     "react": "^18",

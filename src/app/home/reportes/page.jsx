@@ -1,9 +1,8 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import DashboardCard from '@/components/reports/DashboardCard'
 import Input from '@/components/common/Input'
 import Dropdown from '@/components/common/Dropdown'
 import GraphBar from '@/components/reports/GraphBar'
@@ -11,12 +10,18 @@ import DatePickerCustom from '@/components/common/DatePicker'
 import Button from '@/components/common/Button'
 import DashboardSection from '@/components/reports/DashboardSection'
 
+import { useAuthStore } from '@/store/auth'
 import colors from '@/assets/colors'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import { INIT_FILTROS_DATA, STATUS_TRAMITE_DROPDOWN } from '@/utils/constants'
+import {
+  INIT_DATA_GRAPH,
+  INIT_FILTROS_DATA,
+  STATUS_TRAMITE_DROPDOWN,
+  INIT_DATA_KPIS,
+} from '@/utils/constants'
 import { createTheme, ThemeProvider } from '@mui/material'
 import Table from '@/components/common/Table'
-import { COLUMNS_TABLE_TRAMITES_ADMIN } from '@/utils/columsTables'
+import { COLUMNS_TABLE_TRAMITES_ADMIN_DASHBOARD } from '@/utils/columsTables'
 const testData = [
   { value: 1, title: 'test1' },
   { value: 2, title: 'test2' },
@@ -35,25 +40,24 @@ const theme = createTheme({
 
 const Reportes = () => {
   const { sendRequest, isLoading } = useHttpClient()
+  const { profile } = useAuthStore()
   const [tramites, setTramites] = useState([])
   const [tab, setTab] = useState(0)
   const [showFilters, setShowFilters] = useState(true)
   const [catalogoPST, setCatalogoPST] = useState([])
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
+  const [dataGraph, setDataGraph] = useState(INIT_DATA_GRAPH)
+  const [estados, setEstados] = useState([])
+  const [kpi, setKpi] = useState(INIT_DATA_KPIS)
 
-  const getTramites = async id => {
-    const url = `/api/registro/tramites-usuario/${id}`
-    try {
-      const res = await sendRequest(url)
-      if (res.success) {
-        setTramites(res.result.data)
-        console.log(res.result.data)
-      } else {
-      }
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
+  useEffect(() => {
+    if (!profile) return
+    console.log(profile)
+    setFiltros({ ...filtros, idUsuario: profile.id })
+    getCatalogoPST()
+    getCatalogoEstados()
+    getDataDashboard({ ...filtros, idUsuario: profile.id })
+  }, [])
 
   const getCatalogoPST = async () => {
     const url = '/api/configuration/catalogo-pst'
@@ -68,16 +72,32 @@ const Reportes = () => {
     }
   }
 
-  const getTramitesFiltros = async body => {
+  const getCatalogoEstados = async () => {
+    const url = '/api/address/estados'
     try {
-      const url = '/api/registro/tramites-usuario'
+      const res = await sendRequest(url)
+      if (res.success) {
+        setEstados(res.result.data)
+      } else {
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
+  const getDataDashboard = async body => {
+    try {
+      const url = '/api/reportes/obtener-datos'
       const res = await sendRequest(url, {
         method: 'POST',
         body: body,
       })
+
       if (res.success) {
-        setTramites(res.result.data)
+        setTramites(res.result.data.table)
+        setDataGraph(res.result.data.grafica)
+        setKpi(res.result.data.kpis)
+        console.log(res.result.data)
       }
     } catch (e) {
       console.log(e)
@@ -90,7 +110,7 @@ const Reportes = () => {
 
   const onHandleFiltros = () => {
     console.log(filtros)
-    getTramitesFiltros(filtros)
+    getDataDashboard(filtros)
   }
 
   const clearFilters = () => {
@@ -101,23 +121,10 @@ const Reportes = () => {
     setTab(newValue)
   }
 
-  const getRowClassName = params => {
-    const status = params.row.status
-    if (profile.role === ROLE_ENUM.ADMIN) {
-      if (status === STATUS_TRAMITE.REVISION)
-        return 'bg-[#f1e9da] hover:bg-[#f1e9da]'
-    }
-    if (profile.role === ROLE_ENUM.USER) {
-      if (status === STATUS_TRAMITE.RECHAZADO)
-        return 'bg-[#f1e9da] hover:bg-[#f1e9da]'
-    }
-    return
-  }
-
   return (
     <div className="w-full p-4 ">
       <h1 className="font-GMX text-3xl font-bold text-center ">REPORTES</h1>
-      <DashboardSection />
+      <DashboardSection data={kpi} />
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 sm:col-span-2 flex flex-col gap-3">
           <Input
@@ -157,7 +164,7 @@ const Reportes = () => {
             name="idEstado"
             variant="outlined"
             value={filtros.idEstado}
-            options={testData}
+            options={estados}
             onChange={onHandleChange}
           />
 
@@ -200,14 +207,13 @@ const Reportes = () => {
               <Tab value={1} label="Gráfica" />
             </Tabs>
             <section className="flex justify-center items-center grow">
-              {tab === 1 && <GraphBar />}
+              {tab === 1 && <GraphBar data={dataGraph} />}
               {tab === 0 && (
                 <Table
-                  columns={COLUMNS_TABLE_TRAMITES_ADMIN}
+                  columns={COLUMNS_TABLE_TRAMITES_ADMIN_DASHBOARD}
                   isLoading={isLoading}
                   rows={tramites}
-                  className="col-span-1 sm:col-span-10 t-ease"
-                  getRowClassName={getRowClassName}
+                  className="col-span-1 sm:col-span-10 t-ease h-[calc(80vh-10rem)]"
                 />
               )}
             </section>

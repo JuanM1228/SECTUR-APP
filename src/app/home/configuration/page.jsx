@@ -23,6 +23,7 @@ const Configurations = () => {
     5: null,
     6: null,
     7: null,
+    8: '',
   })
   const [director, setDirector] = useState('')
   const [configuration, setConfiguration] = useState({
@@ -33,6 +34,7 @@ const Configurations = () => {
     sello_path: null,
     fondo_path: null,
     seguridad_path: null,
+    reportes_path: null,
   })
 
   useEffect(() => {
@@ -53,6 +55,7 @@ const Configurations = () => {
       console.log('error', error)
     }
   }
+
   const uploadDocumentHandler = async idDocument => {
     const file = newConfiguration[idDocument]
     if (!file) return
@@ -77,8 +80,36 @@ const Configurations = () => {
     }
   }
 
-  const changeTextInput = e => {
-    console.log(e.target.value)
+  const uploadTextToDB = async idDocument => {
+    const url = `/api/configuration/system-theme`
+    try {
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: {
+          idDocumento: idDocument,
+          content: newConfiguration[idDocument],
+        },
+      })
+      if (!res.success) return
+      getInitialData()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const changeTextInput = (e, index) => {
+    setNewConfiguration({
+      ...newConfiguration,
+      [index]: e.target.value,
+    })
+  }
+
+  const changeHexInput = e => {
+    setNewConfiguration({
+      ...newConfiguration,
+      [CONFIGURATIONS_APP.COLOR]: e.hex,
+    })
+    setColor(e.hex)
   }
 
   const changePhotoHanlder = (e, key) => {
@@ -118,6 +149,25 @@ const Configurations = () => {
         </section>
       </div>
 
+      <h3 className="text-2xl font-semibold">REPORTES POWER BI</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 pb-4 gap-10 border-b-[1px]  border-b-gray">
+        <section className="flex flex-col gap-4">
+          <h4 className="text-base font-semibold">PATH REPORTES</h4>
+          <Input
+            value={newConfiguration[CONFIGURATIONS_APP.REPORTES]}
+            onChange={e => changeTextInput(e, CONFIGURATIONS_APP.REPORTES)}
+          />
+          <Button
+            content="ACTUALIZAR CAMPO"
+            onClick={() => uploadTextToDB(CONFIGURATIONS_APP.REPORTES)}
+          />
+        </section>
+        <section className="flex flex-col gap-4  overflow-hidden break-words">
+          <h4 className="text-base font-semibold">PATH ACTUAL</h4>
+          <p className="text-ellipsis">{configuration.reportes_path}</p>
+        </section>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 pb-4 gap-10 border-b-[1px]  border-b-gray">
         <section className="flex flex-col gap-4">
           <h4 className="text-base font-semibold">
@@ -125,17 +175,19 @@ const Configurations = () => {
           </h4>
           <SketchPicker
             color={color}
-            onChange={changeTextInput}
+            onChange={changeHexInput}
             className="self-center"
           />
           {/* <input type="color" /> */}
-          <Button content="ACTUALIZAR CAMPO" />
+          <Button
+            content="ACTUALIZAR CAMPO"
+            onClick={() => uploadTextToDB(CONFIGURATIONS_APP.COLOR)}
+          />
         </section>
         <section className="flex flex-col gap-4">
           <h4 className="text-base font-semibold">COLOR ACTUAL</h4>
 
-          <div
-            className={`bg-[${configuration.color}] w-24 h-12 self-center`}></div>
+          <input type="color" value={configuration.color} />
         </section>
       </div>
       <h3 className="text-2xl font-semibold">APARIENCIA DEL CERTIFICADO</h3>
@@ -143,14 +195,17 @@ const Configurations = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 pb-4 gap-10 border-b-[1px]  border-b-gray">
         <section className="flex flex-col gap-4">
           <h4 className="text-base font-semibold">DIRECTOR</h4>
-
+          <Input
+            value={newConfiguration[CONFIGURATIONS_APP.DIRECTOR]}
+            onChange={e => changeTextInput(e, CONFIGURATIONS_APP.DIRECTOR)}
+          />
           <Button
             content="ACTUALIZAR CAMPO"
-            onClick={() => console.log(newConfiguration)}
+            onClick={() => uploadTextToDB(CONFIGURATIONS_APP.DIRECTOR)}
           />
         </section>
         <section className="flex flex-col gap-4">
-          <h4 className="text-base font-semibold">COLOR ACTUAL</h4>
+          <h4 className="text-base font-semibold">DIRECTOR ACTUAL</h4>
           <p>{configuration.nombre_director}</p>
         </section>
       </div>

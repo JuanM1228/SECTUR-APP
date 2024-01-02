@@ -38,6 +38,7 @@ const PanelSolicitudesUsuario = () => {
   const [showFilters, setShowFilters] = useState(true)
   const [catalogoPST, setCatalogoPST] = useState([])
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
+  const [estados, setEstados] = useState([])
 
   useEffect(() => {
     if (!profile) return
@@ -45,6 +46,7 @@ const PanelSolicitudesUsuario = () => {
     setFiltros({ ...filtros, idUsuario: profile.id })
     getTramites(profile.id)
     getCatalogoPST()
+    getCatalogoEstados()
   }, [])
 
   const getTramites = async id => {
@@ -67,6 +69,19 @@ const PanelSolicitudesUsuario = () => {
       const res = await sendRequest(url)
       if (res.success) {
         setCatalogoPST(res.result.data)
+      } else {
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const getCatalogoEstados = async () => {
+    const url = '/api/address/estados'
+    try {
+      const res = await sendRequest(url)
+      if (res.success) {
+        setEstados(res.result.data)
       } else {
       }
     } catch (error) {
@@ -186,7 +201,7 @@ const PanelSolicitudesUsuario = () => {
               name="idEstado"
               variant="outlined"
               value={filtros.idEstado}
-              options={testData}
+              options={estados}
               onChange={onHandleChange}
             />
 

@@ -20,12 +20,16 @@ const OperadoraBuceo = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(dataPst ? dataPst : INIT_OPERADORA_BUCEO)
+  const [data, setData] = useState(INIT_OPERADORA_BUCEO)
   const [establecimientoData, setEstablecimientoData] = useState([])
 
   useEffect(() => {
+    // if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -46,11 +50,32 @@ const OperadoraBuceo = ({
     setData({ ...data, [name]: value })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
     // TODO: Add validation and next step handler
-    nextStep()
+    const body = {
+      detallesPST: data,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   return (
@@ -103,7 +128,7 @@ const OperadoraBuceo = ({
         rows={4}
         multiline
         onChange={onHandleChange}
-        value={data.afiliaciones}
+        value={data?.afiliaciones}
       />
       <div className=" flex gap-6 justify-between">
         <Button

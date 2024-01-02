@@ -18,9 +18,10 @@ const DetalleGenerico = ({
   register,
   setRegister,
   pstId,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(dataPst ? dataPst : INIT_DETALLE_GENERICO)
+  const [data, setData] = useState(INIT_DETALLE_GENERICO)
   const [dateStart, setDateStart] = useState(null)
   const [dataBackend, setDataBackend] = useState({
     tipoDePersona: [],
@@ -28,8 +29,11 @@ const DetalleGenerico = ({
   })
 
   useEffect(() => {
+    // if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
     getDropdownsData()
-  }, [pstId])
+  }, [])
 
   const getDropdownsData = async () => {
     const url = `/api/configuration/catalogo-detalle-pst/${pstId}`
@@ -53,10 +57,31 @@ const DetalleGenerico = ({
     }
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
-    nextStep()
+    const body = {
+      detallesPST: data,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   return (
@@ -113,7 +138,7 @@ const DetalleGenerico = ({
         rows={4}
         multiline
         onChange={onHandleChange}
-        value={data.observacionesGenerales}
+        value={data?.observacionesGenerales}
       />
 
       {/* <Input

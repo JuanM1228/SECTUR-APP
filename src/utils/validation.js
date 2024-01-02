@@ -83,6 +83,7 @@ const datosGeneralesForm = data => {
     tipoPST: '',
     nombreComercial: '',
     rfc: '',
+    razonSocial: '',
   }
 
   if (!data.tipoPST) {
@@ -94,13 +95,19 @@ const datosGeneralesForm = data => {
   if (!hasText(data.rfc)) {
     err.rfc = 'Ingrese su RFC'
   }
+  if (!hasText(data.razonSocial)) {
+    err.razonSocial = 'Ingrese su razón social'
+  }
   // else if (rfc(data.rfc)) {
   //   err.rfc = 'Por favor ingrese un RFC valido'
   // }
 
   return {
     hasError:
-      err.tipoPST !== '' || err.nombreComercial !== '' || err.rfc !== '',
+      err.tipoPST !== '' ||
+      err.nombreComercial !== '' ||
+      err.rfc !== '' ||
+      err.razonSocial !== '',
     errors: err,
   }
 }
@@ -112,7 +119,7 @@ const domicilioForm = data => {
     calle: '',
     latitud: '',
     longitud: '',
-    numeroExterior: '',
+    numExterior: '',
   }
 
   if (!data.codigoPostal) {
@@ -127,8 +134,8 @@ const domicilioForm = data => {
   if (!data.latitud) {
     err.latitud = 'Ingrese la ubicación en el mapa'
   }
-  if (!data.numeroExterior) {
-    err.numeroExterior = 'Ingrese el número exterior'
+  if (!data.numExterior) {
+    err.numExterior = 'Ingrese el número exterior'
   }
 
   return {
@@ -137,7 +144,7 @@ const domicilioForm = data => {
       err.colonia !== '' ||
       err.calle !== '' ||
       err.latitud !== '' ||
-      err.numeroExterior !== '',
+      err.numExterior !== '',
     errors: err,
   }
 }

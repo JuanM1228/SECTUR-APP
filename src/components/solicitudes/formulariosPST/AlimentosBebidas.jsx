@@ -17,9 +17,10 @@ const AlimentosBebidas = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(dataPst ? dataPst : INIT_ALIMENTOS_BEBIDAS)
+  const [data, setData] = useState(INIT_ALIMENTOS_BEBIDAS)
   const [dataBackend, setDataBackend] = useState({
     subcategoriaData: [],
     tipoServicioData: [],
@@ -31,6 +32,9 @@ const AlimentosBebidas = ({
   })
 
   useEffect(() => {
+    // if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -81,6 +85,21 @@ const AlimentosBebidas = ({
     })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const infoObject = {
@@ -90,7 +109,13 @@ const AlimentosBebidas = ({
       ),
     }
     setRegister({ ...register, detallesPST: infoObject })
-    nextStep()
+    const body = {
+      detallesPST: infoObject,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   return (
@@ -105,8 +130,8 @@ const AlimentosBebidas = ({
           label="Subcategoría"
           name="subcategoria"
           variant="outlined"
-          value={data.subcategoria ? data.subcategoria : 0}
-          options={dataBackend.tipoServicioData}
+          value={data?.subcategoria ? data.subcategoria : 0}
+          options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
 
@@ -114,7 +139,7 @@ const AlimentosBebidas = ({
           label="Tipo de servicio"
           name="tipoDeServicio"
           variant="outlined"
-          value={data.tipoDeServicio ? data.tipoDeServicio : 0}
+          value={data?.tipoDeServicio ? data.tipoDeServicio : 0}
           options={dataBackend.tipoServicioData}
           onChange={onHandleChange}
         />
@@ -123,7 +148,7 @@ const AlimentosBebidas = ({
           label="Ubicación"
           name="ubicacion"
           variant="outlined"
-          value={data.ubicacion ? data.ubicacion : 0}
+          value={data?.ubicacion ? data.ubicacion : 0}
           options={dataBackend.ubicacionData}
           onChange={onHandleChange}
         />
@@ -180,7 +205,7 @@ const AlimentosBebidas = ({
         rows={4}
         multiline
         onChange={onHandleChange}
-        value={data.descripcionUbicacion}
+        value={data?.descripcionUbicacion}
       />
       {/* <section className="grid sm:grid-cols-2 gap-6">
         <CheckboxForm

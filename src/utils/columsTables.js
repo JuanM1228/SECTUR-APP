@@ -74,7 +74,6 @@ export const EditButton = params => {
   )
 }
 
-
 const ReviewButton = params => {
   const router = useRouter()
   return (
@@ -92,10 +91,41 @@ const StatusBadge = params => {
 }
 
 const FolioBadge = params => {
+  console.log(params.row.folioSolicitud)
+  const onButtonClick = async () => {
+    const url = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
+    link.click()
+  }
+  const handleDownload = async () => {
+    try {
+      const pdfUrl = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
+
+      const response = await fetch(pdfUrl)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`)
+      }
+      const blob = await response.blob()
+
+      // Crea un enlace para descargar el blob
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${params.row.pathFolioSolicitud}`
+      document.body.appendChild(link)
+      link.click()
+
+      // Limpia el enlace y la URL creada
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Hubo un problema con la petición Fetch:', error)
+    }
+  }
+
   return (
-    <a href={`http://172.16.100.47:3002/${params.row.pathFolioSolicitud}`}>
-      {params.row.folioSolicitud}
-    </a>
+    params.row.folioSolicitud && (
+      <Button content="Descargar certificado" onClick={handleDownload} />
+    )
   )
 }
 
@@ -156,7 +186,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'observaciones',
     headerName: 'Observaciones',
-    minWidth: 120,
+    minWidth: 300,
     type: 'string',
     align: 'center',
     headerAlign: 'center',
@@ -164,7 +194,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'folioSolicitud',
     headerName: 'Folio Solicitud',
-    minWidth: 100,
+    minWidth: 300,
     type: 'string',
     align: 'center',
     headerAlign: 'center',
@@ -283,6 +313,143 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
   {
     field: 'folioSolicitud',
     headerName: 'Folio Solicitud',
+    minWidth: 200,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: '-',
+    headerName: 'certificado',
+    minWidth: 250,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => FolioBadge(params),
+  },
+  {
+    field: 'tipoPST',
+    headerName: 'PST',
+    minWidth: 140,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'nombreComercial',
+    headerName: 'Nombre Comercial',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'razonSocial',
+    headerName: 'Razón Social',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'calle',
+    headerName: 'Calle y Número',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'colonia',
+    headerName: 'Colonia',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'estado',
+    headerName: 'Estado',
+    minWidth: 120,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'municipio',
+    headerName: 'Municipio',
+    minWidth: 120,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+]
+
+export const COLUMNS_TABLE_TRAMITES_ADMIN_DASHBOARD = [
+  {
+    field: 'review',
+    headerName: '',
+    minWidth: 80,
+    type: 'bool',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => ReviewButton(params),
+  },
+  {
+    field: 'id',
+    headerName: 'No. Trámite',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'nombreDelSolicitante',
+    headerName: 'Nombre del Solicitante',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+  },
+  {
+    field: 'fechaSolicitud',
+    headerName: 'Fecha de Solicitud',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+    valueGetter: params => new Date(params.row.fechaSolicitud),
+  },
+  {
+    field: 'fechaAceptacion',
+    headerName: 'Fecha de Aceptación',
+    minWidth: 150,
+    type: 'string',
+    align: 'left',
+    headerAlign: 'center',
+    valueGetter: params =>
+      params.row.fechaAceptacion ? new Date(params.row.fechaAceptacion) : '',
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => StatusBadge(params),
+  },
+  {
+    field: 'observaciones',
+    headerName: 'Observaciones',
+    minWidth: 120,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'folioSolicitud',
+    headerName: 'Folio Solicitud',
     minWidth: 100,
     type: 'string',
     align: 'center',
@@ -347,7 +514,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
   },
 ]
 
-export const COLUMNS_TABLE_CATALOGOS =  [
+export const COLUMNS_TABLE_CATALOGOS = [
   {
     field: 'id',
     headerName: 'Número',
@@ -374,7 +541,7 @@ export const COLUMNS_TABLE_CATALOGOS =  [
   },
 ]
 
-export const COLUMNS_TABLE_USUARIOS =  [
+export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'id',
     headerName: 'No. Usuario',
@@ -407,7 +574,7 @@ export const COLUMNS_TABLE_USUARIOS =  [
     align: 'left',
     headerAlign: 'center',
   },
- 
+
   // {
   //   field: 'phoneNumber',
   //   headerName: 'No. Telefono',
@@ -446,8 +613,6 @@ export const COLUMNS_TABLE_USUARIOS =  [
     renderCell: (params) => <ListEstados arrayEstados={params.row.estados}/>
 
   },
- 
-          
 ]
 
 export const OPTIONS_ESTADOS = [
@@ -483,4 +648,4 @@ export const OPTIONS_ESTADOS = [
   { value: 30, title: 'Veracruz de Ignacio de la Llave' },
   { value: 31, title: 'Yucatán' },
   { value: 32, title: 'Zacatecas' },
-];
+]

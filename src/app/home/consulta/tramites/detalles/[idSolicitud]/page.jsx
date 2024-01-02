@@ -131,7 +131,8 @@ const DetallesDeSolicitud = () => {
         web: contacto.web,
         facebook: contacto.facebook,
         x: contacto.x,
-        fax: contacto.fax,
+        tiktok: contacto.tiktok,
+        instagram: contacto.instagram,
         //Información legal
         nombreDelPropietario: informacionLegal.nombreDelPropietario,
         representanteLegal: informacionLegal.representanteLegal,
@@ -230,6 +231,12 @@ const DetallesDeSolicitud = () => {
       <h1 className="font-GMX text-2xl sm:text-3xl font-bold col-span-2 text-center m-4">
         Detalles del trámite del Prestador de Servicios
       </h1>
+      <Button
+        content="Regresar"
+        fullWidth={false}
+        onClick={() => router.push(`/home/tramites`)}
+        className="mb-4"
+      />
       {profile?.role === ROLE_ENUM.ADMIN && (
         <div className="flex gap-4 items-center justify-end mb-4">
           <Button
@@ -357,7 +364,10 @@ const DetallesDeSolicitud = () => {
               Facebook: <span className="font-normal">{data.facebook}</span>
             </p>
             <p className="font-semibold">
-              Fax: <span className="font-normal">{data.fax}</span>
+              Tiktok: <span className="font-normal">{data.tiktok}</span>
+            </p>
+            <p className="font-semibold">
+              Instagram: <span className="font-normal">{data.instagram}</span>
             </p>
             {/* <p className="font-semibold">
               Instagram: <span className="font-normal">{data.instagram}</span>
@@ -400,10 +410,10 @@ const DetallesDeSolicitud = () => {
               Fecha de ingreso a SECTUR:{' '}
               <span className="font-normal">{data.fechaIngresoSECTUR}</span>
             </p>
-            <p className="font-semibold">
+            {/* <p className="font-semibold">
               Observaciones:{' '}
               <span className="font-normal">{data.observaciones}</span>
-            </p>
+            </p> */}
           </div>
         </section>
         <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
@@ -421,7 +431,7 @@ const DetallesDeSolicitud = () => {
                       className="font-normal"
                       onClick={() =>
                         openDoumentHandler(
-                          `http://172.16.100.47:3002/${item.documentUrl}`,
+                          `${process.env.ENV_URL}/${item.documentUrl}`,
                           item.documentType,
                         )
                       }>
@@ -445,7 +455,7 @@ const DetallesDeSolicitud = () => {
           {data.picturesList?.length > 0 ? (
             <div>
               {data.picturesList?.map((item, index) => {
-                console.log(`http://172.16.100.47:3002/${item.documentUrl}`)
+                console.log(`${process.env.ENV_URL}/${item.documentUrl}`)
                 return (
                   <p className="font-semibold" key={`docId-${index}`}>
                     {`${item.documentName}: `}
@@ -453,7 +463,7 @@ const DetallesDeSolicitud = () => {
                       className="font-normal"
                       onClick={() =>
                         openDoumentHandler(
-                          `http://172.16.100.47:3002/${item.documentUrl}`,
+                          `${process.env.ENV_URL}/${item.documentUrl}`,
                           item.documentType,
                         )
                       }>

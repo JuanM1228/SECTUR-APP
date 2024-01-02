@@ -48,8 +48,8 @@ export const INIT_DATA_DOMICILIO = {
   municipio: '',
   colonia: null,
   calle: '',
-  numeroInterior: null,
-  numeroExterior: null,
+  numInterior: null,
+  numExterior: null,
   latitud: null,
   longitud: null,
 }
@@ -60,8 +60,9 @@ export const INIT_CONTACTO = {
   celular: '',
   web: '',
   facebook: '',
-  twitter: '',
-  fax: '',
+  x: '',
+  tiktok: '',
+  instagram: '',
 }
 
 export const INIT_INFO_LEGAL = {
@@ -257,7 +258,7 @@ export const STATUS_INFO = {
   1: 'EN PROCESO',
   2: 'REVISION',
   3: 'RECHAZADO',
-  4: 'FINALIZADO',
+  4: 'CONCLUIDO',
   5: 'REVOCADO',
 }
 /**
@@ -297,25 +298,34 @@ export const CONFIGURATIONS_APP = {
   SELLO: 5,
   FONDO: 6,
   SEGURIDAD: 7,
+  REPORTES: 8,
 }
 
-export const DUMMY_DATA_GRAPHS = [
-  { name: 'Agencia de Viajes', value: 687 },
-  { name: 'Agencia de Servicios', value: 521 },
-  { name: 'Alimentos y Bebidas', value: 954 },
-  { name: 'Arrendadora de Autos', value: 699 },
-  { name: 'Balneario Acuático', value: 843 },
-  { name: 'Campo de Golf', value: 765 },
-  { name: 'Salvavidas', value: 588 },
-  { name: 'Guía Turístico', value: 932 },
-  { name: 'Hospedaje', value: 673 },
-  { name: 'Operadora de Naturaleza', value: 802 },
-  { name: 'Operadora de Buceo', value: 659 },
-  { name: 'Operadora Marina', value: 727 },
-  { name: 'Parque Temático', value: 816 },
-  { name: 'Spa', value: 537 },
-  { name: 'Tiempos Compartidos', value: 811 },
-  { name: 'Tour Operador', value: 500 },
-  { name: 'Transportista Turístico', value: 998 },
-  { name: 'Vuelo en Globo', value: 723 },
+export const INIT_DATA_GRAPH = [
+  { name: 'Agencia de Viajes', value: 0 },
+  { name: 'Agencia de Servicios', value: 0 },
+  { name: 'Alimentos y Bebidas', value: 0 },
+  { name: 'Arrendadora de Autos', value: 0 },
+  { name: 'Balneario Acuático', value: 0 },
+  { name: 'Campo de Golf', value: 0 },
+  { name: 'Salvavidas', value: 0 },
+  { name: 'Guía Turístico', value: 0 },
+  { name: 'Hospedaje', value: 0 },
+  { name: 'Operadora de Naturaleza', value: 0 },
+  { name: 'Operadora de Buceo', value: 0 },
+  { name: 'Operadora Marina', value: 0 },
+  { name: 'Parque Temático', value: 0 },
+  { name: 'Spa', value: 0 },
+  { name: 'Tiempos Compartidos', value: 0 },
+  { name: 'Tour Operador', value: 0 },
+  { name: 'Transportista Turístico', value: 0 },
+  { name: 'Vuelo en Globo', value: 0 },
 ]
+
+export const INIT_DATA_KPIS = {
+  total: null,
+  finalizado: null,
+  rechazado: null,
+  revision: null,
+  expirado: null,
+}

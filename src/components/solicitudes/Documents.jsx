@@ -18,8 +18,9 @@ import ButtonMUI from '@mui/material/Button'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
 
-import { MAX_PHOTO_LENGTH, STEP_ENUM } from '@/utils/constants'
+import { MAX_PHOTO_LENGTH, STEP_ENUM, PST_INFO } from '@/utils/constants'
 import colors from '@/assets/colors'
+import { formatoUnico } from '@/utils/formatoUnico'
 
 const TYPE = {
   INIT_DATA: 'INIT_DATA',
@@ -107,7 +108,15 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Documents = props => {
-  const { step, nextStep, backStep, pstId, solicitudId } = props
+  const {
+    step,
+    nextStep,
+    backStep,
+    pstId,
+    solicitudId,
+    coloniaActual,
+    register,
+  } = props
   const [state, dispatch] = useReducer(reducer, initialState)
   const { sendRequest, isLoading } = useHttpClient()
   const showScreen = step === STEP_ENUM.DOCUMENTOS
@@ -142,6 +151,35 @@ const Documents = props => {
       type: TYPE.SHOW_MODAL,
       payload: { documentId, documentName, fileType },
     })
+  }
+
+  const getFormatoUnico = () => {
+    const registroPrueba = {
+      tipo_pst: PST_INFO[register.datosGenerales.tipoPST].name,
+      nobre_comercial: register.datosGenerales.nombreComercial,
+      razon_social: register.datosGenerales.razonSocial,
+      RFC: register.datosGenerales.rfc,
+      codigi_postal: String(register.domicilio.codigoPostal),
+      calle: register.domicilio.calle,
+      no_int: register.domicilio.numInterior
+        ? register.domicilio.numInterior
+        : '',
+      no_ext: register.domicilio.numExterior
+        ? register.domicilio.numExterior
+        : '',
+      municipio: register.domicilio.municipio,
+      estado: register.domicilio.estado,
+      localidad: coloniaActual,
+      telefono: register.contacto.telefono,
+      mail: register.contacto.email,
+      web: register.contacto.web,
+      facebook: register.contacto.facebook,
+      twitter: register.contacto.x,
+      propietario: register.informacionLegal.nombreDelPropietario,
+    }
+    console.log(register)
+    console.log(registroPrueba)
+    formatoUnico(registroPrueba)
   }
 
   const handleClose = () => {
@@ -290,7 +328,15 @@ const Documents = props => {
           showScreen ? '' : 'hide'
         }`}
         onSubmit={onSubmitHandler}>
-        <h1 className="font-GMX font-bold text-2xl">DOCUMENTOS</h1>
+        <div className="flex justify-between">
+          <h1 className="font-GMX font-bold text-2xl">DOCUMENTOS</h1>
+          <Button
+            fullWidth={false}
+            className="bg-seaGreen"
+            content="Descargar formato único para firma y envío"
+            onClick={getFormatoUnico}
+          />
+        </div>
         {documentsList.map(item => {
           return (
             <div key={`i-${item.id}`} className="border-b border-silver pb-4">

@@ -105,15 +105,21 @@ const Contacto = ({
         />
         <Input
           label="X (Twitter)"
-          name="twitter"
+          name="x"
           onChange={onHandleChange}
-          value={data.twitter}
+          value={data.x}
         />
         <Input
-          label="Fax"
-          name="fax"
+          label="Tiktok"
+          name="tiktok"
           onChange={onHandleChange}
-          value={data.fax}
+          value={data.tiktok}
+        />
+        <Input
+          label="Instagram"
+          name="instagram"
+          onChange={onHandleChange}
+          value={data.instagram}
         />
       </section>
       <div className=" flex gap-6 justify-between">

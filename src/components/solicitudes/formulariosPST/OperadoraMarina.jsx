@@ -17,11 +17,10 @@ const OperadoraMarina = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(
-    dataPst ? dataPst : OPERADORA_MARINA_INIT_DATA,
-  )
+  const [data, setData] = useState(OPERADORA_MARINA_INIT_DATA)
   const [dataBackend, setDataBackend] = useState({
     espacioDeFondoData: [],
     espacioDeAtraqueData: [],
@@ -36,6 +35,17 @@ const OperadoraMarina = ({
 
   useEffect(() => {
     getDropdownsData()
+
+    if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
+    if (dataPst.instalacionesList.length !== 0) {
+      const objectAfiliaciones = {}
+      for (let index = 0; index < dataPst.instalacionesList.length; index++) {
+        objectAfiliaciones[dataPst.instalacionesList[index]] = true
+      }
+      setCheckedItems({ instalacionesList: objectAfiliaciones })
+    }
   }, [])
 
   const getDropdownsData = async () => {
@@ -75,6 +85,21 @@ const OperadoraMarina = ({
     })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const infoObject = {
@@ -85,8 +110,13 @@ const OperadoraMarina = ({
       instalacionesList: getSelectedValues(checkedItems.instalacionesList),
     }
     setRegister({ ...register, detallesPST: infoObject })
-    // TODO: Add validation and next step handler
-    nextStep()
+    const body = {
+      detallesPST: infoObject,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -150,7 +180,7 @@ const OperadoraMarina = ({
           title="Instalaciones ofrecidas"
           name="instalacionesList"
           options={dataBackend.instalacionesOfrecidasData}
-          checkedItems={checkedItems.instalacionesList}
+          checkedItems={checkedItems?.instalacionesList}
           handleChange={checkboxHandler}
         />
         {/* <CheckboxForm

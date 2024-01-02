@@ -15,11 +15,10 @@ const TransportistaTuristico = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(
-    dataPst ? dataPst : TRANSPORTISTA_TURISTICO_INIT_DATA,
-  )
+  const [data, setData] = useState(TRANSPORTISTA_TURISTICO_INIT_DATA)
   const [dataBackend, setDataBackend] = useState({
     subcategoriaData: [],
     tipoServicioData: [],
@@ -27,6 +26,9 @@ const TransportistaTuristico = ({
   })
 
   useEffect(() => {
+    // if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -52,11 +54,33 @@ const TransportistaTuristico = ({
     setData({ ...data, [name]: value })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     setRegister({ ...register, detallesPST: data })
+
     // TODO: Add validation and next step handler
-    nextStep()
+    const body = {
+      detallesPST: data,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -73,7 +97,7 @@ const TransportistaTuristico = ({
           label="Subcategoría"
           name="subcategoria"
           variant="outlined"
-          value={data.subcategoria ? data.subcategoria : 0}
+          value={data?.subcategoria ? data.subcategoria : 0}
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />

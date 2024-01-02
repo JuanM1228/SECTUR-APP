@@ -57,6 +57,14 @@ export const NAVIGATION_CONFIG = [
         authority: [],
         subMenu: [],
       },
+      {
+        key: 'reportesGraficos',
+        path: '/home/reportesGraficos',
+        title: 'Gráficos',
+        icon: null,
+        authority: [],
+        subMenu: [],
+      },
     ],
   },
   {
@@ -84,7 +92,7 @@ export const NAVIGATION_CONFIG = [
       },
       {
         key: 'usuarios',
-        path: null,
+        path: '/home/usuarios',
         title: 'Usuarios',
         icon: null,
         authority: [],
@@ -92,8 +100,8 @@ export const NAVIGATION_CONFIG = [
       },
       {
         key: 'temas',
-        path: null,
-        title: 'Temas',
+        path: '/home/inicio',
+        title: 'INICIO TEST',
         icon: null,
         authority: [],
         subMenu: [],

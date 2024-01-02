@@ -17,11 +17,10 @@ const TiemposCompartidos = ({
   backStep,
   register,
   setRegister,
+  idSolicitud,
 }) => {
   const { sendRequest, isLoading } = useHttpClient()
-  const [data, setData] = useState(
-    dataPst ? dataPst : TIEMPOS_COMPARTIDOS_INIT_DATA,
-  )
+  const [data, setData] = useState(TIEMPOS_COMPARTIDOS_INIT_DATA)
   const [checkedItems, setCheckedItems] = useState({
     serviciosAdicionalesList: {},
   })
@@ -32,6 +31,9 @@ const TiemposCompartidos = ({
   })
 
   useEffect(() => {
+    // if (!dataPst) return
+    setData(dataPst)
+    console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -67,6 +69,21 @@ const TiemposCompartidos = ({
     })
   }
 
+  const onUpdateDatabase = async body => {
+    try {
+      const url = '/api/registro/solicitud'
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        nextStep()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const onSubmitHandler = async e => {
     e.preventDefault()
     const infoObject = {
@@ -77,7 +94,13 @@ const TiemposCompartidos = ({
     }
     setRegister({ ...register, detallesPST: infoObject })
     // TODO: Add validation and next step handler
-    nextStep()
+    const body = {
+      detallesPST: infoObject,
+      id_solicitud: idSolicitud,
+      tipoPST: register.datosGenerales.tipoPST,
+    }
+    console.log(body)
+    onUpdateDatabase(body)
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -105,7 +128,7 @@ const TiemposCompartidos = ({
           name="tipoOperacionSelected"
           variant="outlined"
           value={
-            data.tipoOperacionSelected ? data.tipoOperacionSelected : 0 // TODO: default value 0 or null?
+            data?.tipoOperacionSelected ? data.tipoOperacionSelected : 0 // TODO: default value 0 or null?
           }
           options={dataBackend.tipoDeOperacionData}
           onChange={onHandleChange}
