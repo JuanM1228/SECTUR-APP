@@ -14,6 +14,7 @@ import Icons from '@/assets/icons'
 import Table from '../common/Table'
 import { COLUMNS_TABLE_CATALOGOS } from '@/utils/columsTables'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import Button from '@/components/common/Button'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -29,7 +30,7 @@ const DeleteConfirmationDialog = ({ open, onClose, onConfirm, itemName }) => {
         </DialogContentText>
       </DialogContent>
       <div className="flex justify-end p-5">
-        <Button className='mr-4' content='Cancelar' onClick={onClose} color="primary">
+        <Button className='mr-4 bg-bigDipORuby' content='Cancelar' onClick={onClose} color="primary">
         </Button>
         <Button content='Aceptar' onClick={onConfirm} color="primary">
         </Button>
@@ -59,7 +60,8 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [content, setContent] = useState('Agregar nuevo campo');
-  const [selectedStatus, setSelectedStatus] = useState('Activo');
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [textareaValue, setTextareaValue] = useState('');
   const [isEditing, setIsEditing] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -208,7 +210,18 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
   });
     setIsEditing(false);
   }
- 
+ const handleClose = () =>{
+  setFormData({ 
+    id_catalogo: '',
+    name: '',
+    estatus: '',
+    isActive: -1,
+    tipo_especial: -1,
+    id_especial: -1,
+  });
+  setIsEditing(false);
+  onClose();
+ }
   //Delete Camp
   const handleDelete = (rowData) => {
     console.log('deleting', rowData)
@@ -240,6 +253,8 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
     
   };
 
+
+
   return (
     <>
     <Dialog
@@ -251,11 +266,36 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
       <DialogTitle className="font-GMX  flex justify-between items-center font-bold">
         {catalogName}
         <IconButton onClick={onClose} >
-        <Icons.Close onClick={handleButtonClick} ></Icons.Close>
+        <Icons.Close onClick={handleClose} ></Icons.Close>
         </IconButton> 
       </DialogTitle> 
       <DialogContent className="flex flex-col gap-6">
         <DialogContentText>
+        {catalogName === "Observaciones Generales" ? (
+               <>
+               <textarea
+                 value={textareaValue}
+                 onChange={(e) => setTextareaValue(e.target.value)}
+                 placeholder="Ingrese observaciones generales"
+                 className="w-80 h-40 p-2 medium-textarea border"
+               ></textarea>
+               <div className="flex flex-row gap-4 mt-4">
+                 <Button
+                   type="button"
+                   content="Aceptar"
+                   className="bg-bigDipORuby"
+                   onClick={handleClose}
+                 ></Button>
+                 <Button
+                   type="button"
+                   content="Regresar"
+                   className="bg-bigDipORuby"
+                   onClick={handleClose}
+                 ></Button>
+               </div>
+             </>
+            ) : (
+              <>
         <Table
             columns={[
               ...COLUMNS_TABLE_CATALOGOS ,
@@ -279,6 +319,9 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
             rows={data}
             isLoading={false}
           />
+          <Button content={content} className='bg-bigDipORuby' onClick={handleButtonClick}/>
+          </>
+            )}
         </DialogContentText>
         <div className="flex flex-row gap-4">
           {showInput &&
@@ -299,9 +342,8 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
               <option value="Inactivo">Inactivo</option>
             </select>
           )}
-          {showButton && <Button type='submit' content='Aceptar' className="w-1/4 " onClick={handleSubmit} ></Button>}
+          {showButton && <Button type='submit' content='Aceptar' className="w-3/4 bg-bigDipORuby " onClick={handleSubmit} ></Button>}
         </div>
-        <Button content={content}  onClick={handleButtonClick}/>
       </DialogContent>
     </Dialog>
     <DeleteConfirmationDialog

@@ -4,9 +4,10 @@ import { useHttpClient } from '@/hooks/useHttpClient'
 import React, { useState, useEffect, useCallback } from 'react'
 import { unstable_noStore as noStore } from 'next/cache'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Pagination, Select } from '@mui/material'
-import { DataGrid, esES } from '@mui/x-data-grid'
-import { INIT_DATA_REGISTER_USER } from '@/utils/constants'
+import { Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material'
+import {esES} from '@mui/x-data-grid'
+import Table from '@/components/common/Table'
+import { INIT_DATA_REGISTER_USER, INIT_FILTROS_USER } from '@/utils/constants'
 import DatePickerCustom from '@/components/common/DatePicker'
 import colors from '@/assets/colors'
 import Tabs from '@mui/material/Tabs'
@@ -14,7 +15,7 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Input from '@/components/common/Input'
 import Icons from '@/assets/icons'
-import Button from '@mui/material/Button';
+import Button from '@/components/common/Button'
 import { COLUMNS_TABLE_USUARIOS, OPTIONS_ESTADOS } from '@/utils/columsTables'
 import {
   Dialog,
@@ -84,19 +85,40 @@ const usuarios = () => {
   const [userIdToDelete, setUserIdToDelete] = useState(null);
   const [error, setError] = useState(INIT_DATA_REGISTER_USER)
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
-  const [selectedsubmenu, setSelectedsubmenu] = useState('');
-  const [selectedEstado, setSelectedEstado] = useState('');
+  const [showFilters, setShowFilters] = useState(true)
+  const [filtros, setFiltros] = useState(INIT_FILTROS_USER)
+  const [selectedSubMenu, setselectedSubMenu] = useState([]);
+  const [selectedEstado, setSelectedEstado] = useState([]);
+  const [nombreUsuario, setNombreUsuario] = useState('');
+  const [tipoRol, setTipoRol] = useState('');
+  const [tipoDeEstado, setTipoDeEstado] = useState('');
   const [subMenu, setSubMenu] = useState([])
-  const [listaEstados, setListEstados] = useState([])
   const [formData, setFormData] = useState({
-    id:'',name:'',email:'',submenu:'',estados:'',password:'',paternalSurname:'',maternalSurname:'',
+    id:'',name:'',email:'',submenus:[],estados:[],password:'',paternalSurname:'',maternalSurname:'',
   })
   
+  const fetchSubMenus = useCallback(async () => {
+   noStore()
+   const urlSubMenus = '/api/configuration/catalogo-submenu/0'
+   try{
+    const res = await sendRequest(urlSubMenus)
+    console.log('sub menus', res)
+    if(res.success){
+      setSubMenu(res.result.data)
+    }
+   } catch (error){
+    console.log('error', error)
+   }
+  },[])
+  useEffect(()=>{
+    fetchSubMenus()
+  },[fetchSubMenus]) 
+
 
     const getInfo = useCallback(async () => {
       noStore() 
       const url =
-        '/api/configuration/obtener-usuarios'
+      `/api/configuration/obtener-usuarios`;
       try {
         const res = await sendRequest(url)
         console.log('respuesta', res)
@@ -108,59 +130,35 @@ const usuarios = () => {
         // showErrorMessage()
       }
     }, [])
+
     useEffect(() => {
       getInfo()
     }, [getInfo])
-  
-    const fetchSubMenus = useCallback(async () => {
-     noStore()
-     const urlSubMenus = '/api/configuration/catalogo-submenu/1'
-     try{
-      const res = await sendRequest(urlSubMenus)
-      console.log('sub menus', res)
-      if(res.success){
-        setSubMenu(res.result.data)
-      }
-     } catch (error){
-      console.log('error', error)
-     }
-    },[])
-    useEffect(()=>{
-      fetchSubMenus()
-    },[fetchSubMenus]) 
-
-  //   const getEstados = useCallback(async () => {
-  //     noStore() 
-  //     const urlestado = '/api/address/estados/'
-  //     try{
-  //       const res = await sendRequest(urlestado)
-  //       console.log('respuesta estado', res)
-  //     if (Array.isArray(res)){
-  //       setListaEstados(res)
-  //     }
-  //   } catch(error) {
-  //     console.log('error en GET', error)
-  //   }
-  //   },[])
-  //   useEffect(()=>{
-  //   getEstados()
-  // },[getEstados])
 
     const handleChange = (event, newValue) => {
       setValue(newValue)
     }
-    
-    // console.log('rows', rows)
-    // console.log('isLoading', isLoading)
 
     const onHandleChange = ({ target: { name, value } }) => {
       setRegister((prevRegister) => ({
         ...prevRegister,
         [name]: value,
       }));
+
+      const onHandleFilterChange = ({ target: { name, value } }) => {
+        setFiltros({ ...filtros, [name]: value })
+      }
+      const onHandleFiltros = () => {
+        console.log(filtros)
+        //getTramitesFiltros(filtros) llama la api para el filtro
+      }  
     
+      const clearFilters = () => {
+        setFiltros({ ...INIT_DATA_REGISTER_USER})
+      }
+
       const stateMappings = {
-        submenu: setSelectedsubmenu,
+        submenu: setselectedSubMenu,
         estado: setSelectedEstado,
       };
     
@@ -197,11 +195,12 @@ const usuarios = () => {
     
     //EditarUsuario
     const editarUsuario = async id =>{
-      const url = `/api/autenticacion/registrar-admin`
+      const url = `/api/autenticacion/actualizar-admin`
       console.log('el id edit es', id, formData)
+      
       try{
         const res = await sendRequest(url,{
-          method: 'PUT',
+          method: 'POST',
           body:formData,
         })
         if (res.success){
@@ -217,12 +216,17 @@ const usuarios = () => {
 
     const handleEdit = async (formData) => {
       console.log('La data a editar es',formData)
+      console.log('El estado a editar es',formData.estados)
+      console.log('El submenu a editar es',formData.submenus)
+      const submenuIds = formData.submenus.map((submenuObj) => submenuObj.idSubmenu);
+      const estadosIds = formData.estados.map((submenuObj) => submenuObj.id);
       setFormData({
-        id:formData.id,
+        id_user:formData.id,
         name:formData.name,
         email:formData.email, 
-        submenu:formData.submenu,
-        estados:formData.estados, 
+        submenus:submenuIds,
+        estados:estadosIds, 
+        phoneNumber:formData.phoneNumber, 
         password:formData.password,
         paternalSurname:formData.paternalSurname,
         maternalSurname:formData.maternalSurname,
@@ -233,12 +237,12 @@ const usuarios = () => {
     const handleEditSubmit = async (e) => {
       e.preventDefault();
       try {
-        if (Object.values(formData).every((value) => value !== '' && value !== null)) {
+        //if (Object.values(formData).every((value) => value !== '' && value !== null)) {
           await editarUsuario(formData.id);
           getInfo();
-        } else {
-          console.error('Todos los campos deben estar llenos');
-        }
+      //  } else {
+       //   console.error('Todos los campos deben estar llenos');
+       // }
       } catch (err) {
         console.log('Error al editar usuario', err);
       }
@@ -248,22 +252,27 @@ const usuarios = () => {
       e.preventDefault();
       try {
         // Valida que las casillas no estén vacías
-       // if (Object.values(register).every((value) => value !== '' && value !== null)) {
+        //if (Object.values(register).every((value) => value !== '' && value !== null)) {
           await agregarUsuario(register);
           getInfo();
-          //handleCloseUsuario(true);
+          handleCloseUsuario(true);
           console.log('Submit Exitoso', register);
-       // } else {
+      // } else {
           console.error('Todos los campos deben estar llenos');
-      // }
+       //}
       } catch (err) {
         console.log('Error al agregar usuario', err);
-        // Puedes manejar el error aquí
+        
       }
     };
     
     const handleEditFormChange = (e) => {
       const { name, value } = e.target;
+    
+      if (name === 'estados') {
+        setSelectedEstado(value); // Actualiza el estado de la selección de estado
+      }
+    
       setFormData({ ...formData, [name]: value });
     };
 
@@ -272,7 +281,7 @@ const usuarios = () => {
       setusuarioModal(true);
       setIsEditModalOpen(false); // Asegurarse de que no estés en modo edición al abrir el modal de registro
       setRegister(INIT_DATA_REGISTER_USER);
-      setSelectedsubmenu([]);
+      setselectedSubMenu([]);
       setSelectedEstado([])
     };
   
@@ -280,12 +289,9 @@ const usuarios = () => {
       setusuarioModal(false);
     };
 
-    
     const handleCloseEdit = () => {
       setIsEditModalOpen(false);
     };
-
-    
     
     const handleCloseDelete = () => {
       setDeleteModal(false);
@@ -302,15 +308,13 @@ const usuarios = () => {
       }
     };
     const handleSelectAllsubmenu = () => {
-      if (selectedsubmenu.length === subMenu.length) {
-        // Si todos están seleccionados, deseleccionar todo
-        setSelectedsubmenu([]);
+      if (selectedSubMenu.length === subMenu.length) {
+        setselectedSubMenu([]);
       } else {
-        // Si no todos están seleccionados, seleccionar todo
-        setSelectedsubmenu(subMenu.map((option) => option.id));
+        setselectedSubMenu(subMenu.map((option) => option.id));
       }
     };
-
+    
       //EliminarUsuario
       const handleClickOpenDelete = (formData) => {
         setFormData({
@@ -324,7 +328,7 @@ const usuarios = () => {
     
     const deleteUsuario = async () => {
       try {
-        const url = `https://6574aa74b2fbb8f6509c81a7.mockapi.io/api/usuarios/${userIdToDelete}`;
+        const url = `/api/autenticacion/eliminar-user/${userIdToDelete}`;
         const res = await sendRequest(url, {
           method: 'DELETE',
           
@@ -334,11 +338,11 @@ const usuarios = () => {
             prevformData.filter((elemento) => elemento.id !== id)
           );
           
-          console.log('Elemento eliminado correctamente');
+          console.log('Usuario eliminado correctamente');
         } 
         getInfo();
       } catch (error) {
-        console.error('Error al eliminar el elemento:', error);
+        console.error('Error al eliminar Usuario:', error);
       }
       getInfo();
       setDeleteModal(false);
@@ -357,7 +361,6 @@ const usuarios = () => {
             centered
             aria-label="basic tabs example">
             <Tab label="Búsqueda" {...a11yProps(0)} />
-            <Tab label="Búsqueda rápida" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Input
@@ -365,22 +368,44 @@ const usuarios = () => {
               type="search"
               margin="normal"
               id="nombreUsuario"
-              label="Nombre de Usuario"
+              label="Nombre del Usuario"
               variant="outlined"
-              onChange={event => {
-                // setName(event.target.value);
-                console.log(event.target.value)
-              }}
+              value={nombreUsuario}
+              onChange={(event) => setNombreUsuario(event.target.value)}
+            />
+            <Input
+              fullWidth
+              type="number"
+              margin="normal"
+              id="nombreUsuario"
+              label="No. de Usuario"
+              variant="outlined"
+              value={nombreUsuario}
+              onChange={(event) => setNombreUsuario(event.target.value)}
             />
             <Input
               fullWidth
               type="search"
               margin="normal"
               id="states"
-              label="Estado"
+              label="Entidad Federativa"
               variant="outlined"
+              value={tipoDeEstado}
+              onChange={(event) => setTipoDeEstado(event.target.value)}
+               // console.log(event.target.value)
+              
             />
-            <FormControl fullWidth variant="outlined" margin="normal">
+            <Input
+              fullWidth
+              type="search"
+              margin="normal"
+              id="permisos"
+              label="Tipo de Permisos"
+              variant="outlined"
+              value={tipoRol}
+              onChange={(event) => setTipoRol(event.target.value)}
+            />
+            {/* <FormControl fullWidth variant="outlined" margin="normal">
             <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Rol">Tipo de Rol</InputLabel>
             <Select
             className = 'font-GMX font-semibold text-sm'
@@ -393,7 +418,9 @@ const usuarios = () => {
                 <MenuItem value="administrador">Administrador</MenuItem>
                 <MenuItem value="usuarioPST">Usuario PST</MenuItem>
             </Select>
-            </FormControl>
+            </FormControl> */}
+            <Button content='Buscar Usuario' onClick={handleChange} />
+            
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             <Input
@@ -411,10 +438,13 @@ const usuarios = () => {
           </TabPanel>
         </div>
         <div className="w-4/5">
+        <div className='w-1/5 mt-2'>
           <Button
-          className='bg-bigDipORuby text-white py-1 m-2 rounded-md hover:bg-bigDipORuby'
+          content=' + Registrar Usuario'
+          className=' text-white py-1 m-4 rounded-md w-1/5'
           onClick={handleClickOpenUsuario}Usuario
-          > + Registrar Usuario</Button>
+          /> 
+          </div>
           {/* Registrar Usuario modal */}
           <Dialog 
           fullWidth
@@ -557,119 +587,69 @@ const usuarios = () => {
       </Select>
         </FormControl>
         <FormControl fullWidth variant="outlined" margin="normal">
-            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Rol">Tipo de Rol</InputLabel>
+            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Permisos">Permisos</InputLabel>
             <Select
             className = 'font-GMX font-semibold text-sm'
-              id="submenu"
-              name='submenu'
-              label="Tipo de Rol"
+              id="submenus"
+              name='submenus'
+              label="Permisos"
               multiple
               variant="outlined"
-              value={selectedsubmenu || []}
+              value={selectedSubMenu || []}
               onChange={(e) => {
                 onHandleChange(e);
-                setSelectedsubmenu(e.target.value);
+                setselectedSubMenu(e.target.value);
               }}
               input={<OutlinedInput label="Tag" />}
               renderValue={(selected) => selected.join(', ')}
       >
         <MenuItem>
       <Checkbox
-        indeterminate={selectedsubmenu.length > 0 && selectedsubmenu.length < subMenu.length}
-        checked={selectedsubmenu.length === subMenu.length}
+        indeterminate={selectedSubMenu.length > 0 && selectedSubMenu.length < subMenu.length}
+        checked={selectedSubMenu.length === subMenu.length}
         onChange={handleSelectAllsubmenu}
       />
       <ListItemText primary="Seleccionar Todo" />
     </MenuItem>
               {subMenu.map((menuItem) => (
             <MenuItem key={menuItem.id} value={menuItem.id}>
-            <Checkbox checked={selectedsubmenu.includes(menuItem.id)}/>
+            <Checkbox checked={selectedSubMenu.includes(menuItem.id)}/>
             <ListItemText primary={menuItem.name} />
             </MenuItem>
            ))}
             </Select>
         </FormControl>
-          <Button
+        <Button
           content="Crear Usuario"
-          className='bg-bigDipORuby  text-white py-1 m-2 rounded-md hover:bg-bigDipORuby'
+          className=' text-white py-1 m-2 rounded-md '
           type="submit" 
-          > Crear Usuario
-          </Button>
+          />
         </form>
         </DialogContent>
           </Dialog>
-          <DataGrid
-            showColumnVerticalBorder={true}
-            showCellVerticalBorder={true}
-            density="compact"
-            // filterMode="server"
-            // paginationMode="server"
-            // sortingMode="server"
-            rows={rows}
-            page
-            columns={[
-              ...COLUMNS_TABLE_USUARIOS ,
-              {
-                field: 'editSection',
-                headerName: 'Editar/Eliminar',
-                minWidth: 120,
-                type: 'string',
-                align: 'center',
-                headerAlign: 'center',
-                renderCell: params => (
-                  <EditDeleteSection
-                    rowData={params.row}
-                    onEdit={handleEdit}
-                    onDelete={handleClickOpenDelete}
-                  />
-                ),
-              },
-            ]}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 20 },
-              },
-            }}
-            // pageSizeOptions={[5, 10, 15, 20]}
-            rowSelection={false}
-            disableDensitySelector={true}
-            disableRowSelectionOnClick={true}
-            // autoPageSize={true}
-            hideFooterSelectedRowCount={true}
-            hideFooterPagination={true}
-            slots={{
-              footer: () => (
-                <view className="m-4 flex justify-center">
-                  {/* TODO: Add dropdown menu to view pages */}
-                  <Pagination
-                    count={10} // The total number of pages.
-                    // page={2} // The current page.
-                    color="primary"
-                    shape="rounded"
-                    onChange={(event, page) => {
-                      console.log('paginationOnChange: event', event)
-                      console.log('paginationOnChange: page', page)
-                    }}
-                    // showFirstButton
-                    // showLastButton
-                  />
-                </view>
-              ),
-            }}
-            onPaginationModelChange={(model, details) => {
-              console.log('onPaginationModelChange: model', model)
-              console.log('onPaginationModelChange: details', details)
-            }}
-            onSortModelChange={(model, details) => {
-              console.log('onSortModelChange: model', model)
-              console.log('onSortModelChange: details', details)
-            }}
-            // paginationModel={{ page: 0, pageSize: 5 }}
-            loading={isLoading}
-            disableColumnFilter
-            disableMultipleColumnsSorting
-            className="h-[calc(100vh-3.5rem)]"
+          <Table
+          rows={rows}
+          isLoading={isLoading}
+          className="col-span-1 sm:col-span-10 t-ease"
+          columns={[
+            ...COLUMNS_TABLE_USUARIOS ,
+            {
+              field: 'editSection',
+              headerName: 'Editar/Eliminar',
+              minWidth: 120,
+              type: 'string',
+              align: 'center',
+              headerAlign: 'center',
+              renderCell: params => (
+                <EditDeleteSection
+                  rowData={params.row}
+                  onEdit={handleEdit}
+                  onDelete={handleClickOpenDelete}
           />
+          ),
+        },
+      ]}
+      />
           {/* Editar Usuario modal */}
       <Dialog fullWidth open={isEditModalOpen} onClose={handleCloseEdit}>
         <DialogTitle
@@ -711,7 +691,18 @@ const usuarios = () => {
           helpText={error.maternalSurname}
           value={formData.maternalSurname}
         />
-          <Input
+        {/* <Input
+          label="Cambiar No. Telefono"
+          name="phoneNumber"
+          fullWidth
+          IconComponent={Icons.Phone}
+          type="number"
+          onChange={onHandleChange}
+          // error={error.phoneNumber !== ''}
+          // helpText={error.phoneNumber}
+          value={formData.phoneNumber}
+        /> */}
+          {/* <Input
           label="Cambiar Email"
           name="email"
           fullWidth
@@ -723,7 +714,7 @@ const usuarios = () => {
           placeholder={formData.email}
           value={formData.email}
           
-        /> 
+        />  */}
           <Input
           label="Cambiar Contraseña"
           name="password"
@@ -747,31 +738,40 @@ const usuarios = () => {
           type="password"
           value={formData.verifyPassword}
         />
+
         <FormControl fullWidth variant="outlined" margin="normal" >
-            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Entidad Federativa">Entidad Federativa</InputLabel>
+            <InputLabel  className = 'font-GMX font-semibold text-sm' htmlFor="Entidad Federativa">Cambiar Entidad Federativa"</InputLabel>
             <Select
             className = 'font-GMX font-semibold text-sm'
-              id="estados"
+              id="estado"
               name='estados'
-              label="Entidad Federativa"
+              label="Cambiar Entidad Federativa"
               multiple
               variant="outlined"
-              value={selectedEstado || [formData.estados]}
+              value={formData.estados}
               onChange={(e) => {
                 onHandleChange(e);
                 setSelectedEstado(e.target.value);
               }}
-              input={<OutlinedInput id="select-multiple-chip" label="Entidad Federativa" />}
-              renderValue={(selected) => (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {(Array.isArray(selected) ? selected : [selected]).map((value) => (
-              <Chip
-                key={value}
-                label={OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''}
-              />
-            ))}
-          </Box>
-        )}
+              input={<OutlinedInput label="Tag2" />}
+              renderValue={(selected) =>
+                selected
+                  .map((value) =>
+                    OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''
+                  )
+                  .join(', ')
+              }
+        //       input={<OutlinedInput id="select-multiple-chip" label="Entidad Federativa" />}
+        //       renderValue={(selected) => (
+        //   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+        //     {(Array.isArray(selected) ? selected : [selected]).map((value) => (
+        //       <Chip
+        //         key={value}
+        //         label={OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''}
+        //       />
+        //     ))}
+        //   </Box>
+        // )}
       >
         <MenuItem>
       <Checkbox
@@ -781,6 +781,7 @@ const usuarios = () => {
       />
       <ListItemText primary="Seleccionar Todo" />
     </MenuItem>
+    
     {OPTIONS_ESTADOS.map((option) => (
       <MenuItem key={option.value} value={option.value}>
         <Checkbox checked={selectedEstado.includes(option.value)} />
@@ -790,40 +791,47 @@ const usuarios = () => {
       </Select>
         </FormControl>
           <FormControl fullWidth variant="outlined" margin="normal">
-            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Rol">Cambiar Tipo de Rol</InputLabel>
+            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Rol">Cambiar Permisos</InputLabel>
             <Select
             className = 'font-GMX font-semibold text-sm'
-              id="submenu"
-              name='submenu'
+              id="submenus"
+              name='submenus'
               label="Cambiar Tipo de Rol"
               variant="outlined"
               multiple
-              value={formData.submenu || []}
-              onChange={(e) => onHandleChange({ target: { name: 'submenu', value: e.target.value } })}
+              value={formData.submenus}
+              onChange={(e) => onHandleChange({ target: { name: 'submenus', value: e.target.value } })}
               input={<OutlinedInput label="Tag2" />}
-              renderValue={(selected) => selected.join(', ')}
+              renderValue={(selected) =>
+                selected
+                  .map((value) =>
+                    subMenu.find((menuItem) => menuItem.id === value)?.name || ''
+                  )
+                  .join(', ')
+              }
               >
         <MenuItem>
           <Checkbox
-          indeterminate={selectedsubmenu.length > 0 && selectedsubmenu.length < subMenu.length}
-          checked={selectedsubmenu.length === subMenu.length}
-          nChange={handleSelectAllsubmenu}
+          indeterminate={selectedSubMenu.length > 0 && selectedSubMenu.length < subMenu.length}
+          checked={selectedSubMenu.length === subMenu.length}
+          onChange={handleSelectAllsubmenu}
         />
         <ListItemText primary="Seleccionar Todo" />
         </MenuItem>
               {subMenu.map((menuItem) => (
-            <MenuItem key={menuItem.id} value={menuItem.name}>
-            <Checkbox checked={selectedsubmenu.includes(menuItem.name)}/>
+            <MenuItem key={menuItem.id} value={menuItem.id}>
+            <Checkbox checked={selectedSubMenu.includes(menuItem.id)}/>
             <ListItemText primary={menuItem.name} />
             </MenuItem>
            ))}
             </Select>
             </FormControl>
-          <Button
-          className='bg-bigDipORuby text-white py-1 m-2 rounded-md hover:bg-bigDipORuby'
+            <Button
+          content='Editar Usuario'
+          className=' text-white py-1 m-2 rounded-md'
           type='submit'
           onClick={handleCloseEdit}
-          > Editar Usuario</Button>
+          /> 
         </DialogContent>
           </form>
       </Dialog>
@@ -835,13 +843,9 @@ const usuarios = () => {
           ¿Está seguro de que desea eliminar usuario?
         </DialogContentText>
       </DialogContent>
-      <div className="flex justify-center ">
-        <Button className='bg-bigDipORuby text-white py-1 m-2 rounded-md hover:bg-bigDipORuby' content='Cancelar' onClick={handleCloseDelete} color="primary">
-        Cancelar
-        </Button>
-        <Button className='bg-bigDipORuby text-white py-1 m-2 rounded-md hover:bg-bigDipORuby' content='Aceptar' onClick={deleteUsuario} color="primary">
-        Aceptar
-        </Button>
+      <div className="flex justify-center m-4 gap-4"> 
+       <Button  className=' text-white py-1 m-2 rounded-md' content='Cancelar' onClick={handleCloseDelete} color="primary"/>
+        <Button className=' text-white py-1 m-2 rounded-md ' content='Aceptar' onClick={deleteUsuario} color="primary"/>
       </div>
     </Dialog>
         </div>

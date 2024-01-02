@@ -28,16 +28,39 @@ const DeleteButton = params => {
   )
 }
 
-const ListEstados = arrayEstados => {
-  //console.log(arrayEstados)
+const ListEstados = ({ arrayEstados }) => {
+  if (!arrayEstados || arrayEstados.length === 0) {
+    return <select disabled><option>Sin asignación</option></select>;
+  }
+  //console.log('array estados',arrayEstados)
   return (
-    <div>
-      {arrayEstados.map(estado => (
-        <p>{estado}</p>
+    <select>
+      {arrayEstados.map((estados, id) => (
+        <option key={id} value={estados.name}>
+          {estados.name}
+        </option>
       ))}
-    </div>
-  )
-}
+    </select>
+  );
+};
+
+const ListPermisos = ({ arrayPermisos }) => {
+  if (!arrayPermisos || arrayPermisos.length === 0) {
+    return <select disabled><option>Sin asignación</option></select>;
+  }
+ // console.log('array permisos',arrayPermisos)
+  return (
+    <select>
+      {arrayPermisos.map((submenu, path) => (
+        <option key={path} value={submenu.idSubmenu}>
+          {submenu.submenu}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+
 
 export const EditButton = params => {
   const router = useRouter()
@@ -522,7 +545,7 @@ export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'id',
     headerName: 'No. Usuario',
-    minWidth: 120,
+    minWidth: 100,
     type: 'string',
     align: 'center',
     headerAlign: 'center',
@@ -567,23 +590,28 @@ export const COLUMNS_TABLE_USUARIOS = [
     type: 'string',
     align: 'left',
     headerAlign: 'center',
+    editable: false,
+    renderCell: (params) => (
+      <div style={{ color: '#888' }}>{params.row.email}</div>)
   },
   {
-    field: 'submenu',
+    field: 'submenus',
     headerName: 'Permisos',
-    minWidth: 140,
+    minWidth: 180,
     type: 'string',
     align: 'left',
     headerAlign: 'center',
-  },
+    renderCell: (params) => <ListPermisos arrayPermisos={params.row.submenus}/>
+  },   
   {
     field: 'estados',
     headerName: 'Estados',
-    minWidth: 140,
+    minWidth: 180,
     type: 'string',
-    align: 'center',
+    align: 'left',
     headerAlign: 'center',
-    renderCell: params => ListEstados(params.row.estados),
+    renderCell: (params) => <ListEstados arrayEstados={params.row.estados}/>
+
   },
 ]
 
