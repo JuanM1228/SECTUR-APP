@@ -4,7 +4,7 @@ import { useHttpClient } from '@/hooks/useHttpClient'
 import React, { useState, useEffect, useCallback } from 'react'
 import { unstable_noStore as noStore } from 'next/cache'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material'
+import { Alert, Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Snackbar } from '@mui/material'
 import {esES} from '@mui/x-data-grid'
 import Table from '@/components/common/Table'
 import { INIT_DATA_REGISTER_USER, INIT_FILTROS_USER } from '@/utils/constants'
@@ -83,7 +83,7 @@ const usuarios = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
-  const [error, setError] = useState(INIT_DATA_REGISTER_USER)
+  const [error, setError] = useState('')
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
   const [showFilters, setShowFilters] = useState(true)
   const [filtros, setFiltros] = useState(INIT_FILTROS_USER)
@@ -93,6 +93,8 @@ const usuarios = () => {
   const [tipoRol, setTipoRol] = useState('');
   const [tipoDeEstado, setTipoDeEstado] = useState('');
   const [subMenu, setSubMenu] = useState([])
+  const [showAlert, setShowAlert] = useState(false)
+  const [selectedSubMenuNames, setSelectedSubMenuNames] = useState([]);
   const [formData, setFormData] = useState({
     id:'',name:'',email:'',submenus:[],estados:[],password:'',paternalSurname:'',maternalSurname:'',
   })
@@ -252,15 +254,17 @@ const usuarios = () => {
       e.preventDefault();
       try {
         // Valida que las casillas no estén vacías
-        //if (Object.values(register).every((value) => value !== '' && value !== null)) {
+        if (Object.values(register).every((value) => value !== '' && value !== null)) {
           await agregarUsuario(register);
           getInfo();
           handleCloseUsuario(true);
           console.log('Submit Exitoso', register);
-      // } else {
+       } else {
+        setShowAlert(true)
           console.error('Todos los campos deben estar llenos');
-       //}
+       }
       } catch (err) {
+        setShowAlert(true)
         console.log('Error al agregar usuario', err);
         
       }
@@ -350,9 +354,10 @@ const usuarios = () => {
 
     
   return (
-    <div className="w-full flex">
+    <div className="w-full p-4 ">`
+    <div className="grid grid-cols-12 gap-4">
       <ThemeProvider theme={theme}>
-        <div className="w-1/5">
+        <div className="col-span-12 sm:col-span-2 flex flex-col gap-3">
           {/* Barra lateral */}
           <Tabs
             value={value}
@@ -437,11 +442,11 @@ const usuarios = () => {
             />
           </TabPanel>
         </div>
-        <div className="w-4/5">
-        <div className='w-1/5 mt-2'>
+        <section className="flex  flex-col col-span-12 sm:col-span-10">
+        <div className='w-1/3'>
           <Button
           content=' + Registrar Usuario'
-          className=' text-white py-1 m-4 rounded-md w-1/5'
+          className=''
           onClick={handleClickOpenUsuario}Usuario
           /> 
           </div>
@@ -598,11 +603,19 @@ const usuarios = () => {
               value={selectedSubMenu || []}
               onChange={(e) => {
                 onHandleChange(e);
+
+                // Update the state with the selected submenu IDs
                 setselectedSubMenu(e.target.value);
+            
+                // Update the state with the selected submenu names
+                const selectedNames = subMenu
+                  .filter((menuItem) => e.target.value.includes(menuItem.id))
+                  .map((menuItem) => menuItem.name);
+            
+                setSelectedSubMenuNames(selectedNames);
               }}
-              input={<OutlinedInput label="Tag" />}
-              renderValue={(selected) => selected.join(', ')}
-      >
+              renderValue={() => selectedSubMenuNames.join(', ')}
+            >
         <MenuItem>
       <Checkbox
         indeterminate={selectedSubMenu.length > 0 && selectedSubMenu.length < subMenu.length}
@@ -627,29 +640,36 @@ const usuarios = () => {
         </form>
         </DialogContent>
           </Dialog>
-          <Table
-          rows={rows}
-          isLoading={isLoading}
-          className="col-span-1 sm:col-span-10 t-ease"
-          columns={[
-            ...COLUMNS_TABLE_USUARIOS ,
-            {
-              field: 'editSection',
-              headerName: 'Editar/Eliminar',
-              minWidth: 120,
-              type: 'string',
-              align: 'center',
-              headerAlign: 'center',
-              renderCell: params => (
-                <EditDeleteSection
-                  rowData={params.row}
-                  onEdit={handleEdit}
-                  onDelete={handleClickOpenDelete}
-          />
-          ),
-        },
-      ]}
-      />
+          <section className="flex justify-center items-center grow">
+            <Table
+              rows={rows}
+              isLoading={isLoading}
+              pagination
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 10 },
+                },
+              }}
+              columns={[
+                ...COLUMNS_TABLE_USUARIOS,
+                {
+                  field: 'editSection',
+                  headerName: 'Editar/Eliminar',
+                  minWidth: 120,
+                  type: 'string',
+                  align: 'center',
+                  headerAlign: 'center',
+                  renderCell: params => (
+                    <EditDeleteSection
+                      rowData={params.row}
+                      onEdit={handleEdit}
+                      onDelete={handleClickOpenDelete}
+                    />
+                  ),
+                },
+              ]}
+            />
+            </section>
           {/* Editar Usuario modal */}
       <Dialog fullWidth open={isEditModalOpen} onClose={handleCloseEdit}>
         <DialogTitle
@@ -848,8 +868,21 @@ const usuarios = () => {
         <Button className=' text-white py-1 m-2 rounded-md ' content='Aceptar' onClick={deleteUsuario} color="primary"/>
       </div>
     </Dialog>
-        </div>
+        </section>
       </ThemeProvider>
+      </div>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={() => setShowAlert(false)}>
+        <Alert
+          onClose={() => setShowAlert(false)}
+          severity="error"
+          sx={{ width: '100%' }}>
+          TODOS LOS CAMPOS DEBEN ESTAR LLENOS
+        </Alert>
+      </Snackbar>
     </div>
   )
   

@@ -7,8 +7,6 @@ import {
   DialogContentText,
   IconButton,
 } from '@mui/material'
-
-import Button from '../common/Button'
 import Slide from '@mui/material/Slide'
 import Icons from '@/assets/icons'
 import Table from '../common/Table'
@@ -60,7 +58,7 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [content, setContent] = useState('Agregar nuevo campo');
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('Activo');
   const [textareaValue, setTextareaValue] = useState('');
   const [isEditing, setIsEditing] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
