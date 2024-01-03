@@ -34,8 +34,7 @@ const theme = createTheme({
 
 const HomePage = () => {
   const { sendRequest, isLoading } = useHttpClient()
-  const profile = useAuthStore(state => state.profile)
-  console.log(profile)
+  const { profile } = useAuthStore()
   const [estados, setEstados] = useState([])
   const [tab, setTab] = useState(0)
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)

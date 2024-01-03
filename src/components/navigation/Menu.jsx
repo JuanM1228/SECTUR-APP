@@ -14,15 +14,17 @@ const Menu = ({ openMenu, setOpenMenu, configuration }) => {
   const [menu, setMenu] = useState([])
 
   useEffect(() => {
+    if (!profile) return
+    console.log(profile)
     getMenu()
   }, [])
 
   const getMenu = async () => {
-    const url = `/api/configuration/menu-user/${profile?.email}`
+    const url = `/api/configuration/menu-user/${profile?.id}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
-        // console.log('paso', res.result.data)
+        console.log('paso', res.result.data)
         setMenu(res.result.data)
       } else {
       }
