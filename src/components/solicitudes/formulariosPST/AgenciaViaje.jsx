@@ -33,6 +33,7 @@ const AgenciaViaje = ({
   })
 
   useEffect(() => {
+    getDropdownsData()
     if (!dataPst) return
     setData(dataPst)
     console.log('PST', dataPst)
@@ -43,14 +44,13 @@ const AgenciaViaje = ({
       }
       setCheckedItems({ afiliacionesList: objectAfiliaciones })
     }
-
-    getDropdownsData()
   }, [])
 
   const getDropdownsData = async () => {
     const url = '/api/configuration/catalogo-detalle-pst/1'
     try {
       const res = await sendRequest(url)
+      console.log(res)
       if (res.success) {
         const { afiliacion, tipoBoletaje, SubCategoria } = res.result.data
         setDataBackend({
