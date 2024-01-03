@@ -16,7 +16,6 @@ export const INIT_FILTROS_DATA = {
 
 
 export const INIT_DATA_REGISTER_USER = {
-  id_usuario:'',
   name: '',
   paternalSurname: '',
   maternalSurname: '',

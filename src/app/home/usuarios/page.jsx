@@ -4,7 +4,7 @@ import { useHttpClient } from '@/hooks/useHttpClient'
 import React, { useState, useEffect, useCallback } from 'react'
 import { unstable_noStore as noStore } from 'next/cache'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material'
+import { Alert, Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Snackbar } from '@mui/material'
 import {esES} from '@mui/x-data-grid'
 import Table from '@/components/common/Table'
 import { INIT_DATA_REGISTER_USER, INIT_FILTROS_USER } from '@/utils/constants'
@@ -83,7 +83,7 @@ const usuarios = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
-  const [error, setError] = useState(INIT_DATA_REGISTER_USER)
+  const [error, setError] = useState('')
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
   const [showFilters, setShowFilters] = useState(true)
   const [filtros, setFiltros] = useState(INIT_FILTROS_USER)
@@ -93,6 +93,8 @@ const usuarios = () => {
   const [tipoRol, setTipoRol] = useState('');
   const [tipoDeEstado, setTipoDeEstado] = useState('');
   const [subMenu, setSubMenu] = useState([])
+  const [showAlert, setShowAlert] = useState(false)
+  const [selectedSubMenuNames, setSelectedSubMenuNames] = useState([]);
   const [formData, setFormData] = useState({
     id:'',name:'',email:'',submenus:[],estados:[],password:'',paternalSurname:'',maternalSurname:'',
   })
@@ -233,6 +235,7 @@ const usuarios = () => {
       });
       setIsEditModalOpen(true);
     };
+
     //HandleEditSubmit
     const handleEditSubmit = async (e) => {
       e.preventDefault();
@@ -251,20 +254,19 @@ const usuarios = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        // Valida que las casillas no estén vacías
-        //if (Object.values(register).every((value) => value !== '' && value !== null)) {
+        if (Object.values(register).every((value) => value !== '' && value !== null)) {
           await agregarUsuario(register);
           getInfo();
-          handleCloseUsuario(true);
           console.log('Submit Exitoso', register);
-      // } else {
+        } else {
+          setShowAlert(false);
           console.error('Todos los campos deben estar llenos');
-       //}
+        }
       } catch (err) {
+        setShowAlert(false);
         console.log('Error al agregar usuario', err);
-        
       }
-    };
+    }
     
     const handleEditFormChange = (e) => {
       const { name, value } = e.target;
@@ -350,9 +352,10 @@ const usuarios = () => {
 
     
   return (
-    <div className="w-full flex">
+    <div className="w-full p-4 ">`
+    <div className="grid grid-cols-12 gap-4">
       <ThemeProvider theme={theme}>
-        <div className="w-1/5">
+        <div className="col-span-12 sm:col-span-2 flex flex-col gap-3">
           {/* Barra lateral */}
           <Tabs
             value={value}
@@ -405,20 +408,7 @@ const usuarios = () => {
               value={tipoRol}
               onChange={(event) => setTipoRol(event.target.value)}
             />
-            {/* <FormControl fullWidth variant="outlined" margin="normal">
-            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Rol">Tipo de Rol</InputLabel>
-            <Select
-            className = 'font-GMX font-semibold text-sm'
-              id="submenu"
-              label="Tipo de Rol"
-              variant="outlined"
-              value=''
-              onChange={'handlesubmenuChange'}
-              >
-                <MenuItem value="administrador">Administrador</MenuItem>
-                <MenuItem value="usuarioPST">Usuario PST</MenuItem>
-            </Select>
-            </FormControl> */}
+           
             <Button content='Buscar Usuario' onClick={handleChange} />
             
           </TabPanel>
@@ -437,11 +427,11 @@ const usuarios = () => {
             />
           </TabPanel>
         </div>
-        <div className="w-4/5">
-        <div className='w-1/5 mt-2'>
+        <section className="flex  flex-col col-span-12 sm:col-span-10">
+        <div className='w-1/3'>
           <Button
           content=' + Registrar Usuario'
-          className=' text-white py-1 m-4 rounded-md w-1/5'
+          className=''
           onClick={handleClickOpenUsuario}Usuario
           /> 
           </div>
@@ -467,7 +457,7 @@ const usuarios = () => {
           fullWidth
           type="text"
           onChange={onHandleChange}
-          error={error.name !== ''}
+          //error={error.name !== ''}
           helpText={error.name}
           value={register.name}
         />
@@ -477,7 +467,7 @@ const usuarios = () => {
           fullWidth
           type="text"
           onChange={onHandleChange}
-          error={error.paternalSurname !== ''}
+         // error={error.paternalSurname !== ''}
           helpText={error.paternalSurname}
           value={register.paternalSurname}
         />
@@ -487,7 +477,7 @@ const usuarios = () => {
           fullWidth
           type="text"
           onChange={onHandleChange}
-          error={error.maternalSurname !== ''}
+         // error={error.maternalSurname !== ''}
           helpText={error.maternalSurname}
           value={register.maternalSurname}
         />
@@ -495,21 +485,11 @@ const usuarios = () => {
           label="Fecha de nacimiento"
           name="birthDate"
           onChange={onHandleChange}
-          error={error.birthDate !== ''}
+         // error={error.birthDate !== ''}
           helpText={error.birthDate}
           value={register.birthDate}
         />
-        {/* <Input
-          label="phoneNumber"
-          name="phoneNumber"
-          fullWidth
-          IconComponent={Icons.Phone}
-          type="number"
-          onChange={onHandleChange}
-          // error={error.phoneNumber !== ''}
-          // helpText={error.phoneNumber}
-          value={register.phoneNumber}
-        /> */}
+       
         <Input
           label="Email"
           name="email"
@@ -517,7 +497,7 @@ const usuarios = () => {
           IconComponent={Icons.Email}
           type="email"
           onChange={onHandleChange}
-          error={error.email !== ''}
+          //error={error.email !== ''}
           helpText={error.email}
           value={register.email}
         />
@@ -528,7 +508,7 @@ const usuarios = () => {
           IconComponent={Icons.Lock}
           type="password"
           onChange={onHandleChange}
-          error={error.password !== ''}
+          //error={error.password !== ''}
           helpText={error.password}
           value={register.password}
         />
@@ -539,7 +519,7 @@ const usuarios = () => {
           fullWidth
           IconComponent={Icons.Lock}
           onChange={onHandleChange}
-          error={error.verifyPassword !== ''}
+          //error={error.verifyPassword !== ''}
           helpText={error.verifyPassword}
           type="password"
           value={register.verifyPassword}
@@ -598,11 +578,19 @@ const usuarios = () => {
               value={selectedSubMenu || []}
               onChange={(e) => {
                 onHandleChange(e);
+
+                // Update the state with the selected submenu IDs
                 setselectedSubMenu(e.target.value);
+            
+                // Update the state with the selected submenu names
+                const selectedNames = subMenu
+                  .filter((menuItem) => e.target.value.includes(menuItem.id))
+                  .map((menuItem) => menuItem.name);
+            
+                setSelectedSubMenuNames(selectedNames);
               }}
-              input={<OutlinedInput label="Tag" />}
-              renderValue={(selected) => selected.join(', ')}
-      >
+              renderValue={() => selectedSubMenuNames.join(', ')}
+            >
         <MenuItem>
       <Checkbox
         indeterminate={selectedSubMenu.length > 0 && selectedSubMenu.length < subMenu.length}
@@ -627,29 +615,36 @@ const usuarios = () => {
         </form>
         </DialogContent>
           </Dialog>
-          <Table
-          rows={rows}
-          isLoading={isLoading}
-          className="col-span-1 sm:col-span-10 t-ease"
-          columns={[
-            ...COLUMNS_TABLE_USUARIOS ,
-            {
-              field: 'editSection',
-              headerName: 'Editar/Eliminar',
-              minWidth: 120,
-              type: 'string',
-              align: 'center',
-              headerAlign: 'center',
-              renderCell: params => (
-                <EditDeleteSection
-                  rowData={params.row}
-                  onEdit={handleEdit}
-                  onDelete={handleClickOpenDelete}
-          />
-          ),
-        },
-      ]}
-      />
+          <section className="flex justify-center items-center grow">
+            <Table
+              rows={rows}
+              isLoading={isLoading}
+              pagination
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 10 },
+                },
+              }}
+              columns={[
+                ...COLUMNS_TABLE_USUARIOS,
+                {
+                  field: 'editSection',
+                  headerName: 'Editar/Eliminar',
+                  minWidth: 120,
+                  type: 'string',
+                  align: 'center',
+                  headerAlign: 'center',
+                  renderCell: params => (
+                    <EditDeleteSection
+                      rowData={params.row}
+                      onEdit={handleEdit}
+                      onDelete={handleClickOpenDelete}
+                    />
+                  ),
+                },
+              ]}
+            />
+            </section>
           {/* Editar Usuario modal */}
       <Dialog fullWidth open={isEditModalOpen} onClose={handleCloseEdit}>
         <DialogTitle
@@ -676,7 +671,7 @@ const usuarios = () => {
           fullWidth
           type="text"
           onChange={handleEditFormChange}
-          error={error.paternalSurname !== ''}
+          //error={error.paternalSurname !== ''}
           helpText={error.paternalSurname}
           value={formData.paternalSurname}
         />
@@ -687,34 +682,11 @@ const usuarios = () => {
           fullWidth
           type="text"
           onChange={handleEditFormChange}
-          error={error.maternalSurname !== ''}
+          //error={error.maternalSurname !== ''}
           helpText={error.maternalSurname}
           value={formData.maternalSurname}
         />
-        {/* <Input
-          label="Cambiar No. Telefono"
-          name="phoneNumber"
-          fullWidth
-          IconComponent={Icons.Phone}
-          type="number"
-          onChange={onHandleChange}
-          // error={error.phoneNumber !== ''}
-          // helpText={error.phoneNumber}
-          value={formData.phoneNumber}
-        /> */}
-          {/* <Input
-          label="Cambiar Email"
-          name="email"
-          fullWidth
-          IconComponent={Icons.Email}
-          type="email"
-          onChange={handleEditFormChange}
-          error={error.email !== ''}
-          helpText={error.email}
-          placeholder={formData.email}
-          value={formData.email}
-          
-        />  */}
+       
           <Input
           label="Cambiar Contraseña"
           name="password"
@@ -722,7 +694,7 @@ const usuarios = () => {
           IconComponent={Icons.Lock}
           type="password"
           onChange={handleEditFormChange}
-          error={error.password !== ''}
+          //error={error.password !== ''}
           helpText={error.password}
           value={formData.password}
         />
@@ -733,7 +705,7 @@ const usuarios = () => {
           fullWidth
           IconComponent={Icons.Lock}
           onChange={handleEditFormChange}
-          error={error.verifyPassword !== ''}
+         // error={error.verifyPassword !== ''}
           helpText={error.verifyPassword}
           type="password"
           value={formData.verifyPassword}
@@ -761,18 +733,7 @@ const usuarios = () => {
                   )
                   .join(', ')
               }
-        //       input={<OutlinedInput id="select-multiple-chip" label="Entidad Federativa" />}
-        //       renderValue={(selected) => (
-        //   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-        //     {(Array.isArray(selected) ? selected : [selected]).map((value) => (
-        //       <Chip
-        //         key={value}
-        //         label={OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''}
-        //       />
-        //     ))}
-        //   </Box>
-        // )}
-      >
+             >
         <MenuItem>
       <Checkbox
         indeterminate={selectedEstado.length > 0 && selectedEstado.length < OPTIONS_ESTADOS.length}
@@ -848,8 +809,21 @@ const usuarios = () => {
         <Button className=' text-white py-1 m-2 rounded-md ' content='Aceptar' onClick={deleteUsuario} color="primary"/>
       </div>
     </Dialog>
-        </div>
+        </section>
       </ThemeProvider>
+      </div>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={() => setShowAlert(false)}>
+        <Alert
+          onClose={() => setShowAlert(false)}
+          severity="error"
+          sx={{ width: '100%' }}>
+          USUARIO DUPLICADO O TODOS LOS CAMPOS DEBEN ESTAR LLENOS
+        </Alert>
+      </Snackbar>
     </div>
   )
   
