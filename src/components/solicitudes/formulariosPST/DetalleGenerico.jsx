@@ -97,7 +97,7 @@ const DetalleGenerico = ({
           label="Subcategoría"
           name="subcategoria"
           variant="outlined"
-          value={data.subcategoria ? data.subcategoria : 0}
+          value={data?.subcategoria ? data.subcategoria : 0}
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
         />
