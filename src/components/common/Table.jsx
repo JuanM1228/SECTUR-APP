@@ -45,7 +45,7 @@ const Table = ({ columns, rows, isLoading, className, getRowClassName }) => {
         pagination
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 100 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
         pageSizeOptions={[5, 10, 50, 100]}
