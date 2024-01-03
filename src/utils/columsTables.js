@@ -198,7 +198,15 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
   {
     field: 'folioSolicitud',
     headerName: 'Folio Solicitud',
-    minWidth: 300,
+    minWidth: 200,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: '-',
+    headerName: 'certificado',
+    minWidth: 250,
     type: 'string',
     align: 'center',
     headerAlign: 'center',

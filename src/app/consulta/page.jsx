@@ -49,7 +49,7 @@ const HomePage = () => {
     console.log(profile)
     setFiltros({ ...filtros, idUsuario: profile.id })
     getCatalogoEstados()
-  }, [])
+  }, [profile])
 
   const onHandleChange = ({ target: { name, value } }) => {
     setFiltros({ ...filtros, [name]: value })
