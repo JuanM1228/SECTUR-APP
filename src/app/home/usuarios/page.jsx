@@ -78,9 +78,11 @@ const MODAL_TYPE = {
 
 const TYPE = {
   INPUT: 'INPUT',
+  USER_INPUT: 'USER_INPUT',
   INIT_DATA: 'INIT_DATA',
   SHOW_MODAL: 'SHOW_MODAL',
   HIDE_MODAL: 'HIDE_MODAL',
+  UPDATE_USERS_LIST: 'UPDATE_USERS_LIST',
   // UPDATE_PHOTOS: 'UPDATE_PHOTOS',
   // UPDATE_DOCUMENTS: 'UPDATE_DOCUMENTS',
   // SHOW_ERROR: 'SHOW_ERROR',
@@ -95,6 +97,19 @@ const initialState = {
   subMenuList: [],
   showModal: false,
   modalType: null,
+  selectedUserInfo: {
+    id: null,
+    email: '',
+    name: '',
+    paternalSurname: '',
+    maternalSurname: '',
+    birthDate: '',
+    phoneNumber: '',
+    estados: [],
+    submenus: [],
+    password: '',
+    verifyPassword: '',
+  },
 }
 
 const reducer = (state, { type, payload }) => {
@@ -103,20 +118,33 @@ const reducer = (state, { type, payload }) => {
       return produce(state, draftState => {
         draftState[payload.name] = payload.value
       })
+    case TYPE.USER_INPUT:
+      return produce(state, draftState => {
+        draftState.selectedUserInfo[payload.name] = payload.value
+      })
     case TYPE.INIT_DATA:
       return produce(state, draftState => {
         draftState.usersList = payload.usersList
         draftState.subMenuList = payload.subMenuList
       })
+    case TYPE.UPDATE_USERS_LIST:
+      return produce(state, draftState => {
+        draftState.usersList = payload.usersList
+        draftState.showModal = false
+        draftState.modalType = null
+        draftState.selectedUserInfo = initialState.selectedUserInfo
+      })
     case TYPE.SHOW_MODAL:
       return produce(state, draftState => {
         draftState.showModal = true
         draftState.modalType = payload.modalType
+        draftState.selectedUserInfo = payload.userInfo
       })
     case TYPE.HIDE_MODAL:
       return produce(state, draftState => {
         draftState.showModal = false
         draftState.modalType = null
+        draftState.selectedUserInfo = initialState.selectedUserInfo
       })
     // case TYPE.UPDATE_PHOTOS:
     //   return produce(state, draftState => {
@@ -150,19 +178,14 @@ const Usuarios = () => {
   const [selectedEstado, setSelectedEstado] = useState([])
   const [showAlert, setShowAlert] = useState(false)
   const [selectedSubMenuNames, setSelectedSubMenuNames] = useState([])
-  const [formData, setFormData] = useState({
-    id: '',
-    name: '',
-    email: '',
-    submenus: [],
-    estados: [],
-    password: '',
-    paternalSurname: '',
-    maternalSurname: '',
-  })
 
   const onHandleChange = ({ target: { name, value } }) => {
     dispatch({ type: TYPE.INPUT, payload: { name, value } })
+  }
+
+  const onHandleUserInfo = ({ target: { name, value } }) => {
+    console.log('onHandleUserInfo', name, value)
+    dispatch({ type: TYPE.USER_INPUT, payload: { name, value } })
   }
 
   useEffect(() => {
@@ -186,6 +209,16 @@ const Usuarios = () => {
         })
       })
       .catch(err => console.log(err))
+  }
+
+  const updateUsersList = async () => {
+    const url = '/api/configuration/obtener-usuarios'
+    const res = await sendRequest(url)
+    if (!res.success) return
+    dispatch({
+      type: TYPE.UPDATE_USERS_LIST,
+      payload: { usersList: res.result.data },
+    })
   }
 
   //   const handleChange = (event, newValue) => {
@@ -370,38 +403,22 @@ const Usuarios = () => {
   //   }
   // };
 
-  //EliminarUsuario
-  // const handleClickOpenDelete = (formData) => {
-  //   setFormData({
-  //     id:formData.id,
-  //   });
-  //   console.log('data',formData)
-  //   console.log('data ID',formData.id)
-  //   setUserIdToDelete(formData.id);
-  //   setDeleteModal(true);
-  // };
+  const onDeleteUserHandler = async () => {
+    dispatch({ type: TYPE.HIDE_MODAL })
+    if (!state?.selectedUserInfo?.id) return
+    const userId = state.selectedUserInfo.id
+    try {
+      const url = `/api/autenticacion/eliminar-user/${userId}`
+      const res = await sendRequest(url, { method: 'DELETE' })
+      if (!res.success) return
+      updateUsersList()
+      console.log('Usuario eliminado correctamente')
+    } catch (error) {
+      console.error('Error al eliminar Usuario:', error)
+    }
+  }
 
-  // const deleteUsuario = async () => {
-  //   try {
-  //     const url = `/api/autenticacion/eliminar-user/${userIdToDelete}`;
-  //     const res = await sendRequest(url, {
-  //       method: 'DELETE',
-
-  //     });
-  //     if (res.ok) {
-  //       setFormData((prevformData) =>
-  //         prevformData.filter((elemento) => elemento.id !== id)
-  //       );
-
-  //       console.log('Usuario eliminado correctamente');
-  //     }
-  //     getInfo();
-  //   } catch (error) {
-  //     console.error('Error al eliminar Usuario:', error);
-  //   }
-  //   getInfo();
-  //   setDeleteModal(false);
-  // };
+  // Modal Handlers
 
   const onRegisterUserModal = () => {
     dispatch({
@@ -410,16 +427,17 @@ const Usuarios = () => {
     })
   }
 
-  const onEditUserHandler = () => {
+  const onEditUserModal = userInfo => {
+    console.log('userInfo', userInfo)
     dispatch({
       type: TYPE.SHOW_MODAL,
-      payload: { modalType: MODAL_TYPE.EDIT },
+      payload: { modalType: MODAL_TYPE.EDIT, userInfo },
     })
   }
-  const onDeleteUserHandler = () => {
+  const openDeleteUserModal = userInfo => {
     dispatch({
       type: TYPE.SHOW_MODAL,
-      payload: { modalType: MODAL_TYPE.DELETE },
+      payload: { modalType: MODAL_TYPE.DELETE, userInfo },
     })
   }
 
@@ -714,8 +732,8 @@ const Usuarios = () => {
                     renderCell: params => (
                       <EditDeleteSection
                         rowData={params.row}
-                        onEdit={onEditUserHandler}
-                        onDelete={onDeleteUserHandler}
+                        onEdit={() => onEditUserModal(params.row)}
+                        onDelete={() => openDeleteUserModal(params.row)}
                       />
                     ),
                   },
@@ -743,76 +761,50 @@ const Usuarios = () => {
                     label="Cambiar Nombre(s) del Usuario"
                     name="name"
                     variant="outlined"
-                    value={formData.name}
-                    // onChange={handleEditFormChange}
+                    value={state.selectedUserInfo.name}
+                    onChange={onHandleUserInfo}
                   />
                   <Input
                     label="Cambiar Apellido Paterno"
                     name="paternalSurname"
                     fullWidth
                     type="text"
-                    // onChange={handleEditFormChange}
+                    onChange={onHandleUserInfo}
                     error={error.paternalSurname !== ''}
                     helpText={error.paternalSurname}
-                    value={formData.paternalSurname}
+                    value={state.selectedUserInfo.paternalSurname}
                   />
-
                   <Input
                     label="Cambiar Apellido Materno"
                     name="maternalSurname"
                     fullWidth
                     type="text"
-                    // onChange={handleEditFormChange}
+                    onChange={onHandleUserInfo}
                     error={error.maternalSurname !== ''}
                     helpText={error.maternalSurname}
-                    value={formData.maternalSurname}
+                    value={state.selectedUserInfo.maternalSurname}
                   />
-                  {/* <Input
-          label="Cambiar No. Telefono"
-          name="phoneNumber"
-          fullWidth
-          IconComponent={Icons.Phone}
-          type="number"
-          onChange={onHandleChange}
-          // error={error.phoneNumber !== ''}
-          // helpText={error.phoneNumber}
-          value={formData.phoneNumber}
-        /> */}
-                  {/* <Input
-          label="Cambiar Email"
-          name="email"
-          fullWidth
-          IconComponent={Icons.Email}
-          type="email"
-          onChange={handleEditFormChange}
-          error={error.email !== ''}
-          helpText={error.email}
-          placeholder={formData.email}
-          value={formData.email}
-          
-        />  */}
                   <Input
                     label="Cambiar Contraseña"
                     name="password"
                     fullWidth
                     IconComponent={Icons.Lock}
                     type="password"
-                    // onChange={handleEditFormChange}
                     error={error.password !== ''}
                     helpText={error.password}
-                    value={formData.password}
+                    value={state.selectedUserInfo.password}
+                    onChange={onHandleUserInfo}
                   />
-
                   <Input
                     label="Verificar cambio de Contraseña"
                     name="verifyPassword"
                     fullWidth
                     IconComponent={Icons.Lock}
-                    // onChange={handleEditFormChange}
                     error={error.verifyPassword !== ''}
                     helpText={error.verifyPassword}
                     type="password"
-                    value={formData.verifyPassword}
+                    value={state.selectedUserInfo.verifyPassword}
+                    onChange={onHandleUserInfo}
                   />
 
                   <FormControl fullWidth variant="outlined" margin="normal">
@@ -828,11 +820,8 @@ const Usuarios = () => {
                       label="Cambiar Entidad Federativa"
                       multiple
                       variant="outlined"
-                      value={formData.estados}
-                      onChange={e => {
-                        // onHandleChange(e)
-                        // setSelectedEstado(e.target.value)
-                      }}
+                      value={state.selectedUserInfo.estados}
+                      onChange={onHandleUserInfo}
                       input={<OutlinedInput label="Tag2" />}
                       renderValue={selected =>
                         selected
@@ -843,19 +832,7 @@ const Usuarios = () => {
                               )?.title || '',
                           )
                           .join(', ')
-                      }
-                      //       input={<OutlinedInput id="select-multiple-chip" label="Entidad Federativa" />}
-                      //       renderValue={(selected) => (
-                      //   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      //     {(Array.isArray(selected) ? selected : [selected]).map((value) => (
-                      //       <Chip
-                      //         key={value}
-                      //         label={OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''}
-                      //       />
-                      //     ))}
-                      //   </Box>
-                      // )}
-                    >
+                      }>
                       <MenuItem>
                         <Checkbox
                           indeterminate={
@@ -893,12 +870,8 @@ const Usuarios = () => {
                       label="Cambiar Tipo de Rol"
                       variant="outlined"
                       multiple
-                      value={formData.submenus}
-                      onChange={e =>
-                        onHandleChange({
-                          target: { name: 'submenus', value: e.target.value },
-                        })
-                      }
+                      value={state.selectedUserInfo.submenus}
+                      onChange={onHandleUserInfo}
                       input={<OutlinedInput label="Tag2" />}
                       renderValue={selected =>
                         selected
@@ -937,7 +910,7 @@ const Usuarios = () => {
                     content="Editar Usuario"
                     className=" text-white py-1 m-2 rounded-md"
                     type="submit"
-                    onClick={onEditUserHandler}
+                    // onClick={onEditUserHandler}
                   />
                 </DialogContent>
               </form>
@@ -962,7 +935,7 @@ const Usuarios = () => {
                 <Button
                   className=" text-white py-1 m-2 rounded-md "
                   content="Aceptar"
-                  // onClick={deleteUsuario}
+                  onClick={onDeleteUserHandler}
                   color="primary"
                 />
               </div>
