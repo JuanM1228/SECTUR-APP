@@ -9,7 +9,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 
 import { useAuthStore } from '@/store/auth'
-
+import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { createTheme, ThemeProvider } from '@mui/material'
 import colors from '@/assets/colors'
@@ -33,8 +33,10 @@ const theme = createTheme({
 })
 
 const HomePage = () => {
+  const router = useRouter()
   const { sendRequest, isLoading } = useHttpClient()
   const { profile } = useAuthStore()
+
   const [estados, setEstados] = useState([])
   const [tab, setTab] = useState(0)
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
@@ -102,7 +104,12 @@ const HomePage = () => {
         <h2 className="font-GMX text-3xl font-semibold text-center mt-4">
           Consulta de Certificados
         </h2>
-        <h2 className="font-GMX text-xl font-semibold">Buscar por:</h2>
+        <Button
+          content="regresar"
+          onClick={() => router.push('/')}
+          fullWidth={false}
+        />
+        <h2 className="font-GMX text-xl font-semibold mt-3">Buscar por:</h2>
         <div className="flex flex-col flex-wrap w-full gap-4 justify-center">
           <ThemeProvider theme={theme}>
             <Tabs
