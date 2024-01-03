@@ -13,6 +13,10 @@ const Menu = ({ openMenu, setOpenMenu, configuration }) => {
   const { sendRequest, isLoading } = useHttpClient()
   const [menu, setMenu] = useState([])
 
+  useEffect(() => {
+    getMenu()
+  }, [])
+
   const getMenu = async () => {
     const url = `/api/configuration/menu-user/${profile?.email}`
     try {
@@ -49,7 +53,7 @@ const Menu = ({ openMenu, setOpenMenu, configuration }) => {
 
       <nav>
         <List>
-          {NAVIGATION_CONFIG.map(section => (
+          {menu.map(section => (
             <MenuItem key={section.key} section={section} />
           ))}
         </List>

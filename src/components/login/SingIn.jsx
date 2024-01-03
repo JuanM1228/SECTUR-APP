@@ -16,6 +16,8 @@ import { validate } from '@/utils/validation'
 import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 
+import Cookies from 'js-cookie'
+
 const SingIn = ({ showRegister, setShowRegister }) => {
   const [user, setUser] = useState(INIT_DATA_LOGIN)
   const [error, setError] = useState(INIT_DATA_LOGIN)
@@ -38,9 +40,10 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         body: data,
       })
       if (res.success) {
-        router.push('/home/tramites')
         setToken(res.result.token)
         setProfile(res.result.user)
+        Cookies.set('token', res.result.token)
+        router.push('/home/tramites')
       } else {
         setShowAlert(true)
       }

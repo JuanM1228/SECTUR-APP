@@ -10,12 +10,18 @@ import { Avatar } from '@mui/material'
 import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 
+import Cookies from 'js-cookie'
+
 const Header = ({ setOpenMenu, openMenu, configuration }) => {
   const { profile } = useAuthStore()
-  console.log(profile)
   const { sendRequest, isLoading } = useHttpClient()
-
   const router = useRouter()
+
+  const deleteToken = () => {
+    localStorage.removeItem('auth')
+    Cookies.remove('token')
+    router.push('/')
+  }
 
   return (
     <header className="flex flex-col t-ease sticky top-0 z-30 self-stretch">
@@ -32,12 +38,13 @@ const Header = ({ setOpenMenu, openMenu, configuration }) => {
               src={`${process.env.ENV_URL}/${configuration.logo_path}`}
               className={`h-14 w-36 object-contain `}
               alt="logo"
+              onClick={() => router.push('/')}
             />
           </section>
           <section className="flex justify-center items-center gap-6">
             {/* <p className="font-GMX text-white">{`${profile.name} ${profile.paternalSurname}`}</p> */}
             <Avatar alt={profile.name} />
-            <div onClick={() => router.push(`/`)}>
+            <div onClick={deleteToken}>
               <Icons.ExitToApp className="text-white cursor-pointer" />
             </div>
           </section>

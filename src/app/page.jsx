@@ -1,2 +1,2 @@
-import login from '@/app/login/page'
-export default login
+import Inicio from './home/inicio/page'
+export default Inicio

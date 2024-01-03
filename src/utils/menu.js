@@ -98,14 +98,6 @@ export const NAVIGATION_CONFIG = [
         authority: [],
         subMenu: [],
       },
-      {
-        key: 'temas',
-        path: '/home/inicio',
-        title: 'INICIO TEST',
-        icon: null,
-        authority: [],
-        subMenu: [],
-      },
     ],
   },
 ]

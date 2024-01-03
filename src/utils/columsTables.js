@@ -30,7 +30,11 @@ const DeleteButton = params => {
 
 const ListEstados = ({ arrayEstados }) => {
   if (!arrayEstados || arrayEstados.length === 0) {
-    return <select disabled><option>Sin asignación</option></select>;
+    return (
+      <select disabled>
+        <option>Sin asignación</option>
+      </select>
+    )
   }
   //console.log('array estados',arrayEstados)
   return (
@@ -41,14 +45,18 @@ const ListEstados = ({ arrayEstados }) => {
         </option>
       ))}
     </select>
-  );
-};
+  )
+}
 
 const ListPermisos = ({ arrayPermisos }) => {
   if (!arrayPermisos || arrayPermisos.length === 0) {
-    return <select disabled><option>Sin asignación</option></select>;
+    return (
+      <select disabled>
+        <option>Sin asignación</option>
+      </select>
+    )
   }
- // console.log('array permisos',arrayPermisos)
+  // console.log('array permisos',arrayPermisos)
   return (
     <select>
       {arrayPermisos.map((submenu, path) => (
@@ -57,14 +65,11 @@ const ListPermisos = ({ arrayPermisos }) => {
         </option>
       ))}
     </select>
-  );
-};
-
-
+  )
+}
 
 export const EditButton = params => {
   const router = useRouter()
-  console.log(params)
   if (params.row.status === 4) return
   return (
     <IconButton
@@ -91,7 +96,6 @@ const StatusBadge = params => {
 }
 
 const FolioBadge = params => {
-  console.log(params.row.folioSolicitud)
   const onButtonClick = async () => {
     const url = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
     link.click()
@@ -591,8 +595,9 @@ export const COLUMNS_TABLE_USUARIOS = [
     align: 'left',
     headerAlign: 'center',
     editable: false,
-    renderCell: (params) => (
-      <div style={{ color: '#888' }}>{params.row.email}</div>)
+    renderCell: params => (
+      <div style={{ color: '#888' }}>{params.row.email}</div>
+    ),
   },
   {
     field: 'submenus',
@@ -601,8 +606,8 @@ export const COLUMNS_TABLE_USUARIOS = [
     type: 'string',
     align: 'left',
     headerAlign: 'center',
-    renderCell: (params) => <ListPermisos arrayPermisos={params.row.submenus}/>
-  },   
+    renderCell: params => <ListPermisos arrayPermisos={params.row.submenus} />,
+  },
   {
     field: 'estados',
     headerName: 'Estados',
@@ -610,8 +615,7 @@ export const COLUMNS_TABLE_USUARIOS = [
     type: 'string',
     align: 'left',
     headerAlign: 'center',
-    renderCell: (params) => <ListEstados arrayEstados={params.row.estados}/>
-
+    renderCell: params => <ListEstados arrayEstados={params.row.estados} />,
   },
 ]
 

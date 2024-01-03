@@ -16,6 +16,8 @@ import Icons from '@/assets/icons'
 import Images from '@/assets/images'
 import { Alert, Snackbar } from '@mui/material'
 
+import Cookies from 'js-cookie'
+
 const Register = ({ showRegister, setShowRegister }) => {
   const { sendRequest, isLoading } = useHttpClient()
   const setToken = useAuthStore(state => state.setToken)
@@ -52,7 +54,8 @@ const Register = ({ showRegister, setShowRegister }) => {
       if (res.success) {
         setToken(res.result.token)
         setProfile(res.result.user)
-        router.push('/home')
+        Cookies.set('token', res.result.token)
+        router.push('/home/tramites')
       } else {
         setShowAlert(true)
       }
