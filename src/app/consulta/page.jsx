@@ -11,15 +11,12 @@ import Tab from '@mui/material/Tab'
 import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import { createTheme, ThemeProvider } from '@mui/material'
+import { createTheme, IconButton, ThemeProvider } from '@mui/material'
 import colors from '@/assets/colors'
 import Dropdown from '@/components/common/Dropdown'
-import { INIT_FILTROS_DATA, ROLE_ENUM } from '@/utils/constants'
+import { INIT_FILTROS_DATA, OPTIONS_ESTADOS } from '@/utils/constants'
 import Table from '@/components/common/Table'
-import {
-  COLUMNS_TABLE_TRAMITES_ADMIN,
-  COLUMNS_TABLE_TRAMITES_USUARIO,
-} from '@/utils/columsTables'
+import { COLUMS_CONSULTA_GENERAL } from '@/utils/columsTables'
 
 const theme = createTheme({
   palette: {
@@ -35,68 +32,132 @@ const theme = createTheme({
 const HomePage = () => {
   const router = useRouter()
   const { sendRequest, isLoading } = useHttpClient()
-  const { profile } = useAuthStore()
 
-  const [estados, setEstados] = useState([])
   const [tab, setTab] = useState(0)
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
-  const [data, setData] = useState(null)
   const [firstConsulta, setFirstConsulta] = useState(true)
-  const [tramites, setTramites] = useState([])
+  const [tramitesList, setTramitesList] = useState([])
+  const [tramite, setTramite] = useState(null)
 
-  useEffect(() => {
-    if (!profile) return
-    console.log(profile)
-    setFiltros({ ...filtros, idUsuario: profile.id })
-    getCatalogoEstados()
-  }, [profile])
+  const ReviewButton = params => {
+    return (
+      <IconButton
+        onClick={() => {
+          console.log(params)
+          getDataFolio(params.row.folioSolicitud)
+        }}>
+        <Icons.Visibility />
+      </IconButton>
+    )
+  }
+
+  const COLUMS_CONSULTA_GENERAL = [
+    {
+      field: 'review',
+      headerName: '',
+      minWidth: 80,
+      type: 'bool',
+      align: 'center',
+      headerAlign: 'center',
+      renderCell: params => ReviewButton(params),
+    },
+    {
+      field: 'folioSolicitud',
+      headerName: 'Folio Solicitud',
+      minWidth: 90,
+      type: 'string',
+      align: 'center',
+      headerAlign: 'center',
+    },
+    {
+      field: 'tipoPST',
+      headerName: 'Tipo PST',
+      minWidth: 180,
+      type: 'string',
+      align: 'center',
+      headerAlign: 'center',
+    },
+    {
+      field: 'nombreComercial',
+      headerName: 'Nombre Comercial',
+      minWidth: 100,
+      type: 'string',
+      align: 'center',
+      headerAlign: 'center',
+    },
+    {
+      field: 'calle',
+      headerName: 'Calle',
+      minWidth: 100,
+      type: 'string',
+      align: 'center',
+      headerAlign: 'center',
+    },
+    {
+      field: 'colonia',
+      headerName: 'Colonia',
+      minWidth: 100,
+      type: 'string',
+      align: 'center',
+      headerAlign: 'center',
+    },
+    {
+      field: 'estado',
+      headerName: 'Estado',
+      minWidth: 100,
+      type: 'string',
+      align: 'center',
+      headerAlign: 'center',
+    },
+    {
+      field: 'municipio',
+      headerName: 'Municipio',
+      minWidth: 100,
+      type: 'string',
+      align: 'center',
+      headerAlign: 'center',
+    },
+  ]
 
   const onHandleChange = ({ target: { name, value } }) => {
     setFiltros({ ...filtros, [name]: value })
   }
 
-  const getCatalogoEstados = async () => {
-    const url = '/api/address/estados'
+  const getDataFolio = async folio => {
+    setTramite(null)
     try {
+      const url = `/api/registro/detalle-tramite-folio/${folio}`
       const res = await sendRequest(url)
       if (res.success) {
-        setEstados(res.result.data)
         console.log(res.result.data)
-      } else {
-      }
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
-
-  const onHandleFiltros = () => {
-    console.log(filtros)
-    getTramitesFiltros(filtros)
-    setFirstConsulta(false)
-  }
-
-  const getTramitesFiltros = async body => {
-    try {
-      const url = '/api/registro/tramites-usuario'
-
-      const res = await sendRequest(url, {
-        method: 'POST',
-        body: body,
-      })
-      if (res.success) {
-        setTramites(res.result.data)
+        setTramite(res.result.data)
       }
     } catch (e) {
       console.log(e)
+      setTramite(null)
+    }
+  }
+
+  const getDataTramites = async () => {
+    try {
+      const url = `/api/places/listaPST?idEstado=${filtros.idEstado}&idMunicipio&idTipoPST&nombreComercial=${filtros.nombreComercial}`
+      const res = await sendRequest(url)
+      if (res.success) {
+        console.log(res.result.data)
+        setTramitesList(res.result.data)
+      }
+    } catch (e) {
+      console.log(e)
+      setTramite(null)
     }
   }
 
   const handleChangeTab = (event, newValue) => {
     setTab(newValue)
     setFiltros({ ...filtros, folio: '', idEstado: 0, nombreComercial: '' })
+    setTramite(null)
+    setTramitesList([])
   }
-
-  const columnsData = COLUMNS_TABLE_TRAMITES_ADMIN
 
   return (
     <div className="flex flex-col  items-center w-full  gap-4">
@@ -120,7 +181,7 @@ const HomePage = () => {
               <Tab value={1} label="Estado y Nombre Comercial" />
             </Tabs>
 
-            <section className="flex justify-center items-center  ">
+            <section className="flex justify-center items-center   mb-5">
               {tab === 0 && (
                 <div className="flex flex-wrap sm:flex-nowrap gap-4 w-3/4">
                   <Input
@@ -133,7 +194,7 @@ const HomePage = () => {
                   <Button
                     content="Buscar"
                     className="w-full sm:w-auto h-auto "
-                    onClick={onHandleFiltros}
+                    onClick={() => getDataFolio(filtros.folio)}
                   />
                 </div>
               )}
@@ -151,14 +212,14 @@ const HomePage = () => {
                       name="idEstado"
                       variant="outlined"
                       value={filtros.idEstado}
-                      options={estados}
+                      options={OPTIONS_ESTADOS}
                       onChange={onHandleChange}
                     />
                   </section>
                   <Button
                     content="Buscar"
                     className="w-full sm:w-auto self-center "
-                    onClick={onHandleFiltros}
+                    onClick={getDataTramites}
                   />
                 </div>
               )}
@@ -166,24 +227,27 @@ const HomePage = () => {
           </ThemeProvider>
         </div>
 
-        {tramites.length !== 0 && (
+        {tramitesList.length !== 0 && (
           <Table
-            columns={columnsData}
+            columns={COLUMS_CONSULTA_GENERAL}
             isLoading={isLoading}
-            rows={tramites}
-            className="col-span-1 sm:col-span-10 t-ease h-[calc(40vh-10rem)]"
+            rows={tramitesList}
+            className="h-screen mb-4"
           />
         )}
 
-        {/* {data && <Resumen information={data} />} */}
-        {tramites.length === 0 && (
-          <div className="flex flex-col justify-center items-center text-gray mt-10">
-            <Icons.Search className="w-36 h-36 animate-bounce" />
-            <p className="font-Montserrat font-semibold text-4xl">
-              {firstConsulta ? 'REALIZA UNA CONSULTA' : 'REGISTRO NO EXISTENTE'}
-            </p>
-          </div>
-        )}
+        {tramite && <Resumen information={tramite} />}
+        {!tramite ||
+          (tramitesList.length === 0 && (
+            <div className="flex flex-col justify-center items-center text-gray mt-10">
+              <Icons.Search className="w-36 h-36 animate-bounce" />
+              <p className="font-Montserrat font-semibold text-4xl">
+                {firstConsulta
+                  ? 'REALIZA UNA CONSULTA'
+                  : 'REGISTRO NO EXISTENTE'}
+              </p>
+            </div>
+          ))}
       </div>
     </div>
   )

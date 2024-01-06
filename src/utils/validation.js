@@ -84,6 +84,11 @@ const datosGeneralesForm = data => {
     nombreComercial: '',
     rfc: '',
     razonSocial: '',
+    tipoTramite: '',
+    nacionalidad: '',
+    tipoVialidad: '',
+    asentamiento: '',
+    fechaApertura: '',
   }
 
   if (!data.tipoPST) {
@@ -98,16 +103,33 @@ const datosGeneralesForm = data => {
   if (!hasText(data.razonSocial)) {
     err.razonSocial = 'Ingrese su razón social'
   }
-  // else if (rfc(data.rfc)) {
-  //   err.rfc = 'Por favor ingrese un RFC valido'
-  // }
+  if (!data.tipoTramite) {
+    err.tipoTramite = 'Ingrese tipo de tramite'
+  }
+  if (!hasText(data.nacionalidad)) {
+    err.nacionalidad = 'Ingrese su nacionalidad'
+  }
+  if (!data.tipoVialidad) {
+    err.tipoVialidad = 'Ingrese tipo de vialidad'
+  }
+  if (!data.asentamiento) {
+    err.asentamiento = 'Ingrese tipo de asentamiento'
+  }
+  if (!(data.fechaApertura instanceof Date || hasText(data.fechaApertura))) {
+    err.fechaApertura = 'Ingrese una fecha de apertura'
+  }
 
   return {
     hasError:
       err.tipoPST !== '' ||
       err.nombreComercial !== '' ||
       err.rfc !== '' ||
-      err.razonSocial !== '',
+      err.razonSocial !== '' ||
+      err.tipoTramite !== '' ||
+      err.nacionalidad !== '' ||
+      err.tipoVialidad !== '' ||
+      err.asentamiento !== '' ||
+      err.fechaApertura !== '',
     errors: err,
   }
 }

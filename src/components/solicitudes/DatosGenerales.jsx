@@ -4,12 +4,20 @@ import React, { useState, useEffect } from 'react'
 import Input from '../common/Input'
 import Button from '../common/Button'
 import Dropdown from '../common/Dropdown'
+import DatePickerCustom from '../common/DatePicker'
 
 import { validate } from '@/utils/validation'
 import { useAuthStore } from '@/store/auth'
-import { INIT_DATOS_GENERALES, STEP_ENUM } from '@/utils/constants'
+import {
+  INIT_DATOS_GENERALES,
+  STEP_ENUM,
+  TIPOS_TRAMITES_DROPDOWN,
+  TIPOS_VIALIDAD_DROPDOWN,
+  TIPOS_ASENTAMIENTO_DROPDOWN,
+} from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { useRouter } from 'next/navigation'
+import dayjs from 'dayjs'
 
 const DatosGenerales = ({
   step,
@@ -145,6 +153,52 @@ const DatosGenerales = ({
           name="curp"
           onChange={onHandleChange}
           value={data.curp}
+        />
+        <Dropdown
+          label="Tipo de Trámite *"
+          name="tipoTramite"
+          variant="outlined"
+          value={data.tipoTramite ? data.tipoTramite : 0}
+          options={TIPOS_TRAMITES_DROPDOWN}
+          error={Boolean(error.tipoTramite)}
+          helpText={error.tipoTramite}
+          onChange={onHandleChange}
+        />
+        <Input
+          label="Nacionalidad *"
+          name="nacionalidad"
+          onChange={onHandleChange}
+          error={error.nacionalidad !== ''}
+          helpText={error.nacionalidad}
+          value={data.nacionalidad}
+        />
+        <Dropdown
+          label="Tipo de Vialidad *"
+          name="tipoVialidad"
+          variant="outlined"
+          value={data.tipoVialidad ? data.tipoVialidad : 0}
+          options={TIPOS_VIALIDAD_DROPDOWN}
+          error={Boolean(error.tipoVialidad)}
+          helpText={error.tipoVialidad}
+          onChange={onHandleChange}
+        />
+        <Dropdown
+          label="Nombre de de asentamiento *"
+          name="asentamiento"
+          variant="outlined"
+          value={data.asentamiento ? data.asentamiento : 0}
+          options={TIPOS_ASENTAMIENTO_DROPDOWN}
+          error={Boolean(error.asentamiento)}
+          helpText={error.asentamiento}
+          onChange={onHandleChange}
+        />
+        <DatePickerCustom
+          label="Fecha apertura *"
+          name="fechaApertura"
+          error={error.fechaApertura !== ''}
+          helpText={error.fechaApertura}
+          onChange={onHandleChange}
+          value={dayjs(data.fechaApertura)}
         />
       </section>
 

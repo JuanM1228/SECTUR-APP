@@ -42,7 +42,8 @@ const Resumen = ({ information }) => {
       web: contacto.web,
       facebook: contacto.facebook,
       x: contacto.x,
-      fax: contacto.fax,
+      tiktok: contacto.tiktok,
+      instagram: contacto.instagram,
       //Información legal
       nombreDelPropietario: informacionLegal.nombreDelPropietario,
       representanteLegal: informacionLegal.representanteLegal,
@@ -144,7 +145,10 @@ const Resumen = ({ information }) => {
             Facebook: <span className="font-normal">{data.facebook}</span>
           </p>
           <p className="font-semibold">
-            Fax: <span className="font-normal">{data.fax}</span>
+            Tiktok: <span className="font-normal">{data.tiktok}</span>
+          </p>
+          <p className="font-semibold">
+            Instagram: <span className="font-normal">{data.instagram}</span>
           </p>
 
           <p className="font-semibold">
@@ -198,7 +202,7 @@ const Resumen = ({ information }) => {
                 <div key={index} className="">
                   <img
                     alt={item.documentName}
-                    src={`http://172.16.100.47:3002/${item.documentUrl}`}
+                    src={`${process.env.ENV_URL}/${item.documentUrl}`}
                     className="object-fill rounded"
                   />
                 </div>

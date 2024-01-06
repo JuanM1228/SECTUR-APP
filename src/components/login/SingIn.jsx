@@ -70,7 +70,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         showRegister ? 'hide' : ''
       }`}>
       <section className="flex rounded-t-lg sm:rounded-s-lg flex-col justify-center items-center gap-10 bg-merino w-full sm:w-1/2 p-10 sm:p-14">
-        <Image alt="logo SECTUR" src={Images.logoSECTUR} className="w-3/4" />
+        <Image alt="logo SECTUR" src={Images.logoSECTUR} className="w-80" />
 
         <p className="font-GMX font-bold text-2xl sm:text-3xl text-center text-twine">
           Registro Nacional de Turismo

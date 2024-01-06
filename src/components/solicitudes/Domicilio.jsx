@@ -38,7 +38,6 @@ const Domicilio = ({
   const [error, setError] = useState(INIT_DATA_DOMICILIO)
   const { sendRequest, isLoading } = useHttpClient()
   const [coordenadas, setCoordenadas] = useState(null)
-  console.log(data)
 
   useEffect(() => {
     if (!dataDomicilio) return
@@ -189,7 +188,6 @@ const Domicilio = ({
         <Input
           label="Número exterior *"
           name="numExterior"
-          type="number"
           error={Boolean(error.numExterior)}
           helpText={error.numExterior}
           onChange={onHandleChange}
@@ -198,7 +196,6 @@ const Domicilio = ({
         <Input
           label="Número interior"
           name="numInterior"
-          type="number"
           onChange={onHandleChange}
           value={data.numInterior}
         />
@@ -214,6 +211,13 @@ const Domicilio = ({
             HAZ CLICK EN EL MAPA PARA SELECCIONAR UNA UBICACIÓN
           </h1>
         )}
+
+        <Button
+          content="Quitar pin"
+          type="button"
+          className=" w-full sm:w-auto shrink"
+          onClick={() => setData({ ...data, latitud: null, longitud: null })}
+        />
       </section>
 
       <MapContainer

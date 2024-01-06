@@ -14,7 +14,6 @@ export const INIT_FILTROS_DATA = {
   fechaFinal: '',
 }
 
-
 export const INIT_DATA_REGISTER_USER = {
   name: '',
   paternalSurname: '',
@@ -23,7 +22,7 @@ export const INIT_DATA_REGISTER_USER = {
   password: '',
   verifyPassword: '',
   birthDate: '',
-  submenus:'',
+  submenus: '',
 }
 
 export const INIT_DATA_LOGIN = {
@@ -39,6 +38,11 @@ export const INIT_DATOS_GENERALES = {
   registroAnterior: '',
   razonSocial: '',
   curp: '',
+  tipoTramite: null,
+  nacionalidad: '',
+  tipoVialidad: null,
+  asentamiento: null,
+  fechaApertura: '',
 }
 
 export const INIT_DATA_DOMICILIO = {
@@ -47,8 +51,8 @@ export const INIT_DATA_DOMICILIO = {
   municipio: '',
   colonia: null,
   calle: '',
-  numInterior: null,
-  numExterior: null,
+  numInterior: '',
+  numExterior: '',
   latitud: null,
   longitud: null,
 }
@@ -328,3 +332,132 @@ export const INIT_DATA_KPIS = {
   revision: null,
   expirado: null,
 }
+
+export const TIPOS_TRAMITES_DROPDOWN = [
+  { value: 1, title: 'Inscripción' },
+  {
+    value: 2,
+    title: 'Expedición de nuevo certificado por cambio de domicilio',
+  },
+  { value: 3, title: 'Razón social o nombre comercial' },
+  {
+    value: 4,
+    title:
+      'Expedición de nuevo certificado por incluir la categoria obtenida en el sistema de alificación hotelero',
+  },
+  {
+    value: 5,
+    title: 'Reposición de certificado (robo, extravío o destrucción)',
+  },
+  {
+    value: 6,
+    title: 'Renovación (idéntico a la inscripción se hace cada dos años)',
+  },
+  { value: 7, title: 'Cancelación (constancia de baja)' },
+  {
+    value: 8,
+    title: 'Rectificación (discrepancia de información en el certificado)',
+  },
+]
+
+export const TIPOS_VIALIDAD_DROPDOWN = [
+  { value: 9, title: 'Ampliación' },
+  { value: 10, title: 'Andador' },
+  { value: 11, title: 'Avenida' },
+  { value: 12, title: 'Boulevard' },
+  { value: 13, title: 'Calle' },
+  { value: 14, title: 'Callejón' },
+  { value: 15, title: 'Calzada' },
+  { value: 16, title: 'Cerrada' },
+  { value: 17, title: 'Circuito' },
+  { value: 18, title: 'Circunvalación' },
+  { value: 19, title: 'Continuación' },
+  { value: 20, title: 'Corredor' },
+  { value: 21, title: 'Diagonal' },
+  { value: 22, title: 'Eje Vial' },
+  { value: 23, title: 'Pasaje peatonal' },
+  { value: 24, title: 'Periférico' },
+  { value: 25, title: 'Privada' },
+  { value: 26, title: 'Prolongación' },
+  { value: 27, title: 'Retorno' },
+  { value: 28, title: 'Viaducto' },
+]
+
+export const TIPOS_ASENTAMIENTO_DROPDOWN = [
+  { value: 29, title: 'Aeropuerto' },
+  { value: 30, title: 'Ampliación' },
+  { value: 31, title: 'Barrio' },
+  { value: 32, title: 'Cantón' },
+  { value: 33, title: 'Cd.' },
+  { value: 34, title: 'Cd. Industrial' },
+  { value: 35, title: 'Colonia' },
+  { value: 36, title: 'Condominio' },
+  { value: 37, title: 'Conjunto habitacional' },
+  { value: 38, title: 'Corredor industrial' },
+  { value: 39, title: 'Coto' },
+  { value: 40, title: 'Cuartel' },
+  { value: 41, title: 'Ejido' },
+  { value: 42, title: 'Exhacienda' },
+  { value: 43, title: 'Fracción' },
+  { value: 44, title: 'Fraccionamiento' },
+  { value: 45, title: 'Granja' },
+  { value: 46, title: 'Hacienda' },
+  { value: 47, title: 'Ingenio' },
+  { value: 48, title: 'Manzana' },
+  { value: 49, title: 'Paraje' },
+  { value: 50, title: 'Parque industrial' },
+  { value: 51, title: 'Privada' },
+  { value: 52, title: 'Prolongación' },
+  { value: 53, title: 'Pueblo' },
+  { value: 54, title: 'Puerto' },
+  { value: 55, title: 'Ranchería' },
+  { value: 56, title: 'Rancho' },
+  { value: 57, title: 'Región' },
+  { value: 58, title: 'Residencial' },
+  { value: 59, title: 'Rinconada' },
+  { value: 60, title: 'Sección' },
+  { value: 61, title: 'Sector' },
+  { value: 62, title: 'Supermanzana' },
+  { value: 63, title: 'Unidad' },
+  { value: 64, title: 'Unidad habitacional' },
+  { value: 65, title: 'Villa' },
+  { value: 66, title: 'Zona federal' },
+  { value: 67, title: 'Zona industrial' },
+  { value: 68, title: 'Zona militar' },
+  { value: 69, title: 'Zona naval' },
+]
+
+export const OPTIONS_ESTADOS = [
+  { value: 1, title: 'Aguascalientes' },
+  { value: 2, title: 'Baja California' },
+  { value: 3, title: 'Baja California Sur' },
+  { value: 4, title: 'Campeche' },
+  { value: 5, title: 'Coahuila de Zaragoza' },
+  { value: 6, title: 'Colima' },
+  { value: 7, title: 'Chiapas' },
+  { value: 8, title: 'Chihuahua' },
+  { value: 9, title: 'Ciudad de Mexico' },
+  { value: 10, title: 'Durango' },
+  { value: 11, title: 'Guanajuato' },
+  { value: 12, title: 'Guerrero' },
+  { value: 13, title: 'Hidalgo' },
+  { value: 14, title: 'Jalisco' },
+  { value: 15, title: 'México' },
+  { value: 16, title: 'Michoacán de Ocampo' },
+  { value: 17, title: 'Morelos' },
+  { value: 18, title: 'Nayarit' },
+  { value: 19, title: 'Nuevo León' },
+  { value: 20, title: 'Oaxaca' },
+  { value: 21, title: 'Puebla' },
+  { value: 22, title: 'Querétaro' },
+  { value: 23, title: 'Quintana Roo' },
+  { value: 24, title: 'San Luis Potosí' },
+  { value: 25, title: 'Sinaloa' },
+  { value: 26, title: 'Sonora' },
+  { value: 27, title: 'Tabasco' },
+  { value: 28, title: 'Tamaulipas' },
+  { value: 29, title: 'Tlaxcala' },
+  { value: 30, title: 'Veracruz de Ignacio de la Llave' },
+  { value: 31, title: 'Yucatán' },
+  { value: 32, title: 'Zacatecas' },
+]

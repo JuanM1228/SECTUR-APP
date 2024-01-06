@@ -661,3 +661,62 @@ export const OPTIONS_ESTADOS = [
   { value: 31, title: 'Yucatán' },
   { value: 32, title: 'Zacatecas' },
 ]
+
+export const COLUMS_CONSULTA_GENERAL = [
+  {
+    field: 'folioSolicitud',
+    headerName: 'Folio Solicitud',
+    minWidth: 90,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'tipoPST',
+    headerName: 'Tipo PST',
+    minWidth: 180,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'nombreComercial',
+    headerName: 'Nombre Comercial',
+    minWidth: 100,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'calle',
+    headerName: 'Calle',
+    minWidth: 100,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'colonia',
+    headerName: 'Colonia',
+    minWidth: 100,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'estado',
+    headerName: 'Estado',
+    minWidth: 100,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'municipio',
+    headerName: 'Municipio',
+    minWidth: 100,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+]
