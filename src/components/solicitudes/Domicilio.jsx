@@ -133,6 +133,10 @@ const Domicilio = ({
     }
   }
 
+  if (isLoading && step === STEP_ENUM.DOMICILIO) {
+    return <span className="loader mt-20"></span>
+  }
+
   return (
     <form
       className={`container-form-solicitud t-ease ${

@@ -73,6 +73,10 @@ const ArrendadoraAutos = ({
     onUpdateDatabase(body)
   }
 
+  if (isLoading && step === STEP_ENUM.DETALLES) {
+    return <span className="loader"></span>
+  }
+
   return (
     <form
       className={`container-form-solicitud t-ease ${

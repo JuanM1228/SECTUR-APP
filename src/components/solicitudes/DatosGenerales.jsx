@@ -93,6 +93,10 @@ const DatosGenerales = ({
     setData({ ...data, [name]: value })
   }
 
+  if (isLoading && step === STEP_ENUM.DATOS_GENERALES) {
+    return <span className="loader mt-20"></span>
+  }
+
   return (
     <form
       className={`container-form-solicitud t-ease ${

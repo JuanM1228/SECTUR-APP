@@ -105,6 +105,10 @@ const TiemposCompartidos = ({
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
 
+  if (isLoading && step === STEP_ENUM.DETALLES) {
+    return <span className="loader"></span>
+  }
+
   return (
     <form
       className={`container-form-solicitud t-ease ${

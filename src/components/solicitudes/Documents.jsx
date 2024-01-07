@@ -335,6 +335,11 @@ const Documents = props => {
     nextStep()
   }
   const { documentsList, selectedDoc, showModal, photosList } = state
+
+  if (isLoading && step === STEP_ENUM.DOCUMENTOS) {
+    return <span className="loader"></span>
+  }
+
   return (
     <>
       <form

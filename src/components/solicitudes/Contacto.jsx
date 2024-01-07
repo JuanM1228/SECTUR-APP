@@ -61,6 +61,10 @@ const Contacto = ({
     }
   }
 
+  if (isLoading && step === STEP_ENUM.CONTACTO) {
+    return <span className="loader"></span>
+  }
+
   return (
     <form
       className={`container-form-solicitud t-ease ${

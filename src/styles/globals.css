@@ -4,7 +4,5 @@
 
 @import './transitions.css';
 @import './solicitudes.css';
+@import './loader.css'
 
-@layer base {
-    :root {}
-}
