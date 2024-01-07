@@ -225,7 +225,7 @@ const DetallesDeSolicitud = () => {
   const openDoumentHandler = (url, type) => {
     setMediaData({ documentUrl: url, documentType: type, show: true })
   }
-
+  console.log(mediaData)
   return (
     <div className="w-full container font-Montserrat">
       <h1 className="font-GMX text-2xl sm:text-3xl font-bold col-span-2 text-center m-4">
@@ -489,8 +489,12 @@ const DetallesDeSolicitud = () => {
             type={mediaData.documentType}
             frameBorder="0"
             scrolling="auto"
-            height="40%"
-            width="40%"></embed>
+            height={
+              mediaData.documentType === 'application/pdf' ? '90%' : 'auto'
+            }
+            width={
+              mediaData.documentType === 'application/pdf' ? '90%' : 'auto'
+            }></embed>
         </Modal>
       </div>
       <Dialog
