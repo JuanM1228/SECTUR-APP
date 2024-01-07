@@ -482,33 +482,15 @@ const DetallesDeSolicitud = () => {
         <Modal
           open={mediaData.show}
           onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description">
-          {/* <embed
-            src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
-            type="application/pdf"
-            frameBorder="0"
-            scrolling="auto"
-            height="80%"
-            width="80%"
-            style={{ display: "block", margin: "0 auto" }}
-          ></embed> */}
-          {/* <embed
-            src="https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w600/2023/10/free-images.jpg"
-            type="image/jpg"
-            frameBorder="0"
-            scrolling="auto"
-            height="80%"
-            width="80%"
-            style={{ display: 'block', margin: '0 auto' }}></embed> */}
+          className="flex justify-center items-center">
           <embed
             src={mediaData.documentUrl}
+            className="bg-merino flex justify-center items-center"
             type={mediaData.documentType}
             frameBorder="0"
             scrolling="auto"
-            height="80%"
-            width="80%"
-            style={{ display: 'block', margin: '0 auto' }}></embed>
+            height="40%"
+            width="40%"></embed>
         </Modal>
       </div>
       <Dialog
