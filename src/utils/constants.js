@@ -360,6 +360,17 @@ export const TIPOS_TRAMITES_DROPDOWN = [
   },
 ]
 
+export const TIPOS_TRAMITES_OBJETO = {
+  1: 'Inscripción',
+  2: 'Expedición de nuevo certificado por cambio de domicilio',
+  3: 'Razón social o nombre comercial',
+  4: 'Expedición de nuevo certificado por incluir la categoria obtenida en el sistema de alificación hotelero',
+  5: 'Reposición de certificado (robo, extravío o destrucción)',
+  6: 'Renovación (idéntico a la inscripción se hace cada dos años)',
+  7: 'Cancelación (constancia de baja)',
+  8: 'Rectificación (discrepancia de información en el certificado)',
+}
+
 export const TIPOS_VIALIDAD_DROPDOWN = [
   { value: 9, title: 'Ampliación' },
   { value: 10, title: 'Andador' },

@@ -75,6 +75,7 @@ const Table = ({ columns, rows, isLoading, className, getRowClassName }) => {
           //   </view>
           // ),
         }}
+        getRowHeight={() => 'auto'}
         onPaginationModelChange={(model, details) => {
           console.log('onPaginationModelChange: model', model)
           console.log('onPaginationModelChange: details', details)

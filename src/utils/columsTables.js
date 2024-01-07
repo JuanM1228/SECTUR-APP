@@ -1,10 +1,11 @@
 import Button from '@/components/common/Button'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
 import Icons from '@/assets/icons'
 import { IconButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import { STATUS_INFO } from './constants'
+import { STATUS_INFO, TIPOS_TRAMITES_OBJETO } from './constants'
 import { divIcon } from 'leaflet'
 
 const DeleteButton = params => {
@@ -95,34 +96,56 @@ const StatusBadge = params => {
   return <p>{STATUS_INFO[params.row.status]}</p>
 }
 
+const StatusTramites = params => {
+  return (
+    <p className="break-words ">
+      {TIPOS_TRAMITES_OBJETO[params.row.tipoTramite]}
+    </p>
+  )
+}
+
 const FolioBadge = params => {
+  const { sendRequest, isLoading } = useHttpClient()
+
   const onButtonClick = async () => {
     const url = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
     link.click()
   }
   const handleDownload = async () => {
+    isDownloaded()
+    // try {
+    //   const pdfUrl = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
+
+    //   const response = await fetch(pdfUrl)
+    //   if (!response.ok) {
+    //     throw new Error(`Error: ${response.status}`)
+    //   }
+    //   const blob = await response.blob()
+
+    //   // Crea un enlace para descargar el blob
+    //   const url = window.URL.createObjectURL(blob)
+    //   const link = document.createElement('a')
+    //   link.href = url
+    //   link.download = `${params.row.pathFolioSolicitud}`
+    //   document.body.appendChild(link)
+    //   link.click()
+
+    //   // Limpia el enlace y la URL creada
+    //   document.body.removeChild(link)
+    //   window.URL.revokeObjectURL(url)
+    // } catch (error) {
+    //   console.error('Hubo un problema con la petición Fetch:', error)
+    // }
+  }
+
+  const isDownloaded = async () => {
+    const url = `/api/registro/certificado-descargado/${params.row.id}`
     try {
-      const pdfUrl = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
-
-      const response = await fetch(pdfUrl)
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`)
-      }
-      const blob = await response.blob()
-
-      // Crea un enlace para descargar el blob
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `${params.row.pathFolioSolicitud}`
-      document.body.appendChild(link)
-      link.click()
-
-      // Limpia el enlace y la URL creada
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
+      const res = await sendRequest(url)
+      if (!res.success) return
+      console.log(res)
     } catch (error) {
-      console.error('Hubo un problema con la petición Fetch:', error)
+      console.log('error', error)
     }
   }
 
@@ -281,7 +304,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     renderCell: params => ReviewButton(params),
   },
   {
-    field: 'nombreUsuario',
+    field: 'userName',
     headerName: 'Usuario',
     minWidth: 150,
     type: 'string',
@@ -313,6 +336,15 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     align: 'center',
     headerAlign: 'center',
     renderCell: params => StatusBadge(params),
+  },
+  {
+    field: 'tipoTramite',
+    headerName: 'Tipo de Trámite',
+    minWidth: 300,
+    type: 'string',
+    align: 'start',
+    headerAlign: 'center',
+    renderCell: params => StatusTramites(params),
   },
   {
     field: 'observaciones',
