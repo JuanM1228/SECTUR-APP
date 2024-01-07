@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { STATUS_INFO, TIPOS_TRAMITES_OBJETO } from './constants'
 import { divIcon } from 'leaflet'
+import Alert from '@/components/common/Alert'
 
 const DeleteButton = params => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -30,6 +31,7 @@ const DeleteButton = params => {
 }
 
 const ListEstados = ({ arrayEstados }) => {
+  console.log(arrayEstados)
   if (!arrayEstados || arrayEstados.length === 0) {
     return (
       <select disabled>
@@ -105,53 +107,96 @@ const StatusTramites = params => {
 }
 
 const FolioBadge = params => {
-  const { sendRequest, isLoading } = useHttpClient()
-
-  const onButtonClick = async () => {
-    const url = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
-    link.click()
-  }
+  console.log(params)
   const handleDownload = async () => {
-    isDownloaded()
-    // try {
-    //   const pdfUrl = `${process.env.ENV_URL}/${params.row.pathFolioSolicitud}`
-
-    //   const response = await fetch(pdfUrl)
-    //   if (!response.ok) {
-    //     throw new Error(`Error: ${response.status}`)
-    //   }
-    //   const blob = await response.blob()
-
-    //   // Crea un enlace para descargar el blob
-    //   const url = window.URL.createObjectURL(blob)
-    //   const link = document.createElement('a')
-    //   link.href = url
-    //   link.download = `${params.row.pathFolioSolicitud}`
-    //   document.body.appendChild(link)
-    //   link.click()
-
-    //   // Limpia el enlace y la URL creada
-    //   document.body.removeChild(link)
-    //   window.URL.revokeObjectURL(url)
-    // } catch (error) {
-    //   console.error('Hubo un problema con la petición Fetch:', error)
-    // }
-  }
-
-  const isDownloaded = async () => {
-    const url = `/api/registro/certificado-descargado/${params.row.id}`
     try {
-      const res = await sendRequest(url)
-      if (!res.success) return
-      console.log(res)
+      const pdfUrl = `${process.env.ENV_URL}/documentos/certificados/${params.row.folioSolicitud}.pdf`
+      console.log(pdfUrl)
+
+      const response = await fetch(pdfUrl)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`)
+      }
+      const blob = await response.blob()
+
+      // Crea un enlace para descargar el blob
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${params.row.folioSolicitud}`
+      document.body.appendChild(link)
+      link.click()
+
+      // Limpia el enlace y la URL creada
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
     } catch (error) {
-      console.log('error', error)
+      console.error('Hubo un problema con la petición Fetch:', error)
     }
   }
 
   return (
     params.row.folioSolicitud && (
       <Button content="Descargar certificado" onClick={handleDownload} />
+    )
+  )
+}
+
+const FolioBadgeUsuario = params => {
+  const { sendRequest, isLoading } = useHttpClient()
+
+  const isDownloaded = async () => {
+    try {
+      const url = `/api/registro/certificado-descargado/${params.row.id}`
+      const res = await sendRequest(url)
+      if (res.success) {
+        return res.result.descargado
+      }
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  }
+
+  const onButtonClick = async () => {
+    const download = await isDownloaded()
+    if (download) {
+      alert('Certificado descargado previamente')
+      return
+    }
+
+    handleDownload()
+  }
+
+  const handleDownload = async () => {
+    try {
+      const pdfUrl = `${process.env.ENV_URL}/documentos/certificados/${params.row.folioSolicitud}.pdf`
+
+      const response = await fetch(pdfUrl)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`)
+      }
+      const blob = await response.blob()
+
+      // Crea un enlace para descargar el blob
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${params.row.folioSolicitud}`
+      document.body.appendChild(link)
+      link.click()
+
+      // Limpia el enlace y la URL creada
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Hubo un problema con la petición Fetch:', error)
+    }
+  }
+
+  return (
+    params.row.folioSolicitud && (
+      <Button content="Descargar certificado" onClick={onButtonClick} />
     )
   )
 }
@@ -233,7 +278,7 @@ export const COLUMNS_TABLE_TRAMITES_USUARIO = [
     type: 'string',
     align: 'center',
     headerAlign: 'center',
-    renderCell: params => FolioBadge(params),
+    renderCell: params => FolioBadgeUsuario(params),
   },
   {
     field: 'tipoPST',
@@ -655,7 +700,10 @@ export const COLUMNS_TABLE_USUARIOS = [
     type: 'string',
     align: 'left',
     headerAlign: 'center',
-    renderCell: params => <ListEstados arrayEstados={params.row.estados} />,
+    renderCell: params => {
+      // console.log(params)
+      return <ListEstados arrayEstados={params.row.estados} />
+    },
   },
 ]
 

@@ -337,9 +337,9 @@ export const TIPOS_TRAMITES_DROPDOWN = [
   { value: 1, title: 'Inscripción' },
   {
     value: 2,
-    title: 'Expedición de nuevo certificado por cambio de domicilio',
+    title:
+      'Expedición de nuevo certificado por cambio de domicilio, razón social o nombre comercial',
   },
-  { value: 3, title: 'Razón social o nombre comercial' },
   {
     value: 4,
     title:
@@ -394,6 +394,29 @@ export const TIPOS_VIALIDAD_DROPDOWN = [
   { value: 28, title: 'Viaducto' },
 ]
 
+export const TIPOS_VIALIDAD_OBJETO = {
+  9: 'Ampliación',
+  10: 'Andador',
+  11: 'Avenida',
+  12: 'Boulevard',
+  13: 'Calle',
+  14: 'Callejón',
+  15: 'Calzada',
+  16: 'Cerrada',
+  17: 'Circuito',
+  18: 'Circunvalación',
+  19: 'Continuación',
+  20: 'Corredor',
+  21: 'Diagonal',
+  22: 'Eje Vial',
+  23: 'Pasaje peatonal',
+  24: 'Periférico',
+  25: 'Privada',
+  26: 'Prolongación',
+  27: 'Retorno',
+  28: 'Viaducto',
+}
+
 export const TIPOS_ASENTAMIENTO_DROPDOWN = [
   { value: 29, title: 'Aeropuerto' },
   { value: 30, title: 'Ampliación' },
@@ -437,6 +460,50 @@ export const TIPOS_ASENTAMIENTO_DROPDOWN = [
   { value: 68, title: 'Zona militar' },
   { value: 69, title: 'Zona naval' },
 ]
+
+export const TIPOS_ASENTAMIENTO_OBJETO = {
+  29: 'Aeropuerto',
+  30: 'Ampliación',
+  31: 'Barrio',
+  32: 'Cantón',
+  33: 'Cd.',
+  34: 'Cd. Industrial',
+  35: 'Colonia',
+  36: 'Condominio',
+  37: 'Conjunto habitacional',
+  38: 'Corredor industrial',
+  39: 'Coto',
+  40: 'Cuartel',
+  41: 'Ejido',
+  42: 'Exhacienda',
+  43: 'Fracción',
+  44: 'Fraccionamiento',
+  45: 'Granja',
+  46: 'Hacienda',
+  47: 'Ingenio',
+  48: 'Manzana',
+  49: 'Paraje',
+  50: 'Parque industrial',
+  51: 'Privada',
+  52: 'Prolongación',
+  53: 'Pueblo',
+  54: 'Puerto',
+  55: 'Ranchería',
+  56: 'Rancho',
+  57: 'Región',
+  58: 'Residencial',
+  59: 'Rinconada',
+  60: 'Sección',
+  61: 'Sector',
+  62: 'Supermanzana',
+  63: 'Unidad',
+  64: 'Unidad habitacional',
+  65: 'Villa',
+  66: 'Zona federal',
+  67: 'Zona industrial',
+  68: 'Zona militar',
+  69: 'Zona naval',
+}
 
 export const OPTIONS_ESTADOS = [
   { value: 1, title: 'Aguascalientes' },

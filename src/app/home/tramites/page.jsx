@@ -21,14 +21,9 @@ import {
   COLUMNS_TABLE_TRAMITES_ADMIN,
   COLUMNS_TABLE_TRAMITES_USUARIO,
 } from '@/utils/columsTables'
+import Alert from '@/components/common/Alert'
 
 const { EN_PROCESO, FINALIZADO, RECHAZADO, REVISION } = STATUS_TRAMITE
-
-const testData = [
-  { value: 1, title: 'test1' },
-  { value: 2, title: 'test2' },
-  { value: 3, title: 'test3' },
-]
 
 const PanelSolicitudesUsuario = () => {
   const router = useRouter()
@@ -39,6 +34,7 @@ const PanelSolicitudesUsuario = () => {
   const [catalogoPST, setCatalogoPST] = useState([])
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
   const [estados, setEstados] = useState([])
+  const [showAlert, setShowAlert] = useState(false)
 
   useEffect(() => {
     if (!profile) return
@@ -252,6 +248,12 @@ const PanelSolicitudesUsuario = () => {
           </div>
         )}
       </div>
+      <Alert
+        open={showAlert}
+        severity="warning"
+        onClose={() => setShowAlert(false)}>
+        Certificado previamente descargado
+      </Alert>
     </div>
   )
 }

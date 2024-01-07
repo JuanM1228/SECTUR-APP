@@ -18,7 +18,14 @@ import ButtonMUI from '@mui/material/Button'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
 
-import { MAX_PHOTO_LENGTH, STEP_ENUM, PST_INFO } from '@/utils/constants'
+import {
+  MAX_PHOTO_LENGTH,
+  STEP_ENUM,
+  PST_INFO,
+  TIPOS_ASENTAMIENTO_OBJETO,
+  TIPOS_VIALIDAD_OBJETO,
+  TIPOS_TRAMITES_OBJETO,
+} from '@/utils/constants'
 import colors from '@/assets/colors'
 import { formatoUnico } from '@/utils/formatoUnico'
 
@@ -176,6 +183,13 @@ const Documents = props => {
       facebook: register.contacto.facebook,
       twitter: register.contacto.x,
       propietario: register.informacionLegal.nombreDelPropietario,
+      tipoDeTramite: TIPOS_TRAMITES_OBJETO[register.datosGenerales.tipoTramite],
+      nacionalidad: register.datosGenerales.nacionalidad,
+      tipoDeVialidad:
+        TIPOS_VIALIDAD_OBJETO[register.datosGenerales.tipoVialidad],
+      tipoDeAsentamiento:
+        TIPOS_ASENTAMIENTO_OBJETO[register.datosGenerales.asentamiento],
+      fechaDeApertura: register.datosGenerales.fechaApertura,
     }
     console.log(register)
     console.log(registroPrueba)
