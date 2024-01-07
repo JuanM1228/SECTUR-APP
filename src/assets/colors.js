@@ -19,6 +19,7 @@ const colors = {
   gray: '#808080',
   white: '#FFFFFF',
   merinoTransparent: '#f8f4ebbe',
+  blue: '#3367D6',
 }
 
 export default colors

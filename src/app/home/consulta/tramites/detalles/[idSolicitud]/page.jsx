@@ -109,7 +109,7 @@ const DetallesDeSolicitud = () => {
       console.log(res.result.data)
       setData({
         // Datos Generales
-        tipoPST: datosGenerales.tipoPST,
+        tipoPST: datosGenerales.tipoPSTName,
         nombreComercial: datosGenerales.nombreComercial,
         razonSocial: datosGenerales.razonSocial,
         rfc: datosGenerales.rfc,
@@ -118,7 +118,7 @@ const DetallesDeSolicitud = () => {
         registroAnterior: datosGenerales.registroAnterior,
         // Domicilio
         calle: domicilio.calle,
-        colonia: domicilio.colonia,
+        colonia: domicilio.coloniaName,
         municipio: domicilio.municipio,
         estado: domicilio.estado,
         codigoPostal: domicilio.codigoPostal,
@@ -422,13 +422,13 @@ const DetallesDeSolicitud = () => {
             <h2 className="text-lg font-semibold">Doumentos</h2>
           </div>
           {data.documentsList?.length > 0 ? (
-            <div>
+            <div className="flex flex-col gap-2">
               {data.documentsList?.map((item, index) => {
                 return (
                   <p className="font-semibold" key={`docId-${index}`}>
                     {`${item.documentName}: `}
                     <span
-                      className="font-normal"
+                      className="font-normal underline cursor-pointer text-blue"
                       onClick={() =>
                         openDoumentHandler(
                           `${process.env.ENV_URL}/${item.documentUrl}`,
@@ -453,14 +453,14 @@ const DetallesDeSolicitud = () => {
             <h2 className="text-lg font-semibold">Fotos del establecimiento</h2>
           </div>
           {data.picturesList?.length > 0 ? (
-            <div>
+            <div className="flex flex-col gap-2">
               {data.picturesList?.map((item, index) => {
                 console.log(`${process.env.ENV_URL}/${item.documentUrl}`)
                 return (
                   <p className="font-semibold" key={`docId-${index}`}>
                     {`${item.documentName}: `}
                     <span
-                      className="font-normal"
+                      className="font-normal underline cursor-pointer text-blue"
                       onClick={() =>
                         openDoumentHandler(
                           `${process.env.ENV_URL}/${item.documentUrl}`,

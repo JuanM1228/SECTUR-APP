@@ -129,7 +129,6 @@ const HomePage = () => {
       const url = `/api/registro/detalle-tramite-folio/${folio}`
       const res = await sendRequest(url)
       if (res.success) {
-        console.log(res.result.data)
         setTramite(res.result.data)
       }
     } catch (e) {
@@ -143,7 +142,6 @@ const HomePage = () => {
       const url = `/api/places/listaPST?idEstado=${filtros.idEstado}&idMunicipio&idTipoPST&nombreComercial=${filtros.nombreComercial}`
       const res = await sendRequest(url)
       if (res.success) {
-        console.log(res.result.data)
         setTramitesList(res.result.data)
       }
     } catch (e) {
