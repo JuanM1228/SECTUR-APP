@@ -15,9 +15,7 @@ const Button = ({
   startIcon = null,
   onClick = () => {},
 }) => {
-  const colorButton = disabled
-    ? ''
-    : 'bg-bigDipORuby text-white hover:bg-bigDipORuby'
+
   return (
     <ButtonMUI
       autoFocus={autoFocus}
@@ -25,7 +23,7 @@ const Button = ({
       fullWidth={fullWidth}
       type={type}
       startIcon={startIcon}
-      className={`${colorButton} ${className} font-GMX font-bold`}
+      className={`${className}`}
       disabled={disabled}
       onClick={onClick}>
       {content}

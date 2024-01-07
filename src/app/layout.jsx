@@ -1,3 +1,4 @@
+import ThemeRegistry from '@/assets/theme/ThemeRegistry'
 import '@/styles/globals.css'
 import Head from 'next/head'
 import { GMX, montserrat } from '@/assets/fonts'
@@ -17,9 +18,13 @@ export default function RootLayout({ children }) {
           crossorigin=""
         />
       </Head>
-      <body className={`${GMX.variable} ${montserrat.variable}`}>
-        {children}
-      </body>
+
+      <ThemeRegistry>
+        <body
+          className={`${GMX.variable} ${montserrat.variable} font-Montserrat`}>
+          {children}
+        </body>
+      </ThemeRegistry>
     </html>
   )
 }
