@@ -1,24 +1,27 @@
+'use client'
 import React, {useEffect, useState } from 'react'
-
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   IconButton,
+  Snackbar,
+  Alert,
 } from '@mui/material'
+import Button from '../common/Button'
 import Slide from '@mui/material/Slide'
 import Icons from '@/assets/icons'
 import Table from '../common/Table'
 import { COLUMNS_TABLE_CATALOGOS } from '@/utils/columsTables'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import Button from '@/components/common/Button'
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const DeleteConfirmationDialog = ({ open, onClose, onConfirm, itemName }) => {
+const DeleteConfirmationDialog = ({ open, onClose, onConfirm }) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Confirmar eliminación</DialogTitle>
@@ -27,11 +30,9 @@ const DeleteConfirmationDialog = ({ open, onClose, onConfirm, itemName }) => {
           ¿Está seguro de que desea eliminar este elemento?
         </DialogContentText>
       </DialogContent>
-      <div className="flex justify-end p-5">
-        <Button className='mr-4 bg-bigDipORuby' content='Cancelar' onClick={onClose} color="primary">
-        </Button>
-        <Button content='Aceptar' onClick={onConfirm} color="primary">
-        </Button>
+      <div className="flex justify-end p-5 ">
+        <Button  content='Cancelar' onClick={onClose} />
+        <Button  content='Aceptar' onClick={onConfirm}/>
       </div>
     </Dialog>
   );
@@ -39,7 +40,7 @@ const DeleteConfirmationDialog = ({ open, onClose, onConfirm, itemName }) => {
 
 const EditSection = ({ rowData, onEdit, onDelete }) => {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 ">
       <IconButton onClick={() => onEdit(rowData)}>
         <Icons.Edit />
       </IconButton>
@@ -57,8 +58,9 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
   const [showInput, setShowInput] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [showAlert, setShowAlert] = useState(false)
   const [content, setContent] = useState('Agregar nuevo campo');
-  const [selectedStatus, setSelectedStatus] = useState('Activo');
+  const [selectedStatus, setSelectedStatus] = useState('');
   const [textareaValue, setTextareaValue] = useState('');
   const [isEditing, setIsEditing] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
@@ -100,6 +102,11 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
   //AddCamp
   const addCamp = async (requestData) => {
     console.log('Request Data:', requestData);
+    if (!requestData.nombre || !requestData.estatus) {
+      setShowAlert(true);
+      console.error('Nombre y estatus son obligatorios.');
+      return;
+    }
     try {
       const response = await sendRequest('/api/configuration/add-catalogo-servicios', {
         method: 'POST',
@@ -154,7 +161,7 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
       const requestData = {
         id_catalogo: idCatalog,
         nombre: formdata.name,
-        estatus: selectedStatus,
+        estatus: formdata.estatus,
         isActive: -1,
         tipo_especial: -1,
         id_especial: -1,
@@ -165,17 +172,23 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
         estatus: selectedStatus,
       };
       try{
-      if (isEditing) {
+        if (isEditing) {
+          // Actualiza formdata antes de la edición
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            estatus: selectedStatus,
+          }));
       // Update item
         console.log('Form Data:', formdata);
         console.log('isEditing:', isEditing);
         
         console.log('Form Dataadd:', requestData);
         console.log('Form Data edit:', requestEditData);
-       await editCamp(requestEditData);
+       await editCamp(requestData);
       } else {
       // Add new item
         console.log('Form Data:', requestData);
+        
        await addCamp(requestData);
       }
       fetchDataByCatalogName(idCatalog);
@@ -201,7 +214,7 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
     setFormData({ 
     id_catalogo: '',
     name: '',
-    estatus: '',
+    estatus: 'Activo',
     isActive: -1,
     tipo_especial: -1,
     id_especial: -1,
@@ -281,15 +294,13 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
                  <Button
                    type="button"
                    content="Aceptar"
-                   className="bg-bigDipORuby"
                    onClick={handleClose}
-                 ></Button>
+                 />
                  <Button
                    type="button"
                    content="Regresar"
-                   className="bg-bigDipORuby"
                    onClick={handleClose}
-                 ></Button>
+                 />
                </div>
              </>
             ) : (
@@ -317,7 +328,7 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
             rows={data}
             isLoading={false}
           />
-          <Button content={content} className='bg-bigDipORuby' onClick={handleButtonClick}/>
+          <Button content={content} onClick={handleButtonClick}/>
           </>
             )}
         </DialogContentText>
@@ -328,19 +339,19 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
            placeholder="Ingrese tipo" 
            className="w-2/5"
            value = {formdata.name}
-           onChange={(e)=> setFormData({...formdata, name: e.target.value, estatus: selectedStatus})}
+           onChange={(e)=> setFormData({...formdata, name: e.target.value, estatus: formdata.estatus})}
             />}
           {showDropdown && (
             <select
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-1/5"
+              value={formdata.estatus}
+              onChange={(e) => setFormData({...formdata, estatus: e.target.value})}
+              className="w-1/4"
             >
               <option value="Activo">Activo</option>
               <option value="Inactivo">Inactivo</option>
             </select>
           )}
-          {showButton && <Button type='submit' content='Aceptar' className="w-3/4 bg-bigDipORuby " onClick={handleSubmit} ></Button>}
+          {showButton && <Button type='submit' content='Aceptar'  onClick={handleSubmit}/>}
         </div>
       </DialogContent>
     </Dialog>
@@ -348,8 +359,20 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
         open={deleteConfirmationOpen}
         onClose={() => setDeleteConfirmationOpen(false)}
         onConfirm={confirmDelete}
-        // itemName={formdata.name}
+        itemName={formdata.name}
       />
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={() => setShowAlert(false)}>
+        <Alert
+          onClose={() => setShowAlert(false)}
+          severity="error"
+          sx={{ width: '100%' }}>
+          NOMBRE Y ESTATUS DEBEN ESTAR LLENOS
+        </Alert>
+      </Snackbar>
     </>
   )
 }

@@ -13,7 +13,12 @@ export const INIT_FILTROS_DATA = {
   fechaInicio: '',
   fechaFinal: '',
 }
-
+export const INIT_FILTROS_USER_DATA = {
+  id: '',
+  name: '',
+  email:'',
+  estados: [],
+}
 export const INIT_DATA_REGISTER_USER = {
   name: '',
   paternalSurname: '',
