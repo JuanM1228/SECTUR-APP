@@ -489,11 +489,9 @@ const DetallesDeSolicitud = () => {
             type={mediaData.documentType}
             frameBorder="0"
             scrolling="auto"
-            height={
-              mediaData.documentType === 'application/pdf' ? '90%' : 'auto'
-            }
+            height={mediaData.documentType === 'application/pdf' ? '90%' : ''}
             width={
-              mediaData.documentType === 'application/pdf' ? '90%' : 'auto'
+              mediaData.documentType === 'application/pdf' ? '90%' : '40%'
             }></embed>
         </Modal>
       </div>
