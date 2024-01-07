@@ -69,7 +69,7 @@ const EditDeleteSection = ({onEdit, onDelete, rowData }) => {
   );
 };
 
-const usuarios = () => {
+const Usuarios = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [value, setValue] = useState(0)
   const [rows, setRows] = useState([])
@@ -840,4 +840,4 @@ const usuarios = () => {
   
 }
 
-export default usuarios
+export default Usuarios
