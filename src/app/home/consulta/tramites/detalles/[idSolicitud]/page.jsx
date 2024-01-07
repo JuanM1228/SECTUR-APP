@@ -242,20 +242,23 @@ const DetallesDeSolicitud = () => {
           <Button
             content="Editar"
             type="button"
-            className=" w-full sm:w-auto bg-twine hover:bg-twine"
+            className=" sm:w-auto  hover:bg-twine"
             onClick={() => modalHandler(ACTION.EDIT)}
+            fullWidth={false}
           />
           <Button
             content="Rechazar"
             type="button"
-            className=" w-full sm:w-auto bg-bigDipORuby hover:bg-bigDipORuby"
+            className=" sm:w-auto hover:bg-bigDipORuby"
             onClick={() => modalHandler(ACTION.REJECT)}
+            fullWidth={false}
           />
           <Button
             content="Aceptar"
             type="button"
-            className=" w-full sm:w-auto bg-blueDianne hover:bg-blueDianne"
+            className=" sm:w-auto hover:bg-blueDianne"
             onClick={() => modalHandler(ACTION.APPROVE)}
+            fullWidth={false}
           />
         </div>
       )}

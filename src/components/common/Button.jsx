@@ -15,7 +15,6 @@ const Button = ({
   startIcon = null,
   onClick = () => {},
 }) => {
-
   return (
     <ButtonMUI
       autoFocus={autoFocus}
