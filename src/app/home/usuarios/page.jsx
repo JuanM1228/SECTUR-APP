@@ -7,7 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Alert, Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Snackbar } from '@mui/material'
 import {esES} from '@mui/x-data-grid'
 import Table from '@/components/common/Table'
-import { INIT_DATA_REGISTER_USER, INIT_FILTROS_USER } from '@/utils/constants'
+import { INIT_DATA_REGISTER_USER, INIT_FILTROS_USER_DATA} from '@/utils/constants'
 import DatePickerCustom from '@/components/common/DatePicker'
 import colors from '@/assets/colors'
 import Tabs from '@mui/material/Tabs'
@@ -54,13 +54,7 @@ function TabPanel(props) {
       {value === index && <Box sx={{ m: 2 }}>{children}</Box>}
     </div>
   )
-
-}function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
   }
-}
 
 const EditDeleteSection = ({onEdit, onDelete, rowData }) => {
   return (
@@ -85,20 +79,20 @@ const usuarios = () => {
   const [userIdToDelete, setUserIdToDelete] = useState(null);
   const [error, setError] = useState('')
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
-  const [showFilters, setShowFilters] = useState(true)
-  const [filtros, setFiltros] = useState(INIT_FILTROS_USER)
-  const [selectedSubMenu, setselectedSubMenu] = useState([]);
+  const [selectedSubMenu, setSelectedSubMenu] = useState([]);
   const [selectedEstado, setSelectedEstado] = useState([]);
+  const [usuariosFiltros, setUsuariosFiltros] = useState('')
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [tipoRol, setTipoRol] = useState('');
   const [tipoDeEstado, setTipoDeEstado] = useState('');
+  const [showFilters, setShowFilters] = useState(true)
+  const [filtros, setFiltros] = useState(INIT_FILTROS_USER_DATA)
   const [subMenu, setSubMenu] = useState([])
   const [showAlert, setShowAlert] = useState(false)
-  const [selectedSubMenuNames, setSelectedSubMenuNames] = useState([]);
   const [formData, setFormData] = useState({
     id:'',name:'',email:'',submenus:[],estados:[],password:'',paternalSurname:'',maternalSurname:'',
   })
-  
+
   const fetchSubMenus = useCallback(async () => {
    noStore()
    const urlSubMenus = '/api/configuration/catalogo-submenu/0'
@@ -116,6 +110,21 @@ const usuarios = () => {
     fetchSubMenus()
   },[fetchSubMenus]) 
 
+  const getUsuariosFiltros = async body => {
+    try {
+      const url = '/api/configuration/buscar-usuarios'
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: body,
+      })
+      if (res.success) {
+        setRows(res.result.data)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
     const getInfo = useCallback(async () => {
       noStore() 
@@ -137,30 +146,24 @@ const usuarios = () => {
       getInfo()
     }, [getInfo])
 
-    const handleChange = (event, newValue) => {
-      setValue(newValue)
+    const handleChange = (event) => {
+      const { id, value } = event.target;
+    
+      setRegister((prevRegister) => ({
+        ...prevRegister,
+        [id]: value,
+      }));
     }
+
 
     const onHandleChange = ({ target: { name, value } }) => {
       setRegister((prevRegister) => ({
         ...prevRegister,
         [name]: value,
       }));
-
-      const onHandleFilterChange = ({ target: { name, value } }) => {
-        setFiltros({ ...filtros, [name]: value })
-      }
-      const onHandleFiltros = () => {
-        console.log(filtros)
-        //getTramitesFiltros(filtros) llama la api para el filtro
-      }  
     
-      const clearFilters = () => {
-        setFiltros({ ...INIT_DATA_REGISTER_USER})
-      }
-
       const stateMappings = {
-        submenu: setselectedSubMenu,
+        submenu: setSelectedSubMenu,
         estado: setSelectedEstado,
       };
     
@@ -174,6 +177,19 @@ const usuarios = () => {
       }));
     };
 
+    const onHandleFiltroChange = (name, value) => {
+      setFiltros((prevFiltros) => ({ ...prevFiltros, [name]: value }));
+    };
+  
+    const onHandleFiltros = () => {
+      console.log(filtros)
+      getUsuariosFiltros(filtros)
+    }
+  
+    const clearFilters = () => {
+      setFiltros({ ...INIT_FILTROS_USER_DATA });
+      getInfo();
+    };
     //Registrar Usuario
     const agregarUsuario = async registerUser =>{
       console.log('registrar data', registerUser)
@@ -220,14 +236,21 @@ const usuarios = () => {
       console.log('La data a editar es',formData)
       console.log('El estado a editar es',formData.estados)
       console.log('El submenu a editar es',formData.submenus)
+      
       const submenuIds = formData.submenus.map((submenuObj) => submenuObj.idSubmenu);
       const estadosIds = formData.estados.map((submenuObj) => submenuObj.id);
+      const uniqueEstados = estadosIds.reduce((acc, estado) => {
+        if (!acc.find((e) => e.id === estado.id)) {
+          acc.push(estado);
+        }
+        return acc;
+      }, []);
       setFormData({
         id_user:formData.id,
         name:formData.name,
         email:formData.email, 
         submenus:submenuIds,
-        estados:estadosIds, 
+        estados:uniqueEstados, 
         phoneNumber:formData.phoneNumber, 
         password:formData.password,
         paternalSurname:formData.paternalSurname,
@@ -240,12 +263,9 @@ const usuarios = () => {
     const handleEditSubmit = async (e) => {
       e.preventDefault();
       try {
-        //if (Object.values(formData).every((value) => value !== '' && value !== null)) {
           await editarUsuario(formData.id);
           getInfo();
-      //  } else {
-       //   console.error('Todos los campos deben estar llenos');
-       // }
+
       } catch (err) {
         console.log('Error al editar usuario', err);
       }
@@ -257,13 +277,15 @@ const usuarios = () => {
         if (Object.values(register).every((value) => value !== '' && value !== null)) {
           await agregarUsuario(register);
           getInfo();
+          setusuarioModal(false)
+          console.log('email', typeof register.email)
           console.log('Submit Exitoso', register);
         } else {
-          setShowAlert(false);
+          setShowAlert(true);
           console.error('Todos los campos deben estar llenos');
         }
       } catch (err) {
-        setShowAlert(false);
+        setShowAlert(true);
         console.log('Error al agregar usuario', err);
       }
     }
@@ -283,7 +305,7 @@ const usuarios = () => {
       setusuarioModal(true);
       setIsEditModalOpen(false); // Asegurarse de que no estés en modo edición al abrir el modal de registro
       setRegister(INIT_DATA_REGISTER_USER);
-      setselectedSubMenu([]);
+      setSelectedSubMenu([]);
       setSelectedEstado([])
     };
   
@@ -301,20 +323,33 @@ const usuarios = () => {
     };
 
     const handleSelectAll = () => {
-      if (selectedEstado.length === OPTIONS_ESTADOS.length) {
-        // Si todos están seleccionados, deseleccionar todo
-        setSelectedEstado([]);
-      } else {
-        // Si no todos están seleccionados, seleccionar todo
-        setSelectedEstado(OPTIONS_ESTADOS.map((option) => option.value));
-      }
+      const allEstadoIds = OPTIONS_ESTADOS.map((option) => option.value);
+    
+      setSelectedEstado((prevSelectedEstado) => {
+        const areAllSelected = prevSelectedEstado.length === allEstadoIds.length;
+    
+        const updatedSelectedEstado = areAllSelected
+          ? []  // Si todos están seleccionados, deseleccionar todo
+          : allEstadoIds;  // Si no todos están seleccionados, seleccionar todo
+    
+        onHandleChange({ target: { name: 'estados', value: updatedSelectedEstado } });
+    
+        return updatedSelectedEstado;
+      });
     };
-    const handleSelectAllsubmenu = () => {
-      if (selectedSubMenu.length === subMenu.length) {
-        setselectedSubMenu([]);
-      } else {
-        setselectedSubMenu(subMenu.map((option) => option.id));
-      }
+    const handleSelectAllSubMenu = () => {
+      setSelectedSubMenu((prevSelectedSubMenu) => {
+        const allSubMenuIds = subMenu.map((option) => option.id);
+        const areAllSelected = prevSelectedSubMenu.length === allSubMenuIds.length;
+    
+        const updatedSelectedSubMenu = areAllSelected
+          ? []  // Si todos están seleccionados, deseleccionar todo
+          : allSubMenuIds;  // Si no todos están seleccionados, seleccionar todo
+    
+        onHandleChange({ target: { name: 'submenus', value: updatedSelectedSubMenu } });
+    
+        return updatedSelectedSubMenu;
+      });
     };
     
       //EliminarUsuario
@@ -352,7 +387,7 @@ const usuarios = () => {
 
     
   return (
-    <div className="w-full p-4 ">`
+    <div className="w-full p-4 ">
     <div className="grid grid-cols-12 gap-4">
       <ThemeProvider theme={theme}>
         <div className="col-span-12 sm:col-span-2 flex flex-col gap-3">
@@ -363,76 +398,61 @@ const usuarios = () => {
             variant="fullWidth"
             centered
             aria-label="basic tabs example">
-            <Tab label="Búsqueda" {...a11yProps(0)} />
+            <Tab label="Búsqueda"  />
           </Tabs>
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Input
               fullWidth
-              type="search"
+              type="text"
               margin="normal"
-              id="nombreUsuario"
-              label="Nombre del Usuario"
+              id="name"
+              label="Nombre"
               variant="outlined"
-              value={nombreUsuario}
-              onChange={(event) => setNombreUsuario(event.target.value)}
-            />
+              value={filtros.name}
+              onChange={(e) => onHandleFiltroChange('name', e.target.value)}
+              />
+            
             <Input
               fullWidth
-              type="number"
+              type="text"
               margin="normal"
-              id="nombreUsuario"
-              label="No. de Usuario"
+              id="id"
+              label="Numero de Usuario"
               variant="outlined"
-              value={nombreUsuario}
-              onChange={(event) => setNombreUsuario(event.target.value)}
-            />
+              value={filtros.id}
+              onChange={(e) => onHandleFiltroChange('id', e.target.value)}
+              />
             <Input
               fullWidth
-              type="search"
+              type="text"
               margin="normal"
-              id="states"
+              id="estados"
               label="Entidad Federativa"
               variant="outlined"
-              value={tipoDeEstado}
-              onChange={(event) => setTipoDeEstado(event.target.value)}
-               // console.log(event.target.value)
-              
+              value={filtros.estados}
+              onChange={(e) => onHandleFiltroChange('estados', e.target.value)}              
             />
             <Input
               fullWidth
-              type="search"
+              type="email"
               margin="normal"
-              id="permisos"
-              label="Tipo de Permisos"
+              id="email"
+              label="Correo electronico"
               variant="outlined"
-              value={tipoRol}
-              onChange={(event) => setTipoRol(event.target.value)}
-            />
-           
-            <Button content='Buscar Usuario' onClick={handleChange} />
-            
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            <Input
-              fullWidth
-              type="search"
-              margin="normal"
-              id="quickSearch"
-              label="Búsqueda Rápida"
-              variant="outlined"
-              onChange={event => {
-                // setName(event.target.value);
-                console.log(event.target.value)
-              }}
-            />
+              value={filtros.email}
+              onChange={(e) => onHandleFiltroChange('email', e.target.value)}            />
+           <div className='mb-2'>
+            <Button content="Aplicar filtros" onClick={onHandleFiltros} />
+            </div>
+            <Button content="Limpiar filtros" onClick={clearFilters} />
           </TabPanel>
         </div>
         <section className="flex  flex-col col-span-12 sm:col-span-10">
         <div className='w-1/3'>
           <Button
-          content=' + Registrar Usuario'
+          content='Registrar Usuario'
           className=''
-          onClick={handleClickOpenUsuario}Usuario
+          onClick={handleClickOpenUsuario}
           /> 
           </div>
           {/* Registrar Usuario modal */}
@@ -524,21 +544,23 @@ const usuarios = () => {
           type="password"
           value={register.verifyPassword}
           />
-          <FormControl fullWidth variant="outlined" margin="normal" >
-            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Entidad Federativa">Entidad Federativa</InputLabel>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel className = 'font-GMX font-semibold' htmlFor="estados">Entidad Federativa</InputLabel>
+            <Button  variant='text' content='Seleccionar todo' onClick={handleSelectAll}/>
             <Select
-            className = 'font-GMX font-semibold text-sm'
-              id="estados"
+            className = 'font-GMX font-semibold'
+              id='estados'
               name='estados'
               label="Entidad Federativa"
               multiple
               variant="outlined"
-              value={selectedEstado || []}
+              value={selectedEstado || OPTIONS_ESTADOS.map(option => option.value)}
               onChange={(e) => {
+                console.log('Selected Estado:', e.target.value);
                 onHandleChange(e);
                 setSelectedEstado(e.target.value);
               }}
-              input={<OutlinedInput id="select-multiple-chip1" label="Entidad Federativa" />}
+              input={<OutlinedInput id="select-multiple-chip2" label="Entidad Federativa" />}
               renderValue={(selected) => (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
             {(Array.isArray(selected) ? selected : [selected]).map((value) => (
@@ -546,27 +568,20 @@ const usuarios = () => {
                 key={value}
                 label={OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''}
               />
-            ))}
+              ))}
           </Box>
         )}
       >
-        <MenuItem>
-      <Checkbox
-        indeterminate={selectedEstado.length > 0 && selectedEstado.length < OPTIONS_ESTADOS.length}
-        checked={selectedEstado.length === OPTIONS_ESTADOS.length}
-        onChange={handleSelectAll}
-      />
-      <ListItemText primary="Seleccionar Todo" />
-    </MenuItem>
     {OPTIONS_ESTADOS.map((option) => (
       <MenuItem key={option.value} value={option.value}>
         <Checkbox checked={selectedEstado.includes(option.value)} />
         <ListItemText primary={option.title} />
       </MenuItem>
         ))}
+        
       </Select>
         </FormControl>
-        <FormControl fullWidth variant="outlined" margin="normal">
+        <FormControl fullWidth variant="outlined">
             <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Permisos">Permisos</InputLabel>
             <Select
             className = 'font-GMX font-semibold text-sm'
@@ -578,34 +593,28 @@ const usuarios = () => {
               value={selectedSubMenu || []}
               onChange={(e) => {
                 onHandleChange(e);
-
-                // Update the state with the selected submenu IDs
-                setselectedSubMenu(e.target.value);
-            
-                // Update the state with the selected submenu names
-                const selectedNames = subMenu
-                  .filter((menuItem) => e.target.value.includes(menuItem.id))
-                  .map((menuItem) => menuItem.name);
-            
-                setSelectedSubMenuNames(selectedNames);
+                setSelectedSubMenu(e.target.value);
               }}
-              renderValue={() => selectedSubMenuNames.join(', ')}
-            >
-        <MenuItem>
-      <Checkbox
-        indeterminate={selectedSubMenu.length > 0 && selectedSubMenu.length < subMenu.length}
-        checked={selectedSubMenu.length === subMenu.length}
-        onChange={handleSelectAllsubmenu}
-      />
-      <ListItemText primary="Seleccionar Todo" />
-    </MenuItem>
+              input={<OutlinedInput id="select-multiple-chip1" label="Permisos" />}
+              renderValue={(selected) => (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            {(Array.isArray(selected) ? selected : [selected]).map((id) => (
+              <Chip
+              key={id}
+              label={subMenu.find((option) => option.id === id)?.name || ''}
+              />
+              ))}
+          </Box>
+        )}
+        >
               {subMenu.map((menuItem) => (
-            <MenuItem key={menuItem.id} value={menuItem.id}>
+                <MenuItem key={menuItem.id} value={menuItem.id}>
             <Checkbox checked={selectedSubMenu.includes(menuItem.id)}/>
             <ListItemText primary={menuItem.name} />
             </MenuItem>
            ))}
             </Select>
+           <Button variant='text' content='Seleccionar todo' onClick={handleSelectAllSubMenu}/>
         </FormControl>
         <Button
           content="Crear Usuario"
@@ -673,7 +682,7 @@ const usuarios = () => {
           onChange={handleEditFormChange}
           //error={error.paternalSurname !== ''}
           helpText={error.paternalSurname}
-          value={formData.paternalSurname}
+          value={formData.paternalSurname || ''}
         />
 
         <Input
@@ -684,7 +693,18 @@ const usuarios = () => {
           onChange={handleEditFormChange}
           //error={error.maternalSurname !== ''}
           helpText={error.maternalSurname}
-          value={formData.maternalSurname}
+          value={formData.maternalSurname || ''}
+        />
+        <Input
+          label="Correo Electronico"
+          name="email"
+          fullWidth
+          disabled
+          type="email"
+          onChange={handleEditFormChange}
+          //error={error.maternalSurname !== ''}
+          //helpText={error.maternalSurname}
+          value={formData.email}
         />
        
           <Input
@@ -711,39 +731,31 @@ const usuarios = () => {
           value={formData.verifyPassword}
         />
 
-        <FormControl fullWidth variant="outlined" margin="normal" >
-            <InputLabel  className = 'font-GMX font-semibold text-sm' htmlFor="Entidad Federativa">Cambiar Entidad Federativa"</InputLabel>
+        <FormControl fullWidth variant="outlined" >
+            <InputLabel  className = 'font-GMX font-semibold text-sm' htmlFor="estados">Cambiar Estado</InputLabel>
+            <Button  variant='text' content='Seleccionar todo' onClick={handleSelectAll}/>
             <Select
             className = 'font-GMX font-semibold text-sm'
-              id="estado"
+              id="estados"
               name='estados'
-              label="Cambiar Entidad Federativa"
+              label="Cambiar Estado"
               multiple
               variant="outlined"
               value={formData.estados}
-              onChange={(e) => {
-                onHandleChange(e);
-                setSelectedEstado(e.target.value);
-              }}
+              onChange={handleEditFormChange}
               input={<OutlinedInput label="Tag2" />}
-              renderValue={(selected) =>
-                selected
-                  .map((value) =>
-                    OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''
-                  )
-                  .join(', ')
-              }
-             >
-        <MenuItem>
-      <Checkbox
-        indeterminate={selectedEstado.length > 0 && selectedEstado.length < OPTIONS_ESTADOS.length}
-        checked={selectedEstado.length === OPTIONS_ESTADOS.length}
-        onChange={handleSelectAll}
-      />
-      <ListItemText primary="Seleccionar Todo" />
-    </MenuItem>
-    
-    {OPTIONS_ESTADOS.map((option) => (
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {(Array.isArray(selected) ? selected : [selected]).map((value) => (
+                    <Chip
+                      key={value}
+                      label={OPTIONS_ESTADOS.find((option) => option.value === value)?.title || ''}
+                    />
+                    ))}
+                </Box>
+              )}
+            >
+      {OPTIONS_ESTADOS.map((option) => (
       <MenuItem key={option.value} value={option.value}>
         <Checkbox checked={selectedEstado.includes(option.value)} />
         <ListItemText primary={option.title} />
@@ -751,8 +763,8 @@ const usuarios = () => {
         ))}
       </Select>
         </FormControl>
-          <FormControl fullWidth variant="outlined" margin="normal">
-            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="Rol">Cambiar Permisos</InputLabel>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel className = 'font-GMX font-semibold text-sm' htmlFor="submenus">Cambiar Permisos</InputLabel>
             <Select
             className = 'font-GMX font-semibold text-sm'
               id="submenus"
@@ -761,31 +773,29 @@ const usuarios = () => {
               variant="outlined"
               multiple
               value={formData.submenus}
-              onChange={(e) => onHandleChange({ target: { name: 'submenus', value: e.target.value } })}
-              input={<OutlinedInput label="Tag2" />}
-              renderValue={(selected) =>
-                selected
-                  .map((value) =>
-                    subMenu.find((menuItem) => menuItem.id === value)?.name || ''
-                  )
-                  .join(', ')
-              }
+              onChange={(e) => {
+                onHandleChange(e);
+                setSelectedSubMenu(e.target.value);
+              }}              input={<OutlinedInput label="Tag2" />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {(Array.isArray(selected) ? selected : [selected]).map((id) => (
+                    <Chip
+                    key={id}
+                    label={subMenu.find((option) => option.id === id)?.name || ''}
+                    />
+                    ))}
+                </Box>
+              )}
               >
-        <MenuItem>
-          <Checkbox
-          indeterminate={selectedSubMenu.length > 0 && selectedSubMenu.length < subMenu.length}
-          checked={selectedSubMenu.length === subMenu.length}
-          onChange={handleSelectAllsubmenu}
-        />
-        <ListItemText primary="Seleccionar Todo" />
-        </MenuItem>
-              {subMenu.map((menuItem) => (
+       {subMenu.map((menuItem) => (
             <MenuItem key={menuItem.id} value={menuItem.id}>
             <Checkbox checked={selectedSubMenu.includes(menuItem.id)}/>
             <ListItemText primary={menuItem.name} />
             </MenuItem>
            ))}
             </Select>
+            <Button variant='text' content='Seleccionar todo' onClick={handleSelectAllSubMenu}/>
             </FormControl>
             <Button
           content='Editar Usuario'

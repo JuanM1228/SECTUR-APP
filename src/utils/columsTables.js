@@ -664,22 +664,13 @@ export const COLUMNS_TABLE_USUARIOS = [
     headerAlign: 'center',
   },
 
-  // {
-  //   field: 'phoneNumber',
-  //   headerName: 'No. Telefono',
-  //   minWidth: 140,
-  //   type: 'number',
-  //   align: 'left',
-  //   headerAlign: 'center',
-  // },
   {
     field: 'email',
     headerName: 'Correo electronico',
-    minWidth: 180,
-    type: 'string',
+    minWidth: 200,
+    type: 'email',
     align: 'left',
     headerAlign: 'center',
-    editable: false,
     renderCell: params => (
       <div style={{ color: '#888' }}>{params.row.email}</div>
     ),
@@ -687,7 +678,7 @@ export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'submenus',
     headerName: 'Permisos',
-    minWidth: 180,
+    minWidth: 200,
     type: 'string',
     align: 'left',
     headerAlign: 'center',
@@ -696,14 +687,11 @@ export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'estados',
     headerName: 'Estados',
-    minWidth: 180,
+    minWidth: 200,
     type: 'string',
     align: 'left',
     headerAlign: 'center',
-    renderCell: params => {
-      // console.log(params)
-      return <ListEstados arrayEstados={params.row.estados} />
-    },
+    renderCell: params => <ListEstados arrayEstados={params.row.estados} />,
   },
 ]
 
