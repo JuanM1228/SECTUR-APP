@@ -58,7 +58,7 @@ export const formatoUnico = async solicitud => {
   doc.text(30, 220, web, { maxWidth: 500, align: 'left' })
   doc.text(103, 220, facebook, { maxWidth: 500, align: 'left' })
   doc.text(154, 220, twitter, { maxWidth: 500, align: 'left' })
-  doc.text(74, 232, fechaDeApertura, { maxWidth: 500, align: 'left' })
+  doc.text(80, 226, fechaDeApertura, { maxWidth: 500, align: 'left' })
   doc.text(12, 270, propietario, { maxWidth: 500, align: 'left' })
 
   doc.setFontSize(15)
