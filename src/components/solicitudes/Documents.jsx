@@ -193,6 +193,7 @@ const Documents = props => {
       fechaDeApertura: dayjs(register.datosGenerales.fechaApertura).format(
         'DD-MM-YYYY',
       ),
+      colonia: register.domicilio.coloniaName,
     }
     console.log(register)
     console.log(registroPrueba)

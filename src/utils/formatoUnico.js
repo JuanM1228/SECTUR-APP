@@ -27,6 +27,7 @@ export const formatoUnico = async solicitud => {
   var tipoDeVialidad = solicitud['tipoDeVialidad'].toUpperCase()
   var tipoDeAsentamiento = solicitud['tipoDeAsentamiento'].toUpperCase()
   var fechaDeApertura = solicitud['fechaDeApertura'].toUpperCase()
+  var colonia = solicitud['colonia'].toUpperCase()
 
   var pag1 = image1
   var pag2 = image2
@@ -58,6 +59,7 @@ export const formatoUnico = async solicitud => {
   doc.text(154, 220, twitter, { maxWidth: 500, align: 'left' })
   doc.text(80, 226, fechaDeApertura, { maxWidth: 500, align: 'left' })
   doc.text(12, 270, propietario, { maxWidth: 500, align: 'left' })
+  doc.text(143, 192, colonia, { maxWidth: 500, align: 'left' })
 
   doc.setFontSize(15)
   doc.text(10.5, 248, 'X', { maxWidth: 500, align: 'left' })
