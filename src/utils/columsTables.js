@@ -29,7 +29,6 @@ const DeleteButton = params => {
 }
 
 const ListEstados = ({ arrayEstados }) => {
-  console.log(arrayEstados)
   if (!arrayEstados || arrayEstados.length === 0) {
     return (
       <select disabled>
@@ -71,7 +70,6 @@ const ListPermisos = ({ arrayPermisos }) => {
 
 export const EditButton = params => {
   const router = useRouter()
-  if (params.row.status === 4) return
   return (
     <IconButton
       onClick={() => router.push(`/home/tramites/solicitudes/${params.id}`)}>
@@ -105,7 +103,6 @@ const StatusTramites = params => {
 }
 
 const FolioBadge = params => {
-  console.log(params)
   const handleDownload = async () => {
     try {
       const pdfUrl = `${process.env.ENV_URL}/documentos/certificados/${params.row.folioSolicitud}.pdf`
