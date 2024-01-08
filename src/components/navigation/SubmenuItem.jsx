@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import {
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Collapse,
 } from '@mui/material'

@@ -14,7 +14,7 @@ const DeleteButton = params => {
       const url = `/api/registro/tramite-revocado/${idSolicitud}`
       const res = await sendRequest(url)
       if (res.success) {
-        window.location.reload(true)
+        window?.location?.reload(true)
       }
     } catch (e) {
       console.log(e)
@@ -118,7 +118,7 @@ const FolioBadge = params => {
       const blob = await response.blob()
 
       // Crea un enlace para descargar el blob
-      const url = window.URL.createObjectURL(blob)
+      const url = window?.URL?.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       link.download = `${params.row.folioSolicitud}`
@@ -127,7 +127,7 @@ const FolioBadge = params => {
 
       // Limpia el enlace y la URL creada
       document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
+      window?.URL?.revokeObjectURL(url)
     } catch (error) {
       console.error('Hubo un problema con la petición Fetch:', error)
     }
@@ -177,7 +177,7 @@ const FolioBadgeUsuario = params => {
       const blob = await response.blob()
 
       // Crea un enlace para descargar el blob
-      const url = window.URL.createObjectURL(blob)
+      const url = window?.URL?.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       link.download = `${params.row.folioSolicitud}`
@@ -186,7 +186,7 @@ const FolioBadgeUsuario = params => {
 
       // Limpia el enlace y la URL creada
       document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
+      window?.URL?.revokeObjectURL(url)
     } catch (error) {
       console.error('Hubo un problema con la petición Fetch:', error)
     }

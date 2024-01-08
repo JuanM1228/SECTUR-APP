@@ -43,7 +43,6 @@ const Reportes = () => {
   const { profile } = useAuthStore()
   const [tramites, setTramites] = useState([])
   const [tab, setTab] = useState(0)
-  const [showFilters, setShowFilters] = useState(true)
   const [catalogoPST, setCatalogoPST] = useState([])
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
   const [dataGraph, setDataGraph] = useState(INIT_DATA_GRAPH)

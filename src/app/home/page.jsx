@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
-import Resumen from '@/components/home/Resumen'
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import Tabs from '@mui/material/Tabs'

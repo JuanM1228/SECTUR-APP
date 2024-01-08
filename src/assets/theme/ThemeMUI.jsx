@@ -1,4 +1,4 @@
-import { GMX, montserrat } from '@/assets/fonts'
+import { montserrat } from '@/assets/fonts'
 import colors from '../colors'
 
 export const themeOptions = {

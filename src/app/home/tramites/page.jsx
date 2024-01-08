@@ -23,8 +23,6 @@ import {
 } from '@/utils/columsTables'
 import Alert from '@/components/common/Alert'
 
-const { EN_PROCESO, FINALIZADO, RECHAZADO, REVISION } = STATUS_TRAMITE
-
 const PanelSolicitudesUsuario = () => {
   const router = useRouter()
   const { profile } = useAuthStore()

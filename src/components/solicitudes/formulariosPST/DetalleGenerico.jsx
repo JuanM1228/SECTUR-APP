@@ -4,9 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
-import TimePickerCustom from '@/components/common/TimePicker'
 
-import dayjs from 'dayjs'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_DETALLE_GENERICO, STEP_ENUM } from '@/utils/constants'
 
