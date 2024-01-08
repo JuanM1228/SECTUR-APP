@@ -1,4 +1,3 @@
-import Icons from '@/assets/icons'
 export const NAVIGATION_CONFIG = [
   {
     key: 'consulta',

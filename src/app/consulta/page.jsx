@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import Input from '@/components/common/Input'
 import Resumen from '@/components/home/Resumen'
@@ -8,7 +8,6 @@ import Button from '@/components/common/Button'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 
-import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { createTheme, IconButton, ThemeProvider } from '@mui/material'
@@ -16,7 +15,6 @@ import colors from '@/assets/colors'
 import Dropdown from '@/components/common/Dropdown'
 import { INIT_FILTROS_DATA, OPTIONS_ESTADOS } from '@/utils/constants'
 import Table from '@/components/common/Table'
-import { COLUMS_CONSULTA_GENERAL } from '@/utils/columsTables'
 
 const theme = createTheme({
   palette: {

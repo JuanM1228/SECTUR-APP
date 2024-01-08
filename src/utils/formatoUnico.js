@@ -5,7 +5,6 @@ import { image2 } from './fu/image2'
 export const formatoUnico = async solicitud => {
   var doc = new jsPDF('p')
   var pageSize = doc.internal.pageSize
-  var pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth()
 
   var tipo_pst = solicitud['tipo_pst'].toUpperCase()
   var nobre_comercial = solicitud['nobre_comercial'].toUpperCase()

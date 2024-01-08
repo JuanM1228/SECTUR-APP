@@ -1,13 +1,11 @@
 import Button from '@/components/common/Button'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import Icons from '@/assets/icons'
 import { IconButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { STATUS_INFO, TIPOS_TRAMITES_OBJETO } from './constants'
-import { divIcon } from 'leaflet'
-import Alert from '@/components/common/Alert'
 
 const DeleteButton = params => {
   const { sendRequest, isLoading } = useHttpClient()
