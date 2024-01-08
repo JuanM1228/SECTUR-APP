@@ -146,7 +146,7 @@ const PanelSolicitudesUsuario = () => {
   console.log(loader)
 
   return (
-    <div className="flex flex-col gap-4 h-[calc(100vh-3.5rem)] overflow-hidden p-4">
+    <div className="flex flex-col gap-2 w-full p-4 ">
       <h1 className="font-GMX text-3xl font-bold text-center">
         MIS SOLICITUDES
       </h1>
@@ -159,10 +159,9 @@ const PanelSolicitudesUsuario = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 items-center justify-center px-4 py-2 sm:grid-cols-12  gap-4  sm:overflow-y-auto">
+      <div className="grid grid-cols-12 gap-4">
         {showFilters && (
-          <div
-            className={` flex flex-col gap-6  col-span-1  sm:col-span-2 min-w-min `}>
+          <div className={`col-span-12 sm:col-span-2 flex flex-col gap-3`}>
             <Input
               label="Fólio de trámite"
               name="folio"
@@ -234,17 +233,19 @@ const PanelSolicitudesUsuario = () => {
           </div>
         )}
 
-        {loader ? (
-          <span className="loader"></span>
-        ) : (
-          <Table
-            columns={columnsData}
-            isLoading={isLoading}
-            rows={tramites}
-            className="col-span-1 sm:col-span-10 t-ease"
-            getRowClassName={getRowClassName}
-          />
-        )}
+        <div className="flex justify-center items-center col-span-1 sm:col-span-10 t-ease h-[calc(90vh-10rem)] ">
+          {loader ? (
+            <span className="loader"></span>
+          ) : (
+            <Table
+              columns={columnsData}
+              isLoading={isLoading}
+              rows={tramites}
+              className=""
+              getRowClassName={getRowClassName}
+            />
+          )}
+        </div>
 
         {tramites.length === 0 && (
           <div className="grow flex justify-center items-center sm:col-span-10 ">
