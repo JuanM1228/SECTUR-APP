@@ -282,29 +282,7 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
       </DialogTitle> 
       <DialogContent className="flex flex-col gap-6">
         <DialogContentText>
-        {catalogName === "Observaciones Generales" ? (
-               <>
-               <textarea
-                 value={textareaValue}
-                 onChange={(e) => setTextareaValue(e.target.value)}
-                 placeholder="Ingrese observaciones generales"
-                 className="w-80 h-40 p-2 medium-textarea border"
-               ></textarea>
-               <div className="flex flex-row gap-4 mt-4">
-                 <Button
-                   type="button"
-                   content="Aceptar"
-                   onClick={handleClose}
-                 />
-                 <Button
-                   type="button"
-                   content="Regresar"
-                   onClick={handleClose}
-                 />
-               </div>
-             </>
-            ) : (
-              <>
+    
         <Table
             columns={[
               ...COLUMNS_TABLE_CATALOGOS ,
@@ -329,8 +307,7 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
             isLoading={false}
           />
           <Button content={content} onClick={handleButtonClick}/>
-          </>
-            )}
+         
         </DialogContentText>
         <div className="flex flex-row gap-4">
           {showInput &&

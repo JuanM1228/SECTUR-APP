@@ -630,6 +630,27 @@ export const COLUMNS_TABLE_CATALOGOS = [
   },
 ]
 
+export const COLUMNS_TABLE_SUB_CATALOGOS = [
+  {
+    field: 'id',
+    headerName: 'Número',
+    minWidth: 90,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+  },
+  {
+    field: 'name',
+    headerName: 'Tipo',
+    minWidth: 180,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+
+  },
+
+]
+
 export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'id',

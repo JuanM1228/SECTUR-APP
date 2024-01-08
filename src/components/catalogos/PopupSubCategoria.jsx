@@ -51,7 +51,7 @@ const EditSection = ({ rowData, onEdit, onDelete }) => {
   );
 };
 
-const PopupSubCategoria = ({ open, onClose, idCatalog, catalogName, subCategorias  }) => {
+const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstContent}) => {
 
   const { sendRequest } = useHttpClient()
   const [data, setData] = useState([]);
@@ -61,7 +61,6 @@ const PopupSubCategoria = ({ open, onClose, idCatalog, catalogName, subCategoria
   const [showAlert, setShowAlert] = useState(false)
   const [content, setContent] = useState('Agregar nuevo campo');
   const [selectedStatus, setSelectedStatus] = useState('');
-  const [textareaValue, setTextareaValue] = useState('');
   const [isEditing, setIsEditing] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -81,23 +80,21 @@ const PopupSubCategoria = ({ open, onClose, idCatalog, catalogName, subCategoria
     setShowButton(!showButton);
   };
 
-  const fetchDataByCatalogName = async (idCatalog) => {
+  const fetchDataByCatalogName = async (idSubCatalog) => {
     try {
-      const res = await sendRequest(`/api/configuration/catalogo-subcategorias/${idCatalog}`);
-      console.log(`API Response subcatalogo for ${idCatalog}:`, res);
+      const res = await sendRequest(`/api/configuration/catalogo-subcategorias/${idSubCatalog}`);
+      console.log(`API Response subcatalogo for ${idSubCatalog}:`, res);
       if(!res.success)return
       setData (res.result.data)
-      console.log(res.result.data)
     } catch (error) {
       console.log('error', error);
     }
   };
 
   useEffect(() => {
-    console.log('idCatalog:', idCatalog);
-    fetchDataByCatalogName(idCatalog)
-  }, [idCatalog])
-
+    console.log('idSubCatalog:', idSubCatalog);
+    fetchDataByCatalogName(idSubCatalog)
+  }, [idSubCatalog])
 
   //AddCamp
   const addCamp = async (requestData) => {
@@ -270,9 +267,7 @@ const PopupSubCategoria = ({ open, onClose, idCatalog, catalogName, subCategoria
         </IconButton> 
       </DialogTitle> 
       <DialogContent className="flex flex-col gap-6">
-        <DialogContentText>
-              <>
-        <Table
+       <Table
             columns={[
               ...COLUMNS_TABLE_SUB_CATALOGOS ,
                 
@@ -291,15 +286,12 @@ const PopupSubCategoria = ({ open, onClose, idCatalog, catalogName, subCategoria
                   />
                 ),
               },
-              
             ]}
             rows={data}
             isLoading={false}
           />
           <Button content={content} onClick={handleButtonClick}/>
-          </>
-            
-        </DialogContentText>
+       
         <div className="flex flex-row gap-4">
           {showInput &&
            <input 

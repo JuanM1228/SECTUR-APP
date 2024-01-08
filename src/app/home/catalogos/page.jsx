@@ -23,7 +23,7 @@ const theme = createTheme({
 const Catalogos = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [catalogo, setCatalogo] = useState([])
-  const [catalogoSubCategoria, setCatalogoSubCategoria] = useState([])
+  const [subCategoria, setSubCategoria] = useState([])
   const [tab, setTab] = useState(0)
 
 
@@ -38,7 +38,7 @@ const Catalogos = () => {
       const res = await sendRequest(url)
       if (res.success) {
         setCatalogo(res.result.data)
-        console.log('catalogos data',res)
+        console.log('Data de catalogos',res)
         // setToken(res.result.token)
         // setProfile(res.result.user)
       }
@@ -51,8 +51,9 @@ const Catalogos = () => {
       const url = '/api/configuration/catalogo-subcategorias/0'
       const res = await sendRequest(url)
       if (res.success) {
-        setCatalogoSubCategoria(res.result.data)
+        setSubCategoria(res.result.data)
         console.log('subcategoria1',res)
+  
       }
     } catch (e) {
       console.log(e)
@@ -81,12 +82,12 @@ const Catalogos = () => {
         />
       )))}
     {tab === 1 && (   
-      catalogoSubCategoria.map(section =>(
+      subCategoria.map(section =>(
         <SubCategoria
         key={section.id}
-        idSubcategoria={section.id}
         title={section.name}
-        catalogs={section.data}
+        subpst={section.subpst}
+        subPstContent={section.subpst}
         />
         ))
         )} 
