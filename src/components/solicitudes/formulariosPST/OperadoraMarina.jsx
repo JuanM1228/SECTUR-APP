@@ -2,9 +2,7 @@
 import React, { useState, useEffect } from 'react'
 
 import CheckboxForm from '@/components/common/CheckboxForm'
-import Dropdown from '@/components/common/Dropdown'
 import Button from '@/components/common/Button'
-import Input from '@/components/common/Input'
 
 import { OPERADORA_MARINA_INIT_DATA, STEP_ENUM } from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'

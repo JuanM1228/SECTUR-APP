@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useAuthStore } from '@/store/auth'
 import { useHttpClient } from '@/hooks/useHttpClient'
-import { NAVIGATION_CONFIG } from '@/utils/menu'
 
 import { List } from '@mui/material'
 import Icons from '@/assets/icons'

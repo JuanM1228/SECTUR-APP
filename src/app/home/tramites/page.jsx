@@ -23,8 +23,6 @@ import {
 } from '@/utils/columsTables'
 import Alert from '@/components/common/Alert'
 
-const { EN_PROCESO, FINALIZADO, RECHAZADO, REVISION } = STATUS_TRAMITE
-
 const PanelSolicitudesUsuario = () => {
   const router = useRouter()
   const { profile } = useAuthStore()
@@ -131,11 +129,11 @@ const PanelSolicitudesUsuario = () => {
 
   const getRowClassName = params => {
     const status = params.row.status
-    if (profile.role === ROLE_ENUM.ADMIN) {
+    if (profile?.role === ROLE_ENUM.ADMIN) {
       if (status === STATUS_TRAMITE.REVISION)
         return 'bg-[#f1e9da] hover:bg-[#f1e9da]'
     }
-    if (profile.role === ROLE_ENUM.USER) {
+    if (profile?.role === ROLE_ENUM.USER) {
       if (status === STATUS_TRAMITE.RECHAZADO)
         return 'bg-[#f1e9da] hover:bg-[#f1e9da]'
     }

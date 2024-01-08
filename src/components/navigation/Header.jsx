@@ -4,11 +4,9 @@ import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 
-import Image from 'next/image'
 import { Avatar } from '@mui/material'
 
 import Icons from '@/assets/icons'
-import Images from '@/assets/images'
 
 import Cookies from 'js-cookie'
 

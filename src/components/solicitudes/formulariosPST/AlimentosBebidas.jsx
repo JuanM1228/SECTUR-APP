@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 
-import CheckboxForm from '@/components/common/CheckboxForm'
 import Dropdown from '@/components/common/Dropdown'
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'

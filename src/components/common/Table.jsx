@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 
-import { Pagination } from '@mui/material'
 import {
   DataGrid,
   GridToolbarContainer,

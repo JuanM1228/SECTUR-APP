@@ -20,7 +20,6 @@ const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
 })
 import {
   GENERIC_DETAILS_PST_LIST,
-  INIT_DATOS_GENERALES,
   PST_ENUM,
 } from '@/utils/constants'
 import OperadoraMarina from '@/components/solicitudes/formulariosPST/OperadoraMarina'

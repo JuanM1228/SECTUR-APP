@@ -1,13 +1,11 @@
 import Button from '@/components/common/Button'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import Icons from '@/assets/icons'
 import { IconButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { STATUS_INFO, TIPOS_TRAMITES_OBJETO } from './constants'
-import { divIcon } from 'leaflet'
-import Alert from '@/components/common/Alert'
 
 const DeleteButton = params => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -16,7 +14,7 @@ const DeleteButton = params => {
       const url = `/api/registro/tramite-revocado/${idSolicitud}`
       const res = await sendRequest(url)
       if (res.success) {
-        window.location.reload(true)
+        window?.location?.reload(true)
       }
     } catch (e) {
       console.log(e)
@@ -120,7 +118,7 @@ const FolioBadge = params => {
       const blob = await response.blob()
 
       // Crea un enlace para descargar el blob
-      const url = window.URL.createObjectURL(blob)
+      const url = window?.URL?.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       link.download = `${params.row.folioSolicitud}`
@@ -129,7 +127,7 @@ const FolioBadge = params => {
 
       // Limpia el enlace y la URL creada
       document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
+      window?.URL?.revokeObjectURL(url)
     } catch (error) {
       console.error('Hubo un problema con la petición Fetch:', error)
     }
@@ -179,7 +177,7 @@ const FolioBadgeUsuario = params => {
       const blob = await response.blob()
 
       // Crea un enlace para descargar el blob
-      const url = window.URL.createObjectURL(blob)
+      const url = window?.URL?.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
       link.download = `${params.row.folioSolicitud}`
@@ -188,7 +186,7 @@ const FolioBadgeUsuario = params => {
 
       // Limpia el enlace y la URL creada
       document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
+      window?.URL?.revokeObjectURL(url)
     } catch (error) {
       console.error('Hubo un problema con la petición Fetch:', error)
     }

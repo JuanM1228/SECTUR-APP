@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
-import Resumen from '@/components/home/Resumen'
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import Tabs from '@mui/material/Tabs'
@@ -94,7 +93,7 @@ const HomePage = () => {
   }
 
   const columnsData =
-    profile.role === ROLE_ENUM.ADMIN
+    profile?.role === ROLE_ENUM.ADMIN
       ? COLUMNS_TABLE_TRAMITES_ADMIN
       : COLUMNS_TABLE_TRAMITES_USUARIO
 

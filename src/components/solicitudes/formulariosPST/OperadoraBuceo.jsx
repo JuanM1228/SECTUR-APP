@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import Dropdown from '@/components/common/Dropdown'
 
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { INIT_OPERADORA_BUCEO, STEP_ENUM } from '@/utils/constants'

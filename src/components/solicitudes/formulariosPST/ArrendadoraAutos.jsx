@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 
-import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import Dropdown from '@/components/common/Dropdown'
 

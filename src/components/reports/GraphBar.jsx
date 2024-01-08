@@ -1,7 +1,6 @@
 import React from 'react'
 import { BarChart } from '@mui/x-charts/BarChart'
 
-import { INIT_DATA_GRAPH } from '@/utils/constants'
 import colors from '@/assets/colors'
 const GraphBar = ({ data }) => {
   return (

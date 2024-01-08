@@ -1,5 +1,3 @@
-import { INIT_DATA_LOGIN, INIT_DATA_REGISTER_USER } from './constants'
-
 const email = email => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
 const hasText = value => value?.trim() !== ''
 
