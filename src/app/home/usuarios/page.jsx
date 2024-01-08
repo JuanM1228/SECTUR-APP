@@ -69,7 +69,7 @@ const EditDeleteSection = ({onEdit, onDelete, rowData }) => {
   );
 };
 
-const Usuarios = () => {
+const usuarios = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [value, setValue] = useState(0)
   const [rows, setRows] = useState([])
@@ -81,14 +81,10 @@ const Usuarios = () => {
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
   const [selectedSubMenu, setSelectedSubMenu] = useState([]);
   const [selectedEstado, setSelectedEstado] = useState([]);
-  const [usuariosFiltros, setUsuariosFiltros] = useState('')
-  const [nombreUsuario, setNombreUsuario] = useState('');
-  const [tipoRol, setTipoRol] = useState('');
-  const [tipoDeEstado, setTipoDeEstado] = useState('');
-  const [showFilters, setShowFilters] = useState(true)
   const [filtros, setFiltros] = useState(INIT_FILTROS_USER_DATA)
   const [subMenu, setSubMenu] = useState([])
   const [showAlert, setShowAlert] = useState(false)
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false)
   const [formData, setFormData] = useState({
     id:'',name:'',email:'',submenus:[],estados:[],password:'',paternalSurname:'',maternalSurname:'',
   })
@@ -138,7 +134,6 @@ const Usuarios = () => {
         }
       } catch (error) {
         console.log('error', error)
-        // showErrorMessage()
       }
     }, [])
 
@@ -190,6 +185,7 @@ const Usuarios = () => {
       setFiltros({ ...INIT_FILTROS_USER_DATA });
       getInfo();
     };
+
     //Registrar Usuario
     const agregarUsuario = async registerUser =>{
       console.log('registrar data', registerUser)
@@ -234,23 +230,15 @@ const Usuarios = () => {
 
     const handleEdit = async (formData) => {
       console.log('La data a editar es',formData)
-      console.log('El estado a editar es',formData.estados)
-      console.log('El submenu a editar es',formData.submenus)
-      
       const submenuIds = formData.submenus.map((submenuObj) => submenuObj.idSubmenu);
       const estadosIds = formData.estados.map((submenuObj) => submenuObj.id);
-      const uniqueEstados = estadosIds.reduce((acc, estado) => {
-        if (!acc.find((e) => e.id === estado.id)) {
-          acc.push(estado);
-        }
-        return acc;
-      }, []);
+    
       setFormData({
         id_user:formData.id,
         name:formData.name,
         email:formData.email, 
         submenus:submenuIds,
-        estados:uniqueEstados, 
+        estados:estadosIds, 
         phoneNumber:formData.phoneNumber, 
         password:formData.password,
         paternalSurname:formData.paternalSurname,
@@ -277,8 +265,8 @@ const Usuarios = () => {
         if (Object.values(register).every((value) => value !== '' && value !== null)) {
           await agregarUsuario(register);
           getInfo();
+          setShowSuccessAlert(true)
           setusuarioModal(false)
-          console.log('email', typeof register.email)
           console.log('Submit Exitoso', register);
         } else {
           setShowAlert(true);
@@ -294,7 +282,7 @@ const Usuarios = () => {
       const { name, value } = e.target;
     
       if (name === 'estados') {
-        setSelectedEstado(value); // Actualiza el estado de la selección de estado
+        setSelectedEstado(value); 
       }
     
       setFormData({ ...formData, [name]: value });
@@ -303,7 +291,7 @@ const Usuarios = () => {
     //Ventanas Modales Functions
     const handleClickOpenUsuario = () => {
       setusuarioModal(true);
-      setIsEditModalOpen(false); // Asegurarse de que no estés en modo edición al abrir el modal de registro
+      setIsEditModalOpen(false);
       setRegister(INIT_DATA_REGISTER_USER);
       setSelectedSubMenu([]);
       setSelectedEstado([])
@@ -406,6 +394,7 @@ const Usuarios = () => {
               type="text"
               margin="normal"
               id="name"
+              name='name'
               label="Nombre"
               variant="outlined"
               value={filtros.name}
@@ -414,9 +403,10 @@ const Usuarios = () => {
             
             <Input
               fullWidth
-              type="text"
+              type="number"
               margin="normal"
               id="id"
+              name='id'
               label="Numero de Usuario"
               variant="outlined"
               value={filtros.id}
@@ -427,6 +417,7 @@ const Usuarios = () => {
               type="text"
               margin="normal"
               id="estados"
+              name='estados'
               label="Entidad Federativa"
               variant="outlined"
               value={filtros.estados}
@@ -556,7 +547,6 @@ const Usuarios = () => {
               variant="outlined"
               value={selectedEstado || OPTIONS_ESTADOS.map(option => option.value)}
               onChange={(e) => {
-                console.log('Selected Estado:', e.target.value);
                 onHandleChange(e);
                 setSelectedEstado(e.target.value);
               }}
@@ -834,10 +824,22 @@ const Usuarios = () => {
           USUARIO DUPLICADO O TODOS LOS CAMPOS DEBEN ESTAR LLENOS
         </Alert>
       </Snackbar>
+      <Snackbar
+        open={showSuccessAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={() => setShowSuccessAlert(false)}>
+        <Alert
+          onClose={() => setShowSuccessAlert(false)}
+          severity="success"
+          sx={{ width: '100%' }}>
+          REGISTRO EXITOSO
+        </Alert>
+      </Snackbar>
     </div>
   )
   
   
 }
 
-export default Usuarios
+export default usuarios
