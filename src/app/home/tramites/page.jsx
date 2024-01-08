@@ -159,7 +159,7 @@ const PanelSolicitudesUsuario = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 px-4 py-2 sm:grid-cols-12  gap-4  sm:overflow-y-auto">
+      <div className="grid grid-cols-1 items-center justify-center px-4 py-2 sm:grid-cols-12  gap-4  sm:overflow-y-auto">
         {showFilters && (
           <div
             className={` flex flex-col gap-6  col-span-1  sm:col-span-2 min-w-min `}>
@@ -235,7 +235,7 @@ const PanelSolicitudesUsuario = () => {
         )}
 
         {loader ? (
-          <span className="loader col-span-1"></span>
+          <span className="loader"></span>
         ) : (
           <Table
             columns={columnsData}

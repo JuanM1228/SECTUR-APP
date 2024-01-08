@@ -17,6 +17,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import ButtonMUI from '@mui/material/Button'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
+import dayjs from 'dayjs'
 
 import {
   MAX_PHOTO_LENGTH,
@@ -189,7 +190,9 @@ const Documents = props => {
         TIPOS_VIALIDAD_OBJETO[register.datosGenerales.tipoVialidad],
       tipoDeAsentamiento:
         TIPOS_ASENTAMIENTO_OBJETO[register.datosGenerales.asentamiento],
-      fechaDeApertura: register.datosGenerales.fechaApertura,
+      fechaDeApertura: dayjs(register.datosGenerales.fechaApertura).format(
+        'DD-MM-YYYY',
+      ),
     }
     console.log(register)
     console.log(registroPrueba)
