@@ -18,10 +18,7 @@ import ProcedureCompleted from '@/components/solicitudes/ProcedureCompleted'
 const Domicilio = dynamic(() => import('@/components/solicitudes/Domicilio'), {
   ssr: false,
 })
-import {
-  GENERIC_DETAILS_PST_LIST,
-  PST_ENUM,
-} from '@/utils/constants'
+import { GENERIC_DETAILS_PST_LIST, PST_ENUM } from '@/utils/constants'
 import OperadoraMarina from '@/components/solicitudes/formulariosPST/OperadoraMarina'
 import Hospedaje from '@/components/solicitudes/formulariosPST/Hospedaje'
 import TiemposCompartidos from '@/components/solicitudes/formulariosPST/TiemposCompartidos'
@@ -33,6 +30,7 @@ const Solicitudes = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [idSolicitud, setIdSolicitud] = useState(params.idSolicitud)
   const [coloniaActual, setColoniaActual] = useState('')
+  console.log(coloniaActual)
   const [register, setRegister] = useState({
     datosGenerales: null,
     domicilio: null,

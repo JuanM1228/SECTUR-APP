@@ -97,6 +97,7 @@ const Domicilio = ({
     setData({ ...data, [name]: value })
     if (name === 'colonia') {
       const objectColonia = colonias.find(colonia => colonia.value === value)
+      console.log(objectColonia.title)
       setColoniaActual(objectColonia.title)
     }
   }
