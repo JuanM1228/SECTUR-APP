@@ -16,7 +16,7 @@ export const INIT_FILTROS_DATA = {
 export const INIT_FILTROS_USER_DATA = {
   id: '',
   name: '',
-  email:'',
+  email: '',
   estados: [],
 }
 export const INIT_DATA_REGISTER_USER = {
@@ -344,11 +344,6 @@ export const TIPOS_TRAMITES_DROPDOWN = [
     value: 2,
     title:
       'Expedición de nuevo certificado por cambio de domicilio, razón social o nombre comercial',
-  },
-  {
-    value: 4,
-    title:
-      'Expedición de nuevo certificado por incluir la categoria obtenida en el sistema de alificación hotelero',
   },
   {
     value: 5,

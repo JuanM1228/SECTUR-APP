@@ -19,7 +19,7 @@ function Completed({ step }) {
         <Icons.TaskAlt className="w-24 h-24 text-seaGreen animate-bounce" />
       </IconButton>
       <strong className="text-4xl font-semibold mb-2">
-        Su tramite ha sido finalizado
+        Su trámite ha sido finalizado
       </strong>
       <p className="text-2xl text-gray-600 mb-4">
         Lo mantendremos informado acerca del estado.

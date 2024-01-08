@@ -38,7 +38,7 @@ const Inicio = () => {
             <h1 className="text-center text-xl font-Montserrat">General</h1>
             <Button
               startIcon={<Icons.Search style={{ fontSize: 35 }} />}
-              content="Consultar"
+              content="Consulta"
               onClick={handleHomeClick}
             />
           </section>
@@ -54,9 +54,15 @@ const Inicio = () => {
             />
             <Button
               startIcon={<Icons.Sync style={{ fontSize: 35 }} />}
-              content="Renovar"
+              content="Renueva"
               onClick={handleRenovarClick}
             />
+
+            <p
+              className="text-blue underline text-center cursor-pointer"
+              onClick={handleLoginClick}>
+              Panel de Administrador
+            </p>
           </section>
         </div>
       </div>

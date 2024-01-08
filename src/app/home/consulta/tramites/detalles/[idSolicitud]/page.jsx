@@ -124,6 +124,8 @@ const DetallesDeSolicitud = () => {
         codigoPostal: domicilio.codigoPostal,
         latitud: domicilio.latitud,
         longitud: domicilio.longitud,
+        numeroExterior: domicilio.numExterior,
+        numeroInterior: domicilio.numInterior,
         // Contacto
         telefono: contacto.telefono,
         celular: contacto.celular,
@@ -321,7 +323,15 @@ const DetallesDeSolicitud = () => {
           </div>
           <div>
             <p className="font-semibold">
-              Calle y número: <span className="font-normal">{data.calle}</span>
+              Calle: <span className="font-normal">{data.calle}</span>
+            </p>
+            <p className="font-semibold">
+              Número Exterior:{' '}
+              <span className="font-normal">{data.numeroExterior}</span>
+            </p>
+            <p className="font-semibold">
+              Número Interior:{' '}
+              <span className="font-normal">{data.numeroInterior}</span>
             </p>
             <p className="font-semibold">
               Colonia: <span className="font-normal">{data.colonia}</span>

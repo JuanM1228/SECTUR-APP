@@ -33,6 +33,7 @@ const PanelSolicitudesUsuario = () => {
   const [filtros, setFiltros] = useState(INIT_FILTROS_DATA)
   const [estados, setEstados] = useState([])
   const [showAlert, setShowAlert] = useState(false)
+  const [loader, setLoader] = useState(false)
 
   useEffect(() => {
     if (!profile) return
@@ -44,16 +45,19 @@ const PanelSolicitudesUsuario = () => {
   }, [])
 
   const getTramites = async id => {
+    setLoader(true)
     const url = `/api/registro/tramites-usuario/${id}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
         setTramites(res.result.data)
         console.log(res.result.data)
+        setLoader(false)
       } else {
       }
     } catch (error) {
       console.log('error', error)
+      setLoader(false)
     }
   }
 
@@ -139,6 +143,7 @@ const PanelSolicitudesUsuario = () => {
     }
     return
   }
+  console.log(loader)
 
   return (
     <div className="flex flex-col gap-4 h-[calc(100vh-3.5rem)] overflow-hidden p-4">
@@ -228,7 +233,10 @@ const PanelSolicitudesUsuario = () => {
             <Button content="Limpiar filtros" onClick={clearFilters} />
           </div>
         )}
-        {tramites.length !== 0 && (
+
+        {loader ? (
+          <span className="loader col-span-1"></span>
+        ) : (
           <Table
             columns={columnsData}
             isLoading={isLoading}
