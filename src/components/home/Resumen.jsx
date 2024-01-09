@@ -116,7 +116,7 @@ const Resumen = ({ information }) => {
             Colonia: <span className="font-normal">{data.colonia}</span>
           </p>
           <p className="font-semibold">
-            Municipio: <span className="font-normal">{data.municipio}</span>
+            Municipio/alcaldía: <span className="font-normal">{data.municipio}</span>
           </p>
           <p className="font-semibold">
             Estado: <span className="font-normal">{data.estado}</span>
