@@ -87,7 +87,6 @@ const Catalogos = () => {
         key={section.id}
         title={section.name}
         subpst={section.subpst}
-        subPstContent={section.subpst}
         />
         ))
         )} 

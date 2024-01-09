@@ -277,12 +277,10 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
       <DialogTitle className="font-GMX  flex justify-between items-center font-bold">
         {catalogName}
         <IconButton onClick={onClose} >
-        <Icons.Close onClick={handleClose} ></Icons.Close>
+        <Icons.Close  ></Icons.Close>
         </IconButton> 
       </DialogTitle> 
       <DialogContent className="flex flex-col gap-6">
-        <DialogContentText>
-    
         <Table
             columns={[
               ...COLUMNS_TABLE_CATALOGOS ,
@@ -308,7 +306,6 @@ const PopupCatalog = ({ open, onClose, idCatalog, catalogName  }) => {
           />
           <Button content={content} onClick={handleButtonClick}/>
          
-        </DialogContentText>
         <div className="flex flex-row gap-4">
           {showInput &&
            <input 

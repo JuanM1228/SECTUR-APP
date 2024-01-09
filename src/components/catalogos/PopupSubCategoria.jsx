@@ -30,9 +30,13 @@ const DeleteConfirmationDialog = ({ open, onClose, onConfirm }) => {
           ¿Está seguro de que desea eliminar este elemento?
         </DialogContentText>
       </DialogContent>
-      <div className="flex justify-end p-5 ">
+      <div className="flex justify-end p-5 gap-4 ">
+       
         <Button  content='Cancelar' onClick={onClose} />
+        
+        
         <Button  content='Aceptar' onClick={onConfirm}/>
+        
       </div>
     </Dialog>
   );
@@ -51,7 +55,7 @@ const EditSection = ({ rowData, onEdit, onDelete }) => {
   );
 };
 
-const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstContent}) => {
+const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName}) => {
 
   const { sendRequest } = useHttpClient()
   const [data, setData] = useState([]);
@@ -60,29 +64,29 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
   const [showButton, setShowButton] = useState(false);
   const [showAlert, setShowAlert] = useState(false)
   const [content, setContent] = useState('Agregar nuevo campo');
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [showAddButton, setShowAddButton] = useState(true);
   const [isEditing, setIsEditing] = useState(null);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
+const [successSnackbarMessage, setSuccessSnackbarMessage] = useState('');
+
   const [formdata, setFormData] = useState({
-    id_catalogo: '',
+    idSubpst: '',
     name: '',
-    estatus: '',
-    isActive:-1,
-    tipo_especial:-1,
-    id_especial:-1
   });
 
   const toggleInput = () => {
-    setContent(showInput ? 'Agregar nuevo campo' : 'Regresar');
+    setContent(showInput ? 'Regresar' : 'Agregar nuevo campo');
     setShowDropdown(!showDropdown);
-    setShowInput(!showInput);
+    setShowInput(!showInput || isEditing); // Cambia aquí para que showInput se establezca en true solo al editar
     setShowButton(!showButton);
+    
   };
 
   const fetchDataByCatalogName = async (idSubCatalog) => {
     try {
-      const res = await sendRequest(`/api/configuration/catalogo-subcategorias/${idSubCatalog}`);
+      const res = await sendRequest(`/api/configuration/catalogo-subcategorias-detalle/${idSubCatalog}`);
       console.log(`API Response subcatalogo for ${idSubCatalog}:`, res);
       if(!res.success)return
       setData (res.result.data)
@@ -112,7 +116,9 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
       console.log('API Response:', response);
 
       if (response.success) {
-        fetchDataByCatalogName();
+        fetchDataByCatalogName(idSubCatalog);
+        setSuccessSnackbarMessage('¡Elemento agregado exitosamente!');
+        setShowSuccessSnackbar(true);
       } else {
         console.error('Error adding item:', response.error);
       }
@@ -122,53 +128,53 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
   };
 
   //Edit camp
- const editCamp = async (idCatalog) => {
+ const editCamp = async (idSubCatalog) => {
   const url =`/api/configuration/update-catalogo-subcategorias`;
-  console.log('el id es',idCatalog)
+  console.log('el id es',idSubCatalog)
   try {
     const response = await sendRequest(url,{ 
       method: 'POST', 
       body: formdata 
     });
-
     console.log('API Response:', response.data);
-    return response.data;
-} catch (err) {
-  console.error('Error updating camp:', err);
-}
-};
+      return response.data;
+  } catch (err) {
+    console.error('Error updating camp:', err);
+  }
+ }
   
   const handleEdit = (rowData) => {
-    toggleInput();
+    
     console.log('Editing', rowData)
+    console.log('Editing', rowData.name)
     setFormData({
-      id_opcion: rowData.id, 
-      name: rowData.nombre,
-      estatus: rowData.estatus,
+      idSubpst: rowData.id, 
+      subPstName: rowData.name,
     });
-    setSelectedStatus(rowData.estatus);
     setIsEditing(true);
+    toggleInput();
+    setShowAddButton(false)
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     toggleInput();
 
-    if (formdata.nombre !== '' && formdata.estatus !== '') {
+    if (formdata.nombre !== '') {
       const requestData = {
-        idPST: idCatalog,
+        idPST: idSubCatalog,
         subPstName: formdata.name,
       };
       const requestEditData = {
-        idSubpst: idCatalog,
-        subPstName: formdata.nombre,
+        idSubpst: idSubCatalog,
+        subPstName: formdata.name,
       };
       try{
         if (isEditing) {
           // Actualiza formdata antes de la edición
           setFormData((prevFormData) => ({
             ...prevFormData,
-            estatus: selectedStatus,
+            
           }));
       // Update item
         console.log('Form Data:', formdata);
@@ -176,19 +182,21 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
         
         console.log('Form Dataadd:', requestData);
         console.log('Form Data edit:', requestEditData);
-       await editCamp(requestData);
+       await editCamp(requestEditData);
+       setShowAddButton(true)
       } else {
       // Add new item
         console.log('Form Data:', requestData);
         
        await addCamp(requestData);
       }
-      fetchDataByCatalogName(idCatalog);
+      fetchDataByCatalogName(idSubCatalog);
       setFormData({
-        idSubpst: idCatalog,
+        idSubpst: idSubCatalog,
         subPstName: '',
       });
       setIsEditing(false);
+      setShowInput(false);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -200,26 +208,20 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
   const handleButtonClick = () => {
     toggleInput()
     setFormData({ 
-    id_catalogo: '',
-    name: '',
-    estatus: 'Activo',
-    isActive: -1,
-    tipo_especial: -1,
-    id_especial: -1,
+      idSubpst: '',
+      subPstName: '',
+    
   });
     setIsEditing(false);
   }
- const handleClose = () =>{
-  setFormData({ 
-    id_catalogo: '',
-    name: '',
-    estatus: '',
-    isActive: -1,
-    tipo_especial: -1,
-    id_especial: -1,
-  });
-  setIsEditing(false);
-  onClose();
+  const handleClose = () => {
+    setFormData({
+      idSubpst: '',
+      subPstName: '',
+    });
+    setIsEditing(false);
+    setShowAddButton(true);
+    onClose();
  }
   //Delete Camp
   const handleDelete = (rowData) => {
@@ -242,7 +244,7 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
         prevData.filter((data) => data.id !== itemToDelete)
         );
         setDeleteConfirmationOpen(false);
-        fetchDataByCatalogName(idCatalog);
+        fetchDataByCatalogName(idSubCatalog);
         } else {
           console.error('Error deleting camp:', response.error);
         }
@@ -262,15 +264,14 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
       >
       <DialogTitle className="font-GMX  flex justify-between items-center font-bold">
         {catalogName}
-        <IconButton onClick={onClose} >
-        <Icons.Close onClick={handleClose} ></Icons.Close>
+        <IconButton onClick={handleClose} >
+        <Icons.Close  ></Icons.Close>
         </IconButton> 
       </DialogTitle> 
       <DialogContent className="flex flex-col gap-6">
        <Table
             columns={[
               ...COLUMNS_TABLE_SUB_CATALOGOS ,
-                
               {
                 field: 'editSection',
                 headerName: 'Editar/Eliminar',
@@ -290,17 +291,30 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
             rows={data}
             isLoading={false}
           />
-          <Button content={content} onClick={handleButtonClick}/>
+          {showAddButton && (
+  <Button content={content} onClick={handleButtonClick} />
+)}
        
         <div className="flex flex-row gap-4">
-          {showInput &&
-           <input 
-           type="text" 
-           placeholder="Ingrese tipo" 
-           className="w-2/5"
-           value = {formdata.name}
-           onChange={(e)=> setFormData({...formdata, name: e.target.value, estatus: formdata.estatus})}
-            />}
+        {showInput && !isEditing && (
+              <input
+                type="text"
+                name="agregar"
+                placeholder="Ingrese tipo"
+                className="w-2/5"
+                value={formdata.name}
+                onChange={(e) => setFormData({ ...formdata, name: e.target.value })}
+              />
+            )}
+            {showDropdown && isEditing && (
+              <input
+                value={formdata.subPstName}
+                name="editar"
+                placeholder="Ingrese tipo"
+                onChange={(e) => setFormData({ ...formdata, subPstName: e.target.value })}
+                className="w-1/4"
+              />
+            )}
           {showButton && <Button type='submit' content='Aceptar'  onClick={handleSubmit}/>}
         </div>
       </DialogContent>
@@ -323,6 +337,20 @@ const PopupSubCategoria = ({ open, onClose, idSubCatalog, catalogName, subPstCon
           NOMBRE NO PUEDO SER VACIO
         </Alert>
       </Snackbar>
+      <Snackbar
+  open={showSuccessSnackbar}
+  autoHideDuration={6000}
+  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+  onClose={() => setShowSuccessSnackbar(false)}
+>
+  <Alert
+    onClose={() => setShowSuccessSnackbar(false)}
+    severity="success"
+    sx={{ width: '100%' }}
+  >
+    {successSnackbarMessage}
+  </Alert>
+</Snackbar>
     </>
   )
 }
