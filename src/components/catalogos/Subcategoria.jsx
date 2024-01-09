@@ -33,7 +33,7 @@ const Subcategoria = ({ title, subpst, }) => {
       <AccordionSummary
         expandIcon={<Icons.ExpandMore />}
         className="font-GMX font-bold"
-        onClick={() => onHandleClickCatalog(subpst.id, title, subpst)}
+        onClick={() => onHandleClickCatalog(subpst[0].id, title, subpst)}
         >
         Editar: {title}
       </AccordionSummary>
