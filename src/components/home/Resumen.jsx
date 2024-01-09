@@ -29,7 +29,7 @@ const Resumen = ({ information }) => {
       registroAnterior: datosGenerales.registroAnterior,
       // Domicilio
       calle: domicilio.calle,
-      colonia: domicilio.colonia,
+      colonia: domicilio.coloniaName,
       municipio: domicilio.municipio,
       estado: domicilio.estado,
       codigoPostal: domicilio.codigoPostal,

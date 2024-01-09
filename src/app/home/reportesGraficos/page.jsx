@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import Button from '@/components/common/Button'
 
 const ReportesGraficos = () => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -26,13 +27,14 @@ const ReportesGraficos = () => {
   }
 
   return (
-    <div className="w-full h-[calc(100vh-9rem)] flex flex-col justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center">
       <h1 className="font-GMX text-3xl font-bold text-center my-4 ">
         REPORTES GRÁFICOS
       </h1>
+      <Button content='Imprimir' fullWidth={false} onClick={() =>window.print()} />
       <iframe
-        width="80%"
-        height="100%"
+        width="100%"
+        height="2000px"
         src={srcFrame}
         title="YouTube video player"
         // frameborder="0"
