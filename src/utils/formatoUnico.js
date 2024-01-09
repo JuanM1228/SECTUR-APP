@@ -51,7 +51,7 @@ export const formatoUnico = async solicitud => {
   doc.text(56, 202, codigi_postal, { maxWidth: 500, align: 'left' })
   doc.text(121, 202, estado, { maxWidth: 500, align: 'left' })
   doc.text(50, 206, municipio, { maxWidth: 500, align: 'left' })
-  doc.text(115, 206, localidad, { maxWidth: 500, align: 'left' })
+  // doc.text(115, 206, localidad, { maxWidth: 500, align: 'left' })
   doc.text(48, 213, telefono, { maxWidth: 500, align: 'left' })
   doc.text(119, 213, mail, { maxWidth: 500, align: 'left' })
   doc.text(30, 220, web, { maxWidth: 500, align: 'left' })
