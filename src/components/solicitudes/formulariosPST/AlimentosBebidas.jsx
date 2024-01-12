@@ -43,7 +43,7 @@ const AlimentosBebidas = ({
       const res = await sendRequest(url)
       if (res.success) {
         const {
-          ubicacionAYB,
+          ubicacion,
           tiposDeServicio,
           espectaculosAYB,
           especialidadesAYB,
@@ -57,7 +57,7 @@ const AlimentosBebidas = ({
           espectaculoData: espectaculosAYB,
           especialidadesData: especialidadesAYB,
           comidaData: tiposDeComida,
-          ubicacionData: ubicacionAYB,
+          ubicacionData: ubicacion,
           serviciosAdicionalesData: serviciosAdicionales,
         })
       }

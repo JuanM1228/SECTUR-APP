@@ -143,7 +143,7 @@ const Configurations = () => {
           <img
             src={`${process.env.ENV_URL}/${configuration.logo_path}`}
             alt="logo"
-            className="h-32 w-full object-contain"
+            className="h-32 w-full object-contain bg-corduroy"
           />
         </section>
       </div>
