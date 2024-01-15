@@ -77,9 +77,11 @@ const Contacto = ({
           label="Teléfono *"
           name="telefono"
           error={error.telefono !== ''}
+          maxLength={10}
           helpText={error.telefono}
           onChange={onHandleChange}
           value={data.telefono}
+          type="number"
         />
         <Input
           label="Correo electrónico *"
@@ -92,6 +94,8 @@ const Contacto = ({
         <Input
           label="Celular"
           name="celular"
+          error={error.celular !== ''}
+          helpText={error.celular}
           onChange={onHandleChange}
           value={data.celular}
         />

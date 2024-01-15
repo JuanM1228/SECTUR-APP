@@ -1,9 +1,15 @@
 const email = email => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
 const hasText = value => value?.trim() !== ''
+const phoneNumber = phoneNumber => /^\d{10}$/.test(phoneNumber)
 
 const rfc = rfc =>
   /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/.test(
     rfc,
+  )
+
+const curp = curp =>
+  /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/.test(
+    curp,
   )
 
 const loginForm = data => {
@@ -15,7 +21,7 @@ const loginForm = data => {
   if (!hasText(data.email)) {
     err.email = 'Ingrese su correo'
   } else if (!email(data.email)) {
-    err.email = 'Por favor ingrese un correo valido'
+    err.email = 'Por favor ingrese un correo válido'
   }
   if (!hasText(data.password)) {
     err.password = 'Ingrese su contraseña'
@@ -52,7 +58,7 @@ const registerForm = data => {
   if (!hasText(data.email)) {
     err.email = 'Ingrese su correo electrónico'
   } else if (!email(data.email)) {
-    err.email = 'Por favor ingrese un correo valido'
+    err.email = 'Por favor ingrese un correo válido'
   }
   if (!hasText(data.password)) {
     err.password = 'Ingrese una contraseña'
@@ -87,6 +93,7 @@ const datosGeneralesForm = data => {
     tipoVialidad: '',
     asentamiento: '',
     fechaApertura: '',
+    curp: '',
   }
 
   if (!data.tipoPST) {
@@ -97,9 +104,16 @@ const datosGeneralesForm = data => {
   }
   if (!hasText(data.rfc)) {
     err.rfc = 'Ingrese su RFC'
+  } else if (!rfc(data.rfc)) {
+    err.rfc = 'Por favor ingrese un RFC válido'
   }
-  if (!hasText(data.razonSocial)) {
+  if (!hasText(data.curp)) {
     err.razonSocial = 'Ingrese su razón social'
+  }
+  if (!hasText(data.curp)) {
+    err.curp = 'Ingrese su CURP'
+  } else if (!curp(data.curp)) {
+    err.curp = 'Por favor ingrese una CURP valida'
   }
   if (!data.tipoTramite) {
     err.tipoTramite = 'Ingrese tipo de tramite'
@@ -127,7 +141,8 @@ const datosGeneralesForm = data => {
       err.nacionalidad !== '' ||
       err.tipoVialidad !== '' ||
       err.asentamiento !== '' ||
-      err.fechaApertura !== '',
+      err.fechaApertura !== '' ||
+      err.curp !== '',
     errors: err,
   }
 }
@@ -173,17 +188,25 @@ const contactoForm = data => {
   let err = {
     telefono: '',
     email: '',
+    celular: '',
   }
 
   if (!data.telefono) {
     err.telefono = 'Ingrese un número de teléfono'
+  } else if (!phoneNumber(data.telefono)) {
+    err.telefono = 'Por favor ingrese un número de teléfono válido'
   }
   if (!data.email) {
     err.email = 'Ingrese un correo electrónico'
+  } else if (!email(data.email)) {
+    err.email = 'Por favor ingrese un correo válido'
+  }
+  if (hasText(data.celular) && !phoneNumber(data.celular)) {
+    err.celular = 'Por favor ingrese un número de celular válido'
   }
 
   return {
-    hasError: err.telefono !== '' || err.email !== '',
+    hasError: err.telefono !== '' || err.email !== '' || err.celular !== '',
     errors: err,
   }
 }

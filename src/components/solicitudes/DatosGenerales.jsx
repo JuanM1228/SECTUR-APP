@@ -90,6 +90,11 @@ const DatosGenerales = ({
   }
 
   const onHandleChange = ({ target: { name, value } }) => {
+    if (name === 'rfc' || name === 'curp') {
+      const valueWithUppercase = value.toUpperCase()
+      setData({ ...data, [name]: valueWithUppercase })
+      return
+    }
     setData({ ...data, [name]: value })
   }
 
@@ -155,6 +160,8 @@ const DatosGenerales = ({
         <Input
           label="CURP"
           name="curp"
+          error={error.curp !== ''}
+          helpText={error.curp}
           onChange={onHandleChange}
           value={data.curp}
         />
