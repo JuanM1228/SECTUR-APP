@@ -17,6 +17,8 @@ const DatePickerCustom = ({
   color,
   size = 'small',
   value = '',
+  maxDate = null,
+  minDate = null,
   onChange = () => {},
 }) => {
   const theme = createTheme({
@@ -46,6 +48,8 @@ const DatePickerCustom = ({
           value={value}
           disabled={disabled}
           onChange={onHandleChange}
+          maxDate={maxDate}
+          minDate={minDate}
           slotProps={{
             field: {
               className: 'font-GMX',

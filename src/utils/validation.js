@@ -12,6 +12,11 @@ const curp = curp =>
     curp,
   )
 
+  const password = password =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(
+      password,
+    )
+
 const loginForm = data => {
   let err = {
     email: '',
@@ -43,6 +48,8 @@ const registerForm = data => {
     birthDate: '',
   }
 
+  
+
   if (!hasText(data.name)) {
     err.name = 'Ingrese su(s) nombre(s)'
   }
@@ -67,6 +74,13 @@ const registerForm = data => {
     err.verifyPassword = 'Verifique su contraseña'
   } else if (data.password !== data.verifyPassword) {
     err.verifyPassword = 'Su contraseña no coincide'
+  }
+  if (!(data.password.length >= 8 && data.password <= 16)) {
+    err.verifyPassword =
+      'Su contraseña debe ser mayor a 8 caracteres y menor a 16 caracteres'
+  } else if (!password(data.password)) {
+    err.verifyPassword =
+      'Su contraseña debe tener mayusculas, minusculas, numeros y simbolos'
   }
 
   return {

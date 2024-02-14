@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import dayjs from 'dayjs'
 
 import DatePickerCustom from '../common/DatePicker'
 import Button from '@/components/common/Button'
@@ -17,6 +18,8 @@ import Images from '@/assets/images'
 import { Alert, Snackbar } from '@mui/material'
 
 import Cookies from 'js-cookie'
+
+
 
 const Register = ({ showRegister, setShowRegister }) => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -131,6 +134,8 @@ const Register = ({ showRegister, setShowRegister }) => {
           error={error.birthDate !== ''}
           helpText={error.birthDate}
           value={register.birthDate}
+          maxDate={dayjs()}
+          minDate={dayjs().subtract(100, 'year')}
         />
 
         <Input
