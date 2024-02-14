@@ -351,7 +351,7 @@ const Documents = props => {
           showScreen ? '' : 'hide'
         }`}
         onSubmit={onSubmitHandler}>
-        <div className="flex justify-between">
+        <div className="flex flex-col justify-between">
           <h1 className="font-GMX font-bold text-2xl">DOCUMENTOS</h1>
           <Button
             fullWidth={false}

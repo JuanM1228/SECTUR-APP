@@ -201,6 +201,7 @@ const Domicilio = ({
         <Input
           label="Número interior"
           name="numInterior"
+          error={Boolean(error.numInterior)}
           onChange={onHandleChange}
           value={data.numInterior}
         />

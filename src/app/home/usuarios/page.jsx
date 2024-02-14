@@ -38,6 +38,7 @@ import {
   DialogContentText,
   IconButton,
 } from '@mui/material'
+import dayjs from 'dayjs'
 
 const theme = createTheme(
   {
@@ -524,6 +525,8 @@ const Usuarios = () => {
                     // error={error.birthDate !== ''}
                     helpText={error.birthDate}
                     value={register.birthDate}
+                    maxDate={dayjs()}
+                    minDate={dayjs().subtract(100, 'year')}
                   />
 
                   <Input

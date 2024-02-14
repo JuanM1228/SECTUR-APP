@@ -2,20 +2,25 @@ const email = email => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
 const hasText = value => value?.trim() !== ''
 const phoneNumber = phoneNumber => /^\d{10}$/.test(phoneNumber)
 
-const rfc = rfc =>
-  /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/.test(
-    rfc,
+const rfc = rfc => /^[a-zA-Z0-9]{1,13}$/.test(rfc)
+
+const curp = curp => /^[a-zA-Z0-9]{1,18}$/.test(curp)
+
+const password = password =>
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(
+    password,
   )
 
-const curp = curp =>
-  /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/.test(
-    curp,
-  )
+const razonSocial = razonSocial => /^[a-zA-Z0-9]{1,50}$/.test(razonSocial)
 
-  const password = password =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(
-      password,
-    )
+const codigoPostal = codigoPostal => /^[a-zA-Z0-9]{1,5}$/.test(codigoPostal)
+const numDireccion = numDireccion => /^[0-9]{1,5}$/.test(numDireccion)
+const calle = calle => /^[a-zA-Z0-9]{1,60}$/.test(calle)
+
+const redesSociales = redesSociales =>
+  /^[a-zA-Z0-9_]{1,150}$/.test(redesSociales)
+const datosLegales = datosLegales =>
+  /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s']{1,150}$/.test(datosLegales)
 
 const loginForm = data => {
   let err = {
@@ -47,8 +52,6 @@ const registerForm = data => {
     verifyPassword: '',
     birthDate: '',
   }
-
-  
 
   if (!hasText(data.name)) {
     err.name = 'Ingrese su(s) nombre(s)'
@@ -144,6 +147,9 @@ const datosGeneralesForm = data => {
   if (!(data.fechaApertura instanceof Date || hasText(data.fechaApertura))) {
     err.fechaApertura = 'Ingrese una fecha de apertura'
   }
+  if (!razonSocial(data.razonSocial)) {
+    err.razonSocial = 'Ingrese una razon social'
+  }
 
   return {
     hasError:
@@ -169,22 +175,39 @@ const domicilioForm = data => {
     latitud: '',
     longitud: '',
     numExterior: '',
+    numInterior: '',
   }
 
   if (!data.codigoPostal) {
     err.codigoPostal = 'Ingrese un código postal'
   }
+  if (!codigoPostal(data.codigoPostal)) {
+    err.codigoPostal = 'Ingrese un código portal valido de 5 digitos'
+  }
   if (!data.colonia) {
     err.colonia = 'Seleccione una colonia'
   }
   if (!hasText(data.calle)) {
-    err.calle = 'Ingrese su calle con número exterior'
+    err.calle = 'Ingrese su calle '
+  }
+  if (!calle(data.calle)) {
+    err.calle =
+      'La calle solo debe contener letras, numeros y no mayor a 60 caracteres'
   }
   if (!data.latitud) {
     err.latitud = 'Ingrese la ubicación en el mapa'
   }
   if (!data.numExterior) {
     err.numExterior = 'Ingrese el número exterior'
+  }
+  if (!numDireccion(data.numExterior)) {
+    err.numExterior = 'Ingrese solo numeros no mayor a 5 digitos'
+  }
+  if (!data.numInterior) {
+    err.numInterior = 'Ingrese numero interior si no tiene ingrese cero'
+  }
+  if (!numDireccion(data.numInterior)) {
+    err.numInterior = 'Ingrese solo numeros no mayor a 5 digitos'
   }
 
   return {
@@ -193,6 +216,7 @@ const domicilioForm = data => {
       err.colonia !== '' ||
       err.calle !== '' ||
       err.latitud !== '' ||
+      err.numInterior !== '' ||
       err.numExterior !== '',
     errors: err,
   }
@@ -203,12 +227,23 @@ const contactoForm = data => {
     telefono: '',
     email: '',
     celular: '',
+    web: '',
+    facebook: '',
+    x: '',
+    tiktok: '',
+    instagram: '',
   }
 
   if (!data.telefono) {
     err.telefono = 'Ingrese un número de teléfono'
   } else if (!phoneNumber(data.telefono)) {
-    err.telefono = 'Por favor ingrese un número de teléfono válido'
+    err.telefono =
+      'Por favor ingrese un número de teléfono válido de 10 digitos'
+  }
+  if (!data.celular) {
+    err.celular = 'Ingrese un número de celular'
+  } else if (!phoneNumber(data.celular)) {
+    err.celular = 'Por favor ingrese un número de celular válido de 10 digitos'
   }
   if (!data.email) {
     err.email = 'Ingrese un correo electrónico'
@@ -218,9 +253,42 @@ const contactoForm = data => {
   if (hasText(data.celular) && !phoneNumber(data.celular)) {
     err.celular = 'Por favor ingrese un número de celular válido'
   }
+  if (!data.web) {
+    err.web = 'Ingrese una pagina web sino tiene ingrese N/A'
+  } else if (!redesSociales(data.web)) {
+    err.web = 'solo permite 150 caracteres'
+  }
+  if (!data.facebook) {
+    err.facebook = 'Ingrese su cuenta de facebook sino tiene ingrese N/A'
+  } else if (!redesSociales(data.facebook)) {
+    err.facebook = 'solo permite 150 caracteres'
+  }
+  if (!data.x) {
+    err.x = 'Ingrese su cuenta de x sino tiene ingrese N/A'
+  } else if (!redesSociales(data.x)) {
+    err.x = 'solo permite 150 caracteres'
+  }
+  if (!data.tiktok) {
+    err.tiktok = 'Ingrese su cuenta de tiktok sino tiene ingrese N/A'
+  } else if (!redesSociales(data.tiktok)) {
+    err.tiktok = 'solo permite 150 caracteres'
+  }
+  if (!data.instagram) {
+    err.instagram = 'Ingrese su cuenta de tiktok sino tiene ingrese N/A'
+  } else if (!redesSociales(data.instagram)) {
+    err.instagram = 'solo permite 150 caracteres'
+  }
 
   return {
-    hasError: err.telefono !== '' || err.email !== '' || err.celular !== '',
+    hasError:
+      err.telefono !== '' ||
+      err.email !== '' ||
+      err.celular !== '' ||
+      err.web !== '' ||
+      err.facebook !== '' ||
+      err.x !== '' ||
+      err.tiktok !== '' ||
+      err.instagram !== '',
     errors: err,
   }
 }
@@ -237,15 +305,23 @@ const infoLegalForm = data => {
 
   if (!hasText(data.nombreDelPropietario)) {
     err.nombreDelPropietario = 'Ingrese un nombre de propietario'
+  } else if (!datosLegales(data.nombreDelPropietario)) {
+    err.instagram = 'solo permite 150 caracteres'
   }
   if (!hasText(data.representanteLegal)) {
     err.representanteLegal = 'Ingrese un representante legal'
+  } else if (!datosLegales(data.representanteLegal)) {
+    err.representanteLegal = 'solo permite 150 caracteres'
   }
   if (!hasText(data.nombreDelSolicitante)) {
     err.nombreDelSolicitante = 'Ingrese un nombre de solicitante'
+  } else if (!datosLegales(data.nombreDelSolicitante)) {
+    err.nombreDelSolicitante = 'solo permite 150 caracteres'
   }
   if (!hasText(data.puestoDelSolicitante)) {
     err.puestoDelSolicitante = 'Ingrese un puesto de solicitante'
+  } else if (!datosLegales(data.puestoDelSolicitante)) {
+    err.puestoDelSolicitante = 'solo permite 150 caracteres'
   }
 
   if (

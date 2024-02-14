@@ -102,24 +102,28 @@ const Contacto = ({
         <Input
           label="Página Web"
           name="web"
+          error={error.web !== ''}
           onChange={onHandleChange}
           value={data.web}
         />
         <Input
           label="Facebook"
           name="facebook"
+          error={error.facebook !== ''}
           onChange={onHandleChange}
           value={data.facebook}
         />
         <Input
           label="X (Twitter)"
           name="x"
+          error={error.x !== ''}
           onChange={onHandleChange}
           value={data.x}
         />
         <Input
           label="Tiktok"
           name="tiktok"
+          error={error.tiktok !== ''}
           onChange={onHandleChange}
           value={data.tiktok}
         />
