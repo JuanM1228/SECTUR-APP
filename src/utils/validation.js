@@ -1,4 +1,4 @@
-const email = email => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+const email = email => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/.test(email)
 const hasText = value => value?.trim() !== ''
 const phoneNumber = phoneNumber => /^\d{10}$/.test(phoneNumber)
 
