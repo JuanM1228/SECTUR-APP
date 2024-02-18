@@ -115,6 +115,8 @@ const InformacionLegal = ({
           helpText={error.fechaIngresoSECTUR}
           onChange={onHandleChange}
           value={dayjs(data.fechaIngresoSECTUR)}
+          maxDate={dayjs()}
+          minDate={dayjs().subtract(100, 'year')}
         />
         {/* <Input
           label="Tipo de inmueble"

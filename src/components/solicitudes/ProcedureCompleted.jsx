@@ -7,7 +7,7 @@ import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import { STEP_ENUM } from '@/utils/constants'
 
-function Completed({ step }) {
+function Completed({ step, idSolicitud }) {
   const router = useRouter()
 
   return (
@@ -19,7 +19,7 @@ function Completed({ step }) {
         <Icons.TaskAlt className="w-24 h-24 text-seaGreen animate-bounce" />
       </IconButton>
       <strong className="text-4xl font-semibold mb-2">
-        Su trámite ha sido finalizado
+        Proceso completado con el número de tramite: {idSolicitud} 
       </strong>
       <p className="text-2xl text-gray-600 mb-4">
         Lo mantendremos informado acerca del estado.

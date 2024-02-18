@@ -38,6 +38,7 @@ import {
   DialogContentText,
   IconButton,
 } from '@mui/material'
+import { validate } from '@/utils/validation'
 import dayjs from 'dayjs'
 
 const theme = createTheme(
@@ -90,7 +91,7 @@ const Usuarios = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
   const [userIdToDelete, setUserIdToDelete] = useState(null)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(INIT_DATA_REGISTER_USER)
   const [register, setRegister] = useState(INIT_DATA_REGISTER_USER)
   const [selectedSubMenu, setSelectedSubMenu] = useState([])
   const [selectedEstado, setSelectedEstado] = useState([])
@@ -289,9 +290,13 @@ const Usuarios = () => {
   //handlesubmit
   const handleSubmit = async e => {
     e.preventDefault()
+    const { hasError, errors } = validate.registerForm(register)
     try {
       if (
-        Object.values(register).every(value => value !== '' && value !== null)
+        Object.values(register).every(
+          value => value !== '' && value !== null,
+        ) &&
+        !hasError
       ) {
         await agregarUsuario(register)
         getInfo()
@@ -300,6 +305,7 @@ const Usuarios = () => {
         console.log('Submit Exitoso', register)
       } else {
         setShowAlert(true)
+        setError(errors)
         console.error('Todos los campos deben estar llenos')
       }
     } catch (err) {
@@ -547,7 +553,7 @@ const Usuarios = () => {
                     IconComponent={Icons.Lock}
                     type="password"
                     onChange={onHandleChange}
-                    //error={error.password !== ''}
+                    error={error.password !== ''}
                     helpText={error.password}
                     value={register.password}
                   />

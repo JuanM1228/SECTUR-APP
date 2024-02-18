@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
+import dayjs from 'dayjs'
 
 import Input from '../common/Input'
 import Button from '../common/Button'
@@ -17,7 +18,6 @@ import {
 } from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { useRouter } from 'next/navigation'
-import dayjs from 'dayjs'
 
 const DatosGenerales = ({
   step,
@@ -210,6 +210,8 @@ const DatosGenerales = ({
           helpText={error.fechaApertura}
           onChange={onHandleChange}
           value={dayjs(data.fechaApertura)}
+          maxDate={dayjs()}
+          minDate={dayjs().subtract(100, 'year')}
         />
       </section>
 

@@ -11,7 +11,10 @@ const password = password =>
     password,
   )
 
-const razonSocial = razonSocial => /^[a-zA-Z0-9]{1,50}$/.test(razonSocial)
+const razonSocial = razonSocial =>
+  /^[a-zA-Z0-9áéíóúÁÉÍÓÚüÜäÄëËïÏöÖñÑçÇàèìòùÀÈÌÒÙ\s\-_.,]{1,50}$/.test(
+    razonSocial,
+  )
 
 const codigoPostal = codigoPostal => /^[a-zA-Z0-9]{1,5}$/.test(codigoPostal)
 const numDireccion = numDireccion => /^[0-9]{1,5}$/.test(numDireccion)
@@ -148,7 +151,7 @@ const datosGeneralesForm = data => {
     err.fechaApertura = 'Ingrese una fecha de apertura'
   }
   if (!razonSocial(data.razonSocial)) {
-    err.razonSocial = 'Ingrese una razon social'
+    err.razonSocial = 'Ingrese una razon social valida'
   }
 
   return {
@@ -253,30 +256,30 @@ const contactoForm = data => {
   if (hasText(data.celular) && !phoneNumber(data.celular)) {
     err.celular = 'Por favor ingrese un número de celular válido'
   }
-  if (!data.web) {
-    err.web = 'Ingrese una pagina web sino tiene ingrese N/A'
-  } else if (!redesSociales(data.web)) {
-    err.web = 'solo permite 150 caracteres'
+  if (data.web) {
+    if (!redesSociales(data.web)) {
+      err.web = 'solo permite 150 caracteres'
+    }
   }
-  if (!data.facebook) {
-    err.facebook = 'Ingrese su cuenta de facebook sino tiene ingrese N/A'
-  } else if (!redesSociales(data.facebook)) {
-    err.facebook = 'solo permite 150 caracteres'
+  if (data.facebook) {
+    if (!redesSociales(data.facebook)) {
+      err.facebook = 'solo permite 150 caracteres'
+    }
   }
-  if (!data.x) {
-    err.x = 'Ingrese su cuenta de x sino tiene ingrese N/A'
-  } else if (!redesSociales(data.x)) {
-    err.x = 'solo permite 150 caracteres'
+  if (data.x) {
+    if (!redesSociales(data.x)) {
+      err.x = 'solo permite 150 caracteres'
+    }
   }
-  if (!data.tiktok) {
-    err.tiktok = 'Ingrese su cuenta de tiktok sino tiene ingrese N/A'
-  } else if (!redesSociales(data.tiktok)) {
-    err.tiktok = 'solo permite 150 caracteres'
+  if (data.tiktok) {
+    if (!redesSociales(data.tiktok)) {
+      err.tiktok = 'solo permite 150 caracteres'
+    }
   }
-  if (!data.instagram) {
-    err.instagram = 'Ingrese su cuenta de tiktok sino tiene ingrese N/A'
-  } else if (!redesSociales(data.instagram)) {
-    err.instagram = 'solo permite 150 caracteres'
+  if (data.instagram) {
+    if (!redesSociales(data.instagram)) {
+      err.instagram = 'solo permite 150 caracteres'
+    }
   }
 
   return {

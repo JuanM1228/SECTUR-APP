@@ -222,7 +222,7 @@ const Solicitudes = () => {
             idSolicitud={idSolicitud}
           />
         )}
-        <ProcedureCompleted step={step} />
+        <ProcedureCompleted step={step} idSolicitud={idSolicitud} />
       </div>
     </div>
   )
