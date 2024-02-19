@@ -206,11 +206,10 @@ const domicilioForm = data => {
   if (!numDireccion(data.numExterior)) {
     err.numExterior = 'Ingrese solo numeros no mayor a 5 digitos'
   }
-  if (!data.numInterior) {
-    err.numInterior = 'Ingrese numero interior si no tiene ingrese cero'
-  }
-  if (!numDireccion(data.numInterior)) {
-    err.numInterior = 'Ingrese solo numeros no mayor a 5 digitos'
+  if (data.numInterior) {
+    if (!numDireccion(data.numInterior)) {
+      err.numInterior = 'Ingrese solo numeros no mayor a 5 digitos'
+    }
   }
 
   return {
