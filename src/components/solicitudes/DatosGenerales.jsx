@@ -194,7 +194,7 @@ const DatosGenerales = ({
           onChange={onHandleChange}
         />
         <Dropdown
-          label="Nombre de de asentamiento *"
+          label="Nombre de asentamiento *"
           name="asentamiento"
           variant="outlined"
           value={data.asentamiento ? data.asentamiento : 0}

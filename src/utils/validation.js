@@ -20,8 +20,7 @@ const codigoPostal = codigoPostal => /^[a-zA-Z0-9]{1,5}$/.test(codigoPostal)
 const numDireccion = numDireccion => /^[0-9]{1,5}$/.test(numDireccion)
 const calle = calle => /^[a-zA-Z0-9]{1,60}$/.test(calle)
 
-const redesSociales = redesSociales =>
-  /^[a-zA-Z0-9_]{1,150}$/.test(redesSociales)
+const redesSociales = redesSociales => /^.{1,150}$/.test(redesSociales)
 const datosLegales = datosLegales =>
   /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s']{1,150}$/.test(datosLegales)
 
