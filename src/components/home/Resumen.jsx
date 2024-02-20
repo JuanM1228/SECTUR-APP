@@ -116,7 +116,8 @@ const Resumen = ({ information }) => {
             Colonia: <span className="font-normal">{data.colonia}</span>
           </p>
           <p className="font-semibold">
-            Municipio/alcaldía: <span className="font-normal">{data.municipio}</span>
+            Municipio/alcaldía:{' '}
+            <span className="font-normal">{data.municipio}</span>
           </p>
           <p className="font-semibold">
             Estado: <span className="font-normal">{data.estado}</span>
@@ -167,7 +168,8 @@ const Resumen = ({ information }) => {
           </p>
         </div>
       </section>
-      <section className="bg-silver bg-opacity-30 col-span-2 p-4 rounded-md">
+
+      {/* <section className="bg-silver bg-opacity-30 col-span-2 p-4 rounded-md">
         <div className="flex mb-2 gap-1">
           <Icons.Gavel />
           <h2 className="text-lg font-semibold">Información legal</h2>
@@ -189,17 +191,12 @@ const Resumen = ({ information }) => {
             Puesto del solicitante:{' '}
             <span className="font-normal">{data.puestoDelSolicitante}</span>
           </p>
-
           <p className="font-semibold">
             Fecha de ingreso a SECTUR:{' '}
             <span className="font-normal">{data.fechaIngresoSECTUR}</span>
           </p>
-          {/* <p className="font-semibold">
-            Observaciones:{' '}
-            <span className="font-normal">{data.observaciones}</span>
-          </p> */}
         </div>
-      </section>
+      </section> */}
 
       <section className="bg-silver bg-opacity-30 col-span-2 p-4 rounded-md">
         <div className="flex mb-2 gap-1">
