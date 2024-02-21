@@ -7,9 +7,7 @@ const rfc = rfc => /^[a-zA-Z0-9]{1,13}$/.test(rfc)
 const curp = curp => /^[a-zA-Z0-9]{1,18}$/.test(curp)
 
 const password = password =>
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/.test(
-    password,
-  )
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$/.test(password)
 
 const razonSocial = razonSocial =>
   /^[a-zA-Z0-9áéíóúÁÉÍÓÚüÜäÄëËïÏöÖñÑçÇàèìòùÀÈÌÒÙ\s\-_.,]{1,50}$/.test(
