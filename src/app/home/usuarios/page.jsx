@@ -307,7 +307,7 @@ const Usuarios = () => {
       } else {
         setShowAlert(true)
         setError(errors)
-        console.error('Todos los campos deben estar llenos')
+        console.error('Todos los campos deben estar llenos', errors)
       }
     } catch (err) {
       setShowAlert(true)
@@ -501,7 +501,7 @@ const Usuarios = () => {
                     fullWidth
                     type="text"
                     onChange={onHandleChange}
-                    //error={error.name !== ''}
+                    error={error.name !== ''}
                     helpText={error.name}
                     value={register.name}
                   />
@@ -511,7 +511,7 @@ const Usuarios = () => {
                     fullWidth
                     type="text"
                     onChange={onHandleChange}
-                    // error={error.paternalSurname !== ''}
+                    error={error.paternalSurname !== ''}
                     helpText={error.paternalSurname}
                     value={register.paternalSurname}
                   />
@@ -521,7 +521,7 @@ const Usuarios = () => {
                     fullWidth
                     type="text"
                     onChange={onHandleChange}
-                    // error={error.maternalSurname !== ''}
+                    error={error.maternalSurname !== ''}
                     helpText={error.maternalSurname}
                     value={register.maternalSurname}
                   />
@@ -529,7 +529,7 @@ const Usuarios = () => {
                     label="Fecha de nacimiento"
                     name="birthDate"
                     onChange={onHandleChange}
-                    // error={error.birthDate !== ''}
+                    error={error.birthDate !== ''}
                     helpText={error.birthDate}
                     value={register.birthDate}
                     maxDate={dayjs()}
@@ -543,7 +543,7 @@ const Usuarios = () => {
                     IconComponent={Icons.Email}
                     type="email"
                     onChange={onHandleChange}
-                    //error={error.email !== ''}
+                    error={error.email !== ''}
                     helpText={error.email}
                     value={register.email}
                   />
@@ -565,7 +565,7 @@ const Usuarios = () => {
                     fullWidth
                     IconComponent={Icons.Lock}
                     onChange={onHandleChange}
-                    //error={error.verifyPassword !== ''}
+                    error={error.verifyPassword !== ''}
                     helpText={error.verifyPassword}
                     type="password"
                     value={register.verifyPassword}
