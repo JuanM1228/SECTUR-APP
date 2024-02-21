@@ -298,6 +298,7 @@ const Usuarios = () => {
         ) &&
         !hasError
       ) {
+        setError(INIT_DATA_REGISTER_USER)
         await agregarUsuario(register)
         getInfo()
         setusuarioModal(false)
