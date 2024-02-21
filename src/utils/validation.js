@@ -80,11 +80,11 @@ const registerForm = data => {
   } else if (data.password !== data.verifyPassword) {
     err.verifyPassword = 'Su contraseña no coincide'
   }
-  if (!(data.password.length >= 8 && data.password <= 16)) {
-    err.verifyPassword =
+  if (!(data.password.length >= 8 && data.password.length <= 16)) {
+    err.password =
       'Su contraseña debe ser mayor a 8 caracteres y menor a 16 caracteres'
   } else if (!password(data.password)) {
-    err.verifyPassword =
+    err.password =
       'Su contraseña debe tener mayusculas, minusculas, numeros y simbolos'
   }
 
