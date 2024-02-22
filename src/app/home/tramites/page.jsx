@@ -237,15 +237,13 @@ const PanelSolicitudesUsuario = () => {
           {loader ? (
             <span className="loader"></span>
           ) : (
-            <div className="w-full sm:w-auto">
-              <Table
-                columns={columnsData}
-                isLoading={isLoading}
-                rows={tramites}
-                className="w-full"
-                getRowClassName={getRowClassName}
-              />
-            </div>
+            <Table
+              columns={columnsData}
+              isLoading={isLoading}
+              rows={tramites}
+              className="w-full"
+              getRowClassName={getRowClassName}
+            />
           )}
         </div>
 
