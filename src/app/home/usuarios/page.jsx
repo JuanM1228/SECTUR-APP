@@ -40,6 +40,7 @@ import {
 } from '@mui/material'
 import { validate } from '@/utils/validation'
 import dayjs from 'dayjs'
+import Cookies from 'js-cookie'
 
 const theme = createTheme(
   {
@@ -149,7 +150,8 @@ const Usuarios = () => {
 
   const getInfo = useCallback(async () => {
     noStore()
-    const url = `/api/configuration/obtener-usuarios`
+    const token = Cookies.get('token')
+    const url = `/api/configuration/obtener-usuarios/${token}`
     try {
       const res = await sendRequest(url)
       console.log('respuesta', res)
