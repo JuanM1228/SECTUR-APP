@@ -233,7 +233,7 @@ const PanelSolicitudesUsuario = () => {
           </div>
         )}
 
-        <div className="flex justify-center items-center col-span-1 sm:col-span-10 t-ease h-[calc(90vh-10rem)] bg-black">
+        <div className="flex justify-center items-center col-span-1 sm:col-span-10 t-ease h-[calc(90vh-10rem)]">
           {loader ? (
             <span className="loader"></span>
           ) : (
@@ -241,7 +241,7 @@ const PanelSolicitudesUsuario = () => {
               columns={columnsData}
               isLoading={isLoading}
               rows={tramites}
-              className=""
+              className="w-full sm:w-auto"
               getRowClassName={getRowClassName}
             />
           )}
