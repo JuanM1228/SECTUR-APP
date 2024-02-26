@@ -3,8 +3,7 @@ import { image1 } from './fu/image1'
 import { image2 } from './fu/image2'
 
 export const formatoUnico = async solicitud => {
-  var doc = new jsPDF('p')
-
+  var doc = new jsPDF('p', 'pt', 'a4', true)
   var tipo_pst = solicitud['tipo_pst'].toUpperCase()
   var nobre_comercial = solicitud['nobre_comercial'].toUpperCase()
   var razon_social = solicitud['razon_social'].toUpperCase()
@@ -32,9 +31,27 @@ export const formatoUnico = async solicitud => {
   var pag1 = image1
   var pag2 = image2
 
-  doc.addImage(pag1, 'pag1', 7.5, 20, 2428 * 0.08, 3080 * 0.08)
+  doc.addImage(
+    pag1,
+    'pag1',
+    7.5,
+    20,
+    2428 * 0.08,
+    3080 * 0.08,
+    undefined,
+    'FAST',
+  )
   doc.addPage()
-  doc.addImage(pag2, 'pag2', 5, 20, 2355 * 0.085, 3094 * 0.085)
+  doc.addImage(
+    pag2,
+    'pag2',
+    5,
+    20,
+    2355 * 0.085,
+    3094 * 0.085,
+    undefined,
+    'FAST',
+  )
 
   doc.setFontSize(8)
 
