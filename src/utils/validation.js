@@ -124,13 +124,13 @@ const datosGeneralesForm = data => {
   } else if (!rfc(data.rfc)) {
     err.rfc = 'Por favor ingrese un RFC válido'
   }
-  if (!hasText(data.curp)) {
-    err.razonSocial = 'Ingrese su razón social'
-  }
-  if (!hasText(data.curp)) {
-    err.curp = 'Ingrese su CURP'
-  } else if (!curp(data.curp)) {
-    err.curp = 'Por favor ingrese una CURP valida'
+
+  if (hasText(data.rfc) && data.rfc.length == 13) {
+    if (!hasText(data.curp)) {
+      err.curp = 'Ingrese su CURP'
+    } else if (!curp(data.curp)) {
+      err.curp = 'Por favor ingrese una CURP valida'
+    }
   }
   if (!data.tipoTramite) {
     err.tipoTramite = 'Ingrese tipo de tramite'
