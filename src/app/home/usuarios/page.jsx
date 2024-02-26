@@ -199,7 +199,8 @@ const Usuarios = () => {
   }
 
   const onHandleFiltroChange = (name, value) => {
-    setFiltros(prevFiltros => ({ ...prevFiltros, [name]: value }))
+    const token = Cookies.get('token')
+    setFiltros(prevFiltros => ({ ...prevFiltros, [name]: value, token: token }))
   }
 
   const onHandleFiltros = () => {

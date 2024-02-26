@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie'
 const API_URL = `${process.env.ENV_URL}/api`
 export default API_URL
 
@@ -19,7 +18,7 @@ export const INIT_FILTROS_USER_DATA = {
   name: '',
   email: '',
   estados: [],
-  token: Cookies.get('token'),
+  token: '',
 }
 export const INIT_DATA_REGISTER_USER = {
   name: '',
