@@ -16,7 +16,7 @@ const colors = {
   corduroy: '#6F7271',
   seaGreen: '#3CB371',
   silver: '#CCCCCC ',
-  gray: '#808080',
+  gray: '#000000',
   white: '#FFFFFF',
   merinoTransparent: '#f8f4ebbe',
   blue: '#3367D6',
