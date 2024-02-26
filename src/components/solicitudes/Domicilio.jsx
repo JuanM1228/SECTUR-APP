@@ -19,6 +19,7 @@ import Dropdown from '../common/Dropdown'
 import { INIT_DATA_DOMICILIO, STEP_ENUM } from '@/utils/constants'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { validate } from '@/utils/validation'
+import { useAuthStore } from '@/store/auth'
 import 'leaflet/dist/leaflet.css'
 import '@/styles/leaflet.css'
 
@@ -38,6 +39,7 @@ const Domicilio = ({
   const [error, setError] = useState(INIT_DATA_DOMICILIO)
   const { sendRequest, isLoading } = useHttpClient()
   const [coordenadas, setCoordenadas] = useState(null)
+  const { profile } = useAuthStore()
 
   useEffect(() => {
     if (!dataDomicilio) return
@@ -74,7 +76,7 @@ const Domicilio = ({
       const url = '/api/address/colonias'
       const res = await sendRequest(url, {
         method: 'POST',
-        body: { codigo: data.codigoPostal },
+        body: { codigo: data.codigoPostal, id_user: profile.id },
       })
       if (res.success) {
         const info = res.result.data
