@@ -7,6 +7,7 @@ import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
@@ -15,6 +16,8 @@ import colors from '@/assets/colors'
 import Dropdown from '@/components/common/Dropdown'
 import { INIT_FILTROS_DATA, OPTIONS_ESTADOS } from '@/utils/constants'
 import Table from '@/components/common/Table'
+
+const keyApi = process.env.KEY_CAPTCHA
 
 const theme = createTheme({
   palette: {
@@ -36,6 +39,7 @@ const HomePage = () => {
   const [firstConsulta, setFirstConsulta] = useState(true)
   const [tramitesList, setTramitesList] = useState([])
   const [tramite, setTramite] = useState(null)
+  const [isVerified, setIsVerified] = useState(false)
 
   const ReviewButton = params => {
     return (
@@ -155,6 +159,19 @@ const HomePage = () => {
     setTramitesList([])
   }
 
+  const handleCaptchaChange = value => {
+    setIsVerified(true)
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    if (isVerified) {
+      alert('Captcha verificado, puedes enviar el formulario')
+    } else {
+      alert('Por favor, verifica que no eres un robot')
+    }
+  }
+
   return (
     <div className="flex flex-col  items-center w-full  gap-4">
       <div className="sm:w-1/2">
@@ -166,62 +183,73 @@ const HomePage = () => {
           onClick={() => router.push('/')}
           fullWidth={false}
         />
-        <h2 className="font-GMX text-xl font-semibold mt-3">Buscar por:</h2>
-        <div className="flex flex-col flex-wrap w-full gap-4 justify-center">
-          <ThemeProvider theme={theme}>
-            <Tabs
-              value={tab}
-              onChange={handleChangeTab}
-              className="bg-gray bg-opacity-10 rounded">
-              <Tab value={0} label="Folio" />
-              <Tab value={1} label="Estado y Nombre Comercial" />
-            </Tabs>
 
-            <section className="flex justify-center items-center   mb-5">
-              {tab === 0 && (
-                <div className="flex flex-wrap sm:flex-nowrap gap-4 w-3/4">
-                  <Input
-                    label="Folio"
-                    name="folio"
-                    IconComponent={Icons.QrCode}
-                    onChange={onHandleChange}
-                    value={filtros.folio}
-                  />
-                  <Button
-                    content="Buscar"
-                    className="w-full sm:w-auto h-auto "
-                    onClick={() => getDataFolio(filtros.folio)}
-                  />
-                </div>
-              )}
-              {tab === 1 && (
-                <div className="flex flex-wrap sm:flex-nowrap justify-center gap-4 w-3/4 ">
-                  <section className="flex flex-col gap-4  w-full">
+        <h2 className="font-GMX text-xl font-semibold mt-3">Buscar por:</h2>
+        {!isVerified && (
+          <form className="flex justify-center" onSubmit={handleSubmit}>
+            <ReCAPTCHA
+              sitekey="6Ldc0IIpAAAAAPbjCudImuzbI_f6WiOyTsrrHOt0"
+              onChange={handleCaptchaChange}
+            />
+          </form>
+        )}
+        {isVerified && (
+          <div className="flex flex-col flex-wrap w-full gap-4 justify-center">
+            <ThemeProvider theme={theme}>
+              <Tabs
+                value={tab}
+                onChange={handleChangeTab}
+                className="bg-gray bg-opacity-10 rounded">
+                <Tab value={0} label="Folio" />
+                <Tab value={1} label="Estado y Nombre Comercial" />
+              </Tabs>
+
+              <section className="flex justify-center items-center   mb-5">
+                {tab === 0 && (
+                  <div className="flex flex-wrap sm:flex-nowrap gap-4 w-3/4">
                     <Input
-                      label="Nombre comercial"
-                      name="nombreComercial"
+                      label="Folio"
+                      name="folio"
+                      IconComponent={Icons.QrCode}
                       onChange={onHandleChange}
-                      value={filtros.nombreComercial}
+                      value={filtros.folio}
                     />
-                    <Dropdown
-                      label="Estado"
-                      name="idEstado"
-                      variant="outlined"
-                      value={filtros.idEstado}
-                      options={OPTIONS_ESTADOS}
-                      onChange={onHandleChange}
+                    <Button
+                      content="Buscar"
+                      className="w-full sm:w-auto h-auto "
+                      onClick={() => getDataFolio(filtros.folio)}
                     />
-                  </section>
-                  <Button
-                    content="Buscar"
-                    className="w-full sm:w-auto self-center "
-                    onClick={getDataTramites}
-                  />
-                </div>
-              )}
-            </section>
-          </ThemeProvider>
-        </div>
+                  </div>
+                )}
+                {tab === 1 && (
+                  <div className="flex flex-wrap sm:flex-nowrap justify-center gap-4 w-3/4 ">
+                    <section className="flex flex-col gap-4  w-full">
+                      <Input
+                        label="Nombre comercial"
+                        name="nombreComercial"
+                        onChange={onHandleChange}
+                        value={filtros.nombreComercial}
+                      />
+                      <Dropdown
+                        label="Estado"
+                        name="idEstado"
+                        variant="outlined"
+                        value={filtros.idEstado}
+                        options={OPTIONS_ESTADOS}
+                        onChange={onHandleChange}
+                      />
+                    </section>
+                    <Button
+                      content="Buscar"
+                      className="w-full sm:w-auto self-center "
+                      onClick={getDataTramites}
+                    />
+                  </div>
+                )}
+              </section>
+            </ThemeProvider>
+          </div>
+        )}
 
         {tramitesList.length !== 0 && (
           <Table
