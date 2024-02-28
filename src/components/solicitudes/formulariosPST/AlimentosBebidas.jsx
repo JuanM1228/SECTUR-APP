@@ -127,7 +127,9 @@ const AlimentosBebidas = ({
         step === STEP_ENUM.DETALLES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
-      <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
+      <h1 className="font-GMX font-bold text-2xl">
+        Detalle de Prestador de Servicios Turísticos
+      </h1>
       <section className="grid sm:grid-cols-2 gap-6">
         <Dropdown
           label="Subcategoría"

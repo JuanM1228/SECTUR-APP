@@ -185,71 +185,92 @@ const HomePage = () => {
         />
 
         <h2 className="font-GMX text-xl font-semibold mt-3">Buscar por:</h2>
-        {!isVerified && (
-          <form className="flex justify-center" onSubmit={handleSubmit}>
-            <ReCAPTCHA
-              sitekey="6Ldc0IIpAAAAAPbjCudImuzbI_f6WiOyTsrrHOt0"
-              onChange={handleCaptchaChange}
-            />
-          </form>
-        )}
-        {isVerified && (
-          <div className="flex flex-col flex-wrap w-full gap-4 justify-center">
-            <ThemeProvider theme={theme}>
-              <Tabs
-                value={tab}
-                onChange={handleChangeTab}
-                className="bg-gray bg-opacity-10 rounded">
-                <Tab value={0} label="Folio" />
-                <Tab value={1} label="Estado y Nombre Comercial" />
-              </Tabs>
 
-              <section className="flex justify-center items-center   mb-5">
-                {tab === 0 && (
-                  <div className="flex flex-wrap sm:flex-nowrap gap-4 w-3/4">
-                    <Input
-                      label="Folio"
-                      name="folio"
-                      IconComponent={Icons.QrCode}
-                      onChange={onHandleChange}
-                      value={filtros.folio}
-                    />
+        <div className="flex flex-col flex-wrap w-full gap-4 justify-center">
+          <ThemeProvider theme={theme}>
+            <Tabs
+              value={tab}
+              onChange={handleChangeTab}
+              className="bg-gray bg-opacity-10 rounded">
+              <Tab value={0} label="Folio" />
+              <Tab value={1} label="Estado y Nombre Comercial" />
+            </Tabs>
+
+            <section className="flex justify-center items-center   mb-5">
+              {tab === 0 && (
+                <div className="flex flex-wrap sm:flex-nowrap gap-4 w-3/4">
+                  <Input
+                    label="Folio"
+                    name="folio"
+                    IconComponent={Icons.QrCode}
+                    onChange={onHandleChange}
+                    value={filtros.folio}
+                  />
+                  {!isVerified && (
+                    <form
+                      className="w-full sm:w-auto h-auto"
+                      onSubmit={handleSubmit}>
+                      <ReCAPTCHA
+                        sitekey="6Ldc0IIpAAAAAPbjCudImuzbI_f6WiOyTsrrHOt0"
+                        onChange={handleCaptchaChange}
+                      />
+                    </form>
+                  )}
+                  {isVerified && (
                     <Button
                       content="Buscar"
                       className="w-full sm:w-auto h-auto "
-                      onClick={() => getDataFolio(filtros.folio)}
+                      onClick={() => {
+                        getDataFolio(filtros.folio)
+                        setIsVerified(false)
+                      }}
                     />
-                  </div>
-                )}
-                {tab === 1 && (
-                  <div className="flex flex-wrap sm:flex-nowrap justify-center gap-4 w-3/4 ">
-                    <section className="flex flex-col gap-4  w-full">
-                      <Input
-                        label="Nombre comercial"
-                        name="nombreComercial"
-                        onChange={onHandleChange}
-                        value={filtros.nombreComercial}
+                  )}
+                </div>
+              )}
+              {tab === 1 && (
+                <div className="flex flex-wrap sm:flex-nowrap justify-center gap-4 w-3/4 ">
+                  <section className="flex flex-col gap-4  w-full">
+                    <Input
+                      label="Nombre comercial"
+                      name="nombreComercial"
+                      onChange={onHandleChange}
+                      value={filtros.nombreComercial}
+                    />
+                    <Dropdown
+                      label="Estado"
+                      name="idEstado"
+                      variant="outlined"
+                      value={filtros.idEstado}
+                      options={OPTIONS_ESTADOS}
+                      onChange={onHandleChange}
+                    />
+                  </section>
+                  {!isVerified && (
+                    <form
+                      className="w-full sm:w-auto h-auto"
+                      onSubmit={handleSubmit}>
+                      <ReCAPTCHA
+                        sitekey="6Ldc0IIpAAAAAPbjCudImuzbI_f6WiOyTsrrHOt0"
+                        onChange={handleCaptchaChange}
                       />
-                      <Dropdown
-                        label="Estado"
-                        name="idEstado"
-                        variant="outlined"
-                        value={filtros.idEstado}
-                        options={OPTIONS_ESTADOS}
-                        onChange={onHandleChange}
-                      />
-                    </section>
+                    </form>
+                  )}
+                  {isVerified && (
                     <Button
                       content="Buscar"
                       className="w-full sm:w-auto self-center "
-                      onClick={getDataTramites}
+                      onClick={() => {
+                        getDataTramites()
+                        setIsVerified(false)
+                      }}
                     />
-                  </div>
-                )}
-              </section>
-            </ThemeProvider>
-          </div>
-        )}
+                  )}
+                </div>
+              )}
+            </section>
+          </ThemeProvider>
+        </div>
 
         {tramitesList.length !== 0 && (
           <Table

@@ -92,7 +92,9 @@ const DetalleGenerico = ({
         step === STEP_ENUM.DETALLES ? '' : 'hide'
       }`}
       onSubmit={onSubmitHandler}>
-      <h1 className="font-GMX font-bold text-2xl">DETALLE PST</h1>
+      <h1 className="font-GMX font-bold text-2xl">
+        Detalle de Prestador de Servicios Turísticos
+      </h1>
 
       {dataBackend.subcategoriaData && (
         <Dropdown
