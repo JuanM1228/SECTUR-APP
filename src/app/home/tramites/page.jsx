@@ -46,7 +46,7 @@ const PanelSolicitudesUsuario = () => {
 
   const getTramites = async id => {
     setLoader(true)
-    const url = `/api/registro/tramites-usuario/${id}`
+    const url = `/api/registro/tramites-usuario/${profile.token}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
