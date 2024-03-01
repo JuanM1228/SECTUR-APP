@@ -29,6 +29,7 @@ export const INIT_DATA_REGISTER_USER = {
   verifyPassword: '',
   birthDate: '',
   submenus: '',
+  subadmin: 0,
 }
 
 export const INIT_DATA_LOGIN = {

@@ -255,13 +255,16 @@ const DetallesDeSolicitud = () => {
             onClick={() => modalHandler(ACTION.REJECT)}
             fullWidth={false}
           />
-          <Button
-            content="Aceptar"
-            type="button"
-            className=" sm:w-auto hover:bg-blueDianne"
-            onClick={() => modalHandler(ACTION.APPROVE)}
-            fullWidth={false}
-          />
+
+          {profile.subadmin == 0 && (
+            <Button
+              content="Aceptar"
+              type="button"
+              className=" sm:w-auto hover:bg-blueDianne"
+              onClick={() => modalHandler(ACTION.APPROVE)}
+              fullWidth={false}
+            />
+          )}
         </div>
       )}
       <div className="grid grid-cols-2 gap-2">
@@ -337,7 +340,8 @@ const DetallesDeSolicitud = () => {
               Colonia: <span className="font-normal">{data.colonia}</span>
             </p>
             <p className="font-semibold">
-              Municipio/alcaldía: <span className="font-normal">{data.municipio}</span>
+              Municipio/alcaldía:{' '}
+              <span className="font-normal">{data.municipio}</span>
             </p>
             <p className="font-semibold">
               Estado: <span className="font-normal">{data.estado}</span>

@@ -28,6 +28,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Input from '@/components/common/Input'
+import CheckboxForm from '@/components/common/CheckboxForm'
 import Icons from '@/assets/icons'
 import Button from '@/components/common/Button'
 import { COLUMNS_TABLE_USUARIOS, OPTIONS_ESTADOS } from '@/utils/columsTables'
@@ -113,7 +114,9 @@ const Usuarios = () => {
     password: '',
     paternalSurname: '',
     maternalSurname: '',
+    subadmin: 0,
   })
+  const [checkedItem, setCheckedItem] = useState({ Subadministrador: false })
 
   const fetchSubMenus = useCallback(async () => {
     noStore()
@@ -276,6 +279,7 @@ const Usuarios = () => {
       password: formData.password,
       paternalSurname: formData.paternalSurname,
       maternalSurname: formData.maternalSurname,
+      subadmin: formData.subadmin,
     })
     setIsEditModalOpen(true)
   }
@@ -382,6 +386,14 @@ const Usuarios = () => {
 
       return updatedSelectedSubMenu
     })
+  }
+  const checkboxHandler = e => {
+    console.log(e.target.checked)
+    setCheckedItem({ Subadministrador: e.target.checked })
+    setRegister(prevRegister => ({
+      ...prevRegister,
+      subadmin: e.target.checked ? 1 : 0,
+    }))
   }
 
   //EliminarUsuario
@@ -573,6 +585,20 @@ const Usuarios = () => {
                     type="password"
                     value={register.verifyPassword}
                   />
+                  <section className="grid sm:grid-cols-2 gap-2">
+                    <CheckboxForm
+                      title=""
+                      name="subadmin"
+                      options={[
+                        {
+                          value: 'Subadministrador',
+                          title: 'Usuario Subadministrador',
+                        },
+                      ]}
+                      checkedItems={checkedItem}
+                      handleChange={checkboxHandler}
+                    />
+                  </section>
                   <FormControl fullWidth variant="outlined">
                     <InputLabel
                       className="font-GMX font-semibold"
