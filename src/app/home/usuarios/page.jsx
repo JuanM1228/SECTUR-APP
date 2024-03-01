@@ -279,11 +279,10 @@ const Usuarios = () => {
       password: formData.password,
       paternalSurname: formData.paternalSurname,
       maternalSurname: formData.maternalSurname,
-      subadmin: ,
+      subadmin: formData.subadmin,
     })
     setIsEditModalOpen(true)
-    setCheckedItem({ Subadministrador: formData.subadmin ==1 ? true : false })
-
+    setCheckedItem({ Subadministrador: formData.subadmin == 1 ? true : false })
   }
 
   //HandleEditSubmit
