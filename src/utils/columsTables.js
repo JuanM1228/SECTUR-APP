@@ -2,7 +2,7 @@ import Button from '@/components/common/Button'
 import React from 'react'
 
 import Icons from '@/assets/icons'
-import { IconButton } from '@mui/material'
+import { IconButton, Checkbox } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { STATUS_INFO, TIPOS_TRAMITES_OBJETO } from './constants'
@@ -662,7 +662,7 @@ export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'email',
     headerName: 'Correo electronico',
-    minWidth: 200,
+    minWidth: 300,
     type: 'email',
     align: 'left',
     headerAlign: 'center',
@@ -673,7 +673,7 @@ export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'submenus',
     headerName: 'Permisos',
-    minWidth: 200,
+    minWidth: 250,
     type: 'string',
     align: 'left',
     headerAlign: 'center',
@@ -682,11 +682,25 @@ export const COLUMNS_TABLE_USUARIOS = [
   {
     field: 'estados',
     headerName: 'Estados',
-    minWidth: 200,
+    minWidth: 250,
     type: 'string',
     align: 'left',
     headerAlign: 'center',
     renderCell: params => <ListEstados arrayEstados={params.row.estados} />,
+  },
+  {
+    field: 'subadmin',
+    headerName: 'Sub Administrador',
+    minWidth: 140,
+    type: 'string',
+    align: 'center',
+    headerAlign: 'center',
+    renderCell: params => (
+      <div style={{ color: '#888' }}>
+        {' '}
+        <Checkbox checked={params.row.subadmin == 1} />
+      </div>
+    ),
   },
 ]
 
