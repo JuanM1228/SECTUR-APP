@@ -279,9 +279,11 @@ const Usuarios = () => {
       password: formData.password,
       paternalSurname: formData.paternalSurname,
       maternalSurname: formData.maternalSurname,
-      subadmin: formData.subadmin,
+      subadmin: ,
     })
     setIsEditModalOpen(true)
+    setCheckedItem({ Subadministrador: formData.subadmin ==1 ? true : false })
+
   }
 
   //HandleEditSubmit
@@ -334,6 +336,7 @@ const Usuarios = () => {
 
   //Ventanas Modales Functions
   const handleClickOpenUsuario = () => {
+    setCheckedItem({ Subadministrador: false })
     setusuarioModal(true)
     setIsEditModalOpen(false) // Asegurarse de que no estés en modo edición al abrir el modal de registro
     setRegister(INIT_DATA_REGISTER_USER)
