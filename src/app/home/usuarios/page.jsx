@@ -395,6 +395,11 @@ const Usuarios = () => {
       subadmin: e.target.checked ? 1 : 0,
     }))
   }
+  const checkboxHandlerEdit = e => {
+    console.log(e.target.checked)
+    setCheckedItem({ Subadministrador: e.target.checked })
+    setFormData({ ...formData, subadmin: e.target.checked ? 1 : 0 })
+  }
 
   //EliminarUsuario
   const handleClickOpenDelete = formData => {
@@ -833,6 +838,20 @@ const Usuarios = () => {
                     type="password"
                     value={formData.verifyPassword}
                   />
+                  <section className="grid sm:grid-cols-2 gap-2">
+                    <CheckboxForm
+                      title=""
+                      name="subadmin"
+                      options={[
+                        {
+                          value: 'Subadministrador',
+                          title: 'Usuario Subadministrador',
+                        },
+                      ]}
+                      checkedItems={checkedItem}
+                      handleChange={checkboxHandlerEdit}
+                    />
+                  </section>
 
                   <FormControl fullWidth variant="outlined">
                     <InputLabel
