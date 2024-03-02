@@ -270,6 +270,7 @@ export const STATUS_INFO = {
   3: 'RECHAZADO',
   4: 'CONCLUIDO',
   5: 'REVOCADO',
+  7: 'REVISADO',
 }
 /**
  * Array containing generic details of PST categories.

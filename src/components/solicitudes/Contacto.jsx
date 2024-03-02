@@ -106,6 +106,12 @@ const Contacto = ({
           onChange={onHandleChange}
           value={data.web}
         />
+      </section>
+      <p className="flex justify-center">
+        Amigo prestador, copia el link completo de tu perfil y pégalo donde
+        corresponde para cada red social.
+      </p>
+      <section className="grid sm:grid-cols-2 gap-6">
         <Input
           label="Facebook"
           name="facebook"

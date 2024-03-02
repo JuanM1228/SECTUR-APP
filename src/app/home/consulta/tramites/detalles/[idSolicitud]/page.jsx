@@ -59,6 +59,7 @@ const ACTION = {
   EDIT: 'EDIT',
   REJECT: 'REJECT',
   APPROVE: 'APPROVE',
+  REVIEW: 'REVIEW',
 }
 
 const DetallesDeSolicitud = () => {
@@ -94,7 +95,7 @@ const DetallesDeSolicitud = () => {
   }, [])
 
   const getInitialData = async () => {
-    const url = `/api/registro/detalle-tramite/${idSolicitud}}`
+    const url = `/api/registro/detalle-tramite/${idSolicitud}/${profile.token}`
     try {
       const res = await sendRequest(url)
       if (!res.success) return
@@ -176,6 +177,17 @@ const DetallesDeSolicitud = () => {
     }
   }
 
+  const onReviewHandler = async () => {
+    const url = `/api/registro/tramite-revisado/${idSolicitud}`
+    try {
+      const res = await sendRequest(url)
+      if (!res.success) return
+      router.push(`/home/tramites`)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
   const onApproveHandler = async () => {
     const url = `/api/registro/tramite-aprobado/${idSolicitud}`
     try {
@@ -209,6 +221,14 @@ const DetallesDeSolicitud = () => {
         action: onRejectHandler,
       })
       setShowRazonRechazo(true)
+    } else if (action === ACTION.REVIEW) {
+      setModal({
+        show: true,
+        title: 'Revisar',
+        content: '¿Estás seguro de que deseas revisar este trámite?',
+        action: onReviewHandler,
+      })
+      setShowRazonRechazo(false)
     } else if (action === ACTION.APPROVE) {
       setModal({
         show: true,
@@ -262,6 +282,15 @@ const DetallesDeSolicitud = () => {
               type="button"
               className=" sm:w-auto hover:bg-blueDianne"
               onClick={() => modalHandler(ACTION.APPROVE)}
+              fullWidth={false}
+            />
+          )}
+          {profile.subadmin == 1 && (
+            <Button
+              content="Revisar"
+              type="button"
+              className=" sm:w-auto hover:bg-blueDianne"
+              onClick={() => modalHandler(ACTION.REVIEW)}
               fullWidth={false}
             />
           )}
@@ -436,7 +465,7 @@ const DetallesDeSolicitud = () => {
         <section className="bg-silver bg-opacity-50 col-span-2 p-4 rounded-md">
           <div className="flex mb-2 gap-1">
             <Icons.Description />
-            <h2 className="text-lg font-semibold">Doumentos</h2>
+            <h2 className="text-lg font-semibold">Documentos</h2>
           </div>
           {data.documentsList?.length > 0 ? (
             <div className="flex flex-col gap-2">
