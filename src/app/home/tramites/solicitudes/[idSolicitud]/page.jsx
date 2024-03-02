@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useParams } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import { useAuthStore } from '@/store/auth'
 
 import Contacto from '@/components/solicitudes/Contacto'
 import DatosGenerales from '@/components/solicitudes/DatosGenerales'
@@ -39,6 +40,7 @@ const Solicitudes = () => {
     detallesPST: null,
   })
   const [step, setStep] = useState(0)
+  const { profile } = useAuthStore()
 
   useEffect(() => {
     if (!params.idSolicitud) return
@@ -46,7 +48,7 @@ const Solicitudes = () => {
   }, [])
 
   const getRegisterData = async idSolicitud => {
-    const url = `/api/registro/detalle-tramite/${idSolicitud}`
+    const url = `/api/registro/detalle-tramite/${idSolicitud}/${profile.token}`
     try {
       const res = await sendRequest(url)
       console.log('DATA RODO', res.result.data)
