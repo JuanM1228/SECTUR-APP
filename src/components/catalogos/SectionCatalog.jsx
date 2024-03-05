@@ -13,16 +13,18 @@ import {
 import Icons from '@/assets/icons'
 import PopupCatalog from './PopupCatalog'
 
-const SectionCatalog = ({ title, catalogs }) => {
+const SectionCatalog = ({ title, catalogs, pst }) => {
   const [openDialog, setOpenDialog] = useState(false)
   const [idCatalogSelect, setIdCatalogSelect] = useState(null)
+  const [catalogSpecial, setCatalogSpecial] = useState(null)
   const [catalogName, setCatalogName] = useState('')
-  
-  const onHandleClickCatalog = (idCatalog, name)=> {
+
+  const onHandleClickCatalog = (idCatalog, name, special) => {
     setIdCatalogSelect(idCatalog)
+    setCatalogSpecial(special)
     setOpenDialog(true)
     setCatalogName(name)
-    console.log('selectedId',idCatalog)
+    console.log('selectedId', idCatalog)
   }
 
   const onClose = () => {
@@ -44,7 +46,9 @@ const SectionCatalog = ({ title, catalogs }) => {
             <ListItemButton
               key={catalog.id}
               className="flex"
-              onClick={() => onHandleClickCatalog(catalog.id, catalog.name)}>
+              onClick={() =>
+                onHandleClickCatalog(catalog.id, catalog.name, catalog.especial)
+              }>
               <ListItemAvatar>
                 <Avatar>
                   <CustomIcon />
@@ -61,9 +65,11 @@ const SectionCatalog = ({ title, catalogs }) => {
       <PopupCatalog
         open={openDialog}
         idCatalog={idCatalogSelect}
+        catalogSpecial={catalogSpecial}
         onClose={onClose}
         catalogName={catalogName}
-        />
+        pst={pst}
+      />
     </Accordion>
   )
 }

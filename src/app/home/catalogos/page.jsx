@@ -1,14 +1,14 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import SectionCatalog from '@/components/catalogos/SectionCatalog'
-import { useHttpClient } from '@/hooks/useHttpClient' 
+import { useHttpClient } from '@/hooks/useHttpClient'
 
 const Catalogos = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [catalogo, setCatalogo] = useState([])
 
-  useEffect( ()  => {
-   getCatalogs()
+  useEffect(() => {
+    getCatalogs()
   }, [])
 
   const getCatalogs = async () => {
@@ -17,7 +17,7 @@ const Catalogos = () => {
       const res = await sendRequest(url)
       if (res.success) {
         setCatalogo(res.result.data)
-        console.log('Rodo',res)
+        console.log('Rodo', res)
         // setToken(res.result.token)
         // setProfile(res.result.user)
       }
@@ -34,6 +34,7 @@ const Catalogos = () => {
           key={section.id}
           title={section.name}
           catalogs={section.catalogs}
+          pst={section.catalogs.id}
         />
       ))}
     </div>
