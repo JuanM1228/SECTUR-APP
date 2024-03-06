@@ -114,7 +114,14 @@ const AlimentosBebidas = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (
+      data?.tipoDeServicio &&
+      data?.tipoDeServicio &&
+      data?.ubicacion &&
+      data?.descripcionUbicacion
+    ) {
+      onUpdateDatabase(body)
+    }
   }
 
   if (isLoading && step === STEP_ENUM.DETALLES) {
@@ -138,6 +145,12 @@ const AlimentosBebidas = ({
           value={data?.subcategoria ? data.subcategoria : 0}
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
+          error={data?.subcategoria ? false : true}
+          helpText={
+            data?.subcategoria
+              ? ''
+              : 'Seleccione una subcategoria para continuar'
+          }
         />
 
         <Dropdown
@@ -147,6 +160,12 @@ const AlimentosBebidas = ({
           value={data?.tipoDeServicio ? data.tipoDeServicio : 0}
           options={dataBackend.tipoServicioData}
           onChange={onHandleChange}
+          error={data?.tipoDeServicio ? false : true}
+          helpText={
+            data?.tipoDeServicio
+              ? ''
+              : 'Seleccione un tipo de servicio para continuar'
+          }
         />
 
         <Dropdown
@@ -156,6 +175,10 @@ const AlimentosBebidas = ({
           value={data?.ubicacion ? data.ubicacion : 0}
           options={dataBackend.ubicacionData}
           onChange={onHandleChange}
+          error={data?.ubicacion ? false : true}
+          helpText={
+            data?.ubicacion ? '' : 'Seleccione una ubicacion para continuar'
+          }
         />
         {/* <Dropdown
           label="Espectáculo"
@@ -211,6 +234,12 @@ const AlimentosBebidas = ({
         multiline
         onChange={onHandleChange}
         value={data?.descripcionUbicacion}
+        error={data?.descripcionUbicacion ? false : true}
+        helpText={
+          data?.descripcionUbicacion
+            ? ''
+            : 'Ingrese una descripcion de ubicacion para continuar'
+        }
       />
       {/* <section className="grid sm:grid-cols-2 gap-6">
         <CheckboxForm

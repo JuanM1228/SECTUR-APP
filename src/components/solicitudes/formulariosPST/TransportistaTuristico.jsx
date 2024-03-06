@@ -79,7 +79,9 @@ const TransportistaTuristico = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (data?.subcategoria) {
+      onUpdateDatabase(body)
+    }
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -105,6 +107,12 @@ const TransportistaTuristico = ({
           value={data?.subcategoria ? data.subcategoria : 0}
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
+          error={data?.subcategoria ? false : true}
+          helpText={
+            data?.subcategoria
+              ? ''
+              : 'Seleccione una subcategoria para continuar'
+          }
         />
         {/* <Dropdown
           label="Tipo de establecimiento"

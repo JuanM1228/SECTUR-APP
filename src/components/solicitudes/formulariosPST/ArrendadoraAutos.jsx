@@ -33,8 +33,9 @@ const ArrendadoraAutos = ({
     try {
       const res = await sendRequest(url)
       if (res.success) {
-        const { tiposDeEstablecimientos } = res.result.data
-        setTiposDeEstablecimientosData(tiposDeEstablecimientos)
+        const { tipoDeEstablecimiento } = res.result.data
+        console.log(tipoDeEstablecimiento)
+        setTiposDeEstablecimientosData(tipoDeEstablecimiento)
       }
     } catch (error) {
       console.log('error', error)
@@ -69,7 +70,9 @@ const ArrendadoraAutos = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (data?.tipoEstablecimiento) {
+      onUpdateDatabase(body)
+    }
   }
 
   if (isLoading && step === STEP_ENUM.DETALLES) {
@@ -94,6 +97,12 @@ const ArrendadoraAutos = ({
           value={data?.tipoEstablecimiento ? data.tipoEstablecimiento : 0}
           options={tiposDeEstablecimientosData}
           onChange={onHandleChange}
+          error={data?.tipoEstablecimiento ? false : true}
+          helpText={
+            data?.tipoEstablecimiento
+              ? ''
+              : 'Seleccione un tipo de establecimiento para continuar'
+          }
         />
 
         {/* <Input

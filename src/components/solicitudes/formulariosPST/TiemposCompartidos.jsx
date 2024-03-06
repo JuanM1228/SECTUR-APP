@@ -98,7 +98,9 @@ const TiemposCompartidos = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (data?.tipoOperacionSelected) {
+      onUpdateDatabase(body)
+    }
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -136,6 +138,12 @@ const TiemposCompartidos = ({
           }
           options={dataBackend.tipoDeOperacionData}
           onChange={onHandleChange}
+          error={data?.tipoOperacionSelected ? false : true}
+          helpText={
+            data?.tipoOperacionSelected
+              ? ''
+              : 'Seleccione un tipo de operacion para continuar'
+          }
         />
         {/* <Input
           label="Nombre Comercial"

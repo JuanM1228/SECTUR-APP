@@ -123,7 +123,13 @@ const Hospedaje = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (
+      data?.subcategoria &&
+      data?.clasificacionObtenidaSelected &&
+      data?.ubicacionSelected
+    ) {
+      onUpdateDatabase(body)
+    }
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -149,6 +155,12 @@ const Hospedaje = ({
           value={data?.subcategoria ? data.subcategoria : 0}
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
+          error={data?.subcategoria ? false : true}
+          helpText={
+            data?.subcategoria
+              ? ''
+              : 'Seleccione una subcategoria para continuar'
+          }
         />
         {/* <Dropdown
           label="Subcategoría"
@@ -198,6 +210,12 @@ const Hospedaje = ({
           }
           options={dataBackend.scoreData}
           onChange={onHandleChange}
+          error={data?.clasificacionObtenidaSelected ? false : true}
+          helpText={
+            data?.clasificacionObtenidaSelected
+              ? ''
+              : 'Seleccione una clasificación para continuar'
+          }
         />
         {/* <Input
           label="Folio de su clasificación"
@@ -212,6 +230,12 @@ const Hospedaje = ({
           value={data?.ubicacionSelected ? data.ubicacionSelected : 0}
           options={dataBackend.ubicacionData}
           onChange={onHandleChange}
+          error={data?.ubicacionSelected ? false : true}
+          helpText={
+            data?.ubicacionSelected
+              ? ''
+              : 'Seleccione una ubicacion para continuar'
+          }
         />
       </section>
       {/* <div className="flex flex-col">

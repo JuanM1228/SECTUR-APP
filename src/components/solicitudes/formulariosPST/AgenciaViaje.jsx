@@ -105,7 +105,9 @@ const AgenciaViaje = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (data.subcategoria && infoObject.afiliacionesList.length > 0) {
+      onUpdateDatabase(body)
+    }
   }
 
   if (isLoading && step === STEP_ENUM.DETALLES) {
@@ -127,7 +129,13 @@ const AgenciaViaje = ({
           name="subcategoria"
           variant="outlined"
           value={data.subcategoria ? data.subcategoria : 0}
+          error={data.subcategoria ? false : true}
           options={dataBackend.subcategoriaData}
+          helpText={
+            data.subcategoria
+              ? ''
+              : 'Seleccione una subcategoria para continuar'
+          }
           onChange={onHandleChange}
         />
         {/* <Input
@@ -178,6 +186,7 @@ const AgenciaViaje = ({
           options={dataBackend.afiliacionesData}
           checkedItems={checkedItems.afiliacionesList}
           handleChange={checkboxHandler}
+          helperText={'Seleccione almenos una opcion para continuar'}
         />
       </section>
 

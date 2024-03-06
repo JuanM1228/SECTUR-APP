@@ -79,7 +79,15 @@ const DetalleGenerico = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (dataBackend.subcategoriaData) {
+      if (data.subcategoria && data.observacionesGenerales != '') {
+        onUpdateDatabase(body)
+      }
+    } else {
+      if (data.observacionesGenerales != '') {
+        onUpdateDatabase(body)
+      }
+    }
   }
 
   if (isLoading && step === STEP_ENUM.DETALLES) {
@@ -104,6 +112,12 @@ const DetalleGenerico = ({
           value={data?.subcategoria ? data.subcategoria : 0}
           options={dataBackend.subcategoriaData}
           onChange={onHandleChange}
+          error={data?.subcategoria ? false : true}
+          helpText={
+            data?.subcategoria
+              ? ''
+              : 'Seleccione una subcategoria para continuar'
+          }
         />
       )}
 
@@ -143,6 +157,12 @@ const DetalleGenerico = ({
         multiline
         onChange={onHandleChange}
         value={data?.observacionesGenerales}
+        error={data?.observacionesGenerales ? false : true}
+        helpText={
+          data?.observacionesGenerales
+            ? ''
+            : 'Ingrese observaciones generales para continuar'
+        }
       />
 
       {/* <Input

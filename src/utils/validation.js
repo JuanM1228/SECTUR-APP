@@ -12,7 +12,7 @@ const password = password =>
   )
 
 const razonSocial = razonSocial =>
-  /^[a-zA-Z0-9áéíóúÁÉÍÓÚüÜäÄëËïÏöÖñÑçÇàèìòùÀÈÌÒÙ\s\-_.,]{1,50}$/.test(
+  /^[a-zA-Z0-9áéíóúÁÉÍÓÚüÜäÄëËïÏöÖñÑçÇàèìòùÀÈÌÒÙ\s\-_.,.]{1,150}$/.test(
     razonSocial,
   )
 

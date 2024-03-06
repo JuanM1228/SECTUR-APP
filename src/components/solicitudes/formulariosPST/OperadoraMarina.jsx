@@ -114,7 +114,9 @@ const OperadoraMarina = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (infoObject.instalacionesList.length > 0) {
+      onUpdateDatabase(body)
+    }
   }
 
   // TODO: Añadir validación de porcentajes (0 a 100%)
@@ -186,6 +188,7 @@ const OperadoraMarina = ({
           options={dataBackend.instalacionesOfrecidasData}
           checkedItems={checkedItems?.instalacionesList}
           handleChange={checkboxHandler}
+          helperText={'Seleccione almenos una opcion para continuar'}
         />
         {/* <CheckboxForm
           title="Servicios adicionales"

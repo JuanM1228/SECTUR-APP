@@ -61,7 +61,9 @@ const CheckboxForm = props => {
             />
           ))}
         </FormGroup>
-        {helperText && <FormHelperText>{helperText}</FormHelperText>}
+        {helperText && (
+          <FormHelperText className="text-error">{helperText}</FormHelperText>
+        )}
       </FormControl>
     </ThemeProvider>
   )

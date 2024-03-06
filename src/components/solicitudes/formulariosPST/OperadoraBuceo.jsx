@@ -74,7 +74,9 @@ const OperadoraBuceo = ({
       tipoPST: register.datosGenerales.tipoPST,
     }
     console.log(body)
-    onUpdateDatabase(body)
+    if (data?.afiliaciones) {
+      onUpdateDatabase(body)
+    }
   }
 
   if (isLoading && step === STEP_ENUM.DETALLES) {
@@ -134,6 +136,10 @@ const OperadoraBuceo = ({
         multiline
         onChange={onHandleChange}
         value={data?.afiliaciones}
+        error={data?.afiliaciones ? false : true}
+        helpText={
+          data?.afiliaciones ? '' : 'Ingrese afiliaciones para continuar'
+        }
       />
       <div className=" flex gap-6 justify-between">
         <Button
