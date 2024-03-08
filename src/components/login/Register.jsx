@@ -19,8 +19,6 @@ import { Alert, Snackbar } from '@mui/material'
 
 import Cookies from 'js-cookie'
 
-
-
 const Register = ({ showRegister, setShowRegister }) => {
   const { sendRequest, isLoading } = useHttpClient()
   const setToken = useAuthStore(state => state.setToken)
@@ -174,7 +172,7 @@ const Register = ({ showRegister, setShowRegister }) => {
           value={register.verifyPassword}
         />
 
-        <Button content="Registarme" type="submit" />
+        <Button content="Registrarme" type="submit" />
       </form>
       <Snackbar
         open={showAlert}

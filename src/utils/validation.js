@@ -17,8 +17,9 @@ const razonSocial = razonSocial =>
   )
 
 const codigoPostal = codigoPostal => /^[a-zA-Z0-9]{1,5}$/.test(codigoPostal)
-const numDireccion = numDireccion => /^[0-9]{1,5}$/.test(numDireccion)
-const calle = calle => /^[a-zA-Z0-9\s]{1,60}$/.test(calle)
+const numDireccion = numDireccion =>
+  /^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ]{1,45}$/.test(numDireccion)
+const calle = calle => /^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ]{1,60}$/.test(calle)
 
 const redesSociales = redesSociales => /^.{1,150}$/.test(redesSociales)
 const datosLegales = datosLegales =>

@@ -395,6 +395,7 @@ export const TIPOS_VIALIDAD_DROPDOWN = [
   { value: 26, title: 'Prolongación' },
   { value: 27, title: 'Retorno' },
   { value: 28, title: 'Viaducto' },
+  { value: 29, title: 'Carretera' },
 ]
 
 export const TIPOS_VIALIDAD_OBJETO = {
@@ -462,6 +463,7 @@ export const TIPOS_ASENTAMIENTO_DROPDOWN = [
   { value: 67, title: 'Zona industrial' },
   { value: 68, title: 'Zona militar' },
   { value: 69, title: 'Zona naval' },
+  { value: 70, title: 'Kilómetro' },
 ]
 
 export const TIPOS_ASENTAMIENTO_OBJETO = {
