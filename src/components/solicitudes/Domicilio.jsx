@@ -243,22 +243,26 @@ const Domicilio = ({
             <LayerGroup>
               <TileLayer
                 attribution="Google Maps Satellite"
-                url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}&poi=off"
-                poi={false}
+                url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}&poi=false"
               />
-              <TileLayer
-                url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}&poi=off"
-                poi={false}
-              />
+              <TileLayer url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}&poi=false" />
             </LayerGroup>
           </LayersControl.BaseLayer>
           <LayersControl.BaseLayer checked name="Google Map">
             <TileLayer
-              attribution="Google Maps"
-              url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}&poi=off"
-              poi={false}
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png "
+              //attribution="Google Maps"
+              //url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}&poi=false"
             />
           </LayersControl.BaseLayer>
+          {/*  <LayersControl.BaseLayer name="Google Map etiquetas">
+            <LayerGroup>
+              <TileLayer
+                attribution="Google Maps"
+                url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}&poi=false"
+              />
+            </LayerGroup>
+          </LayersControl.BaseLayer>*/}
         </LayersControl>
         {data.latitud && data.longitud && (
           <Marker
