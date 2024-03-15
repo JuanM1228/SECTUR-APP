@@ -116,11 +116,12 @@ const Usuarios = () => {
     maternalSurname: '',
     subadmin: 0,
   })
+  const [token, setToken] = useState(Cookies.get('token'))
   const [checkedItem, setCheckedItem] = useState({ Subadministrador: false })
 
   const fetchSubMenus = useCallback(async () => {
     noStore()
-    const urlSubMenus = '/api/configuration/catalogo-submenu/0'
+    const urlSubMenus = `/api/configuration/catalogo-submenu/0/${token}`
     try {
       const res = await sendRequest(urlSubMenus)
       console.log('sub menus', res)
@@ -153,7 +154,6 @@ const Usuarios = () => {
 
   const getInfo = useCallback(async () => {
     noStore()
-    const token = Cookies.get('token')
     const url = `/api/configuration/obtener-usuarios/${token}`
     try {
       const res = await sendRequest(url)
@@ -202,7 +202,6 @@ const Usuarios = () => {
   }
 
   const onHandleFiltroChange = (name, value) => {
-    const token = Cookies.get('token')
     setFiltros(prevFiltros => ({ ...prevFiltros, [name]: value, token: token }))
   }
 
@@ -217,6 +216,7 @@ const Usuarios = () => {
   }
   //Registrar Usuario
   const agregarUsuario = async registerUser => {
+    registerUser.token = token
     console.log('registrar data', registerUser)
     try {
       const url = '/api/autenticacion/registrar-admin/'
@@ -238,6 +238,7 @@ const Usuarios = () => {
   //EditarUsuario
   const editarUsuario = async id => {
     const url = `/api/autenticacion/actualizar-admin`
+    formData.token = token
     console.log('el id edit es', id, formData)
 
     try {

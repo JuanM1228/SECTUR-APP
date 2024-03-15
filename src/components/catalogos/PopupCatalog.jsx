@@ -15,6 +15,7 @@ import Icons from '@/assets/icons'
 import Table from '../common/Table'
 import { COLUMNS_TABLE_CATALOGOS } from '@/utils/columsTables'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import Cookies from 'js-cookie'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -71,6 +72,7 @@ const PopupCatalog = ({
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState(null)
   const [special, setSpecial] = useState(catalogSpecial)
+  const [token, setToken] = useState(Cookies.get('token'))
   const [formdata, setFormData] = useState({
     id_catalogo: '',
     name: '',
@@ -94,12 +96,12 @@ const PopupCatalog = ({
         let res
         if (special) {
           res = await sendRequest(
-            `/api/configuration/catalogo-subcategorias/${idCatalog}`,
+            `/api/configuration/catalogo-subcategorias/${idCatalog}/${token}`,
           )
           console.log(`API Response for ${idCatalog}:`, res)
         } else {
           res = await sendRequest(
-            `/api/configuration/catalogo-sevicios-opciones/${idCatalog}`,
+            `/api/configuration/catalogo-sevicios-opciones/${idCatalog}/${token}`,
           )
           console.log(`API Response for ${idCatalog}:`, res)
         }
@@ -126,6 +128,7 @@ const PopupCatalog = ({
       return
     }
     let url
+    requestData.token = token
     if (requestData.id_especial) {
       url = '/api/configuration/add-catalogo-subcategorias'
     } else {
@@ -160,6 +163,7 @@ const PopupCatalog = ({
       //console.log('el id es', idCatalog)
     }
     try {
+      formdata.token = token
       const response = await sendRequest(url, {
         method: 'POST',
         body: formdata,
@@ -277,9 +281,9 @@ const PopupCatalog = ({
     try {
       let url
       if (catalogSpecial) {
-        url = `/api/configuration/delete-catalogo-subcategorias/${itemToDelete}`
+        url = `/api/configuration/delete-catalogo-subcategorias/${itemToDelete}/${token}`
       } else {
-        url = `/api/configuration/delete-catalogo-servicios/${itemToDelete}`
+        url = `/api/configuration/delete-catalogo-servicios/${itemToDelete}/${token}`
       }
       const response = await sendRequest(url, {
         method: 'DELETE',

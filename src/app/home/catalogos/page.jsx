@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import SectionCatalog from '@/components/catalogos/SectionCatalog'
 import { useHttpClient } from '@/hooks/useHttpClient'
+import Cookies from 'js-cookie'
+
 
 const Catalogos = () => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -13,7 +15,8 @@ const Catalogos = () => {
 
   const getCatalogs = async () => {
     try {
-      const url = '/api/configuration/catalogo-sevicios'
+      const token = Cookies.get('token')
+      const url = `/api/configuration/catalogo-sevicios/${token}`
       const res = await sendRequest(url)
       if (res.success) {
         setCatalogo(res.result.data)

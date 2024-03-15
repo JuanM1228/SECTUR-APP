@@ -5,6 +5,7 @@ import Button from '@/components/common/Button'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import Input from '@/components/common/Input'
 import { CONFIGURATIONS_APP } from '@/utils/constants'
+import Cookies from 'js-cookie'
 
 const SketchPicker = dynamic(
   () => import('react-color').then(mod => mod.SketchPicker),
@@ -35,13 +36,14 @@ const Configurations = () => {
     seguridad_path: null,
     reportes_path: null,
   })
+  const [token, setToken] = useState(Cookies.get('token'))
 
   useEffect(() => {
     getInitialData()
   }, [])
 
   const getInitialData = async () => {
-    const url = `/api/configuration/system-theme`
+    const url = `/api/configuration/system-theme/${token}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
@@ -61,6 +63,7 @@ const Configurations = () => {
 
     const formData = new FormData()
     formData.append('idDocumento', idDocument)
+    formData.append('token', token)
     formData.append('file', file)
 
     const url = `/api/configuration/system-images`
@@ -86,6 +89,7 @@ const Configurations = () => {
         method: 'POST',
         body: {
           idDocumento: idDocument,
+          token: token,
           content: newConfiguration[idDocument],
         },
       })
