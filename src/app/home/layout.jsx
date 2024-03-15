@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import Menu from '@/components/navigation/Menu'
 import Header from '@/components/navigation/Header'
+import Cookies from 'js-cookie'
 
 import { useHttpClient } from '@/hooks/useHttpClient'
 
@@ -18,13 +19,14 @@ const HomeLayout = ({ children }) => {
     fondo_path: null,
     seguridad_path: null,
   })
+  const [token, setToken] = useState(Cookies.get('token'))
 
   useEffect(() => {
     getInitialData()
   }, [])
 
   const getInitialData = async () => {
-    const url = `/api/configuration/system-theme`
+    const url = `/api/configuration/system-theme/${token}`
     try {
       const res = await sendRequest(url)
       if (res.success) {
