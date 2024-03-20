@@ -31,11 +31,11 @@ const HomeLayout = ({ children }) => {
       const res = await sendRequest(url)
       if (res.success) {
         setConfiguration(res.result.data)
-        console.log(res.result.data)
+        //console.log(res.result.data)
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
   return (

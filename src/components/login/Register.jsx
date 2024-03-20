@@ -36,7 +36,7 @@ const Register = ({ showRegister, setShowRegister }) => {
   const registerHandler = async e => {
     e.preventDefault()
     const { hasError, errors } = validate.registerForm(register)
-    console.log(register)
+    //console.log(register)
     if (hasError) {
       setError(errors)
     } else {
@@ -61,7 +61,7 @@ const Register = ({ showRegister, setShowRegister }) => {
         setShowAlert(true)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
       setShowAlert(true)
     }
   }

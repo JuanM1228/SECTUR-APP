@@ -33,7 +33,7 @@ const AlimentosBebidas = ({
   useEffect(() => {
     // if (!dataPst) return
     setData(dataPst)
-    console.log('PST', dataPst)
+    //console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -62,7 +62,7 @@ const AlimentosBebidas = ({
         })
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -95,7 +95,7 @@ const AlimentosBebidas = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -113,7 +113,7 @@ const AlimentosBebidas = ({
       id_solicitud: idSolicitud,
       tipoPST: register.datosGenerales.tipoPST,
     }
-    console.log(body)
+    //console.log(body)
     if (
       data?.tipoDeServicio &&
       data?.tipoDeServicio &&

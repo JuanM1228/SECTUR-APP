@@ -51,7 +51,7 @@ const Reportes = () => {
 
   useEffect(() => {
     if (!profile) return
-    console.log(profile)
+    //console.log(profile)
     setFiltros({ ...filtros, idUsuario: profile.id })
     getCatalogoPST()
     getCatalogoEstados()
@@ -67,7 +67,7 @@ const Reportes = () => {
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -80,7 +80,7 @@ const Reportes = () => {
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -96,10 +96,10 @@ const Reportes = () => {
         setTramites(res.result.data.table)
         setDataGraph(res.result.data.grafica)
         setKpi(res.result.data.kpis)
-        console.log(res.result.data)
+        //console.log(res.result.data)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -108,7 +108,7 @@ const Reportes = () => {
   }
 
   const onHandleFiltros = () => {
-    console.log(filtros)
+    //console.log(filtros)
     getDataDashboard(filtros)
   }
 

@@ -31,7 +31,7 @@ const TiemposCompartidos = ({
   useEffect(() => {
     // if (!dataPst) return
     setData(dataPst)
-    console.log('PST', dataPst)
+    //console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -49,7 +49,7 @@ const TiemposCompartidos = ({
         })
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -78,7 +78,7 @@ const TiemposCompartidos = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -97,7 +97,7 @@ const TiemposCompartidos = ({
       id_solicitud: idSolicitud,
       tipoPST: register.datosGenerales.tipoPST,
     }
-    console.log(body)
+    //console.log(body)
     if (data?.tipoOperacionSelected) {
       onUpdateDatabase(body)
     }

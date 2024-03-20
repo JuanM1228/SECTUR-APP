@@ -43,7 +43,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (!profile) return
-    console.log(profile)
+    //console.log(profile)
     setFiltros({ ...filtros, idUsuario: profile.id })
     getCatalogoEstados()
   }, [])
@@ -61,12 +61,12 @@ const HomePage = () => {
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
   const onHandleFiltros = () => {
-    console.log(filtros)
+    //console.log(filtros)
     getTramitesFiltros(filtros)
     setFirstConsulta(false)
   }
@@ -83,7 +83,7 @@ const HomePage = () => {
         setTramites(res.result.data)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 

@@ -17,7 +17,7 @@ const DeleteButton = params => {
         window?.location?.reload(true)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -36,7 +36,7 @@ const ListEstados = ({ arrayEstados }) => {
       </select>
     )
   }
-  //console.log('array estados',arrayEstados)
+  ////console.log('array estados',arrayEstados)
   return (
     <select>
       {arrayEstados.map((estados, id) => (
@@ -56,7 +56,7 @@ const ListPermisos = ({ arrayPermisos }) => {
       </select>
     )
   }
-  // console.log('array permisos',arrayPermisos)
+  // //console.log('array permisos',arrayPermisos)
   return (
     <select>
       {arrayPermisos.map((submenu, path) => (
@@ -106,7 +106,7 @@ const FolioBadge = params => {
   const handleDownload = async () => {
     try {
       const pdfUrl = `${process.env.ENV_URL}/documentos/certificados/${params.row.folioSolicitud}.pdf`
-      console.log(pdfUrl)
+      //console.log(pdfUrl)
 
       const response = await fetch(pdfUrl)
       if (!response.ok) {
@@ -148,7 +148,7 @@ const FolioBadgeUsuario = params => {
         return res.result.descargado
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
       return false
     }
   }

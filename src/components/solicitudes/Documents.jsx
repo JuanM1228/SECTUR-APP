@@ -142,7 +142,7 @@ const Documents = props => {
     const requests = urls.map(url => sendRequest(url))
     Promise.all(requests)
       .then(res => {
-        console.log(res)
+        //console.log(res)
         const documentsList = res[0].result.data
         const photosList = res[1].result.data
         dispatch({
@@ -150,7 +150,7 @@ const Documents = props => {
           payload: { documentsList, photosList },
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => //console.log(err))
   }
 
   // Modal related functions
@@ -195,8 +195,8 @@ const Documents = props => {
       ),
       colonia: register.domicilio.coloniaName || coloniaActual,
     }
-    console.log(register)
-    console.log(registroPrueba)
+    //console.log(register)
+    //console.log(registroPrueba)
     formatoUnico(registroPrueba)
   }
 
@@ -215,7 +215,7 @@ const Documents = props => {
         payload: { documentsList: res.result.data },
       })
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -236,7 +236,7 @@ const Documents = props => {
       if (!res.success) return
       updateDocumentsList()
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -248,7 +248,7 @@ const Documents = props => {
       dispatch({ type: TYPE.HIDE_MODAL })
       updateDocumentsList()
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -263,7 +263,7 @@ const Documents = props => {
         payload: { photosList: res.result.data },
       })
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -283,7 +283,7 @@ const Documents = props => {
       if (!res.success) return
       updatePhotosList()
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -295,7 +295,7 @@ const Documents = props => {
       dispatch({ type: TYPE.HIDE_MODAL })
       updatePhotosList()
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 

@@ -50,14 +50,14 @@ export const useHttpClient = () => {
       fetchUrl = newUrl.toString()
     }
 
-    console.log('%cRequest url: ', 'color: green', fetchUrl)
-    console.log('\tOptions: ', reqOptions)
-    console.log('\tOptions: ', reqParams)
+    //console.log('%cRequest url: ', 'color: green', fetchUrl)
+    //console.log('\tOptions: ', reqOptions)
+    //console.log('\tOptions: ', reqParams)
 
     try {
       const response = await fetch(fetchUrl, reqParams)
       const data = await response.json()
-      console.log('\tResponse: ', data)
+      //console.log('\tResponse: ', data)
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqControl => reqControl !== httpAbortController,
       )
@@ -71,7 +71,7 @@ export const useHttpClient = () => {
       //     await sendRequest(fetchUrl, method, isAuth, headers, body, retry)
       //   }
       // }
-      console.log('res', response)
+      //console.log('res', response)
       if (!response.ok) {
         const errorMessage = data?.error?.message ?? data.message
         throw new Error(errorMessage)
@@ -81,7 +81,7 @@ export const useHttpClient = () => {
 
       return data
     } catch (err) {
-      console.log('\tError: ', err)
+      //console.log('\tError: ', err)
       setError(err.message)
       setIsLoading(false)
       throw new Error(err.message)

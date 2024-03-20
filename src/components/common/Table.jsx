@@ -65,8 +65,8 @@ const Table = ({ columns, rows, isLoading, className, getRowClassName }) => {
           //       color="primary"
           //       shape="rounded"
           //       onChange={(event, page) => {
-          //         console.log('paginationOnChange: event', event)
-          //         console.log('paginationOnChange: page', page)
+          //         //console.log('paginationOnChange: event', event)
+          //         //console.log('paginationOnChange: page', page)
           //       }}
           //       // showFirstButton
           //       // showLastButton
@@ -76,12 +76,12 @@ const Table = ({ columns, rows, isLoading, className, getRowClassName }) => {
         }}
         getRowHeight={() => 'auto'}
         onPaginationModelChange={(model, details) => {
-          console.log('onPaginationModelChange: model', model)
-          console.log('onPaginationModelChange: details', details)
+          //console.log('onPaginationModelChange: model', model)
+          //console.log('onPaginationModelChange: details', details)
         }}
         onSortModelChange={(model, details) => {
-          console.log('onSortModelChange: model', model)
-          console.log('onSortModelChange: details', details)
+          //console.log('onSortModelChange: model', model)
+          //console.log('onSortModelChange: details', details)
         }}
         // paginationModel={{ page: 0, pageSize: 5 }}
         loading={isLoading}

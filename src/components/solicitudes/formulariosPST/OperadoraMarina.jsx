@@ -36,7 +36,7 @@ const OperadoraMarina = ({
 
     if (!dataPst) return
     setData(dataPst)
-    console.log('PST', dataPst)
+    //console.log('PST', dataPst)
     if (dataPst.instalacionesList.length !== 0) {
       const objectAfiliaciones = {}
       for (let index = 0; index < dataPst.instalacionesList.length; index++) {
@@ -65,7 +65,7 @@ const OperadoraMarina = ({
         })
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -94,7 +94,7 @@ const OperadoraMarina = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -113,7 +113,7 @@ const OperadoraMarina = ({
       id_solicitud: idSolicitud,
       tipoPST: register.datosGenerales.tipoPST,
     }
-    console.log(body)
+    //console.log(body)
     if (infoObject.instalacionesList.length > 0) {
       onUpdateDatabase(body)
     }

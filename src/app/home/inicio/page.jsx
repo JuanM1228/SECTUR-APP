@@ -45,7 +45,7 @@ const Inicio = () => {
 
           <section className="flex flex-col w-full gap-4 border-t-2 border-t-manatee border-opacity-40 pt-4">
             <h1 className="text-center text-xl font-Montserrat">
-              Prestadores de servicios
+              Prestadores de Servicios Turísticos
             </h1>
             <Button
               startIcon={<Icons.Check style={{ fontSize: 35 }} />}
@@ -66,7 +66,16 @@ const Inicio = () => {
           </section>
         </div>
       </div>
-      <div className="flex justify-center items-center mt-12">
+      <div className="flex justify-center items-center mt-4">
+        <a
+          href="https://rnt.sectur.gob.mx/public/condiciones.html"
+          target="_blank"
+          rel="noopener noreferrer">
+          Términos y condiciones
+        </a>
+        .
+      </div>
+      <div className="flex justify-center items-center mt-4">
         <div className="mr-4">
           <Image
             src={Images.appstore}

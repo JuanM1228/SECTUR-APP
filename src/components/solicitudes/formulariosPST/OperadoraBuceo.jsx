@@ -28,7 +28,7 @@ const OperadoraBuceo = ({
   useEffect(() => {
     // if (!dataPst) return
     setData(dataPst)
-    console.log('PST', dataPst)
+    //console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -41,7 +41,7 @@ const OperadoraBuceo = ({
         setEstablecimientoData(tiposDeEstablecimientos)
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -60,7 +60,7 @@ const OperadoraBuceo = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -73,7 +73,7 @@ const OperadoraBuceo = ({
       id_solicitud: idSolicitud,
       tipoPST: register.datosGenerales.tipoPST,
     }
-    console.log(body)
+    //console.log(body)
     if (data?.afiliaciones) {
       onUpdateDatabase(body)
     }

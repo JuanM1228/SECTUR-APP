@@ -68,7 +68,7 @@ const Resumen = ({ information }) => {
         <div className="flex mb-2 gap-1">
           <Icons.Description />
           <h2 className="text-lg font-semibold">
-            Datos generales del prestador de servicios
+            Datos generales del Prestador de Servicios Turísiticos
           </h2>
         </div>
         <div>
@@ -134,7 +134,7 @@ const Resumen = ({ information }) => {
           </p>
         </div>
       </section>
-      <section className="bg-silver bg-opacity-30 p-4 rounded-md col-span-2 sm:col-span-1">
+      <section className="bg-silver bg-opacity-30 p-4 rounded-md col-span-2 sm:col-span-1  transform scale-105">
         <div className="flex mb-2 gap-1">
           <Icons.Phone />
           <h2 className="text-lg font-semibold">Contacto</h2>

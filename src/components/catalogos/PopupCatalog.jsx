@@ -90,7 +90,7 @@ const PopupCatalog = ({
   }
 
   const fetchDataByCatalogName = async (idCatalog, special) => {
-    console.log(idCatalog, special)
+    //console.log(idCatalog, special)
     if (idCatalog != null) {
       try {
         let res
@@ -98,30 +98,30 @@ const PopupCatalog = ({
           res = await sendRequest(
             `/api/configuration/catalogo-subcategorias/${idCatalog}/${token}`,
           )
-          console.log(`API Response for ${idCatalog}:`, res)
+          //console.log(`API Response for ${idCatalog}:`, res)
         } else {
           res = await sendRequest(
             `/api/configuration/catalogo-sevicios-opciones/${idCatalog}/${token}`,
           )
-          console.log(`API Response for ${idCatalog}:`, res)
+          //console.log(`API Response for ${idCatalog}:`, res)
         }
         if (!res.success) return
         setData(res.result.data)
-        console.log(res.result.data)
+        //console.log(res.result.data)
       } catch (error) {
-        console.log('error', error)
+        //console.log('error', error)
       }
     }
   }
 
   useEffect(() => {
-    console.log('idCatalog:', idCatalog)
+    //console.log('idCatalog:', idCatalog)
     fetchDataByCatalogName(idCatalog, catalogSpecial)
   }, [idCatalog])
 
   //AddCamp
   const addCamp = async requestData => {
-    console.log('Request Data:', requestData)
+    //console.log('Request Data:', requestData)
     if (!requestData.nombre || !requestData.estatus) {
       setShowAlert(true)
       console.error('Nombre y estatus son obligatorios.')
@@ -139,7 +139,7 @@ const PopupCatalog = ({
         method: 'POST',
         body: requestData,
       })
-      console.log('API Response:', response)
+      //console.log('API Response:', response)
 
       if (response.success) {
         fetchDataByCatalogName()
@@ -155,12 +155,12 @@ const PopupCatalog = ({
   //Edit camp
   const editCamp = async idCatalog => {
     let url
-    console.log(idCatalog.id_especial)
+    //console.log(idCatalog.id_especial)
     if (idCatalog.id_especial) {
       url = `/api/configuration/update-catalogo-subcategorias/`
     } else {
       url = `/api/configuration/update-catalogo-servicios/`
-      //console.log('el id es', idCatalog)
+      ////console.log('el id es', idCatalog)
     }
     try {
       formdata.token = token
@@ -169,7 +169,7 @@ const PopupCatalog = ({
         body: formdata,
       })
 
-      console.log('API Response:', response.data)
+      //console.log('API Response:', response.data)
       onClose()
       return response.data
     } catch (err) {
@@ -179,7 +179,7 @@ const PopupCatalog = ({
 
   const handleEdit = rowData => {
     toggleInput()
-    console.log('Editing', rowData)
+    //console.log('Editing', rowData)
     setFormData({
       id_opcion: rowData.id,
       name: rowData.nombre,
@@ -215,15 +215,15 @@ const PopupCatalog = ({
             estatus: selectedStatus,
           }))
           // Update item
-          console.log('Form Data:', formdata)
-          console.log('isEditing:', isEditing)
+          //console.log('Form Data:', formdata)
+          //console.log('isEditing:', isEditing)
 
-          console.log('Form Dataadd:', requestData)
-          console.log('Form Data edit:', requestEditData)
+          //console.log('Form Dataadd:', requestData)
+          //console.log('Form Data edit:', requestEditData)
           await editCamp(requestData)
         } else {
           // Add new item
-          console.log('Form Data:', requestData)
+          //console.log('Form Data:', requestData)
 
           await addCamp(requestData)
         }
@@ -271,10 +271,10 @@ const PopupCatalog = ({
   }
   //Delete Camp
   const handleDelete = rowData => {
-    console.log('deleting', rowData)
+    //console.log('deleting', rowData)
     setItemToDelete(rowData.id)
     setDeleteConfirmationOpen(true)
-    console.log('el id a borrar', itemToDelete)
+    //console.log('el id a borrar', itemToDelete)
   }
 
   const confirmDelete = async () => {

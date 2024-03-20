@@ -31,7 +31,7 @@ const Solicitudes = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [idSolicitud, setIdSolicitud] = useState(params.idSolicitud)
   const [coloniaActual, setColoniaActual] = useState('')
-  console.log(coloniaActual)
+  //console.log(coloniaActual)
   const [register, setRegister] = useState({
     datosGenerales: null,
     domicilio: null,
@@ -51,12 +51,12 @@ const Solicitudes = () => {
     const url = `/api/registro/detalle-tramite/${idSolicitud}/${profile.token}`
     try {
       const res = await sendRequest(url)
-      console.log('DATA RODO', res.result.data)
+      //console.log('DATA RODO', res.result.data)
       if (res.success) {
         setRegister(res.result.data)
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 

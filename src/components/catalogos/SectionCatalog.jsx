@@ -24,7 +24,7 @@ const SectionCatalog = ({ title, catalogs, pst }) => {
     setCatalogSpecial(special)
     setOpenDialog(true)
     setCatalogName(name)
-    console.log('selectedId', idCatalog)
+    //console.log('selectedId', idCatalog)
   }
 
   const onClose = () => {

@@ -14,7 +14,7 @@ const Menu = ({ openMenu, setOpenMenu, configuration }) => {
 
   useEffect(() => {
     if (!profile) return
-    console.log(profile)
+    //console.log(profile)
     getMenu()
   }, [])
 
@@ -23,12 +23,12 @@ const Menu = ({ openMenu, setOpenMenu, configuration }) => {
     try {
       const res = await sendRequest(url)
       if (res.success) {
-        console.log('paso', res.result.data)
+        //console.log('paso', res.result.data)
         setMenu(res.result.data)
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
       // showErrorMessage()
     }
   }

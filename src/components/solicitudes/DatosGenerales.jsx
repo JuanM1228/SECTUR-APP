@@ -50,7 +50,7 @@ const DatosGenerales = ({
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -80,12 +80,12 @@ const DatosGenerales = ({
         body: body,
       })
       if (res.success) {
-        console.log(res)
+        //console.log(res)
         setIdSolicitud(res.result.data.folio)
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 

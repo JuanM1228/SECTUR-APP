@@ -47,13 +47,13 @@ const Configurations = () => {
     try {
       const res = await sendRequest(url)
       if (res.success) {
-        console.log(res.result.data)
+        //console.log(res.result.data)
         setConfiguration(res.result.data)
         setColor(res.result.data.color)
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -78,7 +78,7 @@ const Configurations = () => {
       if (!res.success) return
       getInitialData()
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -96,7 +96,7 @@ const Configurations = () => {
       if (!res.success) return
       getInitialData()
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -119,7 +119,7 @@ const Configurations = () => {
     e.preventDefault()
     setNewConfiguration({ ...newConfiguration, [key]: e.target.files[0] })
   }
-  console.log(configuration)
+  //console.log(configuration)
 
   return (
     <div className="container w-full sm:w-1/2 font-Montserra flex flex-col gap-6 p-4">

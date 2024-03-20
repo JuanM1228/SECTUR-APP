@@ -188,12 +188,12 @@ const Tramites = () => {
       'https://655fb7d0879575426b45b311.mockapi.io/api/tramitesEnProceso'
     try {
       const res = await sendRequest(url)
-      console.log('respuesta', res)
+      //console.log('respuesta', res)
       if (res) {
         setRows(res)
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
       // showErrorMessage()
     }
   }, [])
@@ -206,8 +206,8 @@ const Tramites = () => {
     setValue(newValue)
   }
 
-  console.log('rows', rows)
-  console.log('isLoading', isLoading)
+  //console.log('rows', rows)
+  //console.log('isLoading', isLoading)
 
   return (
     <div className="w-full flex">
@@ -232,7 +232,7 @@ const Tramites = () => {
               variant="outlined"
               onChange={event => {
                 // setName(event.target.value);
-                console.log(event.target.value)
+                //console.log(event.target.value)
               }}
             />
             {/* TODO: Add initial date and end date */}
@@ -300,7 +300,7 @@ const Tramites = () => {
               variant="outlined"
               onChange={event => {
                 // setName(event.target.value);
-                console.log(event.target.value)
+                //console.log(event.target.value)
               }}
             />
           </TabPanel>
@@ -338,8 +338,8 @@ const Tramites = () => {
                     color="primary"
                     shape="rounded"
                     onChange={(event, page) => {
-                      console.log('paginationOnChange: event', event)
-                      console.log('paginationOnChange: page', page)
+                      //console.log('paginationOnChange: event', event)
+                      //console.log('paginationOnChange: page', page)
                     }}
                     // showFirstButton
                     // showLastButton
@@ -348,12 +348,12 @@ const Tramites = () => {
               ),
             }}
             onPaginationModelChange={(model, details) => {
-              console.log('onPaginationModelChange: model', model)
-              console.log('onPaginationModelChange: details', details)
+              //console.log('onPaginationModelChange: model', model)
+              //console.log('onPaginationModelChange: details', details)
             }}
             onSortModelChange={(model, details) => {
-              console.log('onSortModelChange: model', model)
-              console.log('onSortModelChange: details', details)
+              //console.log('onSortModelChange: model', model)
+              //console.log('onSortModelChange: details', details)
             }}
             // paginationModel={{ page: 0, pageSize: 5 }}
             loading={isLoading}

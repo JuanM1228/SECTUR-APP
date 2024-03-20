@@ -34,7 +34,7 @@ const AgenciaViaje = ({
     getDropdownsData()
     if (!dataPst) return
     setData(dataPst)
-    console.log('PST', dataPst)
+    //console.log('PST', dataPst)
     if (dataPst.afiliaciones.length !== 0) {
       const objectAfiliaciones = {}
       for (let index = 0; index < dataPst.afiliaciones.length; index++) {
@@ -48,7 +48,7 @@ const AgenciaViaje = ({
     const url = '/api/configuration/catalogo-detalle-pst/1'
     try {
       const res = await sendRequest(url)
-      console.log(res)
+      //console.log(res)
       if (res.success) {
         const { afiliacion, tipoBoletaje, SubCategoria } = res.result.data
         setDataBackend({
@@ -58,7 +58,7 @@ const AgenciaViaje = ({
         })
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -87,7 +87,7 @@ const AgenciaViaje = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -104,7 +104,7 @@ const AgenciaViaje = ({
       id_solicitud: idSolicitud,
       tipoPST: register.datosGenerales.tipoPST,
     }
-    console.log(body)
+    //console.log(body)
     if (data.subcategoria && infoObject.afiliacionesList.length > 0) {
       onUpdateDatabase(body)
     }

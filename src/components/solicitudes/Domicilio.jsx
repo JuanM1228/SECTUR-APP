@@ -91,7 +91,7 @@ const Domicilio = ({
         setCoordenadas([info.lat, info.lon])
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -99,7 +99,7 @@ const Domicilio = ({
     setData({ ...data, [name]: value })
     if (name === 'colonia') {
       const objectColonia = colonias.find(colonia => colonia.value === value)
-      console.log(objectColonia.title)
+      //console.log(objectColonia.title)
       setColoniaActual(objectColonia.title)
     }
   }
@@ -115,7 +115,7 @@ const Domicilio = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -131,7 +131,7 @@ const Domicilio = ({
         domicilio: data,
         id_solicitud: idSolicitud,
       }
-      console.log(body)
+      //console.log(body)
       onUpdateDatabase(body)
     }
   }

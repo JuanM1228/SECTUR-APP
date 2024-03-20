@@ -24,7 +24,7 @@ const ArrendadoraAutos = ({
   useEffect(() => {
     // if (!dataPst) return
     setData(dataPst)
-    console.log('PST', dataPst)
+    //console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -34,11 +34,11 @@ const ArrendadoraAutos = ({
       const res = await sendRequest(url)
       if (res.success) {
         const { tipoDeEstablecimiento } = res.result.data
-        console.log(tipoDeEstablecimiento)
+        //console.log(tipoDeEstablecimiento)
         setTiposDeEstablecimientosData(tipoDeEstablecimiento)
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -57,7 +57,7 @@ const ArrendadoraAutos = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -69,7 +69,7 @@ const ArrendadoraAutos = ({
       id_solicitud: idSolicitud,
       tipoPST: register.datosGenerales.tipoPST,
     }
-    console.log(body)
+    //console.log(body)
     if (data?.tipoEstablecimiento) {
       onUpdateDatabase(body)
     }

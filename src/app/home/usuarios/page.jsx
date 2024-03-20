@@ -124,12 +124,12 @@ const Usuarios = () => {
     const urlSubMenus = `/api/configuration/catalogo-submenu/0/${token}`
     try {
       const res = await sendRequest(urlSubMenus)
-      console.log('sub menus', res)
+      //console.log('sub menus', res)
       if (res.success) {
         setSubMenu(res.result.data)
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }, [])
   useEffect(() => {
@@ -148,7 +148,7 @@ const Usuarios = () => {
         setRows(res.result.data)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -157,12 +157,12 @@ const Usuarios = () => {
     const url = `/api/configuration/obtener-usuarios/${token}`
     try {
       const res = await sendRequest(url)
-      console.log('respuesta', res)
+      //console.log('respuesta', res)
       if (res.success) {
         setRows(res.result.data)
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
       // showErrorMessage()
     }
   }, [])
@@ -206,7 +206,7 @@ const Usuarios = () => {
   }
 
   const onHandleFiltros = () => {
-    console.log(filtros)
+    //console.log(filtros)
     getUsuariosFiltros(filtros)
   }
 
@@ -217,21 +217,21 @@ const Usuarios = () => {
   //Registrar Usuario
   const agregarUsuario = async registerUser => {
     registerUser.token = token
-    console.log('registrar data', registerUser)
+    //console.log('registrar data', registerUser)
     try {
       const url = '/api/autenticacion/registrar-admin/'
       const res = await sendRequest(url, {
         method: 'POST',
         body: registerUser,
       })
-      console.log('API res', res)
+      //console.log('API res', res)
       if (res.success) {
         getInfo()
       } else {
         console.error('Error adding item:', response.error)
       }
     } catch (err) {
-      console.log('error es', err)
+      //console.log('error es', err)
     }
   }
 
@@ -239,7 +239,7 @@ const Usuarios = () => {
   const editarUsuario = async id => {
     const url = `/api/autenticacion/actualizar-admin`
     formData.token = token
-    console.log('el id edit es', id, formData)
+    //console.log('el id edit es', id, formData)
 
     try {
       const res = await sendRequest(url, {
@@ -251,16 +251,16 @@ const Usuarios = () => {
         handleCloseEdit()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
   //Handlers
 
   const handleEdit = async formData => {
-    console.log('La data a editar es', formData)
-    console.log('El estado a editar es', formData.estados)
-    console.log('El submenu a editar es', formData.submenus)
+    //console.log('La data a editar es', formData)
+    //console.log('El estado a editar es', formData.estados)
+    //console.log('El submenu a editar es', formData.submenus)
 
     const submenuIds = formData.submenus.map(submenuObj => submenuObj.idSubmenu)
     const estadosIds = formData.estados.map(submenuObj => submenuObj.id)
@@ -293,7 +293,7 @@ const Usuarios = () => {
       await editarUsuario(formData.id)
       getInfo()
     } catch (err) {
-      console.log('Error al editar usuario', err)
+      //console.log('Error al editar usuario', err)
     }
   }
   //handlesubmit
@@ -311,8 +311,8 @@ const Usuarios = () => {
         await agregarUsuario(register)
         getInfo()
         setusuarioModal(false)
-        console.log('email', typeof register.email)
-        console.log('Submit Exitoso', register)
+        //console.log('email', typeof register.email)
+        //console.log('Submit Exitoso', register)
       } else {
         setShowAlert(true)
         setError(errors)
@@ -320,7 +320,7 @@ const Usuarios = () => {
       }
     } catch (err) {
       setShowAlert(true)
-      console.log('Error al agregar usuario', err)
+      //console.log('Error al agregar usuario', err)
     }
   }
 
@@ -391,7 +391,7 @@ const Usuarios = () => {
     })
   }
   const checkboxHandler = e => {
-    console.log(e.target.checked)
+    //console.log(e.target.checked)
     setCheckedItem({ Subadministrador: e.target.checked })
     setRegister(prevRegister => ({
       ...prevRegister,
@@ -399,7 +399,7 @@ const Usuarios = () => {
     }))
   }
   const checkboxHandlerEdit = e => {
-    console.log(e.target.checked)
+    //console.log(e.target.checked)
     setCheckedItem({ Subadministrador: e.target.checked })
     setFormData({ ...formData, subadmin: e.target.checked ? 1 : 0 })
   }
@@ -409,8 +409,8 @@ const Usuarios = () => {
     setFormData({
       id: formData.id,
     })
-    console.log('data', formData)
-    console.log('data ID', formData.id)
+    //console.log('data', formData)
+    //console.log('data ID', formData.id)
     setUserIdToDelete(formData.id)
     setDeleteModal(true)
   }
@@ -426,7 +426,7 @@ const Usuarios = () => {
           prevformData.filter(elemento => elemento.id !== id),
         )
 
-        console.log('Usuario eliminado correctamente')
+        //console.log('Usuario eliminado correctamente')
       }
       getInfo()
     } catch (error) {
@@ -630,7 +630,7 @@ const Usuarios = () => {
                         OPTIONS_ESTADOS.map(option => option.value)
                       }
                       onChange={e => {
-                        console.log('Selected Estado:', e.target.value)
+                        //console.log('Selected Estado:', e.target.value)
                         onHandleChange(e)
                         setSelectedEstado(e.target.value)
                       }}

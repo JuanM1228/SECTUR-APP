@@ -48,7 +48,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         setShowAlert(true)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
       setShowAlert(true)
     }
   }

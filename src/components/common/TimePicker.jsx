@@ -39,9 +39,9 @@ const TimePickerCustom = ({
     try {
       const resp = { target: { name, value } }
       onChange(resp)
-      // console.log(resp)
+      // //console.log(resp)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   }
 

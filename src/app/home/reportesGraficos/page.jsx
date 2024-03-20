@@ -17,12 +17,12 @@ const ReportesGraficos = () => {
     try {
       const res = await sendRequest(url)
       if (res.success) {
-        console.log(res.result.data)
+        //console.log(res.result.data)
         setSrcFrame(res.result.data.reportes_path)
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -31,7 +31,11 @@ const ReportesGraficos = () => {
       <h1 className="font-GMX text-3xl font-bold text-center my-4 ">
         REPORTES GRÁFICOS
       </h1>
-      <Button content='Imprimir' fullWidth={false} onClick={() =>window.print()} />
+      <Button
+        content="Imprimir"
+        fullWidth={false}
+        onClick={() => window.print()}
+      />
       <iframe
         width="100%"
         height="2000px"

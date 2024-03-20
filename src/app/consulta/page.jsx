@@ -45,7 +45,7 @@ const HomePage = () => {
     return (
       <IconButton
         onClick={() => {
-          console.log(params)
+          //console.log(params)
           getDataFolio(params.row.folioSolicitud)
         }}>
         <Icons.Visibility />
@@ -134,7 +134,7 @@ const HomePage = () => {
         setTramite(res.result.data)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
       setTramite(null)
     }
   }
@@ -147,7 +147,7 @@ const HomePage = () => {
         setTramitesList(res.result.data)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
       setTramite(null)
     }
   }
@@ -223,6 +223,7 @@ const HomePage = () => {
                       onClick={() => {
                         getDataFolio(filtros.folio)
                         setIsVerified(false)
+                        setTramite(null)
                       }}
                     />
                   )}

@@ -4,7 +4,6 @@ import SectionCatalog from '@/components/catalogos/SectionCatalog'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import Cookies from 'js-cookie'
 
-
 const Catalogos = () => {
   const { sendRequest, isLoading } = useHttpClient()
   const [catalogo, setCatalogo] = useState([])
@@ -20,12 +19,12 @@ const Catalogos = () => {
       const res = await sendRequest(url)
       if (res.success) {
         setCatalogo(res.result.data)
-        console.log('Rodo', res)
+        //console.log('Rodo', res)
         // setToken(res.result.token)
         // setProfile(res.result.user)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 

@@ -107,7 +107,7 @@ const DetallesDeSolicitud = () => {
         documentsList,
         picturesList,
       } = res.result.data
-      console.log(res.result.data)
+      //console.log(res.result.data)
       setData({
         // Datos Generales
         tipoPST: datosGenerales.tipoPSTName,
@@ -150,7 +150,7 @@ const DetallesDeSolicitud = () => {
         picturesList,
       })
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -159,7 +159,7 @@ const DetallesDeSolicitud = () => {
   }
 
   const onRejectHandler = async rejectComment => {
-    console.log(rejectComment, 'rejectComment')
+    //console.log(rejectComment, 'rejectComment')
     try {
       const url = '/api/registro/tramite-rechazado'
 
@@ -173,7 +173,7 @@ const DetallesDeSolicitud = () => {
       if (!res.success) return
       router.push(`/home/tramites`)
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -184,7 +184,7 @@ const DetallesDeSolicitud = () => {
       if (!res.success) return
       router.push(`/home/tramites`)
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -195,12 +195,12 @@ const DetallesDeSolicitud = () => {
       if (!res.success) return
       router.push(`/home/tramites`)
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
   const onEditHandler = async () => {
-    console.log('onEditHandler')
+    //console.log('onEditHandler')
     router.push(`/home/tramites/solicitudes/${idSolicitud}`)
   }
 
@@ -247,11 +247,11 @@ const DetallesDeSolicitud = () => {
   const openDoumentHandler = (url, type) => {
     setMediaData({ documentUrl: url, documentType: type, show: true })
   }
-  console.log(mediaData)
+  //console.log(mediaData)
   return (
     <div className="w-full container font-Montserrat">
       <h1 className="font-GMX text-2xl sm:text-3xl font-bold col-span-2 text-center m-4">
-        Detalles del trámite del Prestador de Servicios
+        Detalles del trámite del Prestador de Servicios Turísticos
       </h1>
       <Button
         content="Regresar"
@@ -301,7 +301,7 @@ const DetallesDeSolicitud = () => {
           <div className="flex mb-2 gap-1">
             <Icons.Description />
             <h2 className="text-lg font-semibold">
-              Datos generales del prestador de servicios
+              Datos generales del Prestador de Servicios Turísiticos
             </h2>
           </div>
           <div>
@@ -387,7 +387,7 @@ const DetallesDeSolicitud = () => {
             </p>
           </div>
         </section>
-        <section className="bg-silver bg-opacity-50 p-4 rounded-md col-span-2 sm:col-span-1">
+        <section className="bg-silver bg-opacity-50 p-4 rounded-md col-span-2 sm:col-span-1  transform scale-105">
           <div className="flex mb-2 gap-1">
             <Icons.Phone />
             <h2 className="text-lg font-semibold">Contacto</h2>
@@ -501,7 +501,7 @@ const DetallesDeSolicitud = () => {
           {data.picturesList?.length > 0 ? (
             <div className="flex flex-col gap-2">
               {data.picturesList?.map((item, index) => {
-                console.log(`${process.env.ENV_URL}/${item.documentUrl}`)
+                //console.log(`${process.env.ENV_URL}/${item.documentUrl}`)
                 return (
                   <p className="font-semibold" key={`docId-${index}`}>
                     {`${item.documentName}: `}

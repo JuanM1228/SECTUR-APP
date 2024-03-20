@@ -43,7 +43,7 @@ const InformacionLegal = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -59,7 +59,7 @@ const InformacionLegal = ({
         informacionLegal: data,
         id_solicitud: idSolicitud,
       }
-      console.log(body)
+      //console.log(body)
       onUpdateDatabase(body)
     }
   }
@@ -109,7 +109,7 @@ const InformacionLegal = ({
           value={data.puestoDelSolicitante}
         />
         <DatePickerCustom
-          label="Fecha de ingreso a SECTUR *"
+          label="Fecha de ingreso a RNT *"
           name="fechaIngresoSECTUR"
           error={error.fechaIngresoSECTUR !== ''}
           helpText={error.fechaIngresoSECTUR}

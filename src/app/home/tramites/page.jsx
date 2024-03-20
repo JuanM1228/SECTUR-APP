@@ -37,7 +37,7 @@ const PanelSolicitudesUsuario = () => {
 
   useEffect(() => {
     if (!profile) return
-    console.log(profile)
+    //console.log(profile)
     setFiltros({ ...filtros, idUsuario: profile.id })
     getTramites(profile.id)
     getCatalogoPST()
@@ -51,12 +51,12 @@ const PanelSolicitudesUsuario = () => {
       const res = await sendRequest(url)
       if (res.success) {
         setTramites(res.result.data)
-        console.log(res.result.data)
+        //console.log(res.result.data)
         setLoader(false)
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
       setLoader(false)
     }
   }
@@ -70,7 +70,7 @@ const PanelSolicitudesUsuario = () => {
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -83,7 +83,7 @@ const PanelSolicitudesUsuario = () => {
       } else {
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -99,7 +99,7 @@ const PanelSolicitudesUsuario = () => {
         setTramites(res.result.data)
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -112,7 +112,7 @@ const PanelSolicitudesUsuario = () => {
   }
 
   const onHandleFiltros = () => {
-    console.log(filtros)
+    //console.log(filtros)
     getTramitesFiltros(filtros)
   }
 
@@ -143,7 +143,7 @@ const PanelSolicitudesUsuario = () => {
     }
     return
   }
-  console.log(loader)
+  //console.log(loader)
 
   return (
     <div className="flex flex-col gap-2 w-full p-4 ">

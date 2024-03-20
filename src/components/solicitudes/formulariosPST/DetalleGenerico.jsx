@@ -29,7 +29,7 @@ const DetalleGenerico = ({
   useEffect(() => {
     // if (!dataPst) return
     setData(dataPst)
-    console.log('PST', dataPst)
+    //console.log('PST', dataPst)
     getDropdownsData()
   }, [])
 
@@ -44,7 +44,7 @@ const DetalleGenerico = ({
         })
       }
     } catch (error) {
-      console.log('error', error)
+      //console.log('error', error)
     }
   }
 
@@ -66,7 +66,7 @@ const DetalleGenerico = ({
         nextStep()
       }
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
@@ -78,7 +78,7 @@ const DetalleGenerico = ({
       id_solicitud: idSolicitud,
       tipoPST: register.datosGenerales.tipoPST,
     }
-    console.log(body)
+    //console.log(body)
     if (dataBackend.subcategoriaData) {
       if (data.subcategoria && data.observacionesGenerales != '') {
         onUpdateDatabase(body)
