@@ -64,7 +64,7 @@ const Resumen = ({ information }) => {
 
   return (
     <div className="grid grid-cols-2 gap-2 font-Montserrat">
-      <section className="bg-silver bg-opacity-30 col-span-1 p-2 rounded-md">
+      <section className="bg-silver bg-opacity-30 col-span-2 p-4 rounded-md">
         <div className="flex mb-2 gap-1">
           <Icons.Description />
           <h2 className="text-lg font-semibold">
