@@ -150,7 +150,7 @@ const Documents = props => {
           payload: { documentsList, photosList },
         })
       })
-      .catch(err => //console.log(err))
+      .catch(err => console.log(err))
   }
 
   // Modal related functions
