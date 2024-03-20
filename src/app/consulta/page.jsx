@@ -264,6 +264,7 @@ const HomePage = () => {
                       onClick={() => {
                         getDataTramites()
                         setIsVerified(false)
+                        setTramite(null)
                       }}
                     />
                   )}
