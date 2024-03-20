@@ -64,7 +64,7 @@ const Resumen = ({ information }) => {
 
   return (
     <div className="grid grid-cols-2 gap-2 font-Montserrat">
-      <section className="bg-silver bg-opacity-30 col-span-2 p-4 rounded-md">
+      <section className="bg-silver bg-opacity-30 col-span-1 p-2 rounded-md">
         <div className="flex mb-2 gap-1">
           <Icons.Description />
           <h2 className="text-lg font-semibold">
@@ -134,7 +134,7 @@ const Resumen = ({ information }) => {
           </p>
         </div>
       </section>
-      <section className="bg-silver bg-opacity-30 p-4 rounded-md col-span-2 sm:col-span-1  transform scale-105">
+      <section className="bg-silver bg-opacity-30 p-4 rounded-md col-span-2 sm:col-span-1">
         <div className="flex mb-2 gap-1">
           <Icons.Phone />
           <h2 className="text-lg font-semibold">Contacto</h2>
