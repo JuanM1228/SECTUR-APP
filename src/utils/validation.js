@@ -65,9 +65,9 @@ const registerForm = data => {
   if (!hasText(data.maternalSurname)) {
     err.maternalSurname = 'Ingrese su apellido materno'
   }
-  if (!(data.birthDate instanceof Date || hasText(data.birthDate))) {
+  /*if (!(data.birthDate instanceof Date || hasText(data.birthDate))) {
     err.birthDate = 'Ingrese su fecha de nacimiento'
-  }
+  }*/
   if (!hasText(data.email)) {
     err.email = 'Ingrese su correo electrónico'
   } else if (!email(data.email)) {
