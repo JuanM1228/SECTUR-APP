@@ -75,24 +75,6 @@ const Inicio = () => {
         </a>
         .
       </div>
-      <div className="flex justify-center items-center mt-4">
-        <div className="mr-4">
-          <Image
-            src={Images.appstore}
-            alt="App Store"
-            width={150}
-            height={100}
-          />
-        </div>
-        <div>
-          <Image
-            src={Images.googleplay}
-            alt="Play Store"
-            width={170}
-            height={150}
-          />
-        </div>
-      </div>
     </div>
   )
 }
