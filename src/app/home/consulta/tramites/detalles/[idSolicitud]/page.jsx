@@ -247,7 +247,7 @@ const DetallesDeSolicitud = () => {
   const openDocumentHandler = async (path, type) => {
     try {
       const url = '/api/registro/obtener-documento'
-
+      console.log(url)
       const res = await sendRequest(url, {
         method: 'POST',
         body: {
