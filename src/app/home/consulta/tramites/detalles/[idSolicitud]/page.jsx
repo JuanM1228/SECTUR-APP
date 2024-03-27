@@ -255,12 +255,15 @@ const DetallesDeSolicitud = () => {
           id_solicitud: idSolicitud,
           filePath: path,
         },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
+      const pdfUrl = window.URL.createObjectURL(res.blob())
       console.log('before res')
-      console.log(res)
-      const decodedData = atob(res)
+      console.log(pdfUrl)
       setMediaData({
-        documentUrl: `data:${type};base64,${decodedData}`,
+        documentUrl: pdfUrl,
         documentType: type,
         show: true,
       })
