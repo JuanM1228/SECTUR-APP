@@ -246,35 +246,71 @@ const DetallesDeSolicitud = () => {
 
   const openDocumentHandler = async (path, type) => {
     try {
-      const url = '/api/registro/obtener-documento'
-      console.log(url)
-      await sendRequest(url, {
+      const url = 'https://rnt.sectur.gob.mx/api/registro/obtener-documento';
+      console.log('Sending request to:', url);
+      const response = await fetch(url, {
         method: 'POST',
-        body: {
+        body: JSON.stringify({
           token: profile.token,
           id_solicitud: idSolicitud,
           filePath: path,
-        },
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
+      });
+      console.log("RESPONSE:")
+      console.log(response)
+      if (!response.ok) {
+        throw new Error(`Network response was not ok, status: ${response.status}`);
+      }
+  
+      const blob = await response.blob();
+      const pdfUrl = window.URL.createObjectURL(blob);
+      //window.open(pdfUrl, '_blank');
+      setMediaData({
+        documentUrl: pdfUrl,
+        documentType: type,
+        show: true,
       })
-        .then(response => response.blob())
-        .then(blob => {
-          // Crear una URL para el blob
-          const pdfUrl = window.URL.createObjectURL(blob)
-          console.log('before res')
-          console.log(pdfUrl)
-          setMediaData({
-            documentUrl: pdfUrl,
-            documentType: type,
-            show: true,
-          })
-        })
-    } catch (e) {
-      //console.log(e)
+    } catch (error) {
+      console.error('Error fetching document:', error);
     }
-  }
+  };
+  
+  
+
+  //const openDocumentHandler = async (path, type) => {
+  //  try {
+  //    const url = '/api/registro/obtener-documento'
+  //    console.log(url)
+  //    await sendRequest(url, {
+  //      method: 'POST',
+  //      body: {
+  //        token: profile.token,
+  //        id_solicitud: idSolicitud,
+  //        filePath: path,
+  //      },
+  //      headers: {
+  //        'Content-Type': 'application/json',
+  //      },
+  //    })
+  //      .then(response => response.blob())
+  //      .then(blob => {
+  //        // Crear una URL para el blob
+  //        const pdfUrl = window.URL.createObjectURL(blob)
+  //        console.log('before res')
+  //        console.log(pdfUrl)
+  //        setMediaData({
+  //          documentUrl: pdfUrl,
+  //          documentType: type,
+  //          show: true,
+  //        })
+  //      })
+  //  } catch (e) {
+  //    //console.log(e)
+  //  }
+  //}
   //console.log(mediaData)
   return (
     <div className="w-full container font-Montserrat">
