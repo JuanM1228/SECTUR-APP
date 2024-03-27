@@ -259,14 +259,13 @@ const DetallesDeSolicitud = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log("RESPONSE:")
-      console.log(response)
       if (!response.ok) {
         throw new Error(`Network response was not ok, status: ${response.status}`);
       }
   
       const blob = await response.blob();
       const pdfUrl = window.URL.createObjectURL(blob);
+      console.log("url: ", pdfUrl)
       //window.open(pdfUrl, '_blank');
       setMediaData({
         documentUrl: pdfUrl,
