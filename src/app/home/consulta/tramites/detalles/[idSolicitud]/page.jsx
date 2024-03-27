@@ -256,9 +256,14 @@ const DetallesDeSolicitud = () => {
           filePath: path,
         },
       })
+      console.log('before res')
       console.log(res)
       const decodedData = atob(res)
-      setMediaData({ documentUrl: decodedData, documentType: type, show: true })
+      setMediaData({
+        documentUrl: `data:${type};base64,${decodedData}`,
+        documentType: type,
+        show: true,
+      })
     } catch (e) {
       //console.log(e)
     }
@@ -546,7 +551,7 @@ const DetallesDeSolicitud = () => {
           onClose={handleClose}
           className="flex justify-center items-center">
           <embed
-            src={`data:${mediaData.documentType};base64,${mediaData.documentData}`}
+            src={mediaData.documentData}
             className="bg-merino flex justify-center items-center"
             type={mediaData.documentType}
             frameBorder="0"
