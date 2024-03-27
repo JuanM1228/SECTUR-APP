@@ -496,11 +496,8 @@ const DetallesDeSolicitud = () => {
                     {`${item.documentName}: `}
                     <span
                       className="font-normal underline cursor-pointer text-blue"
-                      onClick={() =>
-                        openDocumentHandler(
-                          `${item.documentUrl}`,
-                          item.documentType,
-                        )
+                      onClick={async () =>
+                        openDocumentHandler(item.documentUrl, item.documentType)
                       }>
                       Ver documento
                     </span>
