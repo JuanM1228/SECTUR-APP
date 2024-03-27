@@ -255,6 +255,11 @@ const DetallesDeSolicitud = () => {
           id_solicitud: idSolicitud,
           filePath: path,
         },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Content-Type-Options': 'nosniff',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+        },
       })
       console.log(res)
       setMediaData({ documentUrl: res, documentType: type, show: true })
