@@ -265,7 +265,7 @@ const DetallesDeSolicitud = () => {
   
       const blob = await response.blob();
       const pdfUrl = window.URL.createObjectURL(blob);
-      window.open(pdfUrl, '_blank');
+      //window.open(pdfUrl, '_blank');
       setMediaData({
         documentUrl: pdfUrl,
         documentType: type,
@@ -568,7 +568,7 @@ const DetallesDeSolicitud = () => {
                       className="font-normal underline cursor-pointer text-blue"
                       onClick={() =>
                         openDocumentHandler(
-                          `${process.env.ENV_URL}/${item.documentUrl}`,
+                          item.documentUrl,
                           item.documentType,
                         )
                       }>
@@ -589,7 +589,7 @@ const DetallesDeSolicitud = () => {
           onClose={handleClose}
           className="flex justify-center items-center">
           <embed
-            src={mediaData.documentData}
+            src={mediaData.documentUrl}
             className="bg-merino flex justify-center items-center"
             type={mediaData.documentType}
             frameBorder="0"
@@ -612,7 +612,7 @@ const DetallesDeSolicitud = () => {
             {showRazonRechazo && (
               <div className="mt-4">
                 <Input
-                  label="Razon de rechazo"
+                  label="Razón de rechazo"
                   name="comentario"
                   rows={4}
                   multiline
