@@ -244,8 +244,23 @@ const DetallesDeSolicitud = () => {
     setModal({ show: false })
   }
 
-  const openDoumentHandler = (url, type) => {
-    setMediaData({ documentUrl: url, documentType: type, show: true })
+  const openDocumentHandler = async (path, type) => {
+    try {
+      const url = '/api/registro/obtener-documento'
+
+      const res = await sendRequest(url, {
+        method: 'POST',
+        body: {
+          token: profile.token,
+          idSolicitud: idSolicitud,
+          filePath: path,
+        },
+      })
+      console.log(res)
+      setMediaData({ documentUrl: res, documentType: type, show: true })
+    } catch (e) {
+      //console.log(e)
+    }
   }
   //console.log(mediaData)
   return (
@@ -476,8 +491,8 @@ const DetallesDeSolicitud = () => {
                     <span
                       className="font-normal underline cursor-pointer text-blue"
                       onClick={() =>
-                        openDoumentHandler(
-                          `${process.env.ENV_URL}/${item.documentUrl}`,
+                        openDocumentHandler(
+                          `${item.documentUrl}`,
                           item.documentType,
                         )
                       }>
@@ -508,7 +523,7 @@ const DetallesDeSolicitud = () => {
                     <span
                       className="font-normal underline cursor-pointer text-blue"
                       onClick={() =>
-                        openDoumentHandler(
+                        openDocumentHandler(
                           `${process.env.ENV_URL}/${item.documentUrl}`,
                           item.documentType,
                         )
@@ -530,7 +545,7 @@ const DetallesDeSolicitud = () => {
           onClose={handleClose}
           className="flex justify-center items-center">
           <embed
-            src={mediaData.documentUrl}
+            src={`data:${mediaData.documentType};base64,${mediaData.documentData}`}
             className="bg-merino flex justify-center items-center"
             type={mediaData.documentType}
             frameBorder="0"
