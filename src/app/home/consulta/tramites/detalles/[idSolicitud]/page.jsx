@@ -252,7 +252,7 @@ const DetallesDeSolicitud = () => {
         method: 'POST',
         body: {
           token: profile.token,
-          idSolicitud: idSolicitud,
+          id_solicitud: idSolicitud,
           filePath: path,
         },
       })
