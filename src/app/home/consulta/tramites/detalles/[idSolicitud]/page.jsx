@@ -265,8 +265,7 @@ const DetallesDeSolicitud = () => {
   
       const blob = await response.blob();
       const pdfUrl = window.URL.createObjectURL(blob);
-      console.log("url: ", pdfUrl)
-      //window.open(pdfUrl, '_blank');
+      window.open(pdfUrl, '_blank');
       setMediaData({
         documentUrl: pdfUrl,
         documentType: type,
