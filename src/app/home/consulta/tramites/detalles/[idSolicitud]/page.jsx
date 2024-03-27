@@ -248,7 +248,7 @@ const DetallesDeSolicitud = () => {
     try {
       const url = '/api/registro/obtener-documento'
       console.log(url)
-      const res = await sendRequest(url, {
+      await sendRequest(url, {
         method: 'POST',
         body: {
           token: profile.token,
@@ -259,14 +259,18 @@ const DetallesDeSolicitud = () => {
           'Content-Type': 'application/json',
         },
       })
-      const pdfUrl = window.URL.createObjectURL(res.blob())
-      console.log('before res')
-      console.log(pdfUrl)
-      setMediaData({
-        documentUrl: pdfUrl,
-        documentType: type,
-        show: true,
-      })
+        .then(response => response.blob())
+        .then(blob => {
+          // Crear una URL para el blob
+          const pdfUrl = window.URL.createObjectURL(blob)
+          console.log('before res')
+          console.log(pdfUrl)
+          setMediaData({
+            documentUrl: pdfUrl,
+            documentType: type,
+            show: true,
+          })
+        })
     } catch (e) {
       //console.log(e)
     }
