@@ -98,7 +98,7 @@ const HomePage = () => {
       : COLUMNS_TABLE_TRAMITES_USUARIO
 
   return (
-    <div className="flex flex-col  p-4 gap-4 sm:w-1/2">
+    <div className="flex flex-col  p-4 gap-4 sm:w-3/4">
       <h2 className="font-GMX text-3xl font-semibold text-center mt-4">
         Consulta de Certificados
       </h2>

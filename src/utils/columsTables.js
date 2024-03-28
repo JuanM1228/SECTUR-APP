@@ -402,7 +402,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     align: 'center',
     headerAlign: 'center',
   },
-  {
+ /* {
     field: '-',
     headerName: 'certificado',
     minWidth: 250,
@@ -410,7 +410,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     align: 'center',
     headerAlign: 'center',
     renderCell: params => FolioBadge(params),
-  },
+  },*/
   {
     field: 'tipoPST',
     headerName: 'PST',
