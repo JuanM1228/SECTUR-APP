@@ -466,16 +466,16 @@ const DetallesDeSolicitud = () => {
               <span className="font-normal">{data.email}</span>
             </p>
             <p className="font-semibold">
-              Página web: <span className="font-normal">{data.web}</span>
+              Página web: <span className="font-normal overflow-auto break-words">{data.web}</span>
             </p>
             <p className="font-semibold">
-              Facebook: <span className="font-normal">{data.facebook}</span>
+              Facebook: <span className="font-normal overflow-auto break-words">{data.facebook}</span>
             </p>
             <p className="font-semibold">
-              Tiktok: <span className="font-normal">{data.tiktok}</span>
+              Tiktok: <span className="font-normal overflow-auto break-words">{data.tiktok}</span>
             </p>
             <p className="font-semibold">
-              Instagram: <span className="font-normal">{data.instagram}</span>
+              Instagram: <span className="font-normal overflow-auto break-words">{data.instagram}</span>
             </p>
             {/* <p className="font-semibold">
               Instagram: <span className="font-normal">{data.instagram}</span>

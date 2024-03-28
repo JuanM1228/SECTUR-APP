@@ -173,8 +173,8 @@ const HomePage = () => {
   }
 
   return (
-    <div className="flex flex-col  items-center w-full  gap-4">
-      <div className="sm:w-1/2">
+    <div className="flex flex-col  items-center w-full gap-4">
+      <div className="sm:w-3/4 md:w-3/4">
         <h2 className="font-GMX text-3xl font-semibold text-center mt-4">
           Consulta de Certificados
         </h2>

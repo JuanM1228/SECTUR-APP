@@ -66,7 +66,7 @@ const Inicio = () => {
           </section>
         </div>
       </div>
-      <div className="flex justify-center items-center mt-4">
+      <div className="flex justify-center items-center mt-4 font-normal underline cursor-pointer text-blue">
         <a
           href="https://rnt.sectur.gob.mx/public/condiciones.html"
           target="_blank"
