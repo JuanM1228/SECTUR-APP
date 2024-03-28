@@ -173,8 +173,8 @@ const HomePage = () => {
   }
 
   return (
-    <div className="flex flex-col  items-center w-full gap-4">
-      <div className="sm:w-3/4 md:w-3/4">
+    <div className="flex flex-col items-center ">
+      <div className="w-full sm:w-1/2 md:w-3/4 max-w-xs sm:max-w-full h-full">
         <h2 className="font-GMX text-3xl font-semibold text-center mt-4">
           Consulta de Certificados
         </h2>
@@ -279,7 +279,7 @@ const HomePage = () => {
             columns={COLUMS_CONSULTA_GENERAL}
             isLoading={isLoading}
             rows={tramitesList}
-            className="h-screen mb-4"
+            className="mb-4"
           />
         )}
 

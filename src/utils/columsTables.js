@@ -531,7 +531,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN_DASHBOARD = [
     align: 'center',
     headerAlign: 'center',
   },
-  {
+  /*{
     field: 'folioSolicitud',
     headerName: 'Folio Solicitud',
     minWidth: 100,
@@ -539,7 +539,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN_DASHBOARD = [
     align: 'center',
     headerAlign: 'center',
     renderCell: params => FolioBadge(params),
-  },
+  },*/
   {
     field: 'tipoPST',
     headerName: 'PST',
