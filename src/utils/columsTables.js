@@ -134,7 +134,7 @@ const FolioBadge = params => {
   }
 
   return (
-    params.row.folioSolicitud && (
+    params.row.folioSolicitud && role == 10 && (
       <Button content="Descargar certificado" onClick={handleDownload} />
     )
   )
@@ -405,7 +405,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     align: 'center',
     headerAlign: 'center',
   },
- role == 10 ?{
+  {
     field: '-',
     headerName: 'certificado',
     minWidth: 250,
@@ -413,7 +413,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     align: 'center',
     headerAlign: 'center',
     renderCell: params => FolioBadge(params),
-  } : '',
+  },
   {
     field: 'tipoPST',
     headerName: 'PST',
