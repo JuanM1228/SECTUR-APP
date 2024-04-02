@@ -6,6 +6,9 @@ import { IconButton, Checkbox } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { STATUS_INFO, TIPOS_TRAMITES_OBJETO } from './constants'
+import Cookies from 'js-cookie'
+
+const role = Cookies.get('role')
 
 const DeleteButton = params => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -402,7 +405,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     align: 'center',
     headerAlign: 'center',
   },
- {
+ role == 10 ?{
     field: '-',
     headerName: 'certificado',
     minWidth: 250,
@@ -410,7 +413,7 @@ export const COLUMNS_TABLE_TRAMITES_ADMIN = [
     align: 'center',
     headerAlign: 'center',
     renderCell: params => FolioBadge(params),
-  },
+  } : '',
   {
     field: 'tipoPST',
     headerName: 'PST',
