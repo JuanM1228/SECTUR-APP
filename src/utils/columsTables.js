@@ -8,7 +8,7 @@ import { useHttpClient } from '@/hooks/useHttpClient'
 import { STATUS_INFO, TIPOS_TRAMITES_OBJETO } from './constants'
 import Cookies from 'js-cookie'
 
-const role = Cookies.get('role')
+
 
 const DeleteButton = params => {
   const { sendRequest, isLoading } = useHttpClient()
@@ -134,7 +134,7 @@ const FolioBadge = params => {
   }
 
   return (
-    params.row.folioSolicitud && role == 10 && (
+    params.row.folioSolicitud && Cookies.get('role') == 10 && (
       <Button content="Descargar certificado" onClick={handleDownload} />
     )
   )

@@ -43,7 +43,7 @@ const SingIn = ({ showRegister, setShowRegister }) => {
         setToken(res.result.token)
         setProfile(res.result.user)
         Cookies.set('token', res.result.token)
-        Cookies.set('role', res.result.role)
+        Cookies.set('role', res.result.user.role)
         router.push('/home/tramites')
       } else {
         setShowAlert(true)
