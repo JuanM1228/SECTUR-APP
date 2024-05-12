@@ -108,14 +108,28 @@ const StatusTramites = params => {
 const FolioBadge = params => {
   const handleDownload = async () => {
     try {
-      const pdfUrl = `${process.env.ENV_URL}/documentos/certificados/${params.row.folioSolicitud}.pdf`
-      //console.log(pdfUrl)
-
-      const response = await fetch(pdfUrl)
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`)
+      const urlApi = 'https://rnt.sectur.gob.mx/api/registro/obtener-documento';
+      console.log('Sending request to:', urlApi);
+      const responseApi = await fetch(urlApi, {
+        method: 'POST',
+        body: JSON.stringify({
+          token: Cookies.get('token'),
+          id_solicitud: params.row.id,
+          filePath: `documentos/certificados/${params.row.folioSolicitud}.pdf`,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!responseApi.ok) {
+        throw new Error(`Network response was not ok, status: ${response.status}`);
       }
-      const blob = await response.blob()
+  
+      const blob = await response.blob();
+
+
+      //const pdfUrl = `${process.env.ENV_URL}/documentos/certificados/${params.row.folioSolicitud}.pdf`
+      //console.log(pdfUrl)
 
       // Crea un enlace para descargar el blob
       const url = window?.URL?.createObjectURL(blob)
